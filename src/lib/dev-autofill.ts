@@ -1,0 +1,285 @@
+// FIX F: Dev autofill with valid enum values matching backend contract
+import { DataModel } from "./store";
+
+function pick<T>(arr: T[]): T {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+function pickMany<T>(arr: T[], min = 1, max = 3): T[] {
+  const count = Math.floor(Math.random() * (max - min + 1)) + min;
+  const shuffled = [...arr].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, count);
+}
+
+export function generateAutoFillData(): DataModel {
+  const geoScope = pick([
+    "single_city",
+    "multiple_cities",
+    "country",
+    "multiple_countries",
+    "local_radius",
+    // FIX A: "geo_custom" is NOT included — backend rejects it
+  ]);
+
+  const prevCampaigns = pick(["successful", "weak", "unclear", "none"]);
+
+  return {
+    build_mode: pick([
+      "new_campaign",
+      "optimize_existing",
+      "diagnose_business",
+      "restructure_account",
+      "test_plan",
+    ]),
+    business_type: pick([
+      "local_service",
+      "ecommerce",
+      "consumer_product",
+      "app",
+      "b2b",
+      "education",
+      "agency_service",
+      "other",
+    ]),
+    offer_description:
+      "خدمة تسويق رقمي متكاملة للشركات الصغيرة والمتوسطة في مصر والسعودية",
+    sales_motion: pick([
+      "website_purchase",
+      "whatsapp",
+      "call",
+      "form",
+      "messages",
+      "sales_team",
+      "multi_channel",
+    ]),
+    customer_problem:
+      "أصحاب الأعمال لا يعرفون كيف يحولون الإعلانات إلى مبيعات حقيقية",
+    key_value_drivers: pickMany([
+      "price",
+      "quality",
+      "speed",
+      "trust",
+      "warranty",
+      "results",
+      "specialization",
+      "easy_order",
+      "after_sales",
+      "brand_reputation",
+    ]),
+    usp: "نضمن نتائج قابلة للقياس خلال 30 يومًا أو نسترد الرسوم كاملًا",
+    primary_objective: pick([
+      "sales",
+      "leads",
+      "messages",
+      "traffic",
+      "app_installs",
+      "awareness",
+      "retargeting",
+      "booking",
+      "calls",
+    ]),
+    secondary_objectives: pickMany([
+      "lead_capture",
+      "brand_awareness",
+      "audience_testing",
+      "message_testing",
+      "warm_audience",
+      "seasonal_demand",
+      "reduce_cac",
+    ]),
+    north_star_kpi: pick([
+      "sales_count",
+      "cac",
+      "message_count",
+      "lead_count",
+      "call_count",
+      "install_count",
+      "roas",
+      "conversion_rate",
+    ]),
+    existing_assets: pickMany([
+      "website",
+      "landing_page",
+      "store",
+      "whatsapp_business",
+      "crm",
+      "facebook_page",
+      "instagram",
+      "tiktok",
+      "ga4",
+      "pixel",
+      "capi",
+      "catalog",
+    ]),
+    previous_campaigns_status: prevCampaigns,
+    past_performance_notes:
+      prevCampaigns !== "none"
+        ? "ميزانية 50 جنيه يوميًا، CPL حوالي 30 جنيه، ROAS 2.1"
+        : null,
+    ideal_customer:
+      "رجال أعمال 30–50 سنة، يديرون شركات صغيرة، مهتمون بالنمو الرقمي",
+    awareness_level: pick([
+      "unaware",
+      "problem_aware",
+      "solution_aware",
+      "brand_aware",
+      "purchase_ready",
+    ]),
+    audience_segments: pickMany([
+      "beginner",
+      "mid",
+      "advanced",
+      "high_intent",
+      "website_visitors",
+      "engagers",
+      "existing_customers",
+      "lookalike",
+      "cold_audience",
+    ]),
+    geo_scope: geoScope,
+    target_locations:
+      geoScope === "country" || geoScope === "multiple_countries"
+        ? ["مصر", "السعودية"]
+        : ["القاهرة", "الجيزة"],
+    offer_type: pick([
+      "discount",
+      "bundle",
+      "consultation",
+      "free_trial",
+      "guarantee",
+      "free_shipping",
+      "special_price",
+      "limited_time",
+      "no_clear_offer",
+    ]),
+    core_message: "احصل على استراتيجية إعلانية مضمونة النتائج في 48 ساعة فقط",
+    objections: pickMany([
+      "price",
+      "trust",
+      "value_unclear",
+      "bad_past_experience",
+      "fear_of_outcome",
+      "time",
+      "complexity",
+      "competitor_comparison",
+    ]),
+    persuasion_angle: pick([
+      "price",
+      "value",
+      "trust",
+      "speed",
+      "result",
+      "specialization",
+      "scarcity",
+      "social_proof",
+      "guarantee",
+    ]),
+    conversion_destination: pick([
+      "website",
+      "store",
+      "whatsapp",
+      "messenger",
+      "call",
+      "form",
+      "app",
+      "booking",
+    ]),
+    ad_channels: pickMany([
+      "meta",
+      "google_ads",
+      "tiktok_ads",
+      "snapchat_ads",
+      "youtube",
+      "linkedin",
+    ]),
+    campaign_direction: pick([
+      "prospecting",
+      "retargeting",
+      "mixed",
+      "lead_generation",
+      "conversion",
+      "awareness",
+      "testing",
+    ]),
+    budget_band: pick([
+      "under_100",
+      "100_300",
+      "300_1000",
+      "1000_5000",
+      "above_5000",
+    ]),
+    budget_flexibility: pick([
+      "fixed",
+      "slightly_flexible",
+      "flexible",
+      "scale_if_positive",
+    ]),
+    average_order_value: pick([500, 1000, 2500, 5000, 10000]),
+    profit_margin: pick([20, 30, 40, 50, 60]),
+    max_cac: pick([100, 200, 300, 500, 800]),
+    tracking_status: pick(["ready", "partial", "unknown", "missing", "issues"]),
+    tracking_tools: pickMany([
+      "pixel",
+      "capi",
+      "ga4",
+      "gtm",
+      "sdk",
+      "crm",
+      "offline_tracking",
+      "utm",
+    ]),
+    key_events: pickMany([
+      "page_view",
+      "view_content",
+      "add_to_cart",
+      "initiate_checkout",
+      "purchase",
+      "lead",
+      "submit_form",
+      "whatsapp_click",
+    ]),
+    conversion_model: pick(["online", "offline", "both", "unknown"]),
+    creative_assets: pickMany([
+      "images",
+      "video",
+      "ugc",
+      "testimonials",
+      "logo",
+      "catalog",
+      "offers",
+    ]),
+    content_capacity: pick(["easy", "slow", "hard", "no"]),
+    constraints: pickMany([
+      "time",
+      "budget",
+      "team",
+      "approvals",
+      "content",
+      "legal",
+      "technical",
+      "platform_policy",
+    ]),
+    response_speed: pick([
+      "instant",
+      "within_hour",
+      "within_day",
+      "slower",
+      "unknown",
+    ]),
+    top_priority: pick([
+      "increase_demand",
+      "reduce_cost",
+      "lead_quality",
+      "conversion_rate",
+      "awareness",
+      "tracking_fix",
+      "account_structure",
+    ]),
+    risk_tolerance: pick([
+      "very_low",
+      "medium",
+      "high_if_return",
+      "result_first",
+    ]),
+    final_confirmed_inputs: true,
+  };
+}

@@ -1,293 +1,135 @@
-// ============================================================
-// Campaign Diagnosis Wizard - Zustand Store
-// ============================================================
+import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
 
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import type { WizardState, CampaignBlueprint } from '@/types/wizard';
+export interface DataModel {
+  build_mode: string | null;
+  business_type: string | null;
+  offer_description: string | null;
+  sales_motion: string | null;
+  customer_problem: string | null;
+  key_value_drivers: string[];
+  usp: string | null;
+  primary_objective: string | null;
+  secondary_objectives: string[];
+  north_star_kpi: string | null;
+  existing_assets: string[];
+  previous_campaigns_status: string | null;
+  past_performance_notes: string | null;
+  ideal_customer: string | null;
+  awareness_level: string | null;
+  audience_segments: string[];
+  geo_scope: string | null;
+  target_locations: string[];
+  offer_type: string | null;
+  core_message: string | null;
+  objections: string[];
+  persuasion_angle: string | null;
+  conversion_destination: string | null;
+  ad_channels: string[];
+  campaign_direction: string | null;
+  budget_band: string | null;
+  budget_flexibility: string | null;
+  average_order_value: number | null;
+  profit_margin: number | null;
+  max_cac: number | null;
+  tracking_status: string | null;
+  tracking_tools: string[];
+  key_events: string[];
+  conversion_model: string | null;
+  creative_assets: string[];
+  content_capacity: string | null;
+  constraints: string[];
+  response_speed: string | null;
+  top_priority: string | null;
+  risk_tolerance: string | null;
+  final_confirmed_inputs: boolean | null;
+}
 
-const initialState: Omit<WizardState, 'currentStep' | 'completedSteps' | 'draftSavedAt' | 'isSubmitting' | 'blueprint'> = {
-  // Step 0
+const EMPTY_DATA: DataModel = {
   build_mode: null,
-
-  // Step 1
   business_type: null,
-  offer_description: '',
+  offer_description: null,
   sales_motion: null,
-
-  // Step 2
-  customer_problem: '',
+  customer_problem: null,
   key_value_drivers: [],
-  usp: '',
-
-  // Step 3
+  usp: null,
   primary_objective: null,
   secondary_objectives: [],
   north_star_kpi: null,
-
-  // Step 4
   existing_assets: [],
   previous_campaigns_status: null,
-  past_performance_notes: '',
-
-  // Step 5
-  ideal_customer: '',
+  past_performance_notes: null,
+  ideal_customer: null,
   awareness_level: null,
   audience_segments: [],
   geo_scope: null,
   target_locations: [],
-
-  // Step 6
   offer_type: null,
-  core_message: '',
+  core_message: null,
   objections: [],
   persuasion_angle: null,
-
-  // Step 7
   conversion_destination: null,
   ad_channels: [],
   campaign_direction: null,
-
-  // Step 8
   budget_band: null,
   budget_flexibility: null,
   average_order_value: null,
   profit_margin: null,
   max_cac: null,
-
-  // Step 9
   tracking_status: null,
   tracking_tools: [],
   key_events: [],
   conversion_model: null,
-
-  // Step 10
   creative_assets: [],
   content_capacity: null,
   constraints: [],
   response_speed: null,
-
-  // Step 11
   top_priority: null,
   risk_tolerance: null,
+  final_confirmed_inputs: null,
 };
 
-interface WizardActions {
-  // Navigation
+interface WizardStore {
+  // FIX E: currentStep and completedSteps are NOT persisted
+  currentStep: number;
+  completedSteps: Set<number>;
+  data: DataModel;
   setStep: (step: number) => void;
-  nextStep: () => void;
-  prevStep: () => void;
-  goToStep: (step: number) => void;
-  markStepComplete: (step: number) => void;
-
-  // Field Updates
-  setField: <K extends keyof WizardState>(field: K, value: WizardState[K]) => void;
-  setFields: (fields: Partial<WizardState>) => void;
-  toggleArrayField: (field: keyof WizardState, value: string) => void;
-
-  // Submission
-  setSubmitting: (isSubmitting: boolean) => void;
-  setBlueprint: (blueprint: CampaignBlueprint | null) => void;
-
-  // Reset
+  markCompleted: (step: number) => void;
+  setField: <K extends keyof DataModel>(key: K, value: DataModel[K]) => void;
   resetWizard: () => void;
-  clearDraft: () => void;
 }
 
-export const useWizardStore = create<WizardState & WizardActions>()(
+export const useWizardStore = create<WizardStore>()(
   persist(
-    (set, get) => ({
-      ...initialState,
+    (set) => ({
+      // FIX E: runtime state - always starts fresh, not restored from storage
       currentStep: 0,
-      completedSteps: [],
-      draftSavedAt: null,
-      isSubmitting: false,
-      blueprint: null,
+      completedSteps: new Set<number>(),
+      data: { ...EMPTY_DATA },
 
-      // Navigation
       setStep: (step) => set({ currentStep: step }),
-      
-      nextStep: () => {
-        const { currentStep, completedSteps } = get();
-        const newCompleted = [...new Set([...completedSteps, currentStep])];
-        set({ 
-          currentStep: Math.min(currentStep + 1, 12),
-          completedSteps: newCompleted,
-          draftSavedAt: new Date().toISOString(),
-        });
-      },
-      
-      prevStep: () => {
-        const { currentStep } = get();
-        set({ currentStep: Math.max(currentStep - 1, 0) });
-      },
-      
-      goToStep: (step) => {
-        const { completedSteps } = get();
-        // Allow going to completed steps or current step
-        if (step <= Math.max(...completedSteps, 0) + 1) {
-          set({ currentStep: step });
-        }
-      },
-      
-      markStepComplete: (step) => {
-        const { completedSteps } = get();
-        set({ 
-          completedSteps: [...new Set([...completedSteps, step])],
-          draftSavedAt: new Date().toISOString(),
-        });
-      },
 
-      // Field Updates
-      setField: (field, value) => {
-        set({ [field]: value, draftSavedAt: new Date().toISOString() } as Partial<WizardState>);
-      },
-      
-      setFields: (fields) => {
-        set({ ...fields, draftSavedAt: new Date().toISOString() });
-      },
-      
-      toggleArrayField: (field, value) => {
-        const state = get();
-        const currentArray = (state[field] as string[]) || [];
-        const newArray = currentArray.includes(value)
-          ? currentArray.filter((item) => item !== value)
-          : [...currentArray, value];
-        set({ [field]: newArray, draftSavedAt: new Date().toISOString() } as Partial<WizardState>);
-      },
+      markCompleted: (step) =>
+        set((s) => ({
+          completedSteps: new Set([...s.completedSteps, step]),
+        })),
 
-      // Submission
-      setSubmitting: (isSubmitting) => set({ isSubmitting }),
-      setBlueprint: (blueprint) => set({ blueprint }),
+      setField: (key, value) =>
+        set((s) => ({ data: { ...s.data, [key]: value } })),
 
-      // Reset
-      resetWizard: () => set({
-        ...initialState,
-        currentStep: 0,
-        completedSteps: [],
-        draftSavedAt: null,
-        isSubmitting: false,
-        blueprint: null,
-      }),
-      
-      clearDraft: () => {
+      resetWizard: () =>
         set({
-          ...initialState,
           currentStep: 0,
-          completedSteps: [],
-          draftSavedAt: null,
-          isSubmitting: false,
-          blueprint: null,
-        });
-      },
+          completedSteps: new Set<number>(),
+          data: { ...EMPTY_DATA },
+        }),
     }),
     {
-      name: 'campaign-wizard-draft',
-      partialize: (state) => ({
-        ...initialState,
-        currentStep: state.currentStep,
-        completedSteps: state.completedSteps,
-        draftSavedAt: state.draftSavedAt,
-        // Persist all form fields
-        build_mode: state.build_mode,
-        business_type: state.business_type,
-        offer_description: state.offer_description,
-        sales_motion: state.sales_motion,
-        customer_problem: state.customer_problem,
-        key_value_drivers: state.key_value_drivers,
-        usp: state.usp,
-        primary_objective: state.primary_objective,
-        secondary_objectives: state.secondary_objectives,
-        north_star_kpi: state.north_star_kpi,
-        existing_assets: state.existing_assets,
-        previous_campaigns_status: state.previous_campaigns_status,
-        past_performance_notes: state.past_performance_notes,
-        ideal_customer: state.ideal_customer,
-        awareness_level: state.awareness_level,
-        audience_segments: state.audience_segments,
-        geo_scope: state.geo_scope,
-        target_locations: state.target_locations,
-        offer_type: state.offer_type,
-        core_message: state.core_message,
-        objections: state.objections,
-        persuasion_angle: state.persuasion_angle,
-        conversion_destination: state.conversion_destination,
-        ad_channels: state.ad_channels,
-        campaign_direction: state.campaign_direction,
-        budget_band: state.budget_band,
-        budget_flexibility: state.budget_flexibility,
-        average_order_value: state.average_order_value,
-        profit_margin: state.profit_margin,
-        max_cac: state.max_cac,
-        tracking_status: state.tracking_status,
-        tracking_tools: state.tracking_tools,
-        key_events: state.key_events,
-        conversion_model: state.conversion_model,
-        creative_assets: state.creative_assets,
-        content_capacity: state.content_capacity,
-        constraints: state.constraints,
-        response_speed: state.response_speed,
-        top_priority: state.top_priority,
-        risk_tolerance: state.risk_tolerance,
-      }),
+      name: "wizard-draft",
+      storage: createJSONStorage(() => localStorage),
+      // FIX E: only persist form data, NOT navigation state
+      partialize: (state) => ({ data: state.data }),
     }
   )
 );
-
-// ============================================================
-// Readiness Score Calculator
-// ============================================================
-
-export const calculateReadinessScore = (state: Partial<WizardState>): number => {
-  let score = 0;
-
-  // Assets Readiness (25%)
-  const assetsCount = state.existing_assets?.length || 0;
-  score += Math.min(assetsCount * 2, 25);
-
-  // Tracking Readiness (25%)
-  if (state.tracking_status === 'ready') score += 25;
-  else if (state.tracking_status === 'partial') score += 15;
-  else if (state.tracking_status === 'issues') score += 10;
-  else if (state.tracking_status === 'unknown') score += 5;
-
-  // Content Readiness (20%)
-  const hasAssets = (state.creative_assets?.length || 0) > 0;
-  const canProduce = state.content_capacity && state.content_capacity !== 'no';
-  if (hasAssets && canProduce) score += 20;
-  else if (hasAssets || canProduce) score += 10;
-
-  // Conversion Path (15%)
-  if (state.conversion_destination && state.existing_assets?.includes(state.conversion_destination)) {
-    score += 15;
-  } else if (state.conversion_destination) {
-    score += 8;
-  }
-
-  // Data Completeness (15%)
-  const allFields = [
-    state.build_mode, state.business_type, state.offer_description, state.sales_motion,
-    state.customer_problem, state.key_value_drivers?.length, state.usp,
-    state.primary_objective, state.north_star_kpi,
-    state.previous_campaigns_status,
-    state.ideal_customer, state.awareness_level, state.geo_scope,
-    state.offer_type, state.core_message, state.persuasion_angle,
-    state.conversion_destination, state.ad_channels?.length,
-    state.budget_band, state.budget_flexibility,
-    state.tracking_status, state.key_events?.length, state.conversion_model,
-    state.content_capacity, state.response_speed,
-    state.top_priority, state.risk_tolerance,
-  ];
-  const filledFields = allFields.filter(f => f !== null && f !== undefined && f !== '' && f !== 0).length;
-  score += Math.round((filledFields / allFields.length) * 15);
-
-  return Math.min(100, score);
-};
-
-export const getReadinessLevel = (score: number): { label: string; color: string } => {
-  if (score >= 80) return { label: 'ممتاز', color: 'text-green-500' };
-  if (score >= 60) return { label: 'جيد', color: 'text-blue-500' };
-  if (score >= 40) return { label: 'متوسط', color: 'text-yellow-500' };
-  if (score >= 20) return { label: 'ضعيف', color: 'text-orange-500' };
-  return { label: 'حرج', color: 'text-red-500' };
-};
