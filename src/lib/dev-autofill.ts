@@ -1,285 +1,219 @@
-// FIX F: Dev autofill with valid enum values matching backend contract
-import { DataModel } from "./store";
+/**
+ * DEV AUTO-FILL UTILITY
+ * ─────────────────────
+ * Fills all 37+ wizard fields with realistic dummy data.
+ * All enum values are validated against the backend contract.
+ * Triggered via: Ctrl+Shift+D
+ *
+ * BACKEND CONTRACT (for reference):
+ *   geo_scope: single_city | multiple_cities | country | multiple_countries | local_radius
+ *   ❌ geo_custom is NOT accepted by backend
+ */
 
-function pick<T>(arr: T[]): T {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
-function pickMany<T>(arr: T[], min = 1, max = 3): T[] {
-  const count = Math.floor(Math.random() * (max - min + 1)) + min;
-  const shuffled = [...arr].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, count);
-}
+import type { DataModel } from "@/lib/store";
 
-export function generateAutoFillData(): DataModel {
-  const geoScope = pick([
-    "single_city",
-    "multiple_cities",
-    "country",
-    "multiple_countries",
-    "local_radius",
-    // FIX A: "geo_custom" is NOT included — backend rejects it
-  ]);
+// ─── Preset profiles ──────────────────────────────────────────────────────────
+// Multiple profiles so Ctrl+Shift+D cycles through different business scenarios
 
-  const prevCampaigns = pick(["successful", "weak", "unclear", "none"]);
-
-  return {
-    build_mode: pick([
-      "new_campaign",
-      "optimize_existing",
-      "diagnose_business",
-      "restructure_account",
-      "test_plan",
-    ]),
-    business_type: pick([
-      "local_service",
-      "ecommerce",
-      "consumer_product",
-      "app",
-      "b2b",
-      "education",
-      "agency_service",
-      "other",
-    ]),
+const PROFILES: DataModel[] = [
+  // ── Profile 1: E-commerce skincare ────────────────────────────────────────
+  {
+    build_mode: "new_campaign",
+    business_type: "ecommerce",
     offer_description:
-      "خدمة تسويق رقمي متكاملة للشركات الصغيرة والمتوسطة في مصر والسعودية",
-    sales_motion: pick([
-      "website_purchase",
-      "whatsapp",
-      "call",
-      "form",
-      "messages",
-      "sales_team",
-      "multi_channel",
-    ]),
+      "Premium skincare subscription box — monthly delivery of organic, dermatologist-approved products curated for your skin type",
+    sales_motion: "website_purchase",
     customer_problem:
-      "أصحاب الأعمال لا يعرفون كيف يحولون الإعلانات إلى مبيعات حقيقية",
-    key_value_drivers: pickMany([
-      "price",
-      "quality",
-      "speed",
-      "trust",
-      "warranty",
-      "results",
-      "specialization",
-      "easy_order",
-      "after_sales",
-      "brand_reputation",
-    ]),
-    usp: "نضمن نتائج قابلة للقياس خلال 30 يومًا أو نسترد الرسوم كاملًا",
-    primary_objective: pick([
-      "sales",
-      "leads",
-      "messages",
-      "traffic",
-      "app_installs",
-      "awareness",
-      "retargeting",
-      "booking",
-      "calls",
-    ]),
-    secondary_objectives: pickMany([
-      "lead_capture",
-      "brand_awareness",
-      "audience_testing",
-      "message_testing",
-      "warm_audience",
-      "seasonal_demand",
-      "reduce_cac",
-    ]),
-    north_star_kpi: pick([
-      "sales_count",
-      "cac",
-      "message_count",
-      "lead_count",
-      "call_count",
-      "install_count",
-      "roas",
-      "conversion_rate",
-    ]),
-    existing_assets: pickMany([
+      "People struggle to find skincare products that actually work for their skin type without spending hours researching",
+    key_value_drivers: ["quality", "results", "trust", "specialization"],
+    usp: "الوحيد في المنطقة يقدم صناديق عناية مخصصة بناءً على اختبار علمي للبشرة مع ضمان استرداد كامل خلال 30 يومًا",
+    primary_objective: "sales",
+    secondary_objectives: ["warm_audience", "brand_awareness", "reduce_cac"],
+    north_star_kpi: "roas",
+    existing_assets: [
       "website",
       "landing_page",
       "store",
-      "whatsapp_business",
-      "crm",
-      "facebook_page",
       "instagram",
-      "tiktok",
-      "ga4",
+      "facebook_page",
       "pixel",
-      "capi",
-      "catalog",
-    ]),
-    previous_campaigns_status: prevCampaigns,
+      "ga4",
+    ],
+    previous_campaigns_status: "weak",
     past_performance_notes:
-      prevCampaigns !== "none"
-        ? "ميزانية 50 جنيه يوميًا، CPL حوالي 30 جنيه، ROAS 2.1"
-        : null,
+      "Budget: 5000 EGP/month | CPL: 45 EGP | CPA: 180 EGP | ROAS: 1.8 | CTR: 1.2% — Campaigns were running but targeting was too broad",
     ideal_customer:
-      "رجال أعمال 30–50 سنة، يديرون شركات صغيرة، مهتمون بالنمو الرقمي",
-    awareness_level: pick([
-      "unaware",
-      "problem_aware",
-      "solution_aware",
-      "brand_aware",
-      "purchase_ready",
-    ]),
-    audience_segments: pickMany([
-      "beginner",
-      "mid",
-      "advanced",
+      "Women 25–40, urban areas (Cairo, Dubai, Riyadh), interested in beauty/wellness, mid-to-high income, follow beauty influencers",
+    awareness_level: "solution_aware",
+    audience_segments: [
       "high_intent",
       "website_visitors",
       "engagers",
-      "existing_customers",
       "lookalike",
-      "cold_audience",
-    ]),
-    geo_scope: geoScope,
-    target_locations:
-      geoScope === "country" || geoScope === "multiple_countries"
-        ? ["مصر", "السعودية"]
-        : ["القاهرة", "الجيزة"],
-    offer_type: pick([
-      "discount",
-      "bundle",
-      "consultation",
-      "free_trial",
-      "guarantee",
-      "free_shipping",
-      "special_price",
-      "limited_time",
-      "no_clear_offer",
-    ]),
-    core_message: "احصل على استراتيجية إعلانية مضمونة النتائج في 48 ساعة فقط",
-    objections: pickMany([
-      "price",
-      "trust",
-      "value_unclear",
-      "bad_past_experience",
-      "fear_of_outcome",
-      "time",
-      "complexity",
-      "competitor_comparison",
-    ]),
-    persuasion_angle: pick([
-      "price",
-      "value",
-      "trust",
-      "speed",
-      "result",
-      "specialization",
-      "scarcity",
-      "social_proof",
-      "guarantee",
-    ]),
-    conversion_destination: pick([
-      "website",
-      "store",
-      "whatsapp",
-      "messenger",
-      "call",
-      "form",
-      "app",
-      "booking",
-    ]),
-    ad_channels: pickMany([
-      "meta",
-      "google_ads",
-      "tiktok_ads",
-      "snapchat_ads",
-      "youtube",
-      "linkedin",
-    ]),
-    campaign_direction: pick([
-      "prospecting",
-      "retargeting",
-      "mixed",
-      "lead_generation",
-      "conversion",
-      "awareness",
-      "testing",
-    ]),
-    budget_band: pick([
-      "under_100",
-      "100_300",
-      "300_1000",
-      "1000_5000",
-      "above_5000",
-    ]),
-    budget_flexibility: pick([
-      "fixed",
-      "slightly_flexible",
-      "flexible",
-      "scale_if_positive",
-    ]),
-    average_order_value: pick([500, 1000, 2500, 5000, 10000]),
-    profit_margin: pick([20, 30, 40, 50, 60]),
-    max_cac: pick([100, 200, 300, 500, 800]),
-    tracking_status: pick(["ready", "partial", "unknown", "missing", "issues"]),
-    tracking_tools: pickMany([
-      "pixel",
-      "capi",
-      "ga4",
-      "gtm",
-      "sdk",
-      "crm",
-      "offline_tracking",
-      "utm",
-    ]),
-    key_events: pickMany([
-      "page_view",
+    ],
+    geo_scope: "country",
+    target_locations: ["مصر", "الإمارات"],
+    offer_type: "bundle",
+    core_message:
+      "تألقي بشكل طبيعي مع صندوق العناية العضوية المخصص لبشرتك — جربيه بضمان استرداد كامل",
+    objections: ["price", "trust", "fear_of_outcome"],
+    persuasion_angle: "result",
+    conversion_destination: "store",
+    ad_channels: ["meta", "google_ads", "tiktok_ads"],
+    campaign_direction: "mixed",
+    budget_band: "300_1000",
+    budget_flexibility: "scale_if_positive",
+    average_order_value: 350,
+    profit_margin: 35,
+    max_cac: 120,
+    tracking_status: "partial",
+    tracking_tools: ["pixel", "ga4", "gtm"],
+    key_events: [
       "view_content",
       "add_to_cart",
       "initiate_checkout",
       "purchase",
-      "lead",
-      "submit_form",
-      "whatsapp_click",
-    ]),
-    conversion_model: pick(["online", "offline", "both", "unknown"]),
-    creative_assets: pickMany([
-      "images",
-      "video",
-      "ugc",
-      "testimonials",
-      "logo",
-      "catalog",
-      "offers",
-    ]),
-    content_capacity: pick(["easy", "slow", "hard", "no"]),
-    constraints: pickMany([
-      "time",
-      "budget",
-      "team",
-      "approvals",
-      "content",
-      "legal",
-      "technical",
-      "platform_policy",
-    ]),
-    response_speed: pick([
-      "instant",
-      "within_hour",
-      "within_day",
-      "slower",
-      "unknown",
-    ]),
-    top_priority: pick([
-      "increase_demand",
-      "reduce_cost",
-      "lead_quality",
-      "conversion_rate",
-      "awareness",
-      "tracking_fix",
-      "account_structure",
-    ]),
-    risk_tolerance: pick([
-      "very_low",
-      "medium",
-      "high_if_return",
-      "result_first",
-    ]),
+    ],
+    conversion_model: "online",
+    creative_assets: ["images", "video", "testimonials", "ugc"],
+    content_capacity: "easy",
+    constraints: ["content", "approvals"],
+    response_speed: "within_hour",
+    top_priority: "increase_demand",
+    risk_tolerance: "high_if_return",
     final_confirmed_inputs: true,
-  };
+  },
+
+  // ── Profile 2: Local service (plumbing/home services) ─────────────────────
+  {
+    build_mode: "diagnose_business",
+    business_type: "local_service",
+    offer_description:
+      "سباكة وصيانة منزلية — خدمة طوارئ 24 ساعة في القاهرة الكبرى مع ضمان على العمل 6 أشهر",
+    sales_motion: "call",
+    customer_problem:
+      "عطل مفاجئ في السباكة يسبب ضررًا كبيرًا والعثور على سباك موثوق وسريع أمر صعب",
+    key_value_drivers: ["speed", "trust", "warranty", "easy_order"],
+    usp: "نصل خلال 60 دقيقة أو الخدمة مجانًا — مرخصون ومؤمن عليهم — ضمان 6 أشهر",
+    primary_objective: "calls",
+    secondary_objectives: ["lead_capture", "brand_awareness"],
+    north_star_kpi: "call_count",
+    existing_assets: ["whatsapp_business", "facebook_page"],
+    previous_campaigns_status: "first_time",
+    past_performance_notes: null,
+    ideal_customer:
+      "أصحاب المنازل والمستأجرون في القاهرة 25–60 سنة، يحتاجون صيانة عاجلة",
+    awareness_level: "purchase_ready",
+    audience_segments: ["high_intent", "cold_audience"],
+    geo_scope: "single_city",
+    target_locations: ["القاهرة", "الجيزة"],
+    offer_type: "guarantee",
+    core_message: "سباك موثوق في 60 دقيقة — أو الخدمة مجانًا",
+    objections: ["trust", "price", "fear_of_outcome"],
+    persuasion_angle: "speed",
+    conversion_destination: "call",
+    ad_channels: ["meta", "google_ads"],
+    campaign_direction: "prospecting",
+    budget_band: "100_300",
+    budget_flexibility: "flexible",
+    average_order_value: 800,
+    profit_margin: 40,
+    max_cac: 200,
+    tracking_status: "missing",
+    tracking_tools: [],
+    key_events: ["call", "whatsapp_click", "lead"],
+    conversion_model: "offline",
+    creative_assets: ["images", "logo"],
+    content_capacity: "slow",
+    constraints: ["content", "team", "time"],
+    response_speed: "instant",
+    top_priority: "tracking_fix",
+    risk_tolerance: "medium",
+    final_confirmed_inputs: true,
+  },
+
+  // ── Profile 3: B2B SaaS ───────────────────────────────────────────────────
+  {
+    build_mode: "test_plan",
+    business_type: "b2b",
+    offer_description:
+      "B2B HR & payroll SaaS platform for companies 50–500 employees — automates payroll, attendance, and compliance",
+    sales_motion: "sales_team",
+    customer_problem:
+      "HR managers waste 40+ hours/month on manual payroll and face compliance risks with ever-changing labor laws",
+    key_value_drivers: [
+      "results",
+      "specialization",
+      "trust",
+      "after_sales",
+      "speed",
+    ],
+    usp: "نظام الرواتب الوحيد المتوافق 100% مع قانون العمل المصري مع دعم 24/7 باللغة العربية",
+    primary_objective: "leads",
+    secondary_objectives: [
+      "audience_testing",
+      "message_testing",
+      "warm_audience",
+    ],
+    north_star_kpi: "lead_count",
+    existing_assets: ["website", "landing_page", "crm", "ga4", "pixel", "gtm"],
+    previous_campaigns_status: "unclear",
+    past_performance_notes:
+      "Ran LinkedIn + Google campaigns — got 200 leads/month but conversion to demo was only 8%. CPL was $35.",
+    ideal_customer:
+      "HR Directors and CFOs at companies 50–500 employees in Egypt, UAE, Saudi — tech-forward, English-Arabic bilingual",
+    awareness_level: "problem_aware",
+    audience_segments: ["high_intent", "cold_audience", "lookalike"],
+    geo_scope: "multiple_countries",
+    target_locations: ["مصر", "السعودية", "الإمارات"],
+    offer_type: "free_trial",
+    core_message:
+      "وفّر 40 ساعة شهريًا على الرواتب والحضور — جرب مجانًا 30 يومًا",
+    objections: ["price", "complexity", "trust", "competitor_comparison"],
+    persuasion_angle: "result",
+    conversion_destination: "form",
+    ad_channels: ["linkedin", "google_ads", "meta"],
+    campaign_direction: "lead_generation",
+    budget_band: "1000_5000",
+    budget_flexibility: "flexible",
+    average_order_value: 15000,
+    profit_margin: 70,
+    max_cac: 1500,
+    tracking_status: "ready",
+    tracking_tools: ["pixel", "ga4", "gtm", "crm", "utm"],
+    key_events: ["lead", "submit_form", "complete_registration", "page_view"],
+    conversion_model: "online",
+    creative_assets: ["images", "video", "testimonials", "catalog"],
+    content_capacity: "easy",
+    constraints: ["approvals", "legal"],
+    response_speed: "within_hour",
+    top_priority: "lead_quality",
+    risk_tolerance: "result_first",
+    final_confirmed_inputs: true,
+  },
+];
+
+let _profileIndex = 0;
+
+/**
+ * Returns the next dummy data profile (cycles through all profiles).
+ * Each call to Ctrl+Shift+D picks the next scenario.
+ */
+export function getDummyData(): DataModel {
+  const profile = PROFILES[_profileIndex % PROFILES.length];
+  _profileIndex++;
+  return profile;
+}
+
+/**
+ * Profile names for the toast message
+ */
+export const PROFILE_NAMES = [
+  "متجر إلكتروني (Skincare Subscription)",
+  "خدمة محلية (Home Services)",
+  "B2B SaaS (HR Platform)",
+];
+
+export function getCurrentProfileName(): string {
+  return PROFILE_NAMES[(_profileIndex - 1) % PROFILE_NAMES.length];
 }

@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useState } from "react";
 import { useWizardStore } from "@/lib/store";
-import { generateAutoFillData } from "@/lib/dev-autofill";
-
+import { getDummyData, getCurrentProfileName } from "@/lib/dev-autofill";
 import Step0_Start from "./steps/Step0_Start";
 import Step1_Business from "./steps/Step1_Business";
 import Step2_Value from "./steps/Step2_Value";
@@ -35,9 +34,28 @@ const STEP_TITLES = [
   "الأولوية والمخاطرة",
   "المراجعة النهائية",
 ];
-
+// ── Toast component ────────────────────────────────────────────────────────────
+interface ToastProps {
+  message: string;
+  visible: boolean;
+}
+function DevToast({ message, visible }: ToastProps) {
+  return (
+    <div
+      className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 ${
+        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
+      }`}
+    >
+      <div className="bg-green-900 border border-green-600 text-green-300 text-sm px-5 py-3 rounded-xl shadow-xl flex items-center gap-2 whitespace-nowrap">
+        <span>✅</span>
+        <span>{message}</span>
+      </div>
+    </div>
+  );
+}
 export default function WizardPage() {
-  const { currentStep, setStep, setField, data } = useWizardStore();
+    const { currentStep, setStep, setField } = useWizardStore();
+  const [toast, setToast] = useState<string | null>(null);
 
   // FIX E: Always start at step 0, regardless of what's in localStorage
   useEffect(() => {
@@ -49,7 +67,7 @@ export default function WizardPage() {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.ctrlKey && e.shiftKey && e.key === "D") {
         e.preventDefault();
-        const filled = generateAutoFillData();
+        const filled = getDummyData();
         // Apply every field from the autofill data into the store
         (Object.keys(filled) as (keyof typeof filled)[]).forEach((key) => {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -73,7 +91,34 @@ export default function WizardPage() {
     setStep(Math.max(currentStep - 1, 0));
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentStep, setStep]);
+  // ── Toast helper ────────────────────────────────────────────────────────────
+  const showToast = useCallback((msg: string) => {
+    setToast(msg);
+    setTimeout(() => setToast(null), 3500);
+  }, []);
 
+  // ── TASK 1: Ctrl+Shift+D → auto-fill all 13 steps ─────────────────────────
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.shiftKey && e.key === "D") {
+        e.preventDefault();
+
+        const filled = getDummyData();
+        const profileName = getCurrentProfileName();
+
+        (Object.keys(filled) as (keyof typeof filled)[]).forEach((key) => {
+          setField(key, filled[key] as any);
+        });
+
+        setStep(12);
+        showToast(`Dummy data loaded — ${profileName}`);
+        console.info(`[DEV] Auto-fill applied: ${profileName}`, filled);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [setField, setStep, showToast]);
   const goToStep = useCallback(
     (step: number) => {
       setStep(step);
@@ -110,7 +155,12 @@ export default function WizardPage() {
           <p className="text-gray-400 text-sm mt-2">
             {STEP_TITLES[currentStep]}
           </p>
-
+          {/* DEV HINT — only visible in development */}
+          {process.env.NODE_ENV === "development" && (
+            <p className="text-gray-600 text-xs mt-1 font-mono">
+              [DEV] Ctrl+Shift+D → ملء تلقائي للحقول الـ 37 (3 سيناريوهات تدور)
+            </p>
+          )}
           {/* Dev hint */}
           {process.env.NODE_ENV === "development" && (
             <p className="text-gray-600 text-xs mt-1">
@@ -155,6 +205,8 @@ export default function WizardPage() {
         {currentStep === 12 && (
           <Step12_Review onBack={goBack} onGoToStep={goToStep} />
         )}
+              {/* Toast notification */}
+      <DevToast message={toast ?? ""} visible={toast !== null} />
       </main>
     </div>
   );

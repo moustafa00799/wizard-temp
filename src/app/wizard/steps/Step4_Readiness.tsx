@@ -22,7 +22,7 @@ const campaignStatusOptions = [
   { label: "نعم، ونجحت", value: "successful" },
   { label: "نعم، لكنها ضعيفة", value: "weak" },
   { label: "نعم، لكن بدون نتائج واضحة", value: "unclear" },
-  { label: "لا، أول مرة", value: "none" },
+  { label: "لا، أول مرة", value: "first_time" },
 ];
 
 const HAS_HISTORY = ["successful", "weak", "unclear"];

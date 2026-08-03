@@ -130,8 +130,10 @@ export default function Step12_Review({ onBack, onGoToStep }: { onBack: () => vo
 
       const json = await res.json();
 
-      if (!res.ok || json.success === false) {
-        throw new Error(json.message ?? json.error ?? "خطأ من الخادم");
+            if (!res.ok || json.success === false) {
+        const backendErrors = json.errors ?? [json.message ?? json.error ?? "خطأ من الخادم"];
+        const errorText = Array.isArray(backendErrors) ? backendErrors.join("، ") : backendErrors;
+        throw new Error(errorText);
       }
 
       // Store blueprint in sessionStorage so blueprint page can read it

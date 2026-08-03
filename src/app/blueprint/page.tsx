@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useWizardStore } from "@/lib/store";
+import { BlueprintExporter } from "@/components/BlueprintExporter";
 
 // FIX C: All blueprint fields typed as optional to force safe access
 interface Blueprint {
@@ -78,7 +79,7 @@ const SECTION_ORDER = Object.keys(SECTION_LABELS);
 export default function BlueprintPage() {
   const router = useRouter();
   // FIX D: resetWizard lives HERE, triggered only on "New Strategy"
-  const { resetWizard } = useWizardStore();
+  const { resetWizard, data } = useWizardStore();
   const [blueprint, setBlueprint] = useState<Blueprint | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
 
@@ -150,6 +151,16 @@ export default function BlueprintPage() {
 
       <main className="max-w-2xl mx-auto px-4 py-8 space-y-6">
         {/* Success banner */}
+                {/* ── TASK 3: Export buttons ── */}
+        <div className="bg-gray-800/40 border border-gray-700/60 rounded-2xl p-5">
+          <p className="text-gray-400 text-sm text-center mb-4">
+            احفظ خطتك الإعلانية
+          </p>
+          <BlueprintExporter
+            blueprint={blueprint}
+            businessType={data.business_type ?? undefined}
+          />
+        </div>
         <div className="bg-green-900/30 border border-green-800 rounded-xl p-4 text-center">
           <p className="text-green-400 font-semibold text-lg">✓ تم بناء الخطة بنجاح</p>
           <p className="text-gray-400 text-sm mt-1">
@@ -197,15 +208,17 @@ export default function BlueprintPage() {
             </section>
           ))}
 
-        {/* CTA */}
-        <div className="pb-8 text-center">
-          <button
-            onClick={handleNewStrategy}
-            className="px-8 py-3 bg-violet-600 hover:bg-violet-500 text-white rounded-xl font-semibold transition-colors shadow-lg shadow-violet-900/30"
-          >
-            🔁 ابدأ استراتيجية جديدة
-          </button>
-        </div>
+                {/* Bottom CTAs */}
+        <div className="pb-8 space-y-4">
+          {/* Export again at bottom */}
+                    <div className="text-center">
+            <button
+              onClick={handleNewStrategy}
+              className="px-8 py-3 bg-violet-600 hover:bg-violet-500 text-white rounded-xl font-semibold transition-colors shadow-lg shadow-violet-900/30"
+            >
+              🔁 ابدأ استراتيجية جديدة
+            </button>
+          </div></div>
       </main>
     </div>
   );

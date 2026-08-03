@@ -92,7 +92,7 @@ const EMPTY_DATA: DataModel = {
 interface WizardStore {
   // FIX E: currentStep and completedSteps are NOT persisted
   currentStep: number;
-  completedSteps: Set<number>;
+    completedSteps: number[];
   data: DataModel;
   setStep: (step: number) => void;
   markCompleted: (step: number) => void;
@@ -112,7 +112,7 @@ export const useWizardStore = create<WizardStore>()(
 
       markCompleted: (step) =>
         set((s) => ({
-          completedSteps: new Set([...s.completedSteps, step]),
+                    completedSteps: [...new Set([...s.completedSteps, step])],
         })),
 
       setField: (key, value) =>

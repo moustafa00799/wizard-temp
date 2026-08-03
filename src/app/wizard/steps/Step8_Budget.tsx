@@ -18,7 +18,7 @@ const budgetBands = [
 
 const flexibilityOptions = [
   { label: "ثابتة جدًا", value: "fixed" },
-  { label: "مرنة قليلًا", value: "slightly_flexible" },
+  { label: "مرنة", value: "flexible" },
   { label: "مرنة", value: "flexible" },
   { label: "أستطيع التوسع إذا ظهرت نتائج", value: "scale_if_positive" },
 ];
