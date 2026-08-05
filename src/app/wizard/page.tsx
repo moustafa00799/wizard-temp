@@ -34,11 +34,12 @@ const STEP_TITLES = [
   "الأولوية والمخاطرة",
   "المراجعة النهائية",
 ];
-// ── Toast component ────────────────────────────────────────────────────────────
+
 interface ToastProps {
   message: string;
   visible: boolean;
 }
+
 function DevToast({ message, visible }: ToastProps) {
   return (
     <div
@@ -53,34 +54,15 @@ function DevToast({ message, visible }: ToastProps) {
     </div>
   );
 }
+
 export default function WizardPage() {
-    const { currentStep, setStep, setField } = useWizardStore();
+  const { currentStep, setStep, setField } = useWizardStore();
   const [toast, setToast] = useState<string | null>(null);
 
-  // FIX E: Always start at step 0, regardless of what's in localStorage
+  // FIX E: Always start at step 0
   useEffect(() => {
     setStep(0);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  // FIX F: Ctrl+Shift+D triggers autofill
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.ctrlKey && e.shiftKey && e.key === "D") {
-        e.preventDefault();
-        const filled = getDummyData();
-        // Apply every field from the autofill data into the store
-        (Object.keys(filled) as (keyof typeof filled)[]).forEach((key) => {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          setField(key, filled[key] as any);
-        });
-        // Jump to review
-        setStep(12);
-        console.info("[DEV] Autofill applied, jumped to review step.");
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [setField, setStep]);
 
   const goNext = useCallback(() => {
     setStep(Math.min(currentStep + 1, TOTAL_STEPS - 1));
@@ -91,34 +73,12 @@ export default function WizardPage() {
     setStep(Math.max(currentStep - 1, 0));
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentStep, setStep]);
-  // ── Toast helper ────────────────────────────────────────────────────────────
+
   const showToast = useCallback((msg: string) => {
     setToast(msg);
     setTimeout(() => setToast(null), 3500);
   }, []);
 
-  // ── TASK 1: Ctrl+Shift+D → auto-fill all 13 steps ─────────────────────────
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.ctrlKey && e.shiftKey && e.key === "D") {
-        e.preventDefault();
-
-        const filled = getDummyData();
-        const profileName = getCurrentProfileName();
-
-        (Object.keys(filled) as (keyof typeof filled)[]).forEach((key) => {
-          setField(key, filled[key] as any);
-        });
-
-        setStep(12);
-        showToast(`Dummy data loaded — ${profileName}`);
-        console.info(`[DEV] Auto-fill applied: ${profileName}`, filled);
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [setField, setStep, showToast]);
   const goToStep = useCallback(
     (step: number) => {
       setStep(step);
@@ -127,14 +87,29 @@ export default function WizardPage() {
     [setStep]
   );
 
+  // Ctrl+Shift+D → auto-fill
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.shiftKey && e.key === "D") {
+        e.preventDefault();
+        const filled = getDummyData();
+        const profileName = getCurrentProfileName();
+        (Object.keys(filled) as (keyof typeof filled)[]).forEach((key) => {
+          setField(key, filled[key] as any);
+        });
+        setStep(12);
+        showToast(`Dummy data loaded — ${profileName}`);
+        console.info(`[DEV] Auto-fill applied: ${profileName}`, filled);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [setField, setStep, showToast]);
+
   const progress = Math.round(((currentStep + 1) / TOTAL_STEPS) * 100);
 
   return (
-    <div
-      className="min-h-screen bg-gray-950 text-white"
-      dir="rtl"
-    >
-      {/* Header */}
+    <div className="min-h-screen bg-gray-950 text-white" dir="rtl">
       <header className="sticky top-0 z-10 bg-gray-950/90 backdrop-blur border-b border-gray-800">
         <div className="max-w-2xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between mb-3">
@@ -145,7 +120,6 @@ export default function WizardPage() {
               {currentStep + 1} / {TOTAL_STEPS}
             </span>
           </div>
-          {/* Progress bar */}
           <div className="h-1.5 bg-gray-800 rounded-full overflow-hidden">
             <div
               className="h-full bg-violet-500 rounded-full transition-all duration-500"
@@ -155,24 +129,30 @@ export default function WizardPage() {
           <p className="text-gray-400 text-sm mt-2">
             {STEP_TITLES[currentStep]}
           </p>
-          {/* DEV HINT — only visible in development */}
           {process.env.NODE_ENV === "development" && (
             <p className="text-gray-600 text-xs mt-1 font-mono">
               [DEV] Ctrl+Shift+D → ملء تلقائي للحقول الـ 37 (3 سيناريوهات تدور)
             </p>
           )}
-          {/* Dev hint */}
-          {process.env.NODE_ENV === "development" && (
-            <p className="text-gray-600 text-xs mt-1">
-              [DEV] Ctrl+Shift+D → ملء تلقائي + انتقال للمراجعة
-            </p>
-          )}
         </div>
       </header>
-
-      {/* Step content */}
+{process.env.NODE_ENV === "development" && (
+  <button
+    onClick={() => {
+      const filled = getDummyData();
+      const profileName = getCurrentProfileName();
+      (Object.keys(filled) as (keyof typeof filled)[]).forEach((key) => {
+        setField(key, filled[key] as any);
+      });
+      setStep(12);
+      showToast(`تم ملء البيانات — ${profileName}`);
+    }}
+    className="text-xs bg-violet-900/50 border border-violet-700 text-violet-300 px-3 py-1 rounded-lg hover:bg-violet-800/50 transition-colors"
+  >
+    🧪 ملء تلقائي
+  </button>
+)}
       <main className="max-w-2xl mx-auto px-4 py-8">
-        {/* Step indicator dots */}
         <div className="flex gap-1 justify-center mb-8 flex-wrap">
           {Array.from({ length: TOTAL_STEPS }).map((_, i) => (
             <button
@@ -205,8 +185,7 @@ export default function WizardPage() {
         {currentStep === 12 && (
           <Step12_Review onBack={goBack} onGoToStep={goToStep} />
         )}
-              {/* Toast notification */}
-      <DevToast message={toast ?? ""} visible={toast !== null} />
+        <DevToast message={toast ?? ""} visible={toast !== null} />
       </main>
     </div>
   );

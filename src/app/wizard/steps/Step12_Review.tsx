@@ -122,8 +122,8 @@ export default function Step12_Review({ onBack, onGoToStep }: { onBack: () => vo
 
     setIsSubmitting(true);
     try {
-      const res = await fetch("http://localhost:3000/api/generate", {
-        method: "POST",
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+      const res = await fetch(`${API_URL}/api/generate`, {        method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });

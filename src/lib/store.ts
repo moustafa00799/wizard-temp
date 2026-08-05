@@ -105,7 +105,7 @@ export const useWizardStore = create<WizardStore>()(
     (set) => ({
       // FIX E: runtime state - always starts fresh, not restored from storage
       currentStep: 0,
-      completedSteps: new Set<number>(),
+      completedSteps: [],
       data: { ...EMPTY_DATA },
 
       setStep: (step) => set({ currentStep: step }),
@@ -121,7 +121,7 @@ export const useWizardStore = create<WizardStore>()(
       resetWizard: () =>
         set({
           currentStep: 0,
-          completedSteps: new Set<number>(),
+          completedSteps: [],
           data: { ...EMPTY_DATA },
         }),
     }),
