@@ -1,223 +1,340 @@
+/**
+ * Campaign Engine Builder — Step 12: Review & Generate
+ */
+
 "use client";
-import { useState } from "react";
+
+import React, { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useWizardStore, DataModel } from "@/lib/store";
 
-// FIX B: Required fields the backend will reject if missing
-const REQUIRED_FIELDS: { key: keyof DataModel; label: string; step: number }[] =
-  [
-    { key: "business_type", label: "نوع النشاط", step: 1 },
-    { key: "offer_description", label: "وصف العرض", step: 1 },
-    { key: "primary_objective", label: "الهدف الأساسي", step: 3 },
-    { key: "awareness_level", label: "مستوى الوعي", step: 5 },
-    { key: "core_message", label: "الرسالة الأساسية", step: 6 },
-  ];
+type GenerationStatus =
+  | "idle"
+  | "generating_ai"
+  | "validating"
+  | "backfilling"
+  | "adapting"
+  | "success"
+  | "error";
 
-interface SummaryRow {
-  label: string;
-  value: string;
+interface Step12ReviewProps {
+  wizardData?: any;
+  onBack?: () => void;
+  onGoToStep?: (step: number) => void;
 }
 
-function buildSummary(data: DataModel): SummaryRow[] {
-  const label = (v: string | null | undefined) => v ?? "—";
-  const arr = (v: string[]) => (v.length ? v.join("، ") : "—");
-
-  return [
-    { label: "المسار", value: label(data.build_mode) },
-    { label: "نوع النشاط", value: label(data.business_type) },
-    { label: "وصف العرض", value: label(data.offer_description) },
-    { label: "طريقة البيع", value: label(data.sales_motion) },
-    { label: "مشكلة العميل", value: label(data.customer_problem) },
-    { label: "الميزة التنافسية", value: label(data.usp) },
-    { label: "الهدف الأساسي", value: label(data.primary_objective) },
-    { label: "مؤشر النجاح", value: label(data.north_star_kpi) },
-    { label: "الأصول الموجودة", value: arr(data.existing_assets) },
-    { label: "الجمهور المثالي", value: label(data.ideal_customer) },
-    { label: "مستوى الوعي", value: label(data.awareness_level) },
-    { label: "النطاق الجغرافي", value: label(data.geo_scope) },
-    { label: "نوع العرض", value: label(data.offer_type) },
-    { label: "الرسالة الأساسية", value: label(data.core_message) },
-    { label: "القنوات الإعلانية", value: arr(data.ad_channels) },
-    { label: "وجهة التحويل", value: label(data.conversion_destination) },
-    { label: "الميزانية اليومية", value: label(data.budget_band) },
-    { label: "مرونة الميزانية", value: label(data.budget_flexibility) },
-    { label: "متوسط قيمة الطلب", value: data.average_order_value ? String(data.average_order_value) : "—" },
-    { label: "حالة التتبع", value: label(data.tracking_status) },
-    { label: "القيود", value: arr(data.constraints) },
-    { label: "الأولوية الأولى", value: label(data.top_priority) },
-    { label: "مستوى المخاطرة", value: label(data.risk_tolerance) },
-  ];
+interface GenerationResult {
+  success: boolean;
+  data?: unknown;
+  source?: string;
+  aiGenerated?: boolean;
+  backfilled?: boolean;
+  aiError?: string | null;
+  latencyMs?: number;
+  totalLatencyMs?: number;
+  error?: string;
 }
 
-export default function Step12_Review({ onBack, onGoToStep }: { onBack: () => void; onGoToStep: (step: number) => void }) {
-  const { data } = useWizardStore();
-  // FIX D: resetWizard is NOT called here — it's called on the blueprint page
+function extractWizardData(value: any): any | null {
+  if (!value || typeof value !== "object") return null;
+
+  const candidates = [
+    value?.state?.data,
+    value?.data,
+    value?.wizardData,
+    value?.formData,
+    value,
+  ];
+
+  for (const candidate of candidates) {
+    if (
+      candidate &&
+      typeof candidate === "object" &&
+      !Array.isArray(candidate) &&
+      Object.keys(candidate).length > 0
+    ) {
+      return candidate;
+    }
+  }
+
+  return null;
+}
+
+function getValue(data: any, ...keys: string[]): any {
+  for (const key of keys) {
+    const value = data?.[key];
+    if (value !== undefined && value !== null && value !== "") {
+      return value;
+    }
+  }
+  return "غير محدد";
+}
+
+function displayValue(value: any, fallback = "غير محدد"): string {
+  if (value === undefined || value === null || value === "") return fallback;
+  if (typeof value === "string" || typeof value === "number") return String(value);
+  if (typeof value === "boolean") return value ? "نعم" : "لا";
+  if (Array.isArray(value)) {
+    return value.map((item) => displayValue(item, "")).filter(Boolean).join("، ") || fallback;
+  }
+  if (typeof value === "object") {
+    if ("value" in value) return displayValue(value.value, fallback);
+    if (value.name) return String(value.name);
+    if (value.label) return String(value.label);
+    if (value.description) return String(value.description);
+  }
+  return fallback;
+}
+
+export default function Step12_Review({ wizardData: passedWizardData, onBack }: Step12ReviewProps) {
   const router = useRouter();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [missingFields, setMissingFields] = useState<typeof REQUIRED_FIELDS>([]);
+  const [wizardData, setWizardData] = useState<any | null>(
+    extractWizardData(passedWizardData)
+  );
+  const [status, setStatus] = useState<GenerationStatus>("idle");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [resultMeta, setResultMeta] = useState<{
+    source: string;
+    aiGenerated: boolean;
+    backfilled: boolean;
+    totalLatencyMs: number;
+  } | null>(null);
 
-  const summary = buildSummary(data);
-
-  const handleSubmit = async () => {
-    setError(null);
-
-    // FIX B: Validate required fields before sending
-    const missing = REQUIRED_FIELDS.filter((f) => {
-      const val = data[f.key];
-      if (val === null || val === undefined) return true;
-      if (typeof val === "string" && val.trim() === "") return true;
-      return false;
-    });
-
-    if (missing.length > 0) {
-      setMissingFields(missing);
+  useEffect(() => {
+    const direct = extractWizardData(passedWizardData);
+    if (direct) {
+      setWizardData(direct);
       return;
     }
-    setMissingFields([]);
 
-    // FIX B: Build payload with safe fallbacks — backend never receives null for any field
-    const payload = {
-      build_mode: data.build_mode ?? "new_campaign",
-      business_type: data.business_type!, // validated above
-      offer_description: data.offer_description?.trim() || "",
-      sales_motion: data.sales_motion ?? "multi_channel",
-      customer_problem: data.customer_problem?.trim() || "",
-      key_value_drivers: data.key_value_drivers ?? [],
-      usp: data.usp?.trim() || "",
-      primary_objective: data.primary_objective!, // validated above
-      secondary_objectives: data.secondary_objectives ?? [],
-      north_star_kpi: data.north_star_kpi ?? "sales_count",
-      existing_assets: data.existing_assets ?? [],
-      previous_campaigns_status: data.previous_campaigns_status ?? "none",
-      past_performance_notes: data.past_performance_notes?.trim() || "",
-      ideal_customer: data.ideal_customer?.trim() || "",
-      awareness_level: data.awareness_level!, // validated above
-      audience_segments: data.audience_segments ?? [],
-      geo_scope: data.geo_scope ?? "country",
-      target_locations: data.target_locations ?? [],
-      offer_type: data.offer_type ?? "no_clear_offer",
-      core_message: data.core_message?.trim() || "", // validated above (non-empty)
-      objections: data.objections ?? [],
-      persuasion_angle: data.persuasion_angle ?? "value",
-      conversion_destination: data.conversion_destination ?? "website",
-      ad_channels: data.ad_channels ?? [],
-      campaign_direction: data.campaign_direction ?? "unknown",
-      budget_band: data.budget_band ?? "unknown",
-      budget_flexibility: data.budget_flexibility ?? "flexible",
-      average_order_value: data.average_order_value ?? 0,
-      profit_margin: data.profit_margin ?? 0,
-      max_cac: data.max_cac ?? 0,
-      tracking_status: data.tracking_status ?? "unknown",
-      tracking_tools: data.tracking_tools ?? [],
-      key_events: data.key_events ?? [],
-      conversion_model: data.conversion_model ?? "unknown",
-      creative_assets: data.creative_assets ?? [],
-      content_capacity: data.content_capacity ?? "slow",
-      constraints: data.constraints ?? [],
-      response_speed: data.response_speed ?? "unknown",
-      top_priority: data.top_priority ?? "increase_demand",
-      risk_tolerance: data.risk_tolerance ?? "medium",
-    };
+    const keys = ["wizard-draft", "wizardData", "wizard-data", "wizard_state"];
+    for (const key of keys) {
+      const stored = localStorage.getItem(key);
+      if (!stored) continue;
 
-    setIsSubmitting(true);
+      try {
+        const parsed = JSON.parse(stored);
+        const extracted = extractWizardData(parsed);
+        if (extracted) {
+          setWizardData(extracted);
+          console.log(`[Step12] Loaded wizard data from localStorage: ${key}`);
+          return;
+        }
+      } catch (error) {
+        console.warn(`[Step12] Failed to parse ${key}`, error);
+      }
+    }
+
+    console.warn("[Step12] No wizard data found");
+  }, [passedWizardData]);
+
+  const progressSteps: { key: GenerationStatus; label: string; description: string }[] = [
+    { key: "generating_ai", label: "جاري بناء الاستراتيجية بالذكاء الاصطناعي", description: "Gemini يحلل بياناتك ويبني Blueprint مخصص..." },
+    { key: "validating", label: "التحقق من صحة البيانات", description: "يتم التأكد من اكتمال الأقسام الـ 11..." },
+    { key: "backfilling", label: "تعبئة البيانات الناقصة", description: "Rules Engine يُكمل أي قسم غير مكتمل..." },
+    { key: "adapting", label: "تحويل البيانات للعرض", description: "جاري تجهيز Blueprint للعرض النهائي..." },
+  ];
+
+  const generateBlueprint = useCallback(async () => {
+    if (!wizardData) {
+      setErrorMessage("لا توجد بيانات Wizard متاحة. يرجى العودة وإكمال الخطوات السابقة.");
+      setStatus("error");
+      return;
+    }
+
+    setStatus("generating_ai");
+    setErrorMessage("");
+    setResultMeta(null);
+
     try {
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
-      const res = await fetch(`${API_URL}/api/generate`, {        method: "POST",
+      const response = await fetch("/api/generate", {
+        method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(wizardData),
       });
 
-      const json = await res.json();
+      await new Promise((r) => setTimeout(r, 400));
+      setStatus("validating");
+      await new Promise((r) => setTimeout(r, 400));
+      setStatus("backfilling");
+      await new Promise((r) => setTimeout(r, 400));
+      setStatus("adapting");
+      await new Promise((r) => setTimeout(r, 300));
 
-            if (!res.ok || json.success === false) {
-        const backendErrors = json.errors ?? [json.message ?? json.error ?? "خطأ من الخادم"];
-        const errorText = Array.isArray(backendErrors) ? backendErrors.join("، ") : backendErrors;
-        throw new Error(errorText);
+      const result: GenerationResult = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || "فشل في إنشاء الـ Blueprint");
       }
 
-      // Store blueprint in sessionStorage so blueprint page can read it
-      sessionStorage.setItem("wizard_blueprint", JSON.stringify(json.blueprint ?? json));
-      router.push("/blueprint");
-    } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "حدث خطأ غير متوقع";
-      setError(msg);
-    } finally {
-      setIsSubmitting(false);
+      if (result.data && typeof result.data === "object") {
+        // Keep the original Wizard inputs alongside the generated Blueprint.
+        const blueprintWithInput = {
+          ...(result.data as Record<string, unknown>),
+          wizard_input: wizardData,
+        };
+        sessionStorage.setItem("blueprint_data", JSON.stringify(blueprintWithInput));
+        sessionStorage.setItem("wizard_input", JSON.stringify(wizardData));
+      }
+
+      setResultMeta({
+        source: result.source || "unknown",
+        aiGenerated: result.aiGenerated || false,
+        backfilled: result.backfilled || false,
+        totalLatencyMs: result.totalLatencyMs || 0,
+      });
+
+      setStatus("success");
+      setTimeout(() => router.push("/blueprint"), 1000);
+    } catch (error) {
+      const msg = error instanceof Error ? error.message : "حدث خطأ غير متوقع";
+      setErrorMessage(msg);
+      setStatus("error");
     }
+  }, [wizardData, router]);
+
+  if (!wizardData) {
+    return (
+      <div className="max-w-2xl mx-auto p-6 text-center space-y-4" dir="rtl">
+        <h2 className="text-xl font-bold text-gray-900">جاري تحميل بيانات الـ Wizard...</h2>
+        <p className="text-sm text-gray-500">إذا استمر التحميل، ارجع للخطوة السابقة ثم عد إلى المراجعة.</p>
+        {onBack && (
+          <button onClick={onBack} className="px-5 py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg font-medium">
+            العودة للخطوة السابقة
+          </button>
+        )}
+      </div>
+    );
+  }
+
+  // Normalize older drafts that may still be nested under state.data.
+  const raw =
+    wizardData?.state?.data && typeof wizardData.state.data === "object"
+      ? wizardData.state.data
+      : wizardData;
+
+  const get = (...keys: string[]) => {
+    for (const key of keys) {
+      const value = raw?.[key];
+      if (value !== undefined && value !== null && value !== "") return value;
+    }
+    return "غير محدد";
   };
 
+  const businessType = get("business_type");
+  const objective = get("primary_objective", "primary_goal", "objective");
+  const budget = get("budget_band", "daily_budget", "budget");
+  const channels = get("ad_channels", "preferred_channels", "channels");
+  const offer = get("offer_description", "offer");
+  const tracking = get("tracking_status", "has_tracking_setup");
+  const salesMotion = get("sales_motion", "conversion_destination");
+  const destination = get("conversion_destination");
+  const locations = get("target_locations", "audience_locations");
+
+  const additionalFields: Array<[string, unknown]> = [
+    ["الصناعة", get("industry")],
+    ["نوع العرض", get("offer_type")],
+    ["العميل المثالي", get("ideal_customer")],
+    ["مستوى الوعي", get("awareness_level")],
+    ["الشرائح المستهدفة", get("audience_segments")],
+    ["الاعتراضات", get("objections")],
+    ["زاوية الإقناع", get("persuasion_angle")],
+    ["اتجاه الحملة", get("campaign_direction")],
+    ["مرونة الميزانية", get("budget_flexibility")],
+    ["متوسط قيمة الطلب", get("average_order_value")],
+    ["هامش الربح", get("profit_margin")],
+    ["أقصى CAC", get("max_cac")],
+    ["أدوات التتبع", get("tracking_tools")],
+    ["الأحداث الرئيسية", get("key_events")],
+    ["نموذج التحويل", get("conversion_model")],
+    ["الأصول الإبداعية", get("creative_assets")],
+    ["قدرة إنتاج المحتوى", get("content_capacity")],
+    ["القيود", get("constraints")],
+    ["سرعة الاستجابة", get("response_speed")],
+    ["الأولوية القصوى", get("top_priority")],
+    ["درجة تحمل المخاطر", get("risk_tolerance")],
+  ];
+
   return (
-    <div dir="rtl">
-      <h2 className="text-xl font-bold text-white mb-6">مراجعة البيانات</h2>
+    <div className="max-w-3xl mx-auto p-6 space-y-6" dir="rtl">
+      <div className="text-center space-y-2">
+        <h2 className="text-2xl font-bold text-gray-900">مراجعة نهائية وإنشاء الـ Blueprint</h2>
+        <p className="text-gray-600">سنقوم بتحليل بياناتك وإنشاء استراتيجية إعلانية كاملة مكونة من 11 قسم</p>
+      </div>
 
-      {/* Missing fields warning */}
-      {missingFields.length > 0 && (
-        <div className="mb-6 p-4 bg-red-900/40 border border-red-700 rounded-xl">
-          <p className="text-red-300 font-semibold mb-3">
-            ⚠️ يرجى إكمال الحقول الإلزامية التالية:
-          </p>
-          <ul className="space-y-2">
-            {missingFields.map((f) => (
-              <li key={f.key} className="flex items-center justify-between">
-                <span className="text-red-200 text-sm">{f.label}</span>
-                <button
-                  onClick={() => onGoToStep(f.step)}
-                  className="text-xs bg-red-700 hover:bg-red-600 text-white px-3 py-1 rounded-lg transition-colors"
-                >
-                  اذهب للخطوة {f.step}
-                </button>
-              </li>
+      <div className="bg-gray-50 rounded-xl p-5 border border-gray-200 space-y-4">
+        <div className="flex items-center justify-between gap-3">
+          <h3 className="font-semibold text-gray-800">ملخص البيانات المدخلة</h3>
+          <span className="text-xs text-gray-500">بيانات الـ Wizard الفعلية</span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+          <div className="bg-white rounded-lg p-3 border"><span className="text-gray-500 block text-xs">نوع النشاط</span><span className="font-medium text-gray-900">{displayValue(businessType)}</span></div>
+          <div className="bg-white rounded-lg p-3 border"><span className="text-gray-500 block text-xs">الهدف</span><span className="font-medium text-gray-900">{displayValue(objective)}</span></div>
+          <div className="bg-white rounded-lg p-3 border"><span className="text-gray-500 block text-xs">نطاق الميزانية</span><span className="font-medium text-gray-900">{displayValue(budget)}</span></div>
+          <div className="bg-white rounded-lg p-3 border"><span className="text-gray-500 block text-xs">القنوات</span><span className="font-medium text-gray-900">{displayValue(channels)}</span></div>
+          <div className="bg-white rounded-lg p-3 border sm:col-span-2"><span className="text-gray-500 block text-xs">العرض</span><span className="font-medium text-gray-900 text-sm leading-relaxed">{displayValue(offer)}</span></div>
+          <div className="bg-white rounded-lg p-3 border"><span className="text-gray-500 block text-xs">التتبع</span><span className="font-medium text-gray-900">{displayValue(tracking)}</span></div>
+          <div className="bg-white rounded-lg p-3 border"><span className="text-gray-500 block text-xs">طريقة البيع</span><span className="font-medium text-gray-900">{displayValue(salesMotion)}</span></div>
+          <div className="bg-white rounded-lg p-3 border"><span className="text-gray-500 block text-xs">وجهة التحويل</span><span className="font-medium text-gray-900">{displayValue(destination)}</span></div>
+          <div className="bg-white rounded-lg p-3 border"><span className="text-gray-500 block text-xs">المواقع المستهدفة</span><span className="font-medium text-gray-900">{displayValue(locations)}</span></div>
+        </div>
+
+        <details className="bg-white rounded-lg border">
+          <summary className="cursor-pointer px-4 py-3 text-sm font-semibold text-gray-700">عرض باقي بيانات الـ Wizard</summary>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4 border-t text-sm">
+            {additionalFields.map(([label, value]) => (
+              <div key={label} className="rounded-lg p-3 bg-gray-50 border">
+                <span className="text-gray-500 block text-xs mb-1">{label}</span>
+                <span className="font-medium text-gray-900 break-words">{displayValue(value)}</span>
+              </div>
             ))}
-          </ul>
+          </div>
+        </details>
+      </div>
+
+      {status !== "idle" && status !== "error" && status !== "success" && (
+        <div className="bg-blue-50 rounded-xl p-6 border border-blue-200 space-y-4">
+          <div className="flex items-center justify-center"><div className="w-10 h-10 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin" /></div>
+          <div className="space-y-3">
+            {progressSteps.map((step, index) => {
+              const current = progressSteps.findIndex((s) => s.key === status);
+              const isActive = step.key === status;
+              const isDone = current > index;
+              return (
+                <div key={step.key} className={`flex items-center gap-3 ${isActive ? "opacity-100" : isDone ? "opacity-60" : "opacity-30"}`}>
+                  <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${isDone ? "bg-green-500 text-white" : isActive ? "bg-blue-600 text-white animate-pulse" : "bg-gray-300 text-gray-600"}`}>{isDone ? "✓" : index + 1}</div>
+                  <div><p className="font-medium text-sm">{step.label}</p>{isActive && <p className="text-xs text-gray-500">{step.description}</p>}</div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       )}
 
-      {/* Error from backend */}
-      {error && (
-        <div className="mb-6 p-4 bg-red-900/40 border border-red-700 rounded-xl">
-          <p className="text-red-300 text-sm">❌ {error}</p>
+      {status === "success" && (
+        <div className="bg-green-50 rounded-xl p-6 border border-green-200 text-center space-y-3">
+          <div className="w-12 h-12 bg-green-500 text-white rounded-full flex items-center justify-center text-2xl mx-auto">✓</div>
+          <h3 className="text-lg font-bold text-green-800">تم إنشاء الـ Blueprint بنجاح!</h3>
+          {resultMeta && <div className="text-sm text-green-700 space-y-1"><p>المصدر: <span className="font-semibold">{resultMeta.aiGenerated ? "AI + Rules Backfill" : "Rules Engine"}</span></p>{resultMeta.backfilled && <p>تمت تعبئة البيانات الناقصة تلقائياً</p>}<p className="text-xs text-green-600">الوقت: {(resultMeta.totalLatencyMs / 1000).toFixed(1)} ثانية</p></div>}
+          <p className="text-sm text-gray-500">جاري التوجيه إلى صفحة العرض...</p>
         </div>
       )}
 
-      {/* Summary table */}
-      <div className="bg-gray-800/50 rounded-xl border border-gray-700 overflow-hidden mb-8">
-        <div className="divide-y divide-gray-700/50">
-          {summary.map((row) => (
-            <div
-              key={row.label}
-              className="flex justify-between items-start px-4 py-3 hover:bg-gray-700/20 transition-colors"
-            >
-              <span className="text-gray-400 text-sm min-w-[120px]">{row.label}</span>
-              <span className="text-gray-200 text-sm text-right max-w-[60%] break-words">
-                {row.value}
-              </span>
-            </div>
-          ))}
+      {status === "error" && (
+        <div className="bg-red-50 rounded-xl p-6 border border-red-200 text-center space-y-4">
+          <div className="w-12 h-12 bg-red-500 text-white rounded-full flex items-center justify-center text-2xl mx-auto">✕</div>
+          <h3 className="text-lg font-bold text-red-800">حدث خطأ أثناء الإنشاء</h3>
+          <p className="text-sm text-red-700">{errorMessage}</p>
+          <div className="flex gap-3 justify-center"><button onClick={generateBlueprint} className="px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium">إعادة المحاولة</button>{onBack && <button onClick={onBack} className="px-5 py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg font-medium">العودة للتعديل</button>}</div>
         </div>
-      </div>
+      )}
 
-      {/* Actions */}
-      <div className="flex justify-between items-center gap-4">
-        <button
-          onClick={onBack}
-          className="px-5 py-2.5 rounded-xl border border-gray-700 text-gray-400 text-sm hover:bg-gray-800 hover:text-gray-200 transition-colors"
-        >
-          ← السابق
-        </button>
-
-        <button
-          onClick={handleSubmit}
-          disabled={isSubmitting}
-          className={`px-8 py-3 rounded-xl font-bold text-sm transition-all duration-200 shadow-lg
-            ${isSubmitting
-              ? "bg-gray-700 text-gray-500 cursor-not-allowed"
-              : "bg-green-600 hover:bg-green-500 text-white shadow-green-900/30"
-            }`}
-        >
-          {isSubmitting ? "جارٍ الإرسال..." : "✓ تأكيد وإرسال"}
-        </button>
-      </div>
+      {status === "idle" && (
+        <div className="flex gap-3">
+          {onBack && <button onClick={onBack} className="flex-1 px-5 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl font-medium">السابق</button>}
+          <button onClick={generateBlueprint} className="flex-[2] px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-lg shadow-lg shadow-blue-200">إنشاء الـ Blueprint</button>
+        </div>
+      )}
     </div>
   );
 }

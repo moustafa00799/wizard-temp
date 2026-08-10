@@ -2,6 +2,10 @@
  * blueprint-engine.ts
  * Rules Engine: WizardPayload → RichBlueprintData
  * All rule functions are pure and independently testable.
+ *
+ * NEW (v3): Added generateSection() for granular fallback per section.
+ * When AI fails on a specific phase, we generate only the missing sections
+ * from rules instead of regenerating the entire blueprint.
  */
 
 import type {
@@ -48,7 +52,6 @@ interface ReadinessResult {
 }
 
 export function calcReadiness(data: WizardPayload): ReadinessResult {
-  // assets (0-20)
   const assetScore = Math.min(
     20,
     data.existing_assets.length * 2 +
@@ -56,13 +59,11 @@ export function calcReadiness(data: WizardPayload): ReadinessResult {
       (data.existing_assets.includes("landing_page") || data.existing_assets.includes("website") ? 3 : 0)
   );
 
-  // tracking (0-20)
   let trackingScore = 0;
   if (data.tracking_status === "ready") trackingScore = 20;
   else if (data.tracking_status === "partial") trackingScore = 10;
   else if (data.tracking_status === "issues") trackingScore = 5;
 
-  // content (0-20)
   let contentScore = 0;
   if (data.content_capacity === "easy") contentScore = 20;
   else if (data.content_capacity === "slow") contentScore = 12;
@@ -70,7 +71,6 @@ export function calcReadiness(data: WizardPayload): ReadinessResult {
   contentScore += Math.min(6, data.creative_assets.filter((a) => a !== "none").length * 2);
   contentScore = Math.min(20, contentScore);
 
-  // conversion_path (0-20)
   let pathScore = 0;
   if (data.conversion_destination === "website" || data.conversion_destination === "store") pathScore = 15;
   else if (data.conversion_destination === "whatsapp" || data.conversion_destination === "messenger") pathScore = 12;
@@ -78,7 +78,6 @@ export function calcReadiness(data: WizardPayload): ReadinessResult {
   else pathScore = 8;
   if (data.existing_assets.includes("crm")) pathScore = Math.min(20, pathScore + 5);
 
-  // data_completeness (0-20)
   const keyFields = [
     data.business_type, data.offer_description, data.core_message,
     data.primary_objective, data.awareness_level, data.ideal_customer,
@@ -110,32 +109,27 @@ interface RiskResult {
 }
 
 export function calcRisk(data: WizardPayload, readiness: ReadinessResult): RiskResult {
-  // tracking risk (0-20)
   const trackingRisk =
     data.tracking_status === "missing" ? 20 :
     data.tracking_status === "issues"  ? 15 :
     data.tracking_status === "unknown" ? 12 :
     data.tracking_status === "partial" ?  8 : 0;
 
-  // budget risk (0-10)
   const budgetRisk =
     data.budget_band === "under_100" ? 10 :
     data.budget_band === "100_300"   ?  5 :
     data.budget_band === "unknown"   ?  7 : 3;
 
-  // content risk (0-10)
   const contentRisk =
     data.content_capacity === "no"   ? 10 :
     data.content_capacity === "hard" ?  7 :
     data.content_capacity === "slow" ?  4 : 0;
 
-  // response risk (0-5)
   const responseRisk =
     data.response_speed === "slower"  ? 5 :
     data.response_speed === "unknown" ? 4 :
     data.response_speed === "within_day" ? 2 : 0;
 
-  // constraints risk (0-10)
   const constraintRisk = Math.min(10, data.constraints.length * 2);
 
   const total = trackingRisk + budgetRisk + contentRisk + responseRisk + constraintRisk;
@@ -161,7 +155,6 @@ function determineObjective(data: WizardPayload): StrategySummary["recommended_o
   let confidence = 85;
   let reasoning = `Primary objective from wizard: ${value}.`;
 
-  // Override for first-timers with low awareness
   if (data.previous_campaigns_status === "none" && data.awareness_level === "unaware") {
     value = "awareness";
     confidence = 80;
@@ -192,15 +185,12 @@ function determineChannels(data: WizardPayload): StrategySummary["recommended_ch
   const base = CHANNEL_BASE_SCORES[data.business_type] ?? CHANNEL_BASE_SCORES["other"];
   const scores = { ...base };
 
-  // Boost user-selected channels
   for (const ch of data.ad_channels) {
     if (scores[ch] !== undefined) scores[ch] = Math.min(100, scores[ch] + 15);
   }
 
-  // WhatsApp motion boosts Meta
   if (data.sales_motion === "whatsapp") scores["meta"] = Math.min(100, scores["meta"] + 10);
 
-  // Sort top channels
   const sorted = Object.entries(scores)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 3)
@@ -346,18 +336,15 @@ function buildBudgetSplit(data: WizardPayload, channels: string[]): RichBudgetSp
   const band = BUDGET_BAND_MAP[data.budget_band] ?? BUDGET_BAND_MAP["unknown"];
   const flexible = data.budget_flexibility !== "fixed";
 
-  // Channel allocation
   const alloc: Record<string, number> = {};
   const perChannel = Math.floor(100 / channels.length);
   channels.forEach((ch, i) => {
     alloc[ch] = i === 0 ? 100 - perChannel * (channels.length - 1) : perChannel;
   });
 
-  // Test budget: 30% for new campaigns, 20% for returning
   const testPct = data.previous_campaigns_status === "none" ? 0.3 : 0.2;
   const testAmount = Math.round(band.recommended * testPct);
 
-  // CAC target
   let cacValue = data.max_cac && data.max_cac > 0 ? data.max_cac : 0;
   let cacSource = "user_defined";
   if (cacValue === 0 && data.average_order_value > 0 && data.profit_margin > 0) {
@@ -725,7 +712,6 @@ function buildPreLaunchFixes(data: WizardPayload, tracking: RichTrackingChecklis
   });
 
   const totalHours = mustFix.reduce((acc, f) => acc + parseInt(f.estimated_time), 0);
-  const totalItems = mustFix.length + shouldFix.length + niceToHave.length;
 
   return {
     must_fix: mustFix,
@@ -829,11 +815,9 @@ export function generateBlueprint(data: WizardPayload): RichBlueprintData {
   const start = Date.now();
   const flags: BlueprintFlags = { errors: [], warnings: [], infos: [] };
 
-  // ── Core calculations ──
   const readiness = calcReadiness(data);
   const risk      = calcRisk(data, readiness);
 
-  // ── Rule results ──
   const objResult      = determineObjective(data);
   const channelResult  = determineChannels(data);
   const objective      = objResult.value;
@@ -860,12 +844,12 @@ export function generateBlueprint(data: WizardPayload): RichBlueprintData {
   const preLaunch   = buildPreLaunchFixes(data, tracking);
   const budget      = buildBudgetSplit(data, channels);
 
-  // Populate flags from critical risks
   for (const c of riskFlags.critical) flags.warnings.push(c.message);
 
   const elapsed = Date.now() - start;
 
   return {
+    wizard_input: data,
     blueprint_id: `bp_${uid()}_${uid()}`,
     version: "1.0.0",
     rule_engine_version: "1.0.0",
@@ -891,4 +875,90 @@ export function generateBlueprint(data: WizardPayload): RichBlueprintData {
       },
     },
   };
+}
+
+// ─── NEW: Granular Section Generator ─────────────────────────────────────────
+
+export type SectionName =
+  | "executive_summary"
+  | "strategy_summary"
+  | "recommended_funnel"
+  | "campaign_structure"
+  | "audience_structure"
+  | "budget_split"
+  | "creative_angles"
+  | "tracking_checklist"
+  | "risk_flags"
+  | "first_14_days_plan"
+  | "pre_launch_fixes";
+
+/**
+ * Generate a single section from Rules Engine.
+ * Used as granular fallback when AI fails on a specific phase.
+ */
+export function generateSection(
+  sectionName: SectionName,
+  data: WizardPayload
+): Partial<RichBlueprintData> {
+  const readiness = calcReadiness(data);
+  const risk = calcRisk(data, readiness);
+  const objResult = determineObjective(data);
+  const channelResult = determineChannels(data);
+  const objective = objResult.value;
+  const channels = channelResult.value;
+
+  switch (sectionName) {
+    case "executive_summary":
+      return { executive_summary: buildExecutiveSummary(data, readiness, risk) };
+
+    case "strategy_summary": {
+      const funnelType = determineFunnelType(data);
+      const funnelStages = buildFunnelStages(funnelType, objective);
+      return {
+        strategy_summary: {
+          recommended_objective: objResult,
+          recommended_channels: channelResult,
+          funnel_type: {
+            value: funnelType,
+            stages: funnelStages.map((s) => s.name),
+            confidence: 85,
+            reasoning: `${data.sales_motion} sales motion requires ${funnelType}-optimized funnel.`,
+            rule_id: "SS-003",
+          },
+          confidence_score: buildConfidenceScore(data, readiness),
+          estimated_timeline: buildEstimatedTimeline(data, readiness),
+        },
+      };
+    }
+
+    case "recommended_funnel":
+      return { recommended_funnel: buildRecommendedFunnel(data, objective) };
+
+    case "campaign_structure":
+      return { campaign_structure: buildCampaignStructure(data, channels, objective) };
+
+    case "audience_structure":
+      return { audience_structure: buildAudienceStructure(data) };
+
+    case "budget_split":
+      return { budget_split: buildBudgetSplit(data, channels) };
+
+    case "creative_angles":
+      return { creative_angles: buildCreativeAngles(data) };
+
+    case "tracking_checklist":
+      return { tracking_checklist: buildTrackingChecklist(data) };
+
+    case "risk_flags":
+      return { risk_flags: buildRiskFlags(data, risk, readiness) };
+
+    case "first_14_days_plan":
+      return { first_14_days_plan: build14DaysPlan(data, readiness) };
+
+    case "pre_launch_fixes":
+      return { pre_launch_fixes: buildPreLaunchFixes(data, buildTrackingChecklist(data)) };
+
+    default:
+      return {};
+  }
 }

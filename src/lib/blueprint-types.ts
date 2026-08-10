@@ -8,48 +8,8 @@
 // 1. Wizard Payload (what Step12_Review.tsx sends)
 // ─────────────────────────────────────────────────────────────────────────────
 
-export interface WizardPayload {
-  build_mode: string;
-  business_type: string;
-  offer_description: string;
-  sales_motion: string;
-  customer_problem: string;
-  key_value_drivers: string[];
-  usp: string;
-  primary_objective: string;
-  secondary_objectives: string[];
-  north_star_kpi: string;
-  existing_assets: string[];
-  previous_campaigns_status: string;
-  past_performance_notes: string;
-  ideal_customer: string;
-  awareness_level: string;
-  audience_segments: string[];
-  geo_scope: string;
-  target_locations: string[];
-  offer_type: string;
-  core_message: string;
-  objections: string[];
-  persuasion_angle: string;
-  conversion_destination: string;
-  ad_channels: string[];
-  campaign_direction: string;
-  budget_band: string;
-  budget_flexibility: string;
-  average_order_value: number;
-  profit_margin: number;
-  max_cac: number;
-  tracking_status: string;
-  tracking_tools: string[];
-  key_events: string[];
-  conversion_model: string;
-  creative_assets: string[];
-  content_capacity: string;
-  constraints: string[];
-  response_speed: string;
-  top_priority: string;
-  risk_tolerance: string;
-}
+export type { CanonicalWizardInput as WizardPayload } from "./contracts/wizard-input";
+import type { CanonicalWizardInput } from "./contracts/wizard-input";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // 2. Rule Engine helpers
@@ -311,6 +271,8 @@ export interface BlueprintDebug {
 // ─────────────────────────────────────────────────────────────────────────────
 
 export interface RichBlueprintData {
+  /** Canonical source data used to generate this blueprint. */
+  wizard_input: CanonicalWizardInput;
   blueprint_id: string;
   version: string;
   rule_engine_version: string;
@@ -328,6 +290,12 @@ export interface RichBlueprintData {
   pre_launch_fixes: RichPreLaunchFixes;
   flags: BlueprintFlags;
   debug: BlueprintDebug;
+  
+  // ── AI Phase 1 fields ──
+  generation_mode?: "rules" | "ai" | "hybrid" | null;
+  ai_model?: string | null;
+  ai_reasoning?: Record<string, string> | null;
+  
   [key: string]: unknown;
 }
 
@@ -589,6 +557,29 @@ export function safeStringArray(val: unknown, fallback: string[]): string[] {
   if (typeof val === "string") return val ? [val] : fallback;
   return fallback;
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 9. AI Integration types
+// ─────────────────────────────────────────────────────────────────────────────
+
+export interface AIDebugInfo {
+  ai_used: boolean;
+  ai_success: boolean;
+  ai_error: string | null;
+  total_time_ms: number;
+}
+
+export interface AIReasoningEntry {
+  section: string;
+  ai_reasoning?: string;
+  rule_fallback?: string;
+  source: "ai" | "rules" | "merged";
+}
+
+export type BlueprintWithAI = RichBlueprintData & {
+  debug?: BlueprintDebug & AIDebugInfo;
+  ai_reasoning?: AIReasoningEntry[];
+};
 
 export function safeBoolean(val: unknown, fallback: boolean): boolean {
   if (typeof val === "boolean") return val;

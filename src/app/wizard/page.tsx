@@ -183,7 +183,10 @@ export default function WizardPage() {
         {currentStep === 10 && <Step10_Resources onNext={goNext} onBack={goBack} />}
         {currentStep === 11 && <Step11_Priority onNext={goNext} onBack={goBack} />}
         {currentStep === 12 && (
-          <Step12_Review onBack={goBack} onGoToStep={goToStep} />
+          <Step12_Review 
+  onBack={goBack} 
+  onGoToStep={goToStep} 
+/>
         )}
         <DevToast message={toast ?? ""} visible={toast !== null} />
       </main>
