@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "test:rules:parity": "node scripts/rule-engine-parity.cjs",
-    "audit:data-contract": "node scripts/data-contract-audit.cjs"
+    "audit:data-contract": "node scripts/data-contract-audit.cjs",
+    "test:contracts": "node scripts/contract-tests.cjs"
   },
   "dependencies": {
     "@google/genai": "^2.16.0",
