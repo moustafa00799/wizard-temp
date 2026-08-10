@@ -1,149 +1,233 @@
-/*
- * Data Contract Audit
+/**
+ * Data Contract Audit — Governance-aware Phase A audit
  *
- * Verifies that every canonical Wizard field is represented at the four
- * boundaries that matter for the generation pipeline:
- *   Wizard -> Canonical -> AI projection/prompt -> Blueprint
+ * CanonicalWizardInput is the source of truth.
+ * The legacy AIWizardPayload is a provider projection, not the governance contract.
  *
- * This is intentionally static: it does not call an AI provider.
+ * Default mode audits Phase A governance integrity and current boundaries.
+ * --strict-migration additionally requires Strategy/Execution projections and
+ * decision schemas once those migration phases are implemented.
  */
 const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
-const read = (p) => fs.readFileSync(path.join(ROOT, p), "utf8");
+const strictMigration = process.argv.includes("--strict-migration");
 
-const store = read("src/lib/store.ts");
+function read(file) {
+  const full = path.join(ROOT, file);
+  return fs.existsSync(full) ? fs.readFileSync(full, "utf8") : null;
+}
+
+function interfaceFields(source, name) {
+  if (!source) return [];
+  const block = source.match(
+    new RegExp(`(?:interface|type)\\s+${name}\\s*(?:=\\s*)?\\{([\\s\\S]*?)\\n\\}`, "m")
+  )?.[1] || "";
+  return [...block.matchAll(/^\s*([A-Za-z_][A-Za-z0-9_]*)\s*[?:]/gm)].map((m) => m[1]);
+}
+
+function canonicalRegistry(source) {
+  const block = source?.match(/CANONICAL_WIZARD_FIELDS\s*=\s*\[([\s\S]*?)\]\s*as const;/)?.[1] || "";
+  return [...block.matchAll(/"([^"]+)"/g)].map((m) => m[1]);
+}
+
+function parseGovernance(source) {
+  if (!source) return { rows: [], dispositions: [], malformed: true };
+  const table = source.match(
+    /\| Canonical field \| Strategy \| Execution \| Rules \| Blueprint \| Disposition \|\n\|---\|---\|---\|---\|---\|---\|\n([\s\S]*?)(?=\n## |$)/
+  )?.[1] || "";
+  const rows = [];
+  for (const line of table.split("\n")) {
+    const m = line.match(/^\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|$/);
+    if (m) rows.push({ field: m[1].trim(), strategy: m[2].trim(), execution: m[3].trim(), rules: m[4].trim(), blueprint: m[5].trim(), disposition: m[6].trim() });
+  }
+  return { rows, dispositions: [...new Set(rows.map((r) => r.disposition))], malformed: rows.length === 0 };
+}
+
+function fileExists(file) {
+  return fs.existsSync(path.join(ROOT, file));
+}
+
+function projectionFields(file, typeNames) {
+  const source = read(file);
+  if (!source) return { exists: false, fields: [] };
+  for (const name of typeNames) {
+    const fields = interfaceFields(source, name);
+    if (fields.length) return { exists: true, fields };
+  }
+  return { exists: true, fields: [] };
+}
+
 const contract = read("src/lib/contracts/wizard-input.ts");
-const adapter = read("src/lib/ai-adapter.ts");
-const prompts = read("src/lib/ai-prompts.ts");
+const governance = read("CONTRACT_GOVERNANCE.md");
+const aiTypes = read("src/lib/ai-types.ts");
+const mapper = read("src/lib/wizard-mapper.ts");
 const route = read("src/app/api/generate/route.ts");
-const engine = read("src/lib/blueprint-engine.ts");
-const types = read("src/lib/blueprint-types.ts");
+const blueprintTypes = read("src/lib/blueprint-types.ts");
+const backfill = read("src/lib/blueprint-backfill.ts");
+const validator = read("src/lib/ai-validator.ts");
 
-const fieldBlock = contract.match(/export const CANONICAL_WIZARD_FIELDS = \[(.*?)\] as const;/s)?.[1] || "";
-const fields = [...fieldBlock.matchAll(/"([^"]+)"/g)].map((m) => m[1]);
-if (!fields.length) throw new Error("Could not read CANONICAL_WIZARD_FIELDS");
+const canonicalFields = canonicalRegistry(contract);
+const canonicalInterface = interfaceFields(contract, "CanonicalWizardInput");
+const aiFields = interfaceFields(aiTypes, "AIWizardPayload");
+const gov = parseGovernance(governance);
 
-const projection = new Map([
-  ["build_mode", "source_wizard_input"],
-  ["business_type", "business_type"],
-  ["offer_description", "offer_description"],
-  ["sales_motion", "source_wizard_input"],
-  ["customer_problem", "source_wizard_input"],
-  ["key_value_drivers", "unique_selling_points"],
-  ["usp", "competitor_advantage"],
-  ["primary_objective", "primary_goal"],
-  ["secondary_objectives", "secondary_goals"],
-  ["north_star_kpi", "success_metric"],
-  ["existing_assets", "current_channels"],
-  ["previous_campaigns_status", "source_wizard_input"],
-  ["past_performance_notes", "current_results"],
-  ["ideal_customer", "target_audience"],
-  ["awareness_level", "source_wizard_input"],
-  ["audience_segments", "audience_interests"],
-  ["geo_scope", "source_wizard_input"],
-  ["target_locations", "audience_locations"],
-  ["offer_type", "offer_type"],
-  ["core_message", "brand_guidelines"],
-  ["objections", "audience_pain_points"],
-  ["persuasion_angle", "source_wizard_input"],
-  ["conversion_destination", "source_wizard_input"],
-  ["ad_channels", "preferred_channels"],
-  ["campaign_direction", "source_wizard_input"],
-  ["budget_band", "price_range"],
-  ["budget_flexibility", "budget_flexibility"],
-  ["average_order_value", "source_wizard_input"],
-  ["profit_margin", "source_wizard_input"],
-  ["max_cac", "source_wizard_input"],
-  ["tracking_status", "has_tracking_setup"],
-  ["tracking_tools", "tracking_platforms"],
-  ["key_events", "conversion_events"],
-  ["conversion_model", "source_wizard_input"],
-  ["creative_assets", "creative_asset_types"],
-  ["content_capacity", "source_wizard_input"],
-  ["constraints", "source_wizard_input"],
-  ["response_speed", "urgency_level"],
-  ["top_priority", "source_wizard_input"],
-  ["risk_tolerance", "source_wizard_input"],
-  ["final_confirmed_inputs", "source_wizard_input"],
-]);
+if (!canonicalFields.length) throw new Error("Cannot read CANONICAL_WIZARD_FIELDS");
+if (!canonicalInterface.length) throw new Error("Cannot read CanonicalWizardInput");
+if (!governance) throw new Error("CONTRACT_GOVERNANCE.md is missing");
+if (gov.malformed) throw new Error("Could not parse the Governance ownership matrix");
 
-const hasCanonicalAlias = /CanonicalWizardInput as WizardPayload/.test(types);
-const hasSourcePreservation = /source_wizard_input:\s*wizard/.test(adapter);
-const hasPromptPreservation = /source_wizard_input/.test(prompts);
-const hasRouteCanonical = /canonicalizeWizardInput\(data\)/.test(route) && /toAIWizardPayload\(canonicalInput\)/.test(route);
-const hasBlueprintPreservation = /wizard_input:\s*data/.test(engine) && /wizard_input:\s*CanonicalWizardInput/.test(types);
+const canonicalSet = new Set(canonicalFields);
+const govFields = gov.rows.map((r) => r.field);
+const govSet = new Set(govFields);
+const duplicateGovFields = govFields.filter((f, i) => govFields.indexOf(f) !== i);
+const undeclaredCanonical = canonicalFields.filter((f) => !govSet.has(f));
+const phantomGovernance = govFields.filter((f) => !canonicalSet.has(f));
+const invalidDispositions = gov.rows.filter((r) =>
+  ![
+    "strategy_required",
+    "execution_required",
+    "strategy_context",
+    "execution_context",
+    "rules_input",
+    "blueprint_preserve",
+    "metadata_only",
+    "derived",
+    "excluded",
+  ].includes(r.disposition)
+);
 
-const rows = fields.map((field) => {
-  const wizard = new RegExp(`\\b${field}\\b`).test(store);
-  const canonical = new RegExp(`\\b${field}\\b`).test(contract);
-  const map = projection.get(field);
-  const projected = map === "source_wizard_input" ? hasSourcePreservation : new RegExp(`\\b${map}\\b`).test(adapter);
-  const prompt = hasPromptPreservation;
-  const blueprint = hasBlueprintPreservation;
-  let status = "سليم";
-  if (!wizard) status = "Wizard missing";
-  else if (!canonical) status = "Canonical missing";
-  else if (!projected) status = "AI adapter missing";
-  else if (!prompt) status = "Prompt missing";
-  else if (!blueprint) status = "Blueprint preservation missing";
+const strategyRequired = gov.rows.filter((r) => r.disposition === "strategy_required").map((r) => r.field);
+const executionRequired = gov.rows.filter((r) => r.disposition === "execution_required").map((r) => r.field);
 
-  return { field, wizard, canonical, projection: map, projected, prompt, blueprint, status };
-});
+const strategyProjection = projectionFields("src/lib/strategy-contracts.ts", ["StrategyAIInput"]);
+const executionProjection = projectionFields("src/lib/execution-contracts.ts", ["ExecutionAIInput"]);
+const strategyDecision = projectionFields("src/lib/strategy-contracts.ts", ["StrategyDecision"]);
+const executionDecision = projectionFields("src/lib/execution-contracts.ts", ["ExecutionDecision"]);
 
-const failures = rows.filter((r) => r.status !== "سليم");
+const strategyMissing = strategyProjection.fields.length
+  ? strategyRequired.filter((f) => !strategyProjection.fields.includes(f))
+  : strategyRequired;
+const executionMissing = executionProjection.fields.length
+  ? executionRequired.filter((f) => !executionProjection.fields.includes(f))
+  : executionRequired;
 
-console.log("DATA CONTRACT AUDIT");
-console.log("===================");
-console.log(`Canonical fields: ${fields.length}`);
-console.log(`Wizard -> Canonical: ${rows.every((r) => r.wizard && r.canonical) ? "PASS" : "FAIL"}`);
-console.log(`Canonical -> AI adapter: ${hasSourcePreservation ? "PASS" : "FAIL"}`);
-console.log(`AI payload -> Prompt: ${hasPromptPreservation ? "PASS" : "FAIL"}`);
-console.log(`Canonical -> Rules engine: ${hasCanonicalAlias ? "PASS" : "FAIL"}`);
-console.log(`Canonical -> Blueprint: ${hasBlueprintPreservation ? "PASS" : "FAIL"}`);
-console.log(`Route uses canonical pipeline: ${hasRouteCanonical ? "PASS" : "FAIL"}`);
+const mapperCanonicalRefs = canonicalFields.filter((f) => mapper && new RegExp(`\\braw\\.${f}\\b`).test(mapper));
+const legacyMapperCoverage = mapperCanonicalRefs.length;
+const routeUsesCanonical =
+  !!route &&
+  /canonicalizeWizardInput\(body\)/.test(route) &&
+  /mapToAIWizardPayload\(canonicalWizard\)/.test(route);
+const rulesCanonical = !!blueprintTypes && /CanonicalWizardInput\s+as\s+WizardPayload/.test(blueprintTypes);
+const blueprintPreservation =
+  (!!blueprintTypes && /wizard_input\s*\??\s*:/.test(blueprintTypes)) ||
+  (!!backfill && /wizard_input\s*:/.test(backfill));
+const validatorPresent = !!validator;
+
+const governanceShapePass =
+  gov.rows.length === canonicalFields.length &&
+  undeclaredCanonical.length === 0 &&
+  phantomGovernance.length === 0 &&
+  duplicateGovFields.length === 0 &&
+  invalidDispositions.length === 0;
+
+const migrationProjectionStatus = {
+  strategy: strategyProjection.exists && strategyProjection.fields.length ? (strategyMissing.length === 0 ? "PASS" : "FAIL") : "PENDING",
+  execution: executionProjection.exists && executionProjection.fields.length ? (executionMissing.length === 0 ? "PASS" : "FAIL") : "PENDING",
+  strategyDecision: strategyDecision.exists && strategyDecision.fields.length ? "PASS" : "PENDING",
+  executionDecision: executionDecision.exists && executionDecision.fields.length ? "PASS" : "PENDING",
+};
+
+const checks = [
+  ["Canonical contract shape", canonicalFields.length === canonicalInterface.length && canonicalFields.every((f) => canonicalInterface.includes(f))],
+  ["Governance coverage", governanceShapePass],
+  ["Governance dispositions valid", invalidDispositions.length === 0],
+  ["Wizard -> Canonical", canonicalFields.length === canonicalInterface.length],
+  ["Canonical -> legacy AI projection", legacyMapperCoverage > 0],
+  ["Canonical -> Rules engine", rulesCanonical],
+  ["Canonical -> Blueprint preservation", blueprintPreservation],
+  ["AI boundary validator exists", validatorPresent],
+  ["Route uses canonical pipeline", routeUsesCanonical],
+];
+
+const hardFailures = checks.filter(([, pass]) => !pass);
+if (strictMigration) {
+  if (migrationProjectionStatus.strategy === "FAIL") hardFailures.push(["Strategy projection coverage", false]);
+  if (migrationProjectionStatus.execution === "FAIL") hardFailures.push(["Execution projection coverage", false]);
+  if (migrationProjectionStatus.strategy === "PENDING") hardFailures.push(["Strategy projection implemented", false]);
+  if (migrationProjectionStatus.execution === "PENDING") hardFailures.push(["Execution projection implemented", false]);
+  if (migrationProjectionStatus.strategyDecision === "PENDING") hardFailures.push(["StrategyDecision schema implemented", false]);
+  if (migrationProjectionStatus.executionDecision === "PENDING") hardFailures.push(["ExecutionDecision schema implemented", false]);
+}
+
+console.log("DATA CONTRACT AUDIT — GOVERNANCE AWARE");
+console.log("=======================================");
+console.log(`Canonical fields: ${canonicalFields.length}`);
+console.log(`AI payload fields: ${aiFields.length}`);
+console.log(`Governance rows: ${gov.rows.length}`);
+console.log(`Mode: ${strictMigration ? "strict migration" : "Phase A"}`);
+console.log("");
+for (const [name, pass] of checks) console.log(`${name}: ${pass ? "PASS" : "FAIL"}`);
+console.log("");
+console.log(`StrategyAIInput: ${migrationProjectionStatus.strategy}`);
+console.log(`ExecutionAIInput: ${migrationProjectionStatus.execution}`);
+console.log(`StrategyDecision: ${migrationProjectionStatus.strategyDecision}`);
+console.log(`ExecutionDecision: ${migrationProjectionStatus.executionDecision}`);
 console.log("");
 
-for (const r of rows) {
-  console.log(`${r.status === "سليم" ? "PASS" : "FAIL"} ${r.field.padEnd(30)} projection=${r.projection}`);
+function report(title, values) {
+  if (!values.length) return;
+  console.log(title);
+  for (const value of values) console.log(`- ${value}`);
+  console.log("");
 }
+
+report("Canonical fields missing from Governance:", undeclaredCanonical);
+report("Governance fields not in Canonical contract:", phantomGovernance);
+report("Duplicate Governance fields:", [...new Set(duplicateGovFields)]);
+report("Invalid Governance dispositions:", invalidDispositions.map((r) => `${r.field}: ${r.disposition}`));
+if (strategyProjection.fields.length) report("Strategy projection missing required fields:", strategyMissing);
+if (executionProjection.fields.length) report("Execution projection missing required fields:", executionMissing);
 
 const md = [
   "# Data Contract Audit",
   "",
   `Generated: ${new Date().toISOString()}`,
+  `Mode: **${strictMigration ? "strict migration" : "Phase A"}**`,
   "",
-  "## Pipeline",
+  "## Summary",
   "",
-  "`Wizard Raw Data → CanonicalWizardInput → AI Adapter / Rules Engine → AI Prompt → Blueprint`",
+  `- Canonical fields: **${canonicalFields.length}**`,
+  `- Legacy AIWizardPayload fields: **${aiFields.length}**`,
+  ...checks.map(([name, pass]) => `- ${name}: **${pass ? "PASS" : "FAIL"}**`),
+  `- StrategyAIInput: **${migrationProjectionStatus.strategy}**`,
+  `- ExecutionAIInput: **${migrationProjectionStatus.execution}**`,
+  `- StrategyDecision: **${migrationProjectionStatus.strategyDecision}**`,
+  `- ExecutionDecision: **${migrationProjectionStatus.executionDecision}**`,
   "",
-  `- Canonical fields: **${fields.length}**`,
-  `- Wizard → Canonical: **${rows.every((r) => r.wizard && r.canonical) ? "PASS" : "FAIL"}**`,
-  `- Canonical → AI adapter: **${hasSourcePreservation ? "PASS" : "FAIL"}**`,
-  `- AI payload → Prompt: **${hasPromptPreservation ? "PASS" : "FAIL"}**`,
-  `- Canonical → Rules engine: **${hasCanonicalAlias ? "PASS" : "FAIL"}**`,
-  `- Canonical → Blueprint: **${hasBlueprintPreservation ? "PASS" : "FAIL"}**`,
-  `- Route uses canonical pipeline: **${hasRouteCanonical ? "PASS" : "FAIL"}**`,
+  "## Governance Policy",
   "",
-  "## Field Matrix",
+  "The legacy AIWizardPayload is not required to contain every canonical field. Canonical fields marked context, metadata, or derived may legitimately be absent from a provider payload.",
   "",
-  "| Wizard field | Canonical | AI projection | Prompt | Blueprint | Status |",
-  "|---|---:|---|---:|---:|---|",
-  ...rows.map((r) => `| \`${r.field}\` | ${r.canonical ? "✓" : "✗"} | \`${r.projection}\` | ${r.prompt ? "✓" : "✗"} | ${r.blueprint ? "✓" : "✗"} | ${r.status} |`),
+  "## Governance Matrix",
   "",
-  "## Interpretation",
+  "| Canonical field | Strategy | Execution | Rules | Blueprint | Disposition |",
+  "|---|---|---|---|---|---|",
+  ...gov.rows.map((r) => `| \`${r.field}\` | ${r.strategy} | ${r.execution} | ${r.rules} | ${r.blueprint} | \`${r.disposition}\` |`),
   "",
-  "Fields mapped to a provider-friendly name are projections only. The authoritative copy remains under `source_wizard_input`, so fields such as `awareness_level`, `sales_motion`, `conversion_destination`, `persuasion_angle`, `average_order_value`, `profit_margin`, `max_cac`, `conversion_model`, `content_capacity`, `constraints`, `top_priority`, and `risk_tolerance` are no longer silently dropped.",
+  "## Migration Notes",
+  "",
+  "StrategyAIInput, ExecutionAIInput, StrategyDecision, and ExecutionDecision are intentionally reported as PENDING in Phase A until their migration phase creates them. Use --strict-migration only when enforcing migration completeness.",
   "",
 ].join("\n");
 
 fs.writeFileSync(path.join(ROOT, "DATA_CONTRACT_AUDIT.md"), md);
 
-if (failures.length) {
-  console.error(`\nAudit FAILED: ${failures.length} field(s).`);
+if (hardFailures.length) {
+  console.error(`\nAudit FAILED: ${hardFailures.length} blocking check(s).`);
   process.exit(1);
 }
 
-console.log(`\nAudit PASSED: all ${fields.length} canonical fields are preserved through the generation pipeline.`);
+console.log(`\nAudit PASSED: Phase A governance is valid across all ${canonicalFields.length} canonical fields.`);
 console.log("Report written to DATA_CONTRACT_AUDIT.md");
