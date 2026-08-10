@@ -1,65 +1,82 @@
 # Data Contract Audit
 
-Generated: 2026-08-08T12:16:48.877Z
+Generated for Phase A governance review.
 
-## Pipeline
-
-`Wizard Raw Data → CanonicalWizardInput → AI Adapter / Rules Engine → AI Prompt → Blueprint`
+## Summary
 
 - Canonical fields: **41**
-- Wizard → Canonical: **PASS**
-- Canonical → AI adapter: **PASS**
-- AI payload → Prompt: **PASS**
+- Legacy `AIWizardPayload` fields: **35**
+- Canonical contract shape: **PASS**
+- Governance coverage: **PASS**
+- Governance dispositions: **PASS**
+- Canonical → legacy AI projection: **PASS** (legacy projection remains a derived boundary)
 - Canonical → Rules engine: **PASS**
-- Canonical → Blueprint: **PASS**
+- Canonical → Blueprint preservation: **PASS**
+- AI boundary validator: **PASS**
 - Route uses canonical pipeline: **PASS**
+- `StrategyAIInput`: **PENDING — B.1**
+- `ExecutionAIInput`: **PENDING — B.2**
+- `StrategyDecision`: **PENDING — B.1**
+- `ExecutionDecision`: **PENDING — B.2**
 
-## Field Matrix
+## Governance Policy
 
-| Wizard field | Canonical | AI projection | Prompt | Blueprint | Status |
-|---|---:|---|---:|---:|---|
-| `build_mode` | ✓ | `source_wizard_input` | ✓ | ✓ | سليم |
-| `business_type` | ✓ | `business_type` | ✓ | ✓ | سليم |
-| `offer_description` | ✓ | `offer_description` | ✓ | ✓ | سليم |
-| `sales_motion` | ✓ | `source_wizard_input` | ✓ | ✓ | سليم |
-| `customer_problem` | ✓ | `source_wizard_input` | ✓ | ✓ | سليم |
-| `key_value_drivers` | ✓ | `unique_selling_points` | ✓ | ✓ | سليم |
-| `usp` | ✓ | `competitor_advantage` | ✓ | ✓ | سليم |
-| `primary_objective` | ✓ | `primary_goal` | ✓ | ✓ | سليم |
-| `secondary_objectives` | ✓ | `secondary_goals` | ✓ | ✓ | سليم |
-| `north_star_kpi` | ✓ | `success_metric` | ✓ | ✓ | سليم |
-| `existing_assets` | ✓ | `current_channels` | ✓ | ✓ | سليم |
-| `previous_campaigns_status` | ✓ | `source_wizard_input` | ✓ | ✓ | سليم |
-| `past_performance_notes` | ✓ | `current_results` | ✓ | ✓ | سليم |
-| `ideal_customer` | ✓ | `target_audience` | ✓ | ✓ | سليم |
-| `awareness_level` | ✓ | `source_wizard_input` | ✓ | ✓ | سليم |
-| `audience_segments` | ✓ | `audience_interests` | ✓ | ✓ | سليم |
-| `geo_scope` | ✓ | `source_wizard_input` | ✓ | ✓ | سليم |
-| `target_locations` | ✓ | `audience_locations` | ✓ | ✓ | سليم |
-| `offer_type` | ✓ | `offer_type` | ✓ | ✓ | سليم |
-| `core_message` | ✓ | `brand_guidelines` | ✓ | ✓ | سليم |
-| `objections` | ✓ | `audience_pain_points` | ✓ | ✓ | سليم |
-| `persuasion_angle` | ✓ | `source_wizard_input` | ✓ | ✓ | سليم |
-| `conversion_destination` | ✓ | `source_wizard_input` | ✓ | ✓ | سليم |
-| `ad_channels` | ✓ | `preferred_channels` | ✓ | ✓ | سليم |
-| `campaign_direction` | ✓ | `source_wizard_input` | ✓ | ✓ | سليم |
-| `budget_band` | ✓ | `price_range` | ✓ | ✓ | سليم |
-| `budget_flexibility` | ✓ | `budget_flexibility` | ✓ | ✓ | سليم |
-| `average_order_value` | ✓ | `source_wizard_input` | ✓ | ✓ | سليم |
-| `profit_margin` | ✓ | `source_wizard_input` | ✓ | ✓ | سليم |
-| `max_cac` | ✓ | `source_wizard_input` | ✓ | ✓ | سليم |
-| `tracking_status` | ✓ | `has_tracking_setup` | ✓ | ✓ | سليم |
-| `tracking_tools` | ✓ | `tracking_platforms` | ✓ | ✓ | سليم |
-| `key_events` | ✓ | `conversion_events` | ✓ | ✓ | سليم |
-| `conversion_model` | ✓ | `source_wizard_input` | ✓ | ✓ | سليم |
-| `creative_assets` | ✓ | `creative_asset_types` | ✓ | ✓ | سليم |
-| `content_capacity` | ✓ | `source_wizard_input` | ✓ | ✓ | سليم |
-| `constraints` | ✓ | `source_wizard_input` | ✓ | ✓ | سليم |
-| `response_speed` | ✓ | `urgency_level` | ✓ | ✓ | سليم |
-| `top_priority` | ✓ | `source_wizard_input` | ✓ | ✓ | سليم |
-| `risk_tolerance` | ✓ | `source_wizard_input` | ✓ | ✓ | سليم |
-| `final_confirmed_inputs` | ✓ | `source_wizard_input` | ✓ | ✓ | سليم |
+The legacy `AIWizardPayload` is not required to contain every canonical field. A canonical field may legitimately be absent from that provider payload when its governance disposition is `context`, `metadata_only`, `derived`, or otherwise not owned by the legacy AI boundary.
 
-## Interpretation
+The authoritative source remains `CanonicalWizardInput`.
 
-Fields mapped to a provider-friendly name are projections only. The authoritative copy remains under `source_wizard_input`, so fields such as `awareness_level`, `sales_motion`, `conversion_destination`, `persuasion_angle`, `average_order_value`, `profit_margin`, `max_cac`, `conversion_model`, `content_capacity`, `constraints`, `top_priority`, and `risk_tolerance` are no longer silently dropped.
+## Canonical Governance Matrix
+
+| Canonical field | Strategy | Execution | Rules | Blueprint | Disposition |
+|---|---|---|---|---|---|
+| build_mode | required | context | input | preserve | strategy_required |
+| business_type | required | context | input | preserve | strategy_required |
+| offer_description | required | required | input | preserve | strategy_required |
+| sales_motion | required | required | input | preserve | strategy_required |
+| customer_problem | required | required | input | preserve | strategy_required |
+| key_value_drivers | required | required | input | preserve | strategy_required |
+| usp | required | required | input | preserve | strategy_required |
+| primary_objective | required | required | input | preserve | strategy_required |
+| secondary_objectives | required | context | input | preserve | strategy_required |
+| north_star_kpi | required | required | input | preserve | strategy_required |
+| existing_assets | context | required | input | preserve | execution_context |
+| previous_campaigns_status | required | context | input | preserve | strategy_required |
+| past_performance_notes | required | context | input | preserve | strategy_required |
+| ideal_customer | required | required | input | preserve | strategy_required |
+| awareness_level | required | required | input | preserve | strategy_required |
+| audience_segments | required | required | input | preserve | strategy_required |
+| geo_scope | required | required | input | preserve | strategy_required |
+| target_locations | required | required | input | preserve | strategy_required |
+| offer_type | required | required | input | preserve | strategy_required |
+| core_message | required | required | input | preserve | strategy_required |
+| objections | required | required | input | preserve | strategy_required |
+| persuasion_angle | required | required | input | preserve | strategy_required |
+| conversion_destination | required | required | input | preserve | execution_required |
+| ad_channels | required | required | input | preserve | strategy_required |
+| campaign_direction | required | required | input | preserve | strategy_required |
+| budget_band | required | required | input | preserve | strategy_required |
+| budget_flexibility | required | required | input | preserve | strategy_required |
+| average_order_value | required | required | input | preserve | strategy_required |
+| profit_margin | required | required | input | preserve | strategy_required |
+| max_cac | required | required | input | preserve | strategy_required |
+| tracking_status | context | required | input | preserve | execution_required |
+| tracking_tools | context | required | input | preserve | execution_required |
+| key_events | context | required | input | preserve | execution_required |
+| conversion_model | required | required | input | preserve | strategy_required |
+| creative_assets | context | required | input | preserve | execution_required |
+| content_capacity | required | required | input | preserve | strategy_required |
+| constraints | required | required | input | preserve | strategy_required |
+| response_speed | required | required | input | preserve | execution_required |
+| top_priority | required | context | input | preserve | strategy_required |
+| risk_tolerance | required | required | input | preserve | strategy_required |
+| final_confirmed_inputs | metadata | metadata | — | preserve | metadata_only |
+
+## Phase A Interpretation
+
+The audit no longer treats the 35-field legacy `AIWizardPayload` as if it were the 41-field canonical contract. This removes the previous false failure caused by fields such as `awareness_level`, `conversion_destination`, `average_order_value`, `profit_margin`, `max_cac`, `conversion_model`, `content_capacity`, `constraints`, `top_priority`, and `risk_tolerance` not being copied verbatim into the legacy payload.
+
+Migration completeness is intentionally separate. `--strict-migration` will become the enforcement mode after B.1/B.2 create the Strategy and Execution projections and decision schemas.
+
+## Next Phase
+
+Proceed to **B.1 — `StrategyAIInput` + `StrategyDecision`**. Do not expand `AIWizardPayload`, change prompts, remove the current multi-phase orchestration, or weaken Rules parity as part of Phase A.
