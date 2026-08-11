@@ -20,10 +20,13 @@ export interface BlueprintCompilerInput {
  * Accepted Strategy and Execution decisions are then projected into the
  * corresponding rich sections. This prevents the v4 pipeline from appearing
  * successful while silently rendering a rules-only blueprint.
+ *
+ * Governance rules at this boundary are intentionally limited to hard
+ * validation/derived safety signals. They do not invent a replacement strategy.
  */
 export function compileBlueprint(input: BlueprintCompilerInput): RichBlueprintData {
   const deterministic = generateBlueprint(input.canonical);
-  const { strategy, execution } = input;
+  const { strategy, execution, rules } = input;
 
   const strategyReasoning = strategy.reasoning;
   const executionReasoning = execution.reasoning;
@@ -215,9 +218,118 @@ export function compileBlueprint(input: BlueprintCompilerInput): RichBlueprintDa
         : deterministic.first_14_days_plan.launch_sequence,
   };
 
+  // Governance: readiness must reflect hard pre-launch conditions even when
+  // the AI strategy itself is valid. Partial/missing tracking cannot remain
+  // silently "ready" because the generated execution depends on conversion
+  // events being measurable.
+  const trackingIncomplete = input.canonical.tracking_status !== "ready";
+  const requiredTrackingEvents = Array.from(
+    new Set([
+      ...input.canonical.key_events,
+      ...execution.tracking_execution.required_events,
+    ])
+  );
+
+  // Governance: compare the user-defined CAC ceiling with the gross profit
+  // available per order. This is a derived safety signal, not an AI override.
+  const grossProfitPerOrder =
+    input.canonical.average_order_value > 0 && input.canonical.profit_margin > 0
+      ? (input.canonical.average_order_value * input.canonical.profit_margin) / 100
+      : 0;
+  const cacTarget = input.canonical.max_cac;
+  const economicHeadroomCritical = grossProfitPerOrder > 0 && cacTarget >= grossProfitPerOrder;
+  const economicHeadroomThin =
+    grossProfitPerOrder > 0 && cacTarget >= grossProfitPerOrder * 0.8 && !economicHeadroomCritical;
+
+  const mustFix = [...deterministic.pre_launch_fixes.must_fix];
+  const shouldFix = [...deterministic.pre_launch_fixes.should_fix];
+
+  if (trackingIncomplete) {
+    mustFix.push({
+      item: "Complete and validate conversion tracking before launch",
+      priority: "critical",
+      estimated_time: "1-2 hours",
+      action: `Set all required conversion events to ready and verify: ${requiredTrackingEvents.join(", ")}.`,
+    });
+  }
+
+  if (economicHeadroomCritical) {
+    mustFix.push({
+      item: "Resolve CAC economics before scaling",
+      priority: "critical",
+      estimated_time: "1-2 hours",
+      action: `Maximum CAC (${cacTarget}) is at or above estimated gross profit per order (${grossProfitPerOrder.toFixed(2)}). Rework the target, price, margin, or unit economics before launch.`,
+    });
+  } else if (economicHeadroomThin) {
+    shouldFix.push({
+      item: "Review CAC economic headroom",
+      priority: "high",
+      estimated_time: "30-60 minutes",
+      action: `Maximum CAC (${cacTarget}) consumes at least 80% of estimated gross profit per order (${grossProfitPerOrder.toFixed(2)}). Confirm fulfillment, payment, and retention costs before scaling.`,
+    });
+  }
+
+  const uniqueMustFix = Array.from(
+    new Map(mustFix.map((item) => [item.item, item])).values()
+  );
+  const uniqueShouldFix = Array.from(
+    new Map(shouldFix.map((item) => [item.item, item])).values()
+  );
+
+  const launchRecommendation: RichBlueprintData["executive_summary"]["launch_recommendation"] =
+    uniqueMustFix.length > 0 || uniqueShouldFix.length > 0
+      ? "ready_with_fixes"
+      : deterministic.executive_summary.launch_recommendation;
+
+  const preLaunchFixes = {
+    ...deterministic.pre_launch_fixes,
+    must_fix: uniqueMustFix,
+    should_fix: uniqueShouldFix,
+    estimated_fix_time:
+      uniqueMustFix.length > 0
+        ? "1-2 hours"
+        : uniqueShouldFix.length > 0
+          ? "30-60 minutes"
+          : deterministic.pre_launch_fixes.estimated_fix_time,
+    recommendation:
+      uniqueMustFix.length > 0 || uniqueShouldFix.length > 0
+        ? "Complete the identified pre-launch fixes before treating the campaign as launch-ready."
+        : deterministic.pre_launch_fixes.recommendation,
+    confidence: Math.min(
+      deterministic.pre_launch_fixes.confidence,
+      Math.round(Math.min(strategy.confidence, execution.confidence) * 100)
+    ),
+    reasoning:
+      uniqueMustFix.length > 0 || uniqueShouldFix.length > 0
+        ? "Governance checks added hard tracking/economic readiness conditions to the deterministic pre-launch assessment."
+        : deterministic.pre_launch_fixes.reasoning,
+    rule_id: "GOV-001",
+  };
+
+  const executiveSummary = {
+    ...deterministic.executive_summary,
+    launch_recommendation: launchRecommendation,
+  };
+
+  const governanceWarnings = [
+    ...(trackingIncomplete
+      ? ["Tracking is not fully ready; launch status is gated until required conversion events are validated."]
+      : []),
+    ...(economicHeadroomCritical
+      ? ["CAC target is at or above estimated gross profit per order."]
+      : economicHeadroomThin
+        ? ["CAC target leaves thin gross-profit headroom per order."]
+        : []),
+  ];
+
+  const governanceInfos = [
+    ...(rules.constraints ?? []).map((constraint) => `Rules constraint: ${constraint}`),
+  ];
+
   return {
     ...deterministic,
     wizard_input: input.canonical,
+    executive_summary: executiveSummary,
     strategy_summary: strategySummary,
     recommended_funnel: recommendedFunnel,
     campaign_structure: campaignStructure,
@@ -225,8 +337,30 @@ export function compileBlueprint(input: BlueprintCompilerInput): RichBlueprintDa
     budget_split: budgetSplit,
     creative_angles: creativeAngles,
     tracking_checklist: trackingChecklist,
-    risk_flags: riskFlags,
+    risk_flags: {
+      ...riskFlags,
+      warnings: [
+        ...riskFlags.warnings,
+        ...governanceWarnings.map((message, index) => ({
+          id: `gov-risk-${index + 1}`,
+          message,
+          action: "Resolve or explicitly accept before launch.",
+        })),
+      ],
+    },
     first_14_days_plan: first14DaysPlan,
+    pre_launch_fixes: preLaunchFixes,
+    flags: {
+      ...deterministic.flags,
+      warnings: Array.from(new Set([
+        ...deterministic.flags.warnings,
+        ...governanceWarnings,
+      ])),
+      infos: Array.from(new Set([
+        ...deterministic.flags.infos,
+        ...governanceInfos,
+      ])),
+    },
     generation_mode: "hybrid",
     ai_generated: true,
     aiGenerated: true,
