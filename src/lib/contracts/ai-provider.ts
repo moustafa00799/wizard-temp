@@ -28,6 +28,8 @@ export interface AIProviderResponse {
  *
  * Strategy and Execution deliberately use different GPT-OSS models and their
  * own strict JSON Schemas. The orchestration layer remains provider-neutral.
+ * Output budgets are bounded so Groq's organization-level TPM limit is not
+ * consumed by an unnecessarily large max_tokens reservation.
  */
 export async function generateStructuredAI(
   request: AIProviderRequest,
@@ -42,6 +44,7 @@ export async function generateStructuredAI(
       model: isStrategy ? STRATEGY_MODEL : EXECUTION_MODEL,
       schemaName: isStrategy ? "StrategyDecision" : "ExecutionDecision",
       schema: isStrategy ? STRATEGY_DECISION_SCHEMA : EXECUTION_DECISION_SCHEMA,
+      maxOutputTokens: isStrategy ? 4096 : 4096,
       retries: 1,
       timeoutMs: 20000,
     },

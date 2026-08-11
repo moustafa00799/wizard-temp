@@ -6,6 +6,7 @@ export const EXECUTION_MODEL = "openai/gpt-oss-20b";
 
 const REQUEST_TIMEOUT_MS = 20000;
 const MAX_RETRIES = 1;
+const DEFAULT_MAX_OUTPUT_TOKENS = 4096;
 
 type JsonSchema = Record<string, unknown>;
 
@@ -14,6 +15,7 @@ export interface StructuredGenerationOptions {
   fallbackModel?: string;
   schemaName: string;
   schema: JsonSchema;
+  maxOutputTokens?: number;
   timeoutMs?: number;
   retries?: number;
 }
@@ -69,7 +71,7 @@ async function callStructured(
         { role: "user", content: userPrompt },
       ],
       temperature: 0.2,
-      max_tokens: 8192,
+      max_tokens: options.maxOutputTokens ?? DEFAULT_MAX_OUTPUT_TOKENS,
       top_p: 0.95,
       response_format: {
         type: "json_schema",
@@ -175,8 +177,9 @@ export async function generateStructuredWithGroq(
         const isAbort = lastError.toLowerCase().includes("abort");
         const isAuth = lastError.includes("Groq 401");
         const isBadRequest = lastError.includes("Groq 400");
+        const isTooLarge = lastError.includes("Groq 413");
 
-        if (isAuth || isBadRequest) break;
+        if (isAuth || isBadRequest || isTooLarge) break;
         if (attempt < retries || isAbort) {
           await sleep(500 * (attempt + 1));
           continue;
