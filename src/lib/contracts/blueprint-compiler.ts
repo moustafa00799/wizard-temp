@@ -229,6 +229,7 @@ export function compileBlueprint(input: BlueprintCompilerInput): RichBlueprintDa
     first_14_days_plan: first14DaysPlan,
     generation_mode: "hybrid",
     ai_generated: true,
+    aiGenerated: true,
     backfilled: false,
     source: "two-ai-v4",
     ai_model: `${STRATEGY_MODEL} + ${EXECUTION_MODEL}`,
