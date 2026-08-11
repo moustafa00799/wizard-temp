@@ -3,6 +3,7 @@ import type { RichBlueprintData } from "@/lib/blueprint-types";
 import type { CanonicalWizardInput } from "./wizard-input";
 import type { StrategyDecision } from "./strategy-ai";
 import type { ExecutionDecision, RulesDecision } from "./execution-ai";
+import { EXECUTION_MODEL, STRATEGY_MODEL } from "./groq-structured-provider";
 
 export interface BlueprintCompilerInput {
   canonical: CanonicalWizardInput;
@@ -70,7 +71,9 @@ export function compileBlueprint(input: BlueprintCompilerInput): RichBlueprintDa
       ...stage,
       name: strategy.funnel_strategy.stages[index] ?? stage.name,
     })),
-    total_stages: strategy.funnel_strategy.stages.length || deterministic.recommended_funnel.total_stages,
+    total_stages:
+      strategy.funnel_strategy.stages.length ||
+      deterministic.recommended_funnel.total_stages,
   };
 
   const campaignBase = deterministic.campaign_structure.campaigns;
@@ -106,10 +109,12 @@ export function compileBlueprint(input: BlueprintCompilerInput): RichBlueprintDa
     campaigns,
   };
 
-  const audienceSegments = execution.audience_structure.primary_segments.map((segment) => ({
-    name: segment,
-    description: segment,
-  }));
+  const audienceSegments = execution.audience_structure.primary_segments.map(
+    (segment) => ({
+      name: segment,
+      description: segment,
+    })
+  );
 
   const audienceStructure = {
     ...deterministic.audience_structure,
@@ -119,7 +124,10 @@ export function compileBlueprint(input: BlueprintCompilerInput): RichBlueprintDa
       description: strategy.target_customer.primary,
       targeting_type: strategy.target_customer.awareness_level,
     },
-    segments: audienceSegments.length > 0 ? audienceSegments : deterministic.audience_structure.segments,
+    segments:
+      audienceSegments.length > 0
+        ? audienceSegments
+        : deterministic.audience_structure.segments,
     exclusions: execution.audience_structure.exclusions,
   };
 
@@ -153,7 +161,7 @@ export function compileBlueprint(input: BlueprintCompilerInput): RichBlueprintDa
     ...deterministic.creative_angles,
     alternative_angles:
       aiAngles.length > 0
-        ? aiAngles.map((angle, index) => ({
+        ? aiAngles.map((angle) => ({
             name: angle,
             hook: angle,
             body: "",
@@ -220,6 +228,10 @@ export function compileBlueprint(input: BlueprintCompilerInput): RichBlueprintDa
     risk_flags: riskFlags,
     first_14_days_plan: first14DaysPlan,
     generation_mode: "hybrid",
+    ai_generated: true,
+    backfilled: false,
+    source: "two-ai-v4",
+    ai_model: `${STRATEGY_MODEL} + ${EXECUTION_MODEL}`,
     ai_reasoning: {
       strategy: strategyReasoning,
       execution: executionReasoning,
