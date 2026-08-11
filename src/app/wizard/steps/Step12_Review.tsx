@@ -146,7 +146,7 @@ export default function Step12_Review({ wizardData: passedWizardData, onBack }: 
     setResultMeta(null);
 
     try {
-      const response = await fetch("/api/generate", {
+      const response = await fetch("/api/generate/v4", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(wizardData),
@@ -160,7 +160,15 @@ export default function Step12_Review({ wizardData: passedWizardData, onBack }: 
       setStatus("adapting");
       await new Promise((r) => setTimeout(r, 300));
 
-      const result: GenerationResult = await response.json();
+      const rawResponse = await response.text();
+console.log("[v4 RAW RESPONSE]", rawResponse);
+
+let result: GenerationResult;
+try {
+  result = JSON.parse(rawResponse);
+} catch {
+  throw new Error(`Invalid JSON response: ${rawResponse.slice(0, 500)}`);
+}
 
       if (!response.ok || !result.success) {
         throw new Error(result.error || "فشل في إنشاء الـ Blueprint");

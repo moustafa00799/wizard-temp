@@ -42,6 +42,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       executionUserPrompt: buildExecutionAIUserPrompt,
     });
 
+    console.error("[v4 Two-AI result]", result);
+    
     if (!result.success || !result.strategy || !result.execution) {
       return NextResponse.json(
         {
