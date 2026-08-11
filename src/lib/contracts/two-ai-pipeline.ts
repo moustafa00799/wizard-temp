@@ -2,8 +2,6 @@ import type { CanonicalWizardInput } from "./wizard-input";
 import { toStrategyAIInput, validateStrategyDecision, type StrategyDecision } from "./strategy-ai";
 import { toExecutionAIInput, validateExecutionDecision, type ExecutionAIInput, type ExecutionDecision, type RulesDecision } from "./execution-ai";
 import { generateStructuredAI } from "./ai-provider";
-import { STRATEGY_DECISION_SCHEMA, EXECUTION_DECISION_SCHEMA } from "./two-ai-schemas";
-import { STRATEGY_MODEL, EXECUTION_MODEL } from "./groq-structured-provider";
 
 export interface TwoAIPipelineResult {
   success: boolean;
@@ -37,14 +35,9 @@ export async function runTwoAIPipeline(
 
   const strategyInput = toStrategyAIInput(canonical);
   const strategyResponse = await generateStructuredAI({
+    stage: "strategy",
     systemPrompt: options.strategySystemPrompt,
     userPrompt: options.strategyUserPrompt(strategyInput),
-    options: {
-      model: STRATEGY_MODEL,
-      fallbackModel: EXECUTION_MODEL,
-      schemaName: "StrategyDecision",
-      schema: STRATEGY_DECISION_SCHEMA as unknown as Record<string, unknown>,
-    },
   });
 
   if (!strategyResponse.success || !strategyResponse.data) {
@@ -52,7 +45,7 @@ export async function runTwoAIPipeline(
       success: false,
       strategy: null,
       execution: null,
-      errors: [`Strategy AI (${strategyResponse.model || STRATEGY_MODEL}): ${strategyResponse.error || "Strategy AI failed"}`],
+      errors: [`Strategy AI (${strategyResponse.model || "gpt-oss-120b"}): ${strategyResponse.error || "Strategy AI failed"}`],
       latencyMs: Date.now() - start,
     };
   }
@@ -71,14 +64,9 @@ export async function runTwoAIPipeline(
 
   const executionInput = toExecutionAIInput(canonical, strategy, rules);
   const executionResponse = await generateStructuredAI({
+    stage: "execution",
     systemPrompt: options.executionSystemPrompt,
     userPrompt: options.executionUserPrompt(executionInput),
-    options: {
-      model: EXECUTION_MODEL,
-      fallbackModel: STRATEGY_MODEL,
-      schemaName: "ExecutionDecision",
-      schema: EXECUTION_DECISION_SCHEMA as unknown as Record<string, unknown>,
-    },
   });
 
   if (!executionResponse.success || !executionResponse.data) {
@@ -86,7 +74,7 @@ export async function runTwoAIPipeline(
       success: false,
       strategy,
       execution: null,
-      errors: [`Execution AI (${executionResponse.model || EXECUTION_MODEL}): ${executionResponse.error || "Execution AI failed"}`],
+      errors: [`Execution AI (${executionResponse.model || "gpt-oss-20b"}): ${executionResponse.error || "Execution AI failed"}`],
       latencyMs: Date.now() - start,
     };
   }
