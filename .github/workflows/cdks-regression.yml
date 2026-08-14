@@ -1,4 +1,4 @@
-﻿name: CDKS Regression
+name: CDKS Regression
 
 on:
   push:
@@ -19,7 +19,14 @@ jobs:
           cache: npm
       - name: Install
         run: npm ci
+      - name: Build production
+        run: npm run build
+      - name: Start production server
+        run: npm run start -- --hostname 127.0.0.1 --port 3001 > /tmp/cdks-next.log 2>&1 &
+      - name: Wait for production server
+        run: npx --yes wait-on http://127.0.0.1:3001
       - name: CDKS Regression Gate
         run: node scripts/ci-regression-gate.cjs
-      - name: Production Build
-        run: npm run build
+      - name: Production server log on failure
+        if: failure()
+        run: cat /tmp/cdks-next.log
