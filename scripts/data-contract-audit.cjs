@@ -16,6 +16,7 @@ const read = (p) => fs.readFileSync(path.join(ROOT, p), "utf8");
 const store = read("src/lib/store.ts");
 const contract = read("src/lib/contracts/wizard-input.ts");
 const adapter = read("src/lib/ai-adapter.ts");
+const mapper = read("src/lib/wizard-mapper.ts");
 const prompts = read("src/lib/ai-prompts.ts");
 const route = read("src/app/api/generate/route.ts");
 const engine = read("src/lib/blueprint-engine.ts");
@@ -70,16 +71,16 @@ const projection = new Map([
 ]);
 
 const hasCanonicalAlias = /CanonicalWizardInput as WizardPayload/.test(types);
-const hasSourcePreservation = /source_wizard_input:\s*wizard/.test(adapter);
+const hasSourcePreservation = /source_wizard_input:\s*raw/.test(mapper);
 const hasPromptPreservation = /source_wizard_input/.test(prompts);
-const hasRouteCanonical = /canonicalizeWizardInput\(data\)/.test(route) && /toAIWizardPayload\(canonicalInput\)/.test(route);
+const hasRouteCanonical = /canonicalizeWizardInput\(body\)/.test(route) && /mapToAIWizardPayload\(canonicalWizard\)/.test(route);
 const hasBlueprintPreservation = /wizard_input:\s*data/.test(engine) && /wizard_input:\s*CanonicalWizardInput/.test(types);
 
 const rows = fields.map((field) => {
   const wizard = new RegExp(`\\b${field}\\b`).test(store);
   const canonical = new RegExp(`\\b${field}\\b`).test(contract);
   const map = projection.get(field);
-  const projected = map === "source_wizard_input" ? hasSourcePreservation : new RegExp(`\\b${map}\\b`).test(adapter);
+  const projected = map === "source_wizard_input" ? hasSourcePreservation : new RegExp(`raw\\.${field}\\b`).test(mapper);
   const prompt = hasPromptPreservation;
   const blueprint = hasBlueprintPreservation;
   let status = "سليم";

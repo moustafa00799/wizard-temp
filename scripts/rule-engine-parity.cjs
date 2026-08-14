@@ -10,7 +10,7 @@ const ts = require("typescript");
 
 const ROOT = path.resolve(__dirname, "..");
 const LEGACY = path.join(ROOT, "legacy");
-const CURRENT_RULES = path.join(ROOT, "src", "lib", "rules", "legacy-v1");
+const CURRENT_RULES = path.join(ROOT, "tests", "fixtures", "legacy-v1");
 
 function loadTsFunction(file, exportName) {
   const source = fs.readFileSync(file, "utf8");

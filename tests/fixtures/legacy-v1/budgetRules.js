@@ -3,7 +3,7 @@
  * Determine daily budget, channel allocation, test budget, scale budget, and CAC target
  */
 
-const { BUDGET_MAP } = require("../data/funnelDefinitions");
+const { BUDGET_MAP } = require("../../../src/lib/rules/data/funnelDefinitions");
 
 /**
  * BS-001: Daily Budget Mapping

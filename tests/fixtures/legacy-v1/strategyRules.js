@@ -9,7 +9,7 @@ const {
   CONVERSION_DESTINATION_BONUSES,
   OBJECTIVE_MAP,
   FUNNEL_DEFINITIONS
-} = require("../data/funnelDefinitions");
+} = require("../../../src/lib/rules/data/funnelDefinitions");
 
 /**
  * SS-001: Determine Recommended Objective

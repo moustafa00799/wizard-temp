@@ -11,7 +11,7 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { generateBlueprint, generateSection, type SectionName } from "@/lib/blueprint-engine";
+import { generateSection, type SectionName } from "@/lib/blueprint-engine";
 import { generatePhase, isAIConfigured, getAIModelInfo } from "@/lib/ai-client";
 import {
   PHASE1_SYSTEM_PROMPT,
@@ -27,6 +27,8 @@ import { AIWizardPayload } from "@/lib/ai-types";
 import { canonicalizeWizardInput, mapToAIWizardPayload } from "@/lib/wizard-mapper";
 import type { RichBlueprintData, WizardPayload } from "@/lib/blueprint-types";
 import { backfillBlueprint } from "@/lib/blueprint-backfill";
+import { resolveCDKSDecisions } from "@/lib/cdks-policy";
+import { resolveCDKSReadiness } from "@/lib/cdks-readiness";
 
 // ============================================================
 // PHASE 1: Strategy Core (Sequential)
@@ -221,6 +223,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     // ── Step 1: Canonicalize Wizard input ──
     const canonicalWizard = canonicalizeWizardInput(body);
+    const cdksDecisions = resolveCDKSDecisions(canonicalWizard);
+    const cdksReadiness = resolveCDKSReadiness(canonicalWizard);
     const wizardData = mapToAIWizardPayload(canonicalWizard);
 
     // ── Step 2: Phase 1 (Sequential — must complete before Phase 2+3) ──
@@ -263,11 +267,36 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     // ── Step 6: Granular fallback for any missing sections ──
     const withFallback = applyGranularFallback(aiRichPartial, canonicalWizard);
 
-    // ── Step 7: Generate full Rules blueprint for backfill ──
-    const rulesBlueprint = generateBlueprint(canonicalWizard);
-
-    // ── Step 8: Merge AI (priority) + Rules (fallback) ──
+    // ── Step 7: Merge AI (priority) + Rules (fallback) ──
+    // backfillBlueprint owns the Rules fallback generation.
     const finalBlueprint = backfillBlueprint(withFallback, canonicalWizard);
+
+    // ── CDKS Authority Gate: canonical decisions override AI/legacy rule recommendations ──
+    if (finalBlueprint.strategy_summary) {
+      finalBlueprint.strategy_summary.recommended_objective = {
+        ...finalBlueprint.strategy_summary.recommended_objective,
+        value: cdksDecisions.objective.value,
+        rule_id: cdksDecisions.objective.rule_id,
+        reasoning: "CDKS Decision Authority v1.0",
+      };
+      finalBlueprint.strategy_summary.funnel_type = {
+        ...finalBlueprint.strategy_summary.funnel_type,
+        value: cdksDecisions.funnel.value,
+        rule_id: cdksDecisions.funnel.rule_id,
+        reasoning: "CDKS Decision Authority v1.0",
+      };
+      finalBlueprint.strategy_summary.recommended_channels = {
+        ...finalBlueprint.strategy_summary.recommended_channels,
+        value: cdksDecisions.channels.value,
+        rule_id: cdksDecisions.channels.rule_id,
+      };
+    }
+    if (finalBlueprint.recommended_funnel) {
+      finalBlueprint.recommended_funnel = {
+        ...finalBlueprint.recommended_funnel,
+        funnel_type: cdksDecisions.funnel.value,
+      };
+    }
 
     // ── Step 9: Final validation (on flat merged data, before Rich adaptation) ──
     const flatValidation = validateBlueprintObject(mergedFlat);
@@ -297,6 +326,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         success: true,
         data: {
           ...finalBlueprint,
+          cdks_decisions: cdksDecisions,
+          cdks_readiness: cdksReadiness,
           generation_mode: aiGenerated ? "hybrid" : "rules",
           ai_model: "llama-3.3-70b-versatile",
           ai_sections_generated: aiSections,

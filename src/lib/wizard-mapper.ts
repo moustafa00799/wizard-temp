@@ -33,6 +33,7 @@ export function mapToAIWizardPayload(raw: RawWizardData): AIWizardPayload {
   const dailyBudget = budgetToDaily(raw.budget_band);
 
   return {
+    source_wizard_input: raw,
     business_name: "",
     business_type: raw.business_type,
     industry: "",
@@ -63,7 +64,7 @@ export function mapToAIWizardPayload(raw: RawWizardData): AIWizardPayload {
     budget_flexibility: raw.budget_flexibility,
     has_creative_assets: raw.creative_assets.length > 0,
     creative_asset_types: raw.creative_assets,
-    brand_guidelines: "",
+    brand_guidelines: raw.core_message,
     has_tracking_setup:
       raw.tracking_status === "complete" ||
       raw.tracking_status === "configured",

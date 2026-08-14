@@ -8,7 +8,7 @@ const {
   BUDGET_MAP,
   CONSTRAINT_RISK_WEIGHTS,
   RESPONSE_SPEED_RISK
-} = require("../data/funnelDefinitions");
+} = require("../../../src/lib/rules/data/funnelDefinitions");
 
 /**
  * RF-001: Critical Flags Detection

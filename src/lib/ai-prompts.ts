@@ -244,7 +244,8 @@ function formatBoolean(b: boolean | undefined): string {
 }
 
 export function buildPhaseUserPrompt(wizardData: AIWizardPayload): string {
-  return `بيانات العميل (مأخوذة من Wizard مكون من 13 خطوة):
+  const canonicalSource = JSON.stringify(wizardData.source_wizard_input, null, 2);
+  return `CANONICAL SOURCE OF TRUTH (CanonicalWizardInput):\n${canonicalSource}\n\nبيانات العميل (مأخوذة من Wizard مكون من 13 خطوة):
 
 ═══════════════════════════════════════
 [1] معلومات النشاط التجاري

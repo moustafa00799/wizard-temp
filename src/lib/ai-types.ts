@@ -10,7 +10,11 @@
 // INPUT: What we send to the AI (snake_case, AI-friendly)
 // ============================================================
 
+import type { CanonicalWizardInput } from "./contracts/wizard-input";
+
 export interface AIWizardPayload {
+  /** Complete canonical source preserved for provenance and lossless contract verification. */
+  source_wizard_input: CanonicalWizardInput;
   business_name: string;
   business_type: string;
   industry: string;
