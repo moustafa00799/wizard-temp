@@ -1,0 +1,25 @@
+﻿name: CDKS Regression
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Install
+        run: npm ci
+      - name: CDKS Regression Gate
+        run: node scripts/ci-regression-gate.cjs
+      - name: Production Build
+        run: npm run build
