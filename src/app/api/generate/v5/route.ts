@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { CDKSEngine } from '@/lib/orchestrator/cdks-engine';
-import { CanonicalWizardInputSchema } from '@/lib/contracts/wizard-input';
+import { canonicalizeWizardInput } from '@/lib/contracts/wizard-input';
 import { CanonicalBlueprintSchema } from '@/lib/contracts/canonical-blueprint';
 import { ZodError } from 'zod';
 
@@ -9,9 +9,12 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const validatedInput = CanonicalWizardInputSchema.parse(body);
+    const validatedInput = canonicalizeWizardInput(body);
     const engine = new CDKSEngine();
-    const blueprint = await engine.generateBlueprint(validatedInput);
+    
+    // ✅ استدعاء الدالة generate الصحيحة من CDKSEngine
+    const blueprint = await engine.generate(validatedInput);
+    
     const validatedOutput = CanonicalBlueprintSchema.parse(blueprint);
     const processingTime = Math.round(performance.now() - startTime);
 

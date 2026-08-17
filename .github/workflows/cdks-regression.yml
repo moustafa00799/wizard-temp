@@ -43,4 +43,4 @@ jobs:
 
       - name: Production server log on failure
         if: failure()
-        run: cat /tmp/cdks-next.log
+        run: test -f /tmp/cdks-next.log && cat /tmp/cdks-next.log || echo "No production server log found"
