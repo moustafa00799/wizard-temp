@@ -26,12 +26,16 @@ jobs:
         run: npm run build
 
       - name: Start production server
-        run: npm run start -- --hostname 127.0.0.1 --port 3001 > /tmp/cdks-next.log 2>&1 &
+        run: PORT=3001 HOSTNAME=0.0.0.0 npm run start > /tmp/cdks-next.log 2>&1 &
 
       - name: Wait for production server
-        run: npx --yes wait-on http://127.0.0.1:3001
+        run: npx --yes wait-on http://127.0.0.1:3001 --timeout 60000
 
       - name: CDKS Regression Gate
+        env:
+          PORT: 3001
+          HOST: 127.0.0.1
+          NODE_OPTIONS: "--dns-result-order=ipv4first"
         run: node scripts/ci-regression-gate.cjs
 
       - name: Production server log on failure
