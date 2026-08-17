@@ -8,15 +8,18 @@
     "start": "next start",
     "lint": "eslint",
     "test:rules:parity": "node scripts/rule-engine-parity.cjs",
-    "audit:data-contract": "node scripts/data-contract-audit.cjs"
+    "audit:data-contract": "node scripts/data-contract-audit.cjs",
+    "semantic-eval": "tsx scripts/semantic-runner.ts"
   },
   "dependencies": {
     "@google/genai": "^2.16.0",
+    "@types/uuid": "^10.0.0",
     "html2canvas": "^1.4.1",
     "jspdf": "^4.2.1",
     "next": "16.2.12",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "uuid": "^14.0.1",
     "zustand": "^5.0.14"
   },
   "devDependencies": {
