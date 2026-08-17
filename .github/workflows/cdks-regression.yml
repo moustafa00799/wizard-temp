@@ -11,11 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5  # ✅ تم التحديث من v4 إلى v5
       - name: Setup Node
-        uses: actions/setup-node@v5  # ✅ التغيير الوحيد المطلوب
+        uses: actions/setup-node@v5
         with:
-          node-version: 22          # ✅ إصدار مستقر ومدعوم
+          node-version: 22
           cache: npm
       - name: Install
         run: npm ci
