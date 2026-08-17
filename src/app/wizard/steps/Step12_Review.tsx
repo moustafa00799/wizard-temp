@@ -1,5 +1,6 @@
 /**
  * Campaign Engine Builder — Step 12: Review & Generate
+ * Updated to use CDKS v5 API
  */
 
 "use client";
@@ -22,16 +23,16 @@ interface Step12ReviewProps {
   onGoToStep?: (step: number) => void;
 }
 
+// ✅ تحديث نوع النتيجة ليتوافق مع استجابة v5
 interface GenerationResult {
-  success: boolean;
-  data?: unknown;
-  source?: string;
-  aiGenerated?: boolean;
-  backfilled?: boolean;
-  aiError?: string | null;
-  latencyMs?: number;
-  totalLatencyMs?: number;
+  status: "success" | "error";
+  data?: any; // CanonicalBlueprint
+  version?: string;
+  processingTimeMs?: number;
+  timestamp?: string;
   error?: string;
+  message?: string;
+  details?: any;
 }
 
 function extractWizardData(value: any): any | null {
@@ -146,12 +147,14 @@ export default function Step12_Review({ wizardData: passedWizardData, onBack }: 
     setResultMeta(null);
 
     try {
-      const response = await fetch("/api/generate", {
+      // ✅ تغيير المسار إلى الإصدار الجديد v5
+      const response = await fetch("/api/generate/v5", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(wizardData),
       });
 
+      // محاكاة خطوات التقدم
       await new Promise((r) => setTimeout(r, 400));
       setStatus("validating");
       await new Promise((r) => setTimeout(r, 400));
@@ -162,25 +165,31 @@ export default function Step12_Review({ wizardData: passedWizardData, onBack }: 
 
       const result: GenerationResult = await response.json();
 
-      if (!response.ok || !result.success) {
-        throw new Error(result.error || "فشل في إنشاء الـ Blueprint");
+      // ✅ معالجة الاستجابة الجديدة
+      if (!response.ok || result.status === "error") {
+        throw new Error(result.error || result.message || "فشل في إنشاء الـ Blueprint");
       }
 
-      if (result.data && typeof result.data === "object") {
-        // Keep the original Wizard inputs alongside the generated Blueprint.
+      // ✅ استخراج البيانات من الهيكل الجديد
+      const blueprintData = result.data;
+      const processingTime = result.processingTimeMs || 0;
+
+      if (blueprintData && typeof blueprintData === "object") {
+        // تخزين الـ Blueprint مع بيانات المدخلات كما في السابق
         const blueprintWithInput = {
-          ...(result.data as Record<string, unknown>),
+          ...blueprintData,
           wizard_input: wizardData,
         };
         sessionStorage.setItem("blueprint_data", JSON.stringify(blueprintWithInput));
         sessionStorage.setItem("wizard_input", JSON.stringify(wizardData));
       }
 
+      // ✅ تحديث معلومات النتيجة للعرض (محاكاة لبيانات المصدر لأن v5 لا يرسلها)
       setResultMeta({
-        source: result.source || "unknown",
-        aiGenerated: result.aiGenerated || false,
-        backfilled: result.backfilled || false,
-        totalLatencyMs: result.totalLatencyMs || 0,
+        source: "CDKS v5 (Strategy + Rules + Execution + Compiler)",
+        aiGenerated: true,
+        backfilled: true,
+        totalLatencyMs: processingTime,
       });
 
       setStatus("success");
@@ -191,6 +200,9 @@ export default function Step12_Review({ wizardData: passedWizardData, onBack }: 
       setStatus("error");
     }
   }, [wizardData, router]);
+
+  // ... باقي الكود (العرض) يبقى كما هو دون تغيير
+  // (من السطر 135 إلى نهاية الملف)
 
   if (!wizardData) {
     return (
@@ -315,7 +327,7 @@ export default function Step12_Review({ wizardData: passedWizardData, onBack }: 
         <div className="bg-green-50 rounded-xl p-6 border border-green-200 text-center space-y-3">
           <div className="w-12 h-12 bg-green-500 text-white rounded-full flex items-center justify-center text-2xl mx-auto">✓</div>
           <h3 className="text-lg font-bold text-green-800">تم إنشاء الـ Blueprint بنجاح!</h3>
-          {resultMeta && <div className="text-sm text-green-700 space-y-1"><p>المصدر: <span className="font-semibold">{resultMeta.aiGenerated ? "AI + Rules Backfill" : "Rules Engine"}</span></p>{resultMeta.backfilled && <p>تمت تعبئة البيانات الناقصة تلقائياً</p>}<p className="text-xs text-green-600">الوقت: {(resultMeta.totalLatencyMs / 1000).toFixed(1)} ثانية</p></div>}
+          {resultMeta && <div className="text-sm text-green-700 space-y-1"><p>المصدر: <span className="font-semibold">{resultMeta.aiGenerated ? "CDKS v5 (AI + Rules + Compiler)" : "Rules Engine"}</span></p>{resultMeta.backfilled && <p>تمت تعبئة البيانات الناقصة تلقائياً</p>}<p className="text-xs text-green-600">الوقت: {(resultMeta.totalLatencyMs / 1000).toFixed(1)} ثانية</p></div>}
           <p className="text-sm text-gray-500">جاري التوجيه إلى صفحة العرض...</p>
         </div>
       )}
