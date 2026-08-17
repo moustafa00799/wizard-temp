@@ -13,9 +13,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5  # ← تم التحديث
         with:
-          node-version: 20
+          node-version: 22           # ← تم التحديث
           cache: npm
       - name: Install
         run: npm ci
