@@ -3,6 +3,8 @@ import { CDKSEngine } from '@/lib/orchestrator/cdks-engine';
 import { canonicalizeWizardInput } from '@/lib/contracts/wizard-input';
 import { CanonicalBlueprintSchema } from '@/lib/contracts/canonical-blueprint';
 import { buildBlueprintContractV3 } from '@/lib/contracts/build-blueprint-contract-v3';
+import { validateBlueprintContractV3 } from '@/lib/contracts/blueprint-contract-v3';
+import { buildAIStrategyProposal } from '@/lib/ai-strategy-builder';
 import { ZodError } from 'zod';
 
 export async function POST(request: NextRequest) {
@@ -18,7 +20,15 @@ export async function POST(request: NextRequest) {
     const blueprint = await engine.generate(validatedInput);
     
     const validatedOutput = CanonicalBlueprintSchema.parse(blueprint);
-    const contract = buildBlueprintContractV3(validatedInput, validatedOutput, body);
+    const baseContract = buildBlueprintContractV3(validatedInput, validatedOutput, body);
+    const strategyRequest = body && typeof body === 'object' && body.ai_strategy_builder && typeof body.ai_strategy_builder === 'object'
+      ? body.ai_strategy_builder as { enabled?: unknown; model?: unknown }
+      : {};
+    const strategy = await buildAIStrategyProposal(validatedInput, validatedOutput, baseContract, {
+      enabled: strategyRequest.enabled === true,
+      model: typeof strategyRequest.model === 'string' ? strategyRequest.model : undefined,
+    });
+    const contract = validateBlueprintContractV3({ ...baseContract, strategy });
     const processingTime = Math.round(performance.now() - startTime);
 
     return NextResponse.json(
