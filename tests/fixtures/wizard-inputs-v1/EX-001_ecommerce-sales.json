@@ -1,0 +1,103 @@
+{
+  "_fixture": {
+    "scenario_id": "EX-001",
+    "slug": "ecommerce-sales",
+    "output_language": "ar",
+    "currency": "SAR",
+    "scope": "primary",
+    "business_type_note": "approved branch",
+    "title": "E-commerce — Sales",
+    "source": "user-provided pasted_content_2.txt",
+    "assumptions": [
+      "conversion_model",
+      "ideal_customer",
+      "key_events",
+      "key_value_drivers",
+      "north_star_kpi",
+      "objections",
+      "offer_description",
+      "past_performance_notes",
+      "secondary_objectives",
+      "top_priority",
+      "final_confirmed_inputs"
+    ],
+    "assumption_policy": "Synthetic test assumptions; replace when owner-approved source values are available."
+  },
+  "input": {
+    "business_type": "ecommerce",
+    "primary_objective": "sales",
+    "build_mode": "new_campaign",
+    "campaign_direction": "prospecting",
+    "awareness_level": "solution_aware",
+    "geo_scope": "country",
+    "target_locations": [
+      "Saudi Arabia"
+    ],
+    "ad_channels": [
+      "meta",
+      "google_ads"
+    ],
+    "budget_band": "300_1000",
+    "budget_flexibility": "scale_if_positive",
+    "average_order_value": 250,
+    "profit_margin": 40,
+    "max_cac": 50,
+    "offer_type": "discount",
+    "persuasion_angle": "price",
+    "core_message": "أفضل منتجات بأقل سعر",
+    "usp": "توصيل مجاني خلال 24 ساعة",
+    "customer_problem": "المنتجات غالية في السوق",
+    "existing_assets": [
+      "website",
+      "pixel",
+      "catalog"
+    ],
+    "creative_assets": [
+      "images",
+      "video"
+    ],
+    "content_capacity": "easy",
+    "tracking_status": "partial",
+    "tracking_tools": [
+      "pixel",
+      "ga4"
+    ],
+    "conversion_destination": "website",
+    "sales_motion": "website_purchase",
+    "response_speed": "within_hour",
+    "previous_campaigns_status": "first_time",
+    "risk_tolerance": "medium",
+    "constraints": [],
+    "audience_segments": [
+      "beginner",
+      "high_intent"
+    ],
+    "offer_description": "متجر إلكتروني لمنتجات متنوعة مع توصيل مجاني خلال 24 ساعة",
+    "key_value_drivers": [
+      "price",
+      "speed",
+      "value"
+    ],
+    "secondary_objectives": [
+      "reduce_cac",
+      "brand_awareness"
+    ],
+    "north_star_kpi": "roas",
+    "past_performance_notes": "",
+    "ideal_customer": "متسوقون في السعودية يبحثون عن منتجات عملية بسعر مناسب وتوصيل سريع",
+    "objections": [
+      "price",
+      "trust",
+      "delivery"
+    ],
+    "key_events": [
+      "page_view",
+      "view_content",
+      "add_to_cart",
+      "purchase"
+    ],
+    "conversion_model": "online",
+    "top_priority": "increase_sales",
+    "final_confirmed_inputs": false
+  }
+}

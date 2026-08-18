@@ -1,0 +1,106 @@
+{
+  "_fixture": {
+    "scenario_id": "EX-006",
+    "slug": "ecommerce-retargeting",
+    "output_language": "ar",
+    "currency": "USD",
+    "scope": "primary",
+    "business_type_note": "approved branch",
+    "title": "Retargeting — E-commerce",
+    "source": "user-provided pasted_content_2.txt",
+    "assumptions": [
+      "conversion_model",
+      "ideal_customer",
+      "key_events",
+      "key_value_drivers",
+      "north_star_kpi",
+      "objections",
+      "offer_description",
+      "past_performance_notes",
+      "secondary_objectives",
+      "top_priority",
+      "final_confirmed_inputs"
+    ],
+    "assumption_policy": "Synthetic test assumptions; replace when owner-approved source values are available."
+  },
+  "input": {
+    "business_type": "ecommerce",
+    "primary_objective": "sales",
+    "build_mode": "optimize_existing",
+    "campaign_direction": "retargeting",
+    "awareness_level": "brand_aware",
+    "geo_scope": "country",
+    "target_locations": [
+      "UAE"
+    ],
+    "ad_channels": [
+      "meta",
+      "google_ads"
+    ],
+    "budget_band": "300_1000",
+    "budget_flexibility": "scale_if_positive",
+    "average_order_value": 180,
+    "profit_margin": 35,
+    "max_cac": 40,
+    "offer_type": "bundle",
+    "persuasion_angle": "scarcity",
+    "core_message": "رجع للسلة — خصم إضافي 10%",
+    "usp": "توصيل سريع ومجاني",
+    "customer_problem": "نسي إكمال الطلب",
+    "existing_assets": [
+      "website",
+      "pixel",
+      "catalog",
+      "facebook_page"
+    ],
+    "creative_assets": [
+      "images",
+      "video",
+      "ugc"
+    ],
+    "content_capacity": "easy",
+    "tracking_status": "ready",
+    "tracking_tools": [
+      "pixel",
+      "capi",
+      "ga4"
+    ],
+    "conversion_destination": "website",
+    "sales_motion": "website_purchase",
+    "response_speed": "within_hour",
+    "previous_campaigns_status": "successful",
+    "risk_tolerance": "medium",
+    "constraints": [],
+    "audience_segments": [
+      "existing_customers",
+      "high_intent"
+    ],
+    "offer_description": "حزمة منتجات لمستخدمين زاروا المتجر أو تركوا منتجات في السلة",
+    "key_value_drivers": [
+      "price",
+      "speed",
+      "trust"
+    ],
+    "secondary_objectives": [
+      "recover_abandoned_cart",
+      "increase_roas"
+    ],
+    "north_star_kpi": "roas",
+    "past_performance_notes": "المثال يصف حملة سابقة ناجحة.",
+    "ideal_customer": "زوار ومتسوقون في الإمارات تفاعلوا مع المتجر ولم يكملوا الشراء",
+    "objections": [
+      "price",
+      "trust",
+      "delivery"
+    ],
+    "key_events": [
+      "view_content",
+      "add_to_cart",
+      "initiate_checkout",
+      "purchase"
+    ],
+    "conversion_model": "online",
+    "top_priority": "increase_roas",
+    "final_confirmed_inputs": false
+  }
+}

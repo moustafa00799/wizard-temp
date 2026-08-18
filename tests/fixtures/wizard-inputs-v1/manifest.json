@@ -1,0 +1,90 @@
+{
+  "version": "v1-phase1",
+  "source": "user-provided pasted_content_2.txt",
+  "total": 10,
+  "primary": 7,
+  "extended": 3,
+  "note": "The eleven completed fields are explicitly labeled as synthetic assumptions.",
+  "fixtures": [
+    {
+      "scenario_id": "EX-001",
+      "slug": "ecommerce-sales",
+      "output_language": "ar",
+      "currency": "SAR",
+      "scope": "primary",
+      "business_type_note": "approved branch"
+    },
+    {
+      "scenario_id": "EX-002",
+      "slug": "b2b-leads",
+      "output_language": "en",
+      "currency": "USD",
+      "scope": "primary",
+      "business_type_note": "approved branch"
+    },
+    {
+      "scenario_id": "EX-003",
+      "slug": "local-service-calls",
+      "output_language": "ar",
+      "currency": "SAR",
+      "scope": "primary",
+      "business_type_note": "canonical value local_service"
+    },
+    {
+      "scenario_id": "EX-004",
+      "slug": "app-installs",
+      "output_language": "en",
+      "currency": "EGP",
+      "scope": "primary",
+      "business_type_note": "approved branch"
+    },
+    {
+      "scenario_id": "EX-005",
+      "slug": "education-leads",
+      "output_language": "ar",
+      "currency": "SAR",
+      "scope": "extended",
+      "business_type_note": "outside approved Phase-one branches"
+    },
+    {
+      "scenario_id": "EX-006",
+      "slug": "ecommerce-retargeting",
+      "output_language": "ar",
+      "currency": "USD",
+      "scope": "primary",
+      "business_type_note": "approved branch"
+    },
+    {
+      "scenario_id": "EX-007",
+      "slug": "consumer-testing",
+      "output_language": "en",
+      "currency": "USD",
+      "scope": "extended",
+      "business_type_note": "outside approved Phase-one branches"
+    },
+    {
+      "scenario_id": "EX-008",
+      "slug": "ecommerce-multichannel-scale",
+      "output_language": "ar",
+      "currency": "USD",
+      "scope": "primary",
+      "business_type_note": "approved branch"
+    },
+    {
+      "scenario_id": "EX-009",
+      "slug": "consumer-awareness",
+      "output_language": "en",
+      "currency": "SAR",
+      "scope": "extended",
+      "business_type_note": "outside approved Phase-one branches"
+    },
+    {
+      "scenario_id": "EX-010",
+      "slug": "b2b-high-risk-leads",
+      "output_language": "ar",
+      "currency": "EGP",
+      "scope": "primary",
+      "business_type_note": "approved branch"
+    }
+  ]
+}

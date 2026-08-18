@@ -1,0 +1,1509 @@
+{
+  "blueprint_id": "bp_ms9vv2j0_bupig553e",
+  "version": "2.0.0",
+  "rule_engine_version": "1.5.0",
+  "generated_at": "2026-08-01T04:40:28.812Z",
+  "executive_summary": {
+    "readiness_level": "fair",
+    "readiness_score": 53,
+    "risk_level": "low",
+    "risk_score": 25,
+    "launch_recommendation": "not_ready",
+    "estimated_launch_date": "2026-08-02"
+  },
+  "strategy_summary": {
+    "recommended_objective": {
+      "value": "awareness",
+      "confidence": 80,
+      "reasoning": "First campaign should focus on awareness before conversion.",
+      "rule_id": "SS-001"
+    },
+    "recommended_channels": {
+      "value": [
+        "meta",
+        "tiktok_ads",
+        "snapchat_ads"
+      ],
+      "channel_scores": {
+        "meta": 55,
+        "google_ads": 25,
+        "tiktok_ads": 40,
+        "snapchat_ads": 25,
+        "youtube": 0,
+        "linkedin": 0,
+        "x": 0
+      },
+      "confidence": 85,
+      "reasoning": "Top channels for consumer_product with website_purchase sales motion: meta, tiktok_ads, snapchat_ads.",
+      "rule_id": "SS-002"
+    },
+    "funnel_type": {
+      "value": "education_funnel",
+      "stages": [
+        "Awareness",
+        "Education",
+        "Consideration",
+        "Conversion"
+      ],
+      "confidence": 80,
+      "reasoning": "Unaware audience needs education before conversion.",
+      "rule_id": "SS-003"
+    },
+    "confidence_score": {
+      "value": 38,
+      "breakdown": {
+        "tracking": 20,
+        "assets": 5,
+        "content": 5,
+        "capacity": 0,
+        "readiness": 8
+      },
+      "confidence": 85,
+      "reasoning": "Confidence based on tracking (20), assets (5), content (5), capacity (0).",
+      "rule_id": "SS-004"
+    },
+    "estimated_timeline": {
+      "days": 16,
+      "label": "Extended (3 weeks)",
+      "factors": [
+        "Low readiness score requires more setup time",
+        "New campaign requires full setup"
+      ],
+      "confidence": 70,
+      "reasoning": "Timeline estimated at 16 days based on build mode and readiness.",
+      "rule_id": "SS-005"
+    }
+  },
+  "recommended_funnel": {
+    "funnel_type": "education_funnel",
+    "stages": [
+      {
+        "stage_number": 1,
+        "name": "Awareness",
+        "objective": "reach",
+        "content_template": "problem_awareness",
+        "kpi": "cpm",
+        "budget_ratio": 0.25
+      },
+      {
+        "stage_number": 2,
+        "name": "Education",
+        "objective": "traffic",
+        "content_template": "educational_content",
+        "kpi": "ctr",
+        "budget_ratio": 0.25
+      },
+      {
+        "stage_number": 3,
+        "name": "Consideration",
+        "objective": "engagement",
+        "content_template": "social_proof",
+        "kpi": "engagement_rate",
+        "budget_ratio": 0.25
+      },
+      {
+        "stage_number": 4,
+        "name": "Conversion",
+        "objective": "conversions",
+        "content_template": "offer",
+        "kpi": "cpa",
+        "budget_ratio": 0.25
+      }
+    ],
+    "total_stages": 4
+  },
+  "campaign_structure": {
+    "campaign_count": 3,
+    "campaigns": [
+      {
+        "id": "camp_1",
+        "name": "consumer_product_meta_awareness",
+        "objective": "awareness",
+        "platform": "meta",
+        "budget_share": 0.33,
+        "ad_sets": 2,
+        "creatives_per_ad_set": 3
+      },
+      {
+        "id": "camp_2",
+        "name": "consumer_product_tiktok_ads_awareness",
+        "objective": "awareness",
+        "platform": "tiktok_ads",
+        "budget_share": 0.33,
+        "ad_sets": 2,
+        "creatives_per_ad_set": 3
+      },
+      {
+        "id": "camp_3",
+        "name": "consumer_product_snapchat_ads_awareness",
+        "objective": "awareness",
+        "platform": "snapchat_ads",
+        "budget_share": 0.33,
+        "ad_sets": 2,
+        "creatives_per_ad_set": 3
+      }
+    ],
+    "ad_set_structure": {
+      "per_campaign": 2,
+      "total": 6
+    }
+  },
+  "audience_structure": {
+    "primary_audience": {
+      "name": "Primary Audience",
+      "description": "Target audience for consumer_product",
+      "targeting_type": "interest_based",
+      "interests": [
+        "consumer_product"
+      ],
+      "size_estimate": "1M-5M"
+    },
+    "segments": [
+      {
+        "name": "Segment 1",
+        "description": "beginner",
+        "targeting_type": "custom",
+        "interests": [
+          "beginner"
+        ],
+        "size_estimate": "100K-500K"
+      }
+    ],
+    "lookalike": {
+      "recommended": false,
+      "source": "pixel_data",
+      "priority": "medium"
+    },
+    "exclusions": [
+      "existing_customers"
+    ]
+  },
+  "audience_analysis": {
+    "size_estimate": {
+      "value": {
+        "min": 10000,
+        "max": 500000,
+        "label": "10K-500K",
+        "daily_reach_estimate": 25000
+      },
+      "confidence": 75,
+      "reasoning": "Audience size estimated for single_city with consumer_product targeting.",
+      "rule_id": "RF-006"
+    },
+    "overlap_check": {
+      "value": {
+        "overlap_risk": "low",
+        "segments": [],
+        "recommendation": "Only one segment — no overlap risk."
+      },
+      "confidence": 90,
+      "reasoning": "Single segment selected, no overlap possible.",
+      "rule_id": "RF-013"
+    },
+    "frequency_cap": {
+      "value": {
+        "max_frequency_7_days": 3,
+        "max_frequency_30_days": 9,
+        "warning_threshold": 2,
+        "rationale": "Unaware audiences need gentle introduction — cap at 3x/7 days to avoid annoyance.",
+        "action_if_exceeded": "Pause ad set or refresh creative"
+      },
+      "confidence": 80,
+      "reasoning": "Frequency cap: 3x per 7 days for testing.",
+      "rule_id": "RF-014"
+    }
+  },
+  "creative_strategy": {
+    "recommended_formats": {
+      "value": [
+        {
+          "type": "video",
+          "priority": 1,
+          "specs": "1080x1920, 9-15s, vertical",
+          "best_for": "all",
+          "channel": "tiktok_ads",
+          "asset_ready": true
+        },
+        {
+          "type": "video",
+          "priority": 1,
+          "specs": "1080x1920, 3-6s",
+          "best_for": "young_audience",
+          "channel": "snapchat_ads",
+          "asset_ready": true
+        },
+        {
+          "type": "video",
+          "priority": 2,
+          "specs": "1080x1080 or 1080x1920, 15-30s",
+          "best_for": "all",
+          "channel": "meta",
+          "asset_ready": true
+        },
+        {
+          "type": "carousel",
+          "priority": 6,
+          "specs": "1080x1080, 3-5 cards",
+          "best_for": "ecommerce",
+          "channel": "meta",
+          "asset_ready": false
+        },
+        {
+          "type": "spark_ads",
+          "priority": 7,
+          "specs": "Boost organic posts",
+          "best_for": "ugc",
+          "channel": "tiktok_ads",
+          "asset_ready": false
+        },
+        {
+          "type": "image",
+          "priority": 8,
+          "specs": "1080x1080 or 1200x628",
+          "best_for": "all",
+          "channel": "meta",
+          "asset_ready": false
+        }
+      ],
+      "confidence": 80,
+      "reasoning": "Recommended 7 creative formats across 3 channels.",
+      "rule_id": "RF-007"
+    },
+    "refresh_schedule": {
+      "value": {
+        "refresh_interval_days": 14,
+        "test_new_creative_every": 3,
+        "sunset_threshold": {
+          "ctr_drop": 30,
+          "frequency": 4
+        },
+        "fatigue_indicators": [
+          "CTR drops > 20% from baseline",
+          "Frequency exceeds recommended cap",
+          "CPA increases > 30%",
+          "Engagement rate declines"
+        ],
+        "refresh_triggers": [
+          "After 7 days if CTR < 1%",
+          "When frequency reaches cap",
+          "Every 14 days automatically"
+        ]
+      },
+      "confidence": 75,
+      "reasoning": "Creative refresh every 14 days based on capacity hard.",
+      "rule_id": "RF-015"
+    },
+    "social_proof": {
+      "value": {
+        "social_proof_score": 0,
+        "status": "missing",
+        "present": {
+          "testimonials": false,
+          "ugc": false,
+          "reviews": false,
+          "case_studies": false
+        },
+        "gaps": [
+          "Customer testimonials",
+          "User-generated content",
+          "Reviews/ratings"
+        ],
+        "recommendations": [
+          "Collect 5-10 customer testimonials with photos",
+          "Encourage customers to share UGC with branded hashtag",
+          "Display star ratings on landing pages",
+          "Create 2-3 case studies for B2B"
+        ],
+        "ad_performance_impact": "Ads with social proof see 15-30% higher CTR and 20% lower CPA."
+      },
+      "confidence": 80,
+      "reasoning": "Social proof score: 0/100 — 3 gaps identified.",
+      "rule_id": "RF-028"
+    }
+  },
+  "tracking_assessment": {
+    "detailed_score": {
+      "value": {
+        "score": 47,
+        "level": "fair",
+        "present_tools": [
+          "pixel"
+        ],
+        "missing_tools": [
+          "capi",
+          "ga4"
+        ],
+        "required_events": [
+          "page_view",
+          "engagement"
+        ],
+        "setup_steps": [
+          {
+            "tool": "capi",
+            "steps": [
+              "Set up server-side API",
+              "Configure event deduplication",
+              "Test with Events Manager"
+            ]
+          },
+          {
+            "tool": "ga4",
+            "steps": [
+              "Create GA4 property",
+              "Install gtag.js or GTM",
+              "Configure conversion events"
+            ]
+          }
+        ]
+      },
+      "confidence": 85,
+      "reasoning": "Tracking score 47/100: 1/3 tools installed.",
+      "rule_id": "RF-008"
+    }
+  },
+  "launch_plan": {
+    "detailed_timeline": {
+      "value": {
+        "total_days": 8,
+        "milestones": [
+          {
+            "phase": "Tracking & Technical Setup",
+            "days": 2,
+            "tasks": [
+              "Install tracking pixels",
+              "Configure conversion events",
+              "Verify data flow",
+              "Set up UTM parameters"
+            ],
+            "critical": true
+          },
+          {
+            "phase": "Creative Production",
+            "days": 3,
+            "tasks": [
+              "Design ad creatives",
+              "Write ad copy",
+              "Create landing page variations",
+              "Review and approve assets"
+            ],
+            "critical": true
+          },
+          {
+            "phase": "Campaign Build",
+            "days": 2,
+            "tasks": [
+              "Create campaign structure",
+              "Set up audiences",
+              "Configure budgets",
+              "Set up A/B tests"
+            ],
+            "critical": true
+          },
+          {
+            "phase": "Review & Launch",
+            "days": 1,
+            "tasks": [
+              "Final QA check",
+              "Stakeholder approval",
+              "Soft launch (test budget)",
+              "Monitor first 24 hours"
+            ],
+            "critical": true
+          }
+        ],
+        "critical_path": [
+          "Tracking & Technical Setup",
+          "Creative Production",
+          "Campaign Build",
+          "Review & Launch"
+        ],
+        "launch_ready_date": "2026-08-09"
+      },
+      "confidence": 70,
+      "reasoning": "Launch timeline: 8 days across 4 phases.",
+      "rule_id": "RF-009"
+    },
+    "pre_launch_checklist": {
+      "value": {
+        "items": [
+          {
+            "category": "Technical",
+            "item": "Tracking pixel installed and firing",
+            "status": "warning",
+            "required": true
+          },
+          {
+            "category": "Technical",
+            "item": "Conversion events configured",
+            "status": "pass",
+            "required": true
+          },
+          {
+            "category": "Technical",
+            "item": "Landing page loads under 3 seconds",
+            "status": "check_manually",
+            "required": true
+          },
+          {
+            "category": "Technical",
+            "item": "Mobile responsive design",
+            "status": "check_manually",
+            "required": true
+          },
+          {
+            "category": "Creative",
+            "item": "At least 3 ad creative variants",
+            "status": "pass",
+            "required": true
+          },
+          {
+            "category": "Creative",
+            "item": "Ad copy follows platform guidelines",
+            "status": "check_manually",
+            "required": true
+          },
+          {
+            "category": "Campaign",
+            "item": "Budget and bid strategy set",
+            "status": "pass",
+            "required": true
+          },
+          {
+            "category": "Campaign",
+            "item": "Audience targeting defined",
+            "status": "pass",
+            "required": true
+          },
+          {
+            "category": "Campaign",
+            "item": "Frequency cap configured",
+            "status": "check_manually",
+            "required": false
+          },
+          {
+            "category": "Legal",
+            "item": "Privacy policy linked",
+            "status": "check_manually",
+            "required": true
+          },
+          {
+            "category": "Legal",
+            "item": "Terms of service accessible",
+            "status": "check_manually",
+            "required": true
+          }
+        ],
+        "summary": {
+          "passed": 4,
+          "failed": 0,
+          "warnings": 1,
+          "manual": 6,
+          "total": 11
+        },
+        "ready_to_launch": true,
+        "completion_percentage": 36
+      },
+      "confidence": 80,
+      "reasoning": "Pre-launch checklist: 4 passed, 0 failed, 1 warnings, 6 need manual check.",
+      "rule_id": "RF-010"
+    }
+  },
+  "monitoring": {
+    "post_launch_plan": {
+      "value": {
+        "primary_kpis": [
+          "CPM",
+          "Reach",
+          "Frequency",
+          "Brand Lift"
+        ],
+        "check_frequency": "every_2_days",
+        "monitoring_schedule": [
+          {
+            "day": "Day 1-3",
+            "focus": "Technical verification",
+            "actions": [
+              "Verify pixel firing",
+              "Check spend pacing",
+              "Confirm CTR > 1%"
+            ]
+          },
+          {
+            "day": "Day 4-7",
+            "focus": "Initial optimization",
+            "actions": [
+              "Pause underperforming ads",
+              "Adjust bids",
+              "Review audience performance"
+            ]
+          },
+          {
+            "day": "Day 8-14",
+            "focus": "Scaling decisions",
+            "actions": [
+              "Identify winning creatives",
+              "Scale top audiences",
+              "Test new angles"
+            ]
+          },
+          {
+            "day": "Week 3+",
+            "focus": "Performance maintenance",
+            "actions": [
+              "Weekly performance review",
+              "Creative refresh",
+              "Budget reallocation"
+            ]
+          }
+        ],
+        "alert_thresholds": {
+          "cpa_spike": "CPA increases > 50% from target",
+          "ctr_drop": "CTR drops below 0.5%",
+          "spend_imbalance": "One ad set consumes > 70% budget",
+          "frequency_high": "Frequency exceeds 3 in 7 days"
+        },
+        "reporting_dashboard": [
+          "Meta Ads Manager",
+          "Google Analytics 4",
+          "Custom Dashboard"
+        ]
+      },
+      "confidence": 80,
+      "reasoning": "Monitoring plan with every_2_days checks for awareness objective.",
+      "rule_id": "RF-011"
+    }
+  },
+  "budget_management": {
+    "pacing_strategy": {
+      "value": {
+        "monthly_pacing": {
+          "week_1": {
+            "percentage": 0.5,
+            "amount": 700,
+            "focus": "Intensive Testing"
+          },
+          "week_2": {
+            "percentage": 0.3,
+            "amount": 420,
+            "focus": "Optimization"
+          },
+          "week_3": {
+            "percentage": 0.25,
+            "amount": 350,
+            "focus": "Scaling"
+          },
+          "week_4": {
+            "percentage": 0.2,
+            "amount": 280,
+            "focus": "Maintenance"
+          }
+        },
+        "daily_targets": {
+          "min_spend": 140,
+          "target_spend": 200,
+          "max_spend": 240,
+          "warning_threshold": 100
+        },
+        "reallocation_trigger": "Weekly if CPA deviates > 30% from target",
+        "emergency_pause": "CPA > 2x target for 3 consecutive days"
+      },
+      "confidence": 75,
+      "reasoning": "Budget pacing: Intensive Testing in week 1 with $700.",
+      "rule_id": "RF-012"
+    },
+    "burn_rate_analysis": {
+      "value": {
+        "monthly_budget": 6000,
+        "daily_target": 200,
+        "weekly_projection": [
+          {
+            "week": 1,
+            "projected_spend": 980,
+            "cumulative": 1400,
+            "status": "testing"
+          },
+          {
+            "week": 2,
+            "projected_spend": 1400,
+            "cumulative": 2800,
+            "status": "optimization"
+          },
+          {
+            "week": 3,
+            "projected_spend": 1680,
+            "cumulative": 4620,
+            "status": "scaling"
+          },
+          {
+            "week": 4,
+            "projected_spend": 1400,
+            "cumulative": 5600,
+            "status": "maintenance"
+          }
+        ],
+        "burn_rate_alerts": [
+          {
+            "threshold": "Daily spend > 120% of budget",
+            "action": "Review bid strategy — may be overbidding",
+            "severity": "medium"
+          },
+          {
+            "threshold": "CPA > 2x target for 3 days",
+            "action": "Pause and investigate",
+            "severity": "high"
+          },
+          {
+            "threshold": "Week 1 spend > 40% of monthly budget",
+            "action": "Pacing issue — reduce or pause",
+            "severity": "medium"
+          }
+        ],
+        "pacing_recommendation": "Conservative pacing — focus on learning, not spending"
+      },
+      "confidence": 70,
+      "reasoning": "Budget burn rate: $6000/month, $200/day target.",
+      "rule_id": "RF-030"
+    }
+  },
+  "testing": {
+    "ab_test_plan": {
+      "value": {
+        "tests": [
+          {
+            "element": "Creative",
+            "variants": [
+              "Image A (Primary Angle)",
+              "Image B (Social Proof)",
+              "Video (if available)"
+            ],
+            "duration_days": 5,
+            "minimum_spend": 50,
+            "success_metric": "CPA or CTR"
+          },
+          {
+            "element": "Placement",
+            "variants": [
+              "Feed Only",
+              "Stories + Reels",
+              "Automatic"
+            ],
+            "duration_days": 5,
+            "minimum_spend": 75,
+            "success_metric": "CPM vs CTR"
+          }
+        ],
+        "total_test_budget": 125,
+        "test_priority": "high",
+        "minimum_test_duration": 5,
+        "statistical_significance": "95% confidence, minimum 100 conversions per variant"
+      },
+      "confidence": 80,
+      "reasoning": "A/B test plan: 2 tests, $125 minimum test budget.",
+      "rule_id": "RF-016"
+    }
+  },
+  "benchmarks": {
+    "conversion_benchmarks": {
+      "value": {
+        "industry_average_cvr": null,
+        "industry_average_ctr": 0.8,
+        "target_cpa": null,
+        "performance_targets": {
+          "week_1": {
+            "cvr": null,
+            "ctr": 0.5599999999999999
+          },
+          "week_2": {
+            "cvr": null,
+            "ctr": 0.7200000000000001
+          },
+          "week_3_plus": {
+            "cvr": null,
+            "ctr": 0.8
+          }
+        },
+        "source": "Industry benchmarks — Meta & Google Ads averages 2024"
+      },
+      "confidence": 70,
+      "reasoning": "Benchmarks for consumer_product/awareness: CVR null%, CTR 0.8%.",
+      "rule_id": "RF-017"
+    }
+  },
+  "market_context": {
+    "seasonality": {
+      "value": {
+        "current_month": 8,
+        "seasonality_factor": 1,
+        "season": "normal",
+        "budget_adjustment": "Maintain current budget",
+        "cpc_expectation": "CPC stable",
+        "recommendations": [
+          "Standard operations",
+          "A/B test new strategies"
+        ]
+      },
+      "confidence": 65,
+      "reasoning": "Seasonality factor: 1x for consumer_product in month 8.",
+      "rule_id": "RF-018"
+    },
+    "competitor_analysis": {
+      "value": {
+        "competition_level": "high",
+        "estimated_cpc_range": {
+          "low": 0.5,
+          "high": 2.5
+        },
+        "market_saturation": "70-90%",
+        "differentiation_strategies": [
+          "Emphasize unique value proposition in ad copy",
+          "Use customer testimonials and social proof",
+          "Offer guarantee or risk reversal",
+          "Target niche audience segments"
+        ],
+        "ad_spend_recommendation": "Expect 20-30% higher CPC than benchmark. Focus on conversion rate optimization.",
+        "content_differentiation": [
+          "Video testimonials vs competitor static images",
+          "Educational content vs direct sales pitches",
+          "UGC-style content vs polished brand ads"
+        ]
+      },
+      "confidence": 60,
+      "reasoning": "Competition level: high for consumer_product in single_city.",
+      "rule_id": "RF-019"
+    }
+  },
+  "platform_guides": {
+    "platform_specific_rules": {
+      "value": [
+        {
+          "platform": "Meta (Facebook/Instagram)",
+          "rules": [
+            "Use Advantage+ Campaigns for prospecting",
+            "Set up Conversions API (CAPI) for iOS 14+ tracking",
+            "Use broad targeting + Advantage+ for algorithm optimization",
+            "Video ads: first 3 seconds are critical",
+            "Carousel ads: use first card as hook"
+          ],
+          "objective_mapping": "AWARENESS",
+          "best_practices": [
+            "Test Advantage+ vs manual campaigns",
+            "Use UGC-style creatives",
+            "Leverage Reels placement"
+          ]
+        },
+        {
+          "platform": "TikTok Ads",
+          "rules": [
+            "Vertical video (9:16) is mandatory",
+            "First 1-2 seconds must hook",
+            "Use Spark Ads to boost organic content",
+            "Sound-on experience is default",
+            "Trending sounds increase reach"
+          ],
+          "objective_mapping": "AWARENESS",
+          "best_practices": [
+            "Native-looking creatives outperform polished ads",
+            "Use TikTok Shop for e-commerce",
+            "Test 3+ hooks per concept"
+          ]
+        }
+      ],
+      "confidence": 85,
+      "reasoning": "Platform-specific rules for meta, tiktok_ads, snapchat_ads.",
+      "rule_id": "RF-020"
+    }
+  },
+  "compliance": {
+    "legal": {
+      "value": {
+        "requirements": [
+          {
+            "requirement": "Privacy Policy on website/landing page",
+            "category": "GDPR/CCPA",
+            "mandatory": true
+          },
+          {
+            "requirement": "Terms of Service accessible",
+            "category": "General",
+            "mandatory": true
+          },
+          {
+            "requirement": "Cookie consent banner (EU traffic)",
+            "category": "GDPR",
+            "mandatory": true
+          },
+          {
+            "requirement": "Ad disclosure (sponsored content)",
+            "category": "FTC/Advertising Standards",
+            "mandatory": true
+          },
+          {
+            "requirement": "Meta Advertising Policies compliance",
+            "category": "Platform Policy",
+            "mandatory": true
+          },
+          {
+            "requirement": "No prohibited content (health claims, etc.)",
+            "category": "Platform Policy",
+            "mandatory": true
+          }
+        ],
+        "mandatory_count": 6,
+        "checklist_status": "manual_review_required",
+        "recommendation": "Review all mandatory requirements with legal counsel before launch."
+      },
+      "confidence": 80,
+      "reasoning": "6 compliance requirements identified, 6 mandatory.",
+      "rule_id": "RF-021"
+    },
+    "privacy": {
+      "value": {
+        "applicable_regulations": [
+          "General Data Protection"
+        ],
+        "requirements": [
+          {
+            "regulation": "General Data Protection",
+            "required": true,
+            "actions": [
+              "Basic privacy policy",
+              "Secure data handling"
+            ]
+          }
+        ],
+        "compliance_status": "standard",
+        "recommended_consultation": false
+      },
+      "confidence": 75,
+      "reasoning": "1 privacy regulations applicable based on targeting.",
+      "rule_id": "RF-022"
+    }
+  },
+  "technical_audit": {
+    "accessibility": {
+      "value": {
+        "checks": [
+          {
+            "item": "Alt text on images",
+            "status": "check_manually",
+            "importance": "high",
+            "impact": "Screen readers, SEO"
+          },
+          {
+            "item": "Color contrast ratio (4.5:1 minimum)",
+            "status": "check_manually",
+            "importance": "high",
+            "impact": "Visual impairments"
+          },
+          {
+            "item": "Video captions/subtitles",
+            "status": "check_manually",
+            "importance": "medium",
+            "impact": "Hearing impairments"
+          },
+          {
+            "item": "Readable font size (minimum 16px mobile)",
+            "status": "check_manually",
+            "importance": "medium",
+            "impact": "Visual impairments"
+          },
+          {
+            "item": "Form labels and ARIA attributes",
+            "status": "check_manually",
+            "importance": "high",
+            "impact": "Screen readers"
+          }
+        ],
+        "applicable_checks": 5,
+        "manual_checks_required": 5,
+        "overall_status": "review_needed",
+        "priority_fixes": [
+          "Alt text on images",
+          "Color contrast ratio (4.5:1 minimum)",
+          "Form labels and ARIA attributes"
+        ]
+      },
+      "confidence": 70,
+      "reasoning": "5 accessibility checks require manual review.",
+      "rule_id": "RF-023"
+    },
+    "mobile_optimization": {
+      "value": {
+        "mobile_score": 70,
+        "status": "needs_work",
+        "checks": [
+          {
+            "item": "Mobile-responsive landing page",
+            "status": "check_manually",
+            "weight": 30
+          },
+          {
+            "item": "Touch-friendly buttons (min 44x44px)",
+            "status": "check_manually",
+            "weight": 15
+          },
+          {
+            "item": "Fast mobile load time (< 3s)",
+            "status": "check_manually",
+            "weight": 25
+          },
+          {
+            "item": "Simplified mobile forms",
+            "status": "not_applicable",
+            "weight": 15
+          },
+          {
+            "item": "Click-to-call for phone numbers",
+            "status": "not_applicable",
+            "weight": 10
+          },
+          {
+            "item": "WhatsApp click-to-chat",
+            "status": "not_applicable",
+            "weight": 5
+          }
+        ],
+        "traffic_share_note": "60-70% of ad traffic is mobile — mobile optimization is critical.",
+        "quick_wins": [
+          "Compress images for mobile",
+          "Use AMP or lightweight landing pages",
+          "Minimize form fields on mobile",
+          "Use large, tappable CTA buttons"
+        ]
+      },
+      "confidence": 70,
+      "reasoning": "Mobile optimization score: 70/100 based on 3 checks.",
+      "rule_id": "RF-024"
+    },
+    "page_speed": {
+      "value": {
+        "speed_score": "manual_test_required",
+        "target_metrics": {
+          "lcp": "< 2.5 seconds",
+          "fid": "< 100ms",
+          "cls": "< 0.1",
+          "ttfb": "< 600ms"
+        },
+        "recommendations": [
+          {
+            "action": "Compress images (WebP format)",
+            "impact": "high",
+            "effort": "low"
+          },
+          {
+            "action": "Enable browser caching",
+            "impact": "medium",
+            "effort": "low"
+          },
+          {
+            "action": "Minify CSS/JS files",
+            "impact": "medium",
+            "effort": "low"
+          },
+          {
+            "action": "Use CDN for static assets",
+            "impact": "high",
+            "effort": "medium"
+          },
+          {
+            "action": "Lazy load images and videos",
+            "impact": "medium",
+            "effort": "medium"
+          },
+          {
+            "action": "Remove unused JavaScript",
+            "impact": "high",
+            "effort": "medium"
+          }
+        ],
+        "tools": [
+          "Google PageSpeed Insights",
+          "GTmetrix",
+          "WebPageTest",
+          "Lighthouse"
+        ],
+        "impact_on_ads": "Every 1s delay = 7% conversion drop. Mobile users abandon after 3s."
+      },
+      "confidence": 75,
+      "reasoning": "Page speed assessment requires manual testing with recommended tools.",
+      "rule_id": "RF-025"
+    },
+    "ssl_certificate": {
+      "value": {
+        "status": "check_manually",
+        "required": true,
+        "reason": "SSL (HTTPS) is mandatory for all ad platforms. Non-HTTPS URLs are rejected or penalized.",
+        "check_items": [
+          "Valid SSL certificate (not expired)",
+          "HTTPS redirect from HTTP",
+          "Mixed content check (no HTTP resources on HTTPS page)",
+          "HSTS header recommended"
+        ],
+        "ad_platform_impact": {
+          "meta": "Required for landing page ads",
+          "google_ads": "Required. Quality Score penalty for non-SSL.",
+          "tiktok": "Required for web destination ads"
+        },
+        "tools": [
+          "SSL Labs Test",
+          "Why No Padlock",
+          "Browser DevTools"
+        ]
+      },
+      "confidence": 90,
+      "reasoning": "SSL check required for all web destinations.",
+      "rule_id": "RF-026"
+    },
+    "domain_authority": {
+      "value": {
+        "status": "manual_check_required",
+        "benchmarks": {
+          "new": 10,
+          "established": 40,
+          "leader": 60
+        },
+        "ad_impact": {
+          "quality_score": "Higher DA = better landing page experience = lower CPC",
+          "trust_signal": "Users trust established domains more",
+          "organic_synergy": "Paid traffic can boost organic signals"
+        },
+        "improvement_actions": [
+          "Build quality backlinks from industry sites",
+          "Publish regular blog content",
+          "Optimize on-page SEO",
+          "Improve site speed and UX",
+          "Get listed in relevant directories"
+        ],
+        "tools": [
+          "Moz",
+          "Ahrefs",
+          "SEMrush",
+          "Ubersuggest"
+        ]
+      },
+      "confidence": 60,
+      "reasoning": "Domain authority assessment requires external tools.",
+      "rule_id": "RF-027"
+    }
+  },
+  "offer_strategy": {
+    "expiration_strategy": {
+      "value": {
+        "status": "no_offer",
+        "recommendation": "Create time-limited offer to drive urgency",
+        "suggested_offers": [
+          {
+            "type": "discount",
+            "duration": "7 days",
+            "urgency": "high"
+          },
+          {
+            "type": "free_trial",
+            "duration": "14 days",
+            "urgency": "medium"
+          },
+          {
+            "type": "bundle",
+            "duration": "limited_quantity",
+            "urgency": "high"
+          }
+        ]
+      },
+      "confidence": 70,
+      "reasoning": "No offer defined — urgency strategy cannot be applied.",
+      "rule_id": "RF-029"
+    }
+  },
+  "budget_split": {
+    "daily_budget": {
+      "value": {
+        "min": 100,
+        "recommended": 200,
+        "max": 300,
+        "flexible": false
+      },
+      "confidence": 85,
+      "reasoning": "Daily budget mapped from 100_300 band. Fixed budget mode.",
+      "rule_id": "BS-001"
+    },
+    "channel_allocation": {
+      "value": {
+        "meta": 50,
+        "tiktok_ads": 30,
+        "snapchat_ads": 20
+      },
+      "confidence": 80,
+      "reasoning": "Budget allocated across 3 channels based on objective awareness.",
+      "rule_id": "BS-002"
+    },
+    "test_budget": {
+      "value": {
+        "percentage": 0.3,
+        "amount": 60
+      },
+      "confidence": 75,
+      "reasoning": "Test budget set to 30% based on new_campaign mode and first_time history.",
+      "rule_id": "BS-003"
+    },
+    "scale_budget": {
+      "value": {
+        "max": 200,
+        "increment": "none"
+      },
+      "confidence": 90,
+      "reasoning": "Fixed budget — no scaling allowed.",
+      "rule_id": "BS-004"
+    },
+    "cac_target": {
+      "value": 20,
+      "source": "user_defined",
+      "flags": [],
+      "confidence": 75,
+      "reasoning": "CAC target set at 20 based on user_defined.",
+      "rule_id": "BS-005"
+    }
+  },
+  "creative_angles": {
+    "primary_angle": {
+      "name": "value",
+      "hook": "أكثر قيمة بأقل سعر",
+      "body": "{offer_description} — كل اللي تحتاجه في مكان واحد",
+      "cta": "تعرف علينا"
+    },
+    "alternative_angles": [
+      {
+        "name": "social_proof",
+        "hook": "انضم لآلاف العملاء الراضين",
+        "body": "شوف تجارب عملائنا الحقيقية وقرر بنفسك",
+        "cta": "اكتشف المزيد"
+      },
+      {
+        "name": "urgency",
+        "hook": "عرض محدود لفترة قصيرة",
+        "body": "لا تفوت الفرصة — العرض ينتهي قريباً",
+        "cta": "تابعنا"
+      }
+    ],
+    "formats": [
+      {
+        "type": "image",
+        "priority": 1,
+        "platforms": [
+          "meta",
+          "tiktok_ads",
+          "snapchat_ads"
+        ]
+      },
+      {
+        "type": "carousel",
+        "priority": 2,
+        "platforms": [
+          "meta"
+        ]
+      },
+      {
+        "type": "video",
+        "priority": 3,
+        "platforms": [
+          "meta",
+          "tiktok_ads"
+        ]
+      }
+    ]
+  },
+  "tracking_checklist": {
+    "required_events": [
+      "page_view",
+      "engagement"
+    ],
+    "setup_status": {
+      "overall": "partial",
+      "score": 60,
+      "items": [
+        {
+          "event": "page_view",
+          "status": "configured",
+          "required": true
+        },
+        {
+          "event": "engagement",
+          "status": "configured",
+          "required": true
+        }
+      ]
+    },
+    "missing_items": [],
+    "implementation_guide": {
+      "steps": [
+        "Install Meta Pixel base code",
+        "Set up conversion events",
+        "Verify with Pixel Helper",
+        "Test conversion firing"
+      ],
+      "estimated_time": "2-4 hours",
+      "complexity": "low"
+    }
+  },
+  "risk_flags": {
+    "critical": [],
+    "warnings": [
+      {
+        "id": "WARN-001",
+        "message": "Tracking is only partially set up.",
+        "impact": "Incomplete conversion data",
+        "action": "Complete tracking setup for all key events."
+      }
+    ],
+    "recommendations": [
+      {
+        "id": "REC-001",
+        "message": "First-time advertiser — start with a small test budget.",
+        "action": "Allocate 30-40% of budget for testing different audiences and creatives."
+      },
+      {
+        "id": "REC-002",
+        "message": "No clear offer defined.",
+        "action": "Create a compelling offer (discount, free trial, guarantee) to improve conversion."
+      }
+    ],
+    "risk_score": {
+      "value": 25,
+      "level": "low",
+      "breakdown": {
+        "tracking": 15,
+        "budget": 5,
+        "content": 0,
+        "response": 5,
+        "constraints": 0
+      },
+      "confidence": 80,
+      "reasoning": "Risk score 25 (low): tracking 15, budget 5, content 0, response 5, constraints 0.",
+      "rule_id": "RF-004"
+    }
+  },
+  "first_14_days_plan": {
+    "week_1": [
+      {
+        "day": "Day 1",
+        "task": "Finalize campaign structure and audiences",
+        "priority": "high",
+        "owner": "media_buyer",
+        "blocker": false
+      },
+      {
+        "day": "Day 2",
+        "task": "Set up tracking and verify pixel firing",
+        "priority": "high",
+        "owner": "developer",
+        "blocker": true
+      },
+      {
+        "day": "Day 3",
+        "task": "Create ad creatives (3-5 variants)",
+        "priority": "high",
+        "owner": "designer",
+        "blocker": false
+      },
+      {
+        "day": "Day 4",
+        "task": "Write ad copy for all angles",
+        "priority": "medium",
+        "owner": "copywriter",
+        "blocker": false
+      },
+      {
+        "day": "Day 5",
+        "task": "Launch first campaign (test budget)",
+        "priority": "high",
+        "owner": "media_buyer",
+        "blocker": true
+      },
+      {
+        "day": "Day 6",
+        "task": "Monitor initial performance metrics",
+        "priority": "medium",
+        "owner": "media_buyer",
+        "blocker": false
+      },
+      {
+        "day": "Day 7",
+        "task": "First optimization pass (pause losers)",
+        "priority": "medium",
+        "owner": "media_buyer",
+        "blocker": false
+      }
+    ],
+    "week_2": [
+      {
+        "day": "Day 8",
+        "task": "Analyze first week data",
+        "priority": "high",
+        "owner": "media_buyer",
+        "blocker": false
+      },
+      {
+        "day": "Day 9",
+        "task": "Scale winning ad sets (+20%)",
+        "priority": "high",
+        "owner": "media_buyer",
+        "blocker": false
+      },
+      {
+        "day": "Day 10",
+        "task": "Launch lookalike audiences",
+        "priority": "medium",
+        "owner": "media_buyer",
+        "blocker": false
+      },
+      {
+        "day": "Day 11",
+        "task": "Test new creative angles",
+        "priority": "medium",
+        "owner": "designer",
+        "blocker": false
+      },
+      {
+        "day": "Day 12",
+        "task": "Review CAC vs target",
+        "priority": "high",
+        "owner": "media_buyer",
+        "blocker": false
+      },
+      {
+        "day": "Day 13",
+        "task": "Optimize landing page if needed",
+        "priority": "low",
+        "owner": "developer",
+        "blocker": false
+      },
+      {
+        "day": "Day 14",
+        "task": "Full performance review and next steps",
+        "priority": "high",
+        "owner": "media_buyer",
+        "blocker": false
+      }
+    ],
+    "daily_budget_schedule": [
+      {
+        "day": 1,
+        "budget": "test_budget",
+        "note": "Start with test budget"
+      },
+      {
+        "day": 3,
+        "budget": "full_budget",
+        "note": "Scale to full budget if metrics positive"
+      },
+      {
+        "day": 7,
+        "budget": "optimize",
+        "note": "Pause losers, scale winners"
+      },
+      {
+        "day": 10,
+        "budget": "scale",
+        "note": "Increase budget on winning campaigns"
+      }
+    ],
+    "launch_sequence": [
+      {
+        "step": 1,
+        "action": "Tracking setup",
+        "depends_on": [],
+        "duration": "1-2 days"
+      },
+      {
+        "step": 2,
+        "action": "Creative preparation",
+        "depends_on": [],
+        "duration": "2-3 days"
+      },
+      {
+        "step": 3,
+        "action": "Campaign creation",
+        "depends_on": [
+          1,
+          2
+        ],
+        "duration": "1 day"
+      },
+      {
+        "step": 4,
+        "action": "Launch & monitor",
+        "depends_on": [
+          3
+        ],
+        "duration": "ongoing"
+      }
+    ]
+  },
+  "pre_launch_fixes": {
+    "must_fix": [
+      {
+        "item": "Complete tracking setup",
+        "priority": "high",
+        "estimated_time": "1-2 hours",
+        "action": "Add missing conversion events and verify pixel firing."
+      }
+    ],
+    "should_fix": [
+      {
+        "item": "Set up Conversions API (CAPI)",
+        "priority": "high",
+        "estimated_time": "2-3 hours",
+        "action": "Install server-side tracking to complement browser pixel."
+      },
+      {
+        "item": "Set up UTM tracking",
+        "priority": "medium",
+        "estimated_time": "30 minutes",
+        "action": "Add UTM parameters to all ad URLs for source tracking."
+      }
+    ],
+    "nice_to_have": [
+      {
+        "item": "Set up A/B testing framework",
+        "priority": "low",
+        "estimated_time": "2-4 hours",
+        "action": "Use Meta's A/B testing or Google Optimize for landing pages."
+      },
+      {
+        "item": "Connect CRM for lead tracking",
+        "priority": "low",
+        "estimated_time": "2-3 hours",
+        "action": "Integrate CRM to track lead quality and lifetime value."
+      }
+    ],
+    "estimated_fix_time": "2 hours",
+    "recommendation": "Launch possible after 1 critical fixes (~2 hours).",
+    "confidence": 75,
+    "reasoning": "1 must-fix, 2 should-fix, 2 nice-to-have items identified.",
+    "rule_id": "RF-003"
+  },
+  "flags": {
+    "errors": [],
+    "warnings": [],
+    "infos": []
+  },
+  "debug": {
+    "execution_time_ms": 1,
+    "rules_executed": 40,
+    "scores_breakdown": {
+      "readiness": {
+        "assets": 3,
+        "tracking": 18,
+        "content": 5,
+        "conversion_path": 15,
+        "data_completeness": 12
+      },
+      "risk": {
+        "tracking": 15,
+        "budget": 5,
+        "content": 0,
+        "response": 5,
+        "constraints": 0
+      }
+    }
+  }
+}

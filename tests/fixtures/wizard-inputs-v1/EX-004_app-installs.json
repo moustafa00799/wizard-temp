@@ -1,0 +1,100 @@
+{
+  "_fixture": {
+    "scenario_id": "EX-004",
+    "slug": "app-installs",
+    "output_language": "en",
+    "currency": "EGP",
+    "scope": "primary",
+    "business_type_note": "approved branch",
+    "title": "App — Installs",
+    "source": "user-provided pasted_content_2.txt",
+    "assumptions": [
+      "conversion_model",
+      "ideal_customer",
+      "key_events",
+      "key_value_drivers",
+      "north_star_kpi",
+      "objections",
+      "offer_description",
+      "past_performance_notes",
+      "secondary_objectives",
+      "top_priority",
+      "final_confirmed_inputs"
+    ],
+    "assumption_policy": "Synthetic test assumptions; replace when owner-approved source values are available."
+  },
+  "input": {
+    "business_type": "app",
+    "primary_objective": "app_installs",
+    "build_mode": "new_campaign",
+    "campaign_direction": "prospecting",
+    "awareness_level": "solution_aware",
+    "geo_scope": "country",
+    "target_locations": [
+      "Egypt"
+    ],
+    "ad_channels": [
+      "meta",
+      "tiktok_ads"
+    ],
+    "budget_band": "1000_5000",
+    "budget_flexibility": "scale_if_positive",
+    "average_order_value": 10,
+    "profit_margin": 60,
+    "max_cac": 5,
+    "offer_type": "discount",
+    "persuasion_angle": "value",
+    "core_message": "تطبيقك المفضل بين يديك",
+    "usp": "تجربة سلسة وسريعة",
+    "customer_problem": "التطبيقات البطيئة",
+    "existing_assets": [
+      "store"
+    ],
+    "creative_assets": [
+      "video",
+      "ugc"
+    ],
+    "content_capacity": "easy",
+    "tracking_status": "partial",
+    "tracking_tools": [
+      "sdk",
+      "ga4"
+    ],
+    "conversion_destination": "app",
+    "sales_motion": "multi_channel",
+    "response_speed": "within_hour",
+    "previous_campaigns_status": "weak",
+    "risk_tolerance": "medium",
+    "constraints": [],
+    "audience_segments": [
+      "high_intent",
+      "lookalike"
+    ],
+    "offer_description": "تطبيق جوال يقدم تجربة سريعة وسلسة للمستخدمين",
+    "key_value_drivers": [
+      "value",
+      "speed",
+      "ease_of_use"
+    ],
+    "secondary_objectives": [
+      "app_activation",
+      "reduce_cac"
+    ],
+    "north_star_kpi": "cost_per_install",
+    "past_performance_notes": "الأداء السابق ضعيف بحسب وصف المثال دون أرقام تفصيلية.",
+    "ideal_customer": "مستخدمو الهواتف في مصر الباحثون عن تجربة تطبيق أسرع وأسهل",
+    "objections": [
+      "trust",
+      "complexity",
+      "privacy"
+    ],
+    "key_events": [
+      "app_install",
+      "sign_up",
+      "activation"
+    ],
+    "conversion_model": "online",
+    "top_priority": "app_activation",
+    "final_confirmed_inputs": false
+  }
+}

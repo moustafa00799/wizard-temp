@@ -1,0 +1,98 @@
+{
+  "_fixture": {
+    "scenario_id": "EX-009",
+    "slug": "consumer-awareness",
+    "output_language": "en",
+    "currency": "SAR",
+    "scope": "extended",
+    "business_type_note": "outside approved Phase-one branches",
+    "title": "Awareness Campaign",
+    "source": "user-provided pasted_content_2.txt",
+    "assumptions": [
+      "conversion_model",
+      "ideal_customer",
+      "key_events",
+      "key_value_drivers",
+      "north_star_kpi",
+      "objections",
+      "offer_description",
+      "past_performance_notes",
+      "secondary_objectives",
+      "top_priority",
+      "final_confirmed_inputs"
+    ],
+    "assumption_policy": "Synthetic test assumptions; replace when owner-approved source values are available."
+  },
+  "input": {
+    "business_type": "consumer_product",
+    "primary_objective": "awareness",
+    "build_mode": "new_campaign",
+    "campaign_direction": "prospecting",
+    "awareness_level": "unaware",
+    "geo_scope": "country",
+    "target_locations": [
+      "Saudi Arabia"
+    ],
+    "ad_channels": [
+      "meta",
+      "youtube"
+    ],
+    "budget_band": "300_1000",
+    "budget_flexibility": "fixed",
+    "average_order_value": 120,
+    "profit_margin": 40,
+    "max_cac": 30,
+    "offer_type": "no_clear_offer",
+    "persuasion_angle": "value",
+    "core_message": "اكتشف المنتج اللي يغير حياتك",
+    "usp": "تصميم عصري وأداء ممتاز",
+    "customer_problem": "المنتجات الحالية غير فعالة",
+    "existing_assets": [
+      "website"
+    ],
+    "creative_assets": [
+      "video"
+    ],
+    "content_capacity": "slow",
+    "tracking_status": "partial",
+    "tracking_tools": [
+      "pixel",
+      "ga4"
+    ],
+    "conversion_destination": "website",
+    "sales_motion": "website_purchase",
+    "response_speed": "within_day",
+    "previous_campaigns_status": "first_time",
+    "risk_tolerance": "high_if_return",
+    "constraints": [],
+    "audience_segments": [
+      "beginner"
+    ],
+    "offer_description": "منتج استهلاكي جديد يحتاج إلى بناء الوعي واختبار الرسالة",
+    "key_value_drivers": [
+      "innovation",
+      "value",
+      "quality"
+    ],
+    "secondary_objectives": [
+      "brand_awareness",
+      "audience_testing"
+    ],
+    "north_star_kpi": "reach",
+    "past_performance_notes": "",
+    "ideal_customer": "مستهلكون في السعودية لم يسبق لهم معرفة المنتج ويحتاجون إلى تثقيف أولي",
+    "objections": [
+      "trust",
+      "need",
+      "price"
+    ],
+    "key_events": [
+      "page_view",
+      "view_content",
+      "video_view"
+    ],
+    "conversion_model": "online",
+    "top_priority": "awareness_growth",
+    "final_confirmed_inputs": false
+  }
+}

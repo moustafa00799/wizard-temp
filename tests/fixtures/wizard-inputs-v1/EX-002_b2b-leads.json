@@ -1,0 +1,109 @@
+{
+  "_fixture": {
+    "scenario_id": "EX-002",
+    "slug": "b2b-leads",
+    "output_language": "en",
+    "currency": "USD",
+    "scope": "primary",
+    "business_type_note": "approved branch",
+    "title": "B2B — Leads",
+    "source": "user-provided pasted_content_2.txt",
+    "assumptions": [
+      "conversion_model",
+      "ideal_customer",
+      "key_events",
+      "key_value_drivers",
+      "north_star_kpi",
+      "objections",
+      "offer_description",
+      "past_performance_notes",
+      "secondary_objectives",
+      "top_priority",
+      "final_confirmed_inputs"
+    ],
+    "assumption_policy": "Synthetic test assumptions; replace when owner-approved source values are available."
+  },
+  "input": {
+    "business_type": "b2b",
+    "primary_objective": "leads",
+    "build_mode": "new_campaign",
+    "campaign_direction": "prospecting",
+    "awareness_level": "problem_aware",
+    "geo_scope": "multiple_countries",
+    "target_locations": [
+      "UAE",
+      "Saudi Arabia",
+      "Egypt"
+    ],
+    "ad_channels": [
+      "linkedin",
+      "google_ads"
+    ],
+    "budget_band": "1000_5000",
+    "budget_flexibility": "fixed",
+    "average_order_value": 5000,
+    "profit_margin": 30,
+    "max_cac": 500,
+    "offer_type": "consultation",
+    "persuasion_angle": "specialization",
+    "core_message": "حلول ذكية لأعمالك",
+    "usp": "خبرة 10 سنوات في السوق",
+    "customer_problem": "صعوبة إدارة العمليات",
+    "existing_assets": [
+      "website",
+      "landing_page",
+      "crm"
+    ],
+    "creative_assets": [
+      "images",
+      "testimonials"
+    ],
+    "content_capacity": "slow",
+    "tracking_status": "ready",
+    "tracking_tools": [
+      "pixel",
+      "ga4",
+      "crm",
+      "gtm"
+    ],
+    "conversion_destination": "form",
+    "sales_motion": "call",
+    "response_speed": "within_day",
+    "previous_campaigns_status": "successful",
+    "risk_tolerance": "very_low",
+    "constraints": [
+      "legal"
+    ],
+    "audience_segments": [
+      "advanced",
+      "lookalike"
+    ],
+    "offer_description": "حلول B2B لإدارة العمليات وتحسين كفاءة فرق العمل",
+    "key_value_drivers": [
+      "results",
+      "specialization",
+      "trust"
+    ],
+    "secondary_objectives": [
+      "lead_quality",
+      "brand_awareness"
+    ],
+    "north_star_kpi": "qualified_lead_rate",
+    "past_performance_notes": "المثال يصف أداءً سابقًا ناجحًا دون أرقام تفصيلية.",
+    "ideal_customer": "مديرو العمليات وأصحاب القرار في شركات مصر والسعودية والإمارات",
+    "objections": [
+      "price",
+      "complexity",
+      "trust"
+    ],
+    "key_events": [
+      "page_view",
+      "submit_form",
+      "lead",
+      "demo_booked"
+    ],
+    "conversion_model": "hybrid",
+    "top_priority": "lead_quality",
+    "final_confirmed_inputs": false
+  }
+}

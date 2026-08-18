@@ -1,0 +1,95 @@
+{
+  "_fixture": {
+    "scenario_id": "EX-003",
+    "slug": "local-service-calls",
+    "output_language": "ar",
+    "currency": "SAR",
+    "scope": "primary",
+    "business_type_note": "canonical value local_service",
+    "title": "Local Service — Calls",
+    "source": "user-provided pasted_content_2.txt",
+    "assumptions": [
+      "conversion_model",
+      "ideal_customer",
+      "key_events",
+      "key_value_drivers",
+      "north_star_kpi",
+      "objections",
+      "offer_description",
+      "past_performance_notes",
+      "secondary_objectives",
+      "top_priority",
+      "final_confirmed_inputs"
+    ],
+    "assumption_policy": "Synthetic test assumptions; replace when owner-approved source values are available."
+  },
+  "input": {
+    "business_type": "local_service",
+    "primary_objective": "messages",
+    "build_mode": "new_campaign",
+    "campaign_direction": "prospecting",
+    "awareness_level": "unaware",
+    "geo_scope": "local_radius",
+    "target_locations": [
+      "Riyadh"
+    ],
+    "ad_channels": [
+      "meta",
+      "google_ads"
+    ],
+    "budget_band": "100_300",
+    "budget_flexibility": "scale_if_positive",
+    "average_order_value": 150,
+    "profit_margin": 50,
+    "max_cac": 30,
+    "offer_type": "free_trial",
+    "persuasion_angle": "trust",
+    "core_message": "خدمة موثوقة بأفضل سعر",
+    "usp": "ضمان رضا العملاء",
+    "customer_problem": "صعوبة إيجاد خدمة موثوقة",
+    "existing_assets": [
+      "website"
+    ],
+    "creative_assets": [
+      "images"
+    ],
+    "content_capacity": "no",
+    "tracking_status": "missing",
+    "tracking_tools": [],
+    "conversion_destination": "whatsapp",
+    "sales_motion": "call",
+    "response_speed": "within_hour",
+    "previous_campaigns_status": "first_time",
+    "risk_tolerance": "high_if_return",
+    "constraints": [],
+    "audience_segments": [
+      "beginner"
+    ],
+    "offer_description": "خدمة محلية موثوقة تصل إلى العميل داخل نطاق الرياض",
+    "key_value_drivers": [
+      "speed",
+      "trust",
+      "easy_order"
+    ],
+    "secondary_objectives": [
+      "lead_capture",
+      "brand_awareness"
+    ],
+    "north_star_kpi": "qualified_call_count",
+    "past_performance_notes": "",
+    "ideal_customer": "سكان الرياض الذين يحتاجون خدمة موثوقة وسريعة بالقرب من موقعهم",
+    "objections": [
+      "trust",
+      "price",
+      "response_time"
+    ],
+    "key_events": [
+      "whatsapp_click",
+      "call",
+      "lead"
+    ],
+    "conversion_model": "offline",
+    "top_priority": "tracking_fix",
+    "final_confirmed_inputs": false
+  }
+}

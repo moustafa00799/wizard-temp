@@ -1,0 +1,42 @@
+[
+  {
+    "name": "ecommerce",
+    "label": "E-commerce (Sales)"
+  },
+  {
+    "name": "b2b",
+    "label": "B2B (Leads)"
+  },
+  {
+    "name": "local_service",
+    "label": "Local Service (Calls)"
+  },
+  {
+    "name": "app",
+    "label": "App (Installs)"
+  },
+  {
+    "name": "education",
+    "label": "Education (Leads)"
+  },
+  {
+    "name": "retargeting",
+    "label": "Retargeting (E-commerce)"
+  },
+  {
+    "name": "testing",
+    "label": "Testing Mode (Consumer Product)"
+  },
+  {
+    "name": "multichannel",
+    "label": "Multi-Channel Scale (E-commerce)"
+  },
+  {
+    "name": "awareness",
+    "label": "Awareness Campaign (Brand New)"
+  },
+  {
+    "name": "high_risk",
+    "label": "Lead Gen — High Risk Tolerance"
+  }
+]

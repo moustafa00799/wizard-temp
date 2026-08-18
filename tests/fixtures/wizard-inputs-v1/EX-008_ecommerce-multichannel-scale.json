@@ -1,0 +1,115 @@
+{
+  "_fixture": {
+    "scenario_id": "EX-008",
+    "slug": "ecommerce-multichannel-scale",
+    "output_language": "ar",
+    "currency": "USD",
+    "scope": "primary",
+    "business_type_note": "approved branch",
+    "title": "Multi-Channel Scale",
+    "source": "user-provided pasted_content_2.txt",
+    "assumptions": [
+      "conversion_model",
+      "ideal_customer",
+      "key_events",
+      "key_value_drivers",
+      "north_star_kpi",
+      "objections",
+      "offer_description",
+      "past_performance_notes",
+      "secondary_objectives",
+      "top_priority",
+      "final_confirmed_inputs"
+    ],
+    "assumption_policy": "Synthetic test assumptions; replace when owner-approved source values are available."
+  },
+  "input": {
+    "business_type": "ecommerce",
+    "primary_objective": "sales",
+    "build_mode": "optimize_existing",
+    "campaign_direction": "prospecting",
+    "awareness_level": "solution_aware",
+    "geo_scope": "multiple_countries",
+    "target_locations": [
+      "Saudi Arabia",
+      "UAE",
+      "Kuwait",
+      "Qatar"
+    ],
+    "ad_channels": [
+      "meta",
+      "google_ads",
+      "tiktok_ads",
+      "snapchat_ads"
+    ],
+    "budget_band": "above_5000",
+    "budget_flexibility": "scale_if_positive",
+    "average_order_value": 350,
+    "profit_margin": 50,
+    "max_cac": 70,
+    "offer_type": "discount",
+    "persuasion_angle": "guarantee",
+    "core_message": "أفضل جودة بضمان استرداد",
+    "usp": "ضمان استرداد 30 يوم",
+    "customer_problem": "القلق من الجودة عند الشراء اونلاين",
+    "existing_assets": [
+      "website",
+      "pixel",
+      "catalog",
+      "facebook_page",
+      "instagram"
+    ],
+    "creative_assets": [
+      "images",
+      "video",
+      "ugc",
+      "testimonials"
+    ],
+    "content_capacity": "easy",
+    "tracking_status": "ready",
+    "tracking_tools": [
+      "pixel",
+      "capi",
+      "ga4",
+      "gtm"
+    ],
+    "conversion_destination": "website",
+    "sales_motion": "website_purchase",
+    "response_speed": "within_hour",
+    "previous_campaigns_status": "successful",
+    "risk_tolerance": "medium",
+    "constraints": [],
+    "audience_segments": [
+      "lookalike",
+      "high_intent",
+      "existing_customers"
+    ],
+    "offer_description": "متجر إلكتروني متعدد الأسواق يبيع منتجات عالية الجودة بضمان استرداد",
+    "key_value_drivers": [
+      "quality",
+      "trust",
+      "guarantee"
+    ],
+    "secondary_objectives": [
+      "increase_demand",
+      "reduce_cac"
+    ],
+    "north_star_kpi": "roas",
+    "past_performance_notes": "المثال يصف أداءً سابقًا ناجحًا.",
+    "ideal_customer": "متسوقون في الخليج يهتمون بالجودة والضمان والتوصيل الموثوق",
+    "objections": [
+      "price",
+      "trust",
+      "quality"
+    ],
+    "key_events": [
+      "view_content",
+      "add_to_cart",
+      "initiate_checkout",
+      "purchase"
+    ],
+    "conversion_model": "online",
+    "top_priority": "scale",
+    "final_confirmed_inputs": false
+  }
+}
