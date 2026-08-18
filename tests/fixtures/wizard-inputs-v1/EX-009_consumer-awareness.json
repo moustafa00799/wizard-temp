@@ -94,5 +94,514 @@
     "conversion_model": "online",
     "top_priority": "awareness_growth",
     "final_confirmed_inputs": false
+  },
+  "expected_v3": {
+    "contract_version": "3.0",
+    "generation_mode": "blueprint_only",
+    "locale": "en",
+    "currency": "SAR",
+    "decisions": {
+      "objective": {
+        "value": "awareness",
+        "authority": "DECISION_POLICY",
+        "rule_id": "CDKS-OBJ-CANONICAL",
+        "evidence": [
+          "primary_objective"
+        ],
+        "uncertainty": []
+      },
+      "funnel": {
+        "value": "education_funnel",
+        "authority": "DECISION_POLICY",
+        "rule_id": "CDKS-FUN-UNAWARE-EDUCATION",
+        "evidence": [
+          "awareness_level"
+        ],
+        "uncertainty": []
+      },
+      "channels": {
+        "value": [
+          "meta",
+          "youtube"
+        ],
+        "authority": "DECISION_POLICY",
+        "rule_id": "CDKS-CHANNEL-CANONICAL",
+        "evidence": [
+          "ad_channels"
+        ],
+        "uncertainty": []
+      }
+    },
+    "expected_outcomes": {
+      "objective": "awareness",
+      "funnel": "education_funnel",
+      "readiness_before_confirmation": "blocked",
+      "readiness_after_confirmation": "ready"
+    },
+    "readiness": {
+      "value": "blocked",
+      "authority": "READINESS_POLICY",
+      "rule_id": "CDKS-READINESS-UNCONFIRMED",
+      "evidence": [
+        "final_confirmed_inputs"
+      ],
+      "uncertainty": [
+        "inputs_not_finally_confirmed"
+      ]
+    },
+    "warnings": [
+      {
+        "code": "DATA-ASSUMPTIONS-UNCONFIRMED",
+        "severity": "error",
+        "message": "Some canonical fields are synthetic assumptions and require owner confirmation.",
+        "action": "Review the assumptions and set final_confirmed_inputs to true only after approval.",
+        "evidence": [
+          "conversion_model",
+          "ideal_customer",
+          "key_events",
+          "key_value_drivers",
+          "north_star_kpi",
+          "objections",
+          "offer_description",
+          "past_performance_notes",
+          "secondary_objectives",
+          "top_priority",
+          "final_confirmed_inputs"
+        ],
+        "authority": "READINESS_POLICY"
+      },
+      {
+        "code": "TRACKING-PARTIAL",
+        "severity": "warning",
+        "message": "Tracking is partial and requires validation before scaling.",
+        "action": "Complete and test the conversion event map and reporting checks.",
+        "evidence": [
+          "tracking_status",
+          "tracking_tools",
+          "key_events"
+        ],
+        "authority": "READINESS_POLICY"
+      },
+      {
+        "code": "BRANCH-EXTENDED",
+        "severity": "info",
+        "message": "This business branch is retained as an extended regression fixture and is outside the approved phase-one branch set.",
+        "action": "Keep it in regression tests but do not use it as a primary production branch until explicitly approved.",
+        "evidence": [
+          "business_type"
+        ],
+        "authority": "WIZARD_INPUT"
+      }
+    ],
+    "strategy": {
+      "status": "not_requested",
+      "authority": "AI_STRATEGY_BUILDER",
+      "proposed_changes": [],
+      "accepted_changes": [],
+      "rejected_changes": [],
+      "limitations": [
+        "AI Strategy Builder is not enabled in Phase 1."
+      ]
+    },
+    "reasoning": {
+      "status": "not_requested",
+      "authority": "AI_REASONING",
+      "supported_claims": [],
+      "unsupported_claims": [],
+      "limitations": [
+        "AI Reasoning is not enabled in Phase 1."
+      ]
+    },
+    "provenance": [
+      {
+        "path": "source_wizard_input.business_type",
+        "source": "input",
+        "authority": "WIZARD_INPUT",
+        "source_ref": "fixture:EX-009:input",
+        "assumptions": [],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.primary_objective",
+        "source": "input",
+        "authority": "WIZARD_INPUT",
+        "source_ref": "fixture:EX-009:input",
+        "assumptions": [],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.build_mode",
+        "source": "input",
+        "authority": "WIZARD_INPUT",
+        "source_ref": "fixture:EX-009:input",
+        "assumptions": [],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.campaign_direction",
+        "source": "input",
+        "authority": "WIZARD_INPUT",
+        "source_ref": "fixture:EX-009:input",
+        "assumptions": [],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.awareness_level",
+        "source": "input",
+        "authority": "WIZARD_INPUT",
+        "source_ref": "fixture:EX-009:input",
+        "assumptions": [],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.geo_scope",
+        "source": "input",
+        "authority": "WIZARD_INPUT",
+        "source_ref": "fixture:EX-009:input",
+        "assumptions": [],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.target_locations",
+        "source": "input",
+        "authority": "WIZARD_INPUT",
+        "source_ref": "fixture:EX-009:input",
+        "assumptions": [],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.ad_channels",
+        "source": "input",
+        "authority": "WIZARD_INPUT",
+        "source_ref": "fixture:EX-009:input",
+        "assumptions": [],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.budget_band",
+        "source": "input",
+        "authority": "WIZARD_INPUT",
+        "source_ref": "fixture:EX-009:input",
+        "assumptions": [],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.budget_flexibility",
+        "source": "input",
+        "authority": "WIZARD_INPUT",
+        "source_ref": "fixture:EX-009:input",
+        "assumptions": [],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.average_order_value",
+        "source": "input",
+        "authority": "WIZARD_INPUT",
+        "source_ref": "fixture:EX-009:input",
+        "assumptions": [],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.profit_margin",
+        "source": "input",
+        "authority": "WIZARD_INPUT",
+        "source_ref": "fixture:EX-009:input",
+        "assumptions": [],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.max_cac",
+        "source": "input",
+        "authority": "WIZARD_INPUT",
+        "source_ref": "fixture:EX-009:input",
+        "assumptions": [],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.offer_type",
+        "source": "input",
+        "authority": "WIZARD_INPUT",
+        "source_ref": "fixture:EX-009:input",
+        "assumptions": [],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.persuasion_angle",
+        "source": "input",
+        "authority": "WIZARD_INPUT",
+        "source_ref": "fixture:EX-009:input",
+        "assumptions": [],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.core_message",
+        "source": "input",
+        "authority": "WIZARD_INPUT",
+        "source_ref": "fixture:EX-009:input",
+        "assumptions": [],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.usp",
+        "source": "input",
+        "authority": "WIZARD_INPUT",
+        "source_ref": "fixture:EX-009:input",
+        "assumptions": [],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.customer_problem",
+        "source": "input",
+        "authority": "WIZARD_INPUT",
+        "source_ref": "fixture:EX-009:input",
+        "assumptions": [],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.existing_assets",
+        "source": "input",
+        "authority": "WIZARD_INPUT",
+        "source_ref": "fixture:EX-009:input",
+        "assumptions": [],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.creative_assets",
+        "source": "input",
+        "authority": "WIZARD_INPUT",
+        "source_ref": "fixture:EX-009:input",
+        "assumptions": [],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.content_capacity",
+        "source": "input",
+        "authority": "WIZARD_INPUT",
+        "source_ref": "fixture:EX-009:input",
+        "assumptions": [],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.tracking_status",
+        "source": "input",
+        "authority": "WIZARD_INPUT",
+        "source_ref": "fixture:EX-009:input",
+        "assumptions": [],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.tracking_tools",
+        "source": "input",
+        "authority": "WIZARD_INPUT",
+        "source_ref": "fixture:EX-009:input",
+        "assumptions": [],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.conversion_destination",
+        "source": "input",
+        "authority": "WIZARD_INPUT",
+        "source_ref": "fixture:EX-009:input",
+        "assumptions": [],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.sales_motion",
+        "source": "input",
+        "authority": "WIZARD_INPUT",
+        "source_ref": "fixture:EX-009:input",
+        "assumptions": [],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.response_speed",
+        "source": "input",
+        "authority": "WIZARD_INPUT",
+        "source_ref": "fixture:EX-009:input",
+        "assumptions": [],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.previous_campaigns_status",
+        "source": "input",
+        "authority": "WIZARD_INPUT",
+        "source_ref": "fixture:EX-009:input",
+        "assumptions": [],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.risk_tolerance",
+        "source": "input",
+        "authority": "WIZARD_INPUT",
+        "source_ref": "fixture:EX-009:input",
+        "assumptions": [],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.constraints",
+        "source": "input",
+        "authority": "WIZARD_INPUT",
+        "source_ref": "fixture:EX-009:input",
+        "assumptions": [],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.audience_segments",
+        "source": "input",
+        "authority": "WIZARD_INPUT",
+        "source_ref": "fixture:EX-009:input",
+        "assumptions": [],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.offer_description",
+        "source": "assumption",
+        "authority": "DEFAULT_ASSUMPTION",
+        "source_ref": "fixture:EX-009:synthetic-assumption",
+        "assumptions": [
+          "offer_description"
+        ],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.key_value_drivers",
+        "source": "assumption",
+        "authority": "DEFAULT_ASSUMPTION",
+        "source_ref": "fixture:EX-009:synthetic-assumption",
+        "assumptions": [
+          "key_value_drivers"
+        ],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.secondary_objectives",
+        "source": "assumption",
+        "authority": "DEFAULT_ASSUMPTION",
+        "source_ref": "fixture:EX-009:synthetic-assumption",
+        "assumptions": [
+          "secondary_objectives"
+        ],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.north_star_kpi",
+        "source": "assumption",
+        "authority": "DEFAULT_ASSUMPTION",
+        "source_ref": "fixture:EX-009:synthetic-assumption",
+        "assumptions": [
+          "north_star_kpi"
+        ],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.past_performance_notes",
+        "source": "assumption",
+        "authority": "DEFAULT_ASSUMPTION",
+        "source_ref": "fixture:EX-009:synthetic-assumption",
+        "assumptions": [
+          "past_performance_notes"
+        ],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.ideal_customer",
+        "source": "assumption",
+        "authority": "DEFAULT_ASSUMPTION",
+        "source_ref": "fixture:EX-009:synthetic-assumption",
+        "assumptions": [
+          "ideal_customer"
+        ],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.objections",
+        "source": "assumption",
+        "authority": "DEFAULT_ASSUMPTION",
+        "source_ref": "fixture:EX-009:synthetic-assumption",
+        "assumptions": [
+          "objections"
+        ],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.key_events",
+        "source": "assumption",
+        "authority": "DEFAULT_ASSUMPTION",
+        "source_ref": "fixture:EX-009:synthetic-assumption",
+        "assumptions": [
+          "key_events"
+        ],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.conversion_model",
+        "source": "assumption",
+        "authority": "DEFAULT_ASSUMPTION",
+        "source_ref": "fixture:EX-009:synthetic-assumption",
+        "assumptions": [
+          "conversion_model"
+        ],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.top_priority",
+        "source": "assumption",
+        "authority": "DEFAULT_ASSUMPTION",
+        "source_ref": "fixture:EX-009:synthetic-assumption",
+        "assumptions": [
+          "top_priority"
+        ],
+        "user_confirmed": false
+      },
+      {
+        "path": "source_wizard_input.final_confirmed_inputs",
+        "source": "assumption",
+        "authority": "DEFAULT_ASSUMPTION",
+        "source_ref": "fixture:EX-009:synthetic-assumption",
+        "assumptions": [
+          "final_confirmed_inputs"
+        ],
+        "user_confirmed": false
+      },
+      {
+        "path": "decisions.objective",
+        "source": "rule",
+        "authority": "DECISION_POLICY",
+        "source_ref": "CDKS-OBJ-CANONICAL",
+        "assumptions": [],
+        "user_confirmed": false
+      },
+      {
+        "path": "decisions.funnel",
+        "source": "rule",
+        "authority": "DECISION_POLICY",
+        "source_ref": "CDKS-FUN-UNAWARE-EDUCATION",
+        "assumptions": [],
+        "user_confirmed": false
+      },
+      {
+        "path": "decisions.channels",
+        "source": "rule",
+        "authority": "DECISION_POLICY",
+        "source_ref": "CDKS-CHANNEL-CANONICAL",
+        "assumptions": [],
+        "user_confirmed": false
+      },
+      {
+        "path": "decisions.readiness",
+        "source": "rule",
+        "authority": "READINESS_POLICY",
+        "source_ref": "CDKS-READINESS-UNCONFIRMED",
+        "assumptions": [],
+        "user_confirmed": false
+      }
+    ],
+    "validation": {
+      "schema_valid": true,
+      "canonical_field_count": 41,
+      "canonical_field_errors": [],
+      "external_actions_allowed": false,
+      "budget_spend_allowed": false
+    }
   }
 }

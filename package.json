@@ -10,6 +10,7 @@
     "test:rules:parity": "node scripts/rule-engine-parity.cjs",
     "audit:data-contract": "node scripts/data-contract-audit.cjs",
     "test:fixtures:phase1": "node scripts/validate-phase1-fixtures.cjs",
+    "test:fixtures:v3": "node scripts/validate-v3-fixtures.cjs",
     "semantic-eval": "tsx scripts/semantic-runner.ts"
   },
   "dependencies": {
