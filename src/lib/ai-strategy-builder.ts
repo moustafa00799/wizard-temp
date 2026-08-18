@@ -1,5 +1,7 @@
 import { z } from "zod";
 import { generatePhase, isAIConfigured, getAIModelInfo } from "./ai-client";
+import { runMockStrategyBuilder } from "./ai-strategy-builder-mock";
+import type { MockStrategyScenario } from "./ai-strategy-builder-mock";
 import type { CanonicalWizardInput } from "./contracts/wizard-input";
 import type { CanonicalBlueprint } from "./contracts/canonical-blueprint";
 import type {
@@ -19,9 +21,13 @@ const StrategyProposalSchema = z.object({
 
 type StrategyProposal = z.infer<typeof StrategyProposalSchema>;
 
-type StrategyBuilderOptions = {
+export type StrategyBuilderProvider = "groq" | "mock";
+
+export type StrategyBuilderOptions = {
   enabled?: boolean;
   model?: string;
+  provider?: StrategyBuilderProvider;
+  mockScenario?: MockStrategyScenario;
 };
 
 const FORBIDDEN_OVERRIDE_TERMS = [
@@ -34,6 +40,14 @@ const FORBIDDEN_OVERRIDE_TERMS = [
   "spend",
   "publish",
   "campaign",
+  "الهدف",
+  "القمع",
+  "القنوات",
+  "الجاهزية",
+  "الميزانية",
+  "الإنفاق",
+  "انشر",
+  "الحملة",
 ];
 
 function proposalPrompt(
@@ -138,6 +152,31 @@ export async function buildAIStrategyProposal(
 ): Promise<BlueprintStrategyTrace> {
   if (!options.enabled) {
     return disabledTrace("AI Strategy Builder is disabled unless explicitly requested by the caller.");
+  }
+
+  const provider = options.provider ?? "groq";
+  const locale = contract.locale.startsWith("en") ? "en" : "ar";
+
+  if (provider === "mock") {
+    const result = runMockStrategyBuilder(options.mockScenario ?? "baseline", locale);
+    if (!result.success || !result.data) {
+      return {
+        ...disabledTrace(result.error ?? "Controlled mock provider returned no usable proposal."),
+        status: "failed",
+        model: result.model,
+      };
+    }
+
+    const parsed = StrategyProposalSchema.safeParse(result.data);
+    if (!parsed.success) {
+      return {
+        ...disabledTrace("Controlled mock provider returned an invalid proposal fixture."),
+        status: "failed",
+        model: result.model,
+      };
+    }
+
+    return traceFromProposal(parsed.data, result.model);
   }
 
   if (!isAIConfigured()) {

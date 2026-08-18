@@ -22,11 +22,15 @@ export async function POST(request: NextRequest) {
     const validatedOutput = CanonicalBlueprintSchema.parse(blueprint);
     const baseContract = buildBlueprintContractV3(validatedInput, validatedOutput, body);
     const strategyRequest = body && typeof body === 'object' && body.ai_strategy_builder && typeof body.ai_strategy_builder === 'object'
-      ? body.ai_strategy_builder as { enabled?: unknown; model?: unknown }
+      ? body.ai_strategy_builder as { enabled?: unknown; model?: unknown; provider?: unknown; mockScenario?: unknown }
       : {};
     const strategy = await buildAIStrategyProposal(validatedInput, validatedOutput, baseContract, {
       enabled: strategyRequest.enabled === true,
       model: typeof strategyRequest.model === 'string' ? strategyRequest.model : undefined,
+      provider: strategyRequest.provider === 'mock' || strategyRequest.provider === 'groq' ? strategyRequest.provider : undefined,
+      mockScenario: strategyRequest.mockScenario === 'baseline' || strategyRequest.mockScenario === 'override_attempt' || strategyRequest.mockScenario === 'malformed' || strategyRequest.mockScenario === 'failure'
+        ? strategyRequest.mockScenario
+        : undefined,
     });
     const contract = validateBlueprintContractV3({ ...baseContract, strategy });
     const processingTime = Math.round(performance.now() - startTime);
