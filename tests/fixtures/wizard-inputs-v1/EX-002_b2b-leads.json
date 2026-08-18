@@ -115,39 +115,44 @@
       "objective": {
         "value": "leads",
         "authority": "DECISION_POLICY",
-        "rule_id": "CDKS-OBJ-CANONICAL",
+        "rule_id": "CDKS-OBJ-USER-CONFIRMED",
         "evidence": [
           "primary_objective"
         ],
         "uncertainty": []
       },
       "funnel": {
-        "value": "solution_funnel",
+        "value": "lead_gen_call",
         "authority": "DECISION_POLICY",
-        "rule_id": "CDKS-FUN-PROBLEM-AWARE-SOLUTION",
+        "rule_id": "FUN-GD-003",
         "evidence": [
-          "awareness_level"
+          "business_type",
+          "primary_objective",
+          "sales_motion",
+          "conversion_destination"
         ],
         "uncertainty": []
       },
       "channels": {
         "value": [
-          "linkedin",
-          "google_ads"
+          "google_ads",
+          "linkedin"
         ],
         "authority": "DECISION_POLICY",
-        "rule_id": "CDKS-CHANNEL-CANONICAL",
+        "rule_id": "CH-GD-003",
         "evidence": [
-          "ad_channels"
+          "business_type",
+          "primary_objective",
+          "conversion_destination"
         ],
         "uncertainty": []
       }
     },
     "expected_outcomes": {
       "objective": "leads",
-      "funnel": "solution_funnel",
+      "funnel": "lead_gen_call",
       "readiness_before_confirmation": "blocked",
-      "readiness_after_confirmation": "ready"
+      "readiness_after_confirmation": "review"
     },
     "readiness": {
       "value": "blocked",
@@ -163,21 +168,21 @@
     "warnings": [
       {
         "code": "DATA-ASSUMPTIONS-UNCONFIRMED",
-        "severity": "error",
-        "message": "Some canonical fields are synthetic assumptions and require owner confirmation.",
-        "action": "Review the assumptions and set final_confirmed_inputs to true only after approval.",
+        "severity": "warning",
+        "message": "Some Wizard inputs are not finally confirmed and may include assumptions.",
+        "action": "Review and confirm the Wizard inputs before any launch decision.",
         "evidence": [
-          "conversion_model",
-          "ideal_customer",
-          "key_events",
-          "key_value_drivers",
-          "north_star_kpi",
-          "objections",
-          "offer_description",
-          "past_performance_notes",
-          "secondary_objectives",
-          "top_priority",
           "final_confirmed_inputs"
+        ],
+        "authority": "HUMAN_APPROVAL"
+      },
+      {
+        "code": "CREATIVE-ASSETS-LIMITED",
+        "severity": "warning",
+        "message": "Fewer than three creative variants were provided.",
+        "action": "Prepare additional variants to reduce creative fatigue during testing.",
+        "evidence": [
+          "creative_assets"
         ],
         "authority": "READINESS_POLICY"
       }
@@ -556,7 +561,7 @@
         "path": "decisions.objective",
         "source": "rule",
         "authority": "DECISION_POLICY",
-        "source_ref": "CDKS-OBJ-CANONICAL",
+        "source_ref": "CDKS-OBJ-USER-CONFIRMED",
         "assumptions": [],
         "user_confirmed": false
       },
@@ -564,7 +569,7 @@
         "path": "decisions.funnel",
         "source": "rule",
         "authority": "DECISION_POLICY",
-        "source_ref": "CDKS-FUN-PROBLEM-AWARE-SOLUTION",
+        "source_ref": "FUN-GD-003",
         "assumptions": [],
         "user_confirmed": false
       },
@@ -572,12 +577,12 @@
         "path": "decisions.channels",
         "source": "rule",
         "authority": "DECISION_POLICY",
-        "source_ref": "CDKS-CHANNEL-CANONICAL",
+        "source_ref": "CH-GD-003",
         "assumptions": [],
         "user_confirmed": false
       },
       {
-        "path": "decisions.readiness",
+        "path": "readiness",
         "source": "rule",
         "authority": "READINESS_POLICY",
         "source_ref": "CDKS-READINESS-UNCONFIRMED",

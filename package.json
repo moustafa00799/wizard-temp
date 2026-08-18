@@ -11,6 +11,7 @@
     "audit:data-contract": "node scripts/data-contract-audit.cjs",
     "test:fixtures:phase1": "node scripts/validate-phase1-fixtures.cjs",
     "test:fixtures:v3": "node scripts/validate-v3-fixtures.cjs",
+    "test:api:v5": "node scripts/api-golden-v5.cjs",
     "semantic-eval": "tsx scripts/semantic-runner.ts"
   },
   "dependencies": {

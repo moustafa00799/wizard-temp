@@ -101,7 +101,7 @@
       "objective": {
         "value": "messages",
         "authority": "DECISION_POLICY",
-        "rule_id": "CDKS-OBJ-CANONICAL",
+        "rule_id": "CDKS-OBJ-USER-CONFIRMED",
         "evidence": [
           "primary_objective"
         ],
@@ -110,9 +110,10 @@
       "funnel": {
         "value": "education_funnel",
         "authority": "DECISION_POLICY",
-        "rule_id": "CDKS-FUN-UNAWARE-EDUCATION",
+        "rule_id": "FUN-GD-007",
         "evidence": [
-          "awareness_level"
+          "business_type",
+          "primary_objective"
         ],
         "uncertainty": []
       },
@@ -122,9 +123,10 @@
           "google_ads"
         ],
         "authority": "DECISION_POLICY",
-        "rule_id": "CDKS-CHANNEL-CANONICAL",
+        "rule_id": "CH-GD-007",
         "evidence": [
-          "ad_channels"
+          "business_type",
+          "primary_objective"
         ],
         "uncertainty": []
       }
@@ -149,32 +151,33 @@
     "warnings": [
       {
         "code": "DATA-ASSUMPTIONS-UNCONFIRMED",
-        "severity": "error",
-        "message": "Some canonical fields are synthetic assumptions and require owner confirmation.",
-        "action": "Review the assumptions and set final_confirmed_inputs to true only after approval.",
+        "severity": "warning",
+        "message": "Some Wizard inputs are not finally confirmed and may include assumptions.",
+        "action": "Review and confirm the Wizard inputs before any launch decision.",
         "evidence": [
-          "conversion_model",
-          "ideal_customer",
-          "key_events",
-          "key_value_drivers",
-          "north_star_kpi",
-          "objections",
-          "offer_description",
-          "past_performance_notes",
-          "secondary_objectives",
-          "top_priority",
           "final_confirmed_inputs"
         ],
-        "authority": "READINESS_POLICY"
+        "authority": "HUMAN_APPROVAL"
       },
       {
         "code": "TRACKING-BLOCKER",
         "severity": "error",
-        "message": "Tracking is missing or has issues, so launch readiness remains blocked.",
-        "action": "Configure and validate the required conversion events before launch.",
+        "message": "Tracking setup is missing and blocks launch readiness.",
+        "action": "Install and verify the required tracking tools and conversion events.",
         "evidence": [
           "tracking_status",
+          "tracking_tools",
           "key_events"
+        ],
+        "authority": "READINESS_POLICY"
+      },
+      {
+        "code": "CREATIVE-ASSETS-LIMITED",
+        "severity": "warning",
+        "message": "Fewer than three creative variants were provided.",
+        "action": "Prepare additional variants to reduce creative fatigue during testing.",
+        "evidence": [
+          "creative_assets"
         ],
         "authority": "READINESS_POLICY"
       }
@@ -553,7 +556,7 @@
         "path": "decisions.objective",
         "source": "rule",
         "authority": "DECISION_POLICY",
-        "source_ref": "CDKS-OBJ-CANONICAL",
+        "source_ref": "CDKS-OBJ-USER-CONFIRMED",
         "assumptions": [],
         "user_confirmed": false
       },
@@ -561,7 +564,7 @@
         "path": "decisions.funnel",
         "source": "rule",
         "authority": "DECISION_POLICY",
-        "source_ref": "CDKS-FUN-UNAWARE-EDUCATION",
+        "source_ref": "FUN-GD-007",
         "assumptions": [],
         "user_confirmed": false
       },
@@ -569,12 +572,12 @@
         "path": "decisions.channels",
         "source": "rule",
         "authority": "DECISION_POLICY",
-        "source_ref": "CDKS-CHANNEL-CANONICAL",
+        "source_ref": "CH-GD-007",
         "assumptions": [],
         "user_confirmed": false
       },
       {
-        "path": "decisions.readiness",
+        "path": "readiness",
         "source": "rule",
         "authority": "READINESS_POLICY",
         "source_ref": "CDKS-READINESS-UNCONFIRMED",

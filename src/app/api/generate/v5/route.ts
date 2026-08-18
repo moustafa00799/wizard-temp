@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { CDKSEngine } from '@/lib/orchestrator/cdks-engine';
 import { canonicalizeWizardInput } from '@/lib/contracts/wizard-input';
 import { CanonicalBlueprintSchema } from '@/lib/contracts/canonical-blueprint';
+import { buildBlueprintContractV3 } from '@/lib/contracts/build-blueprint-contract-v3';
 import { ZodError } from 'zod';
 
 export async function POST(request: NextRequest) {
@@ -9,13 +10,15 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const validatedInput = canonicalizeWizardInput(body);
+    const inputPayload = body && typeof body === 'object' && 'input' in body ? body.input : body;
+    const validatedInput = canonicalizeWizardInput(inputPayload);
     const engine = new CDKSEngine();
     
     // ✅ استدعاء الدالة generate الصحيحة من CDKSEngine
     const blueprint = await engine.generate(validatedInput);
     
     const validatedOutput = CanonicalBlueprintSchema.parse(blueprint);
+    const contract = buildBlueprintContractV3(validatedInput, validatedOutput, body);
     const processingTime = Math.round(performance.now() - startTime);
 
     return NextResponse.json(
@@ -23,8 +26,9 @@ export async function POST(request: NextRequest) {
         status: 'success',
         timestamp: new Date().toISOString(),
         version: 'v5',
+        contract_version: contract.contract_version,
         processingTimeMs: processingTime,
-        data: validatedOutput,
+        data: contract,
       },
       { status: 200 }
     );

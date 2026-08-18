@@ -104,7 +104,7 @@
       "objective": {
         "value": "awareness",
         "authority": "DECISION_POLICY",
-        "rule_id": "CDKS-OBJ-CANONICAL",
+        "rule_id": "CDKS-OBJ-USER-CONFIRMED",
         "evidence": [
           "primary_objective"
         ],
@@ -113,21 +113,21 @@
       "funnel": {
         "value": "education_funnel",
         "authority": "DECISION_POLICY",
-        "rule_id": "CDKS-FUN-UNAWARE-EDUCATION",
+        "rule_id": "FUN-GD-002",
         "evidence": [
-          "awareness_level"
+          "primary_objective"
         ],
         "uncertainty": []
       },
       "channels": {
         "value": [
           "meta",
-          "youtube"
+          "tiktok_ads"
         ],
         "authority": "DECISION_POLICY",
-        "rule_id": "CDKS-CHANNEL-CANONICAL",
+        "rule_id": "CH-001",
         "evidence": [
-          "ad_channels"
+          "primary_objective"
         ],
         "uncertainty": []
       }
@@ -136,7 +136,7 @@
       "objective": "awareness",
       "funnel": "education_funnel",
       "readiness_before_confirmation": "blocked",
-      "readiness_after_confirmation": "ready"
+      "readiness_after_confirmation": "review"
     },
     "readiness": {
       "value": "blocked",
@@ -152,29 +152,19 @@
     "warnings": [
       {
         "code": "DATA-ASSUMPTIONS-UNCONFIRMED",
-        "severity": "error",
-        "message": "Some canonical fields are synthetic assumptions and require owner confirmation.",
-        "action": "Review the assumptions and set final_confirmed_inputs to true only after approval.",
+        "severity": "warning",
+        "message": "Some Wizard inputs are not finally confirmed and may include assumptions.",
+        "action": "Review and confirm the Wizard inputs before any launch decision.",
         "evidence": [
-          "conversion_model",
-          "ideal_customer",
-          "key_events",
-          "key_value_drivers",
-          "north_star_kpi",
-          "objections",
-          "offer_description",
-          "past_performance_notes",
-          "secondary_objectives",
-          "top_priority",
           "final_confirmed_inputs"
         ],
-        "authority": "READINESS_POLICY"
+        "authority": "HUMAN_APPROVAL"
       },
       {
         "code": "TRACKING-PARTIAL",
         "severity": "warning",
-        "message": "Tracking is partial and requires validation before scaling.",
-        "action": "Complete and test the conversion event map and reporting checks.",
+        "message": "Tracking setup is partial and requires verification before launch.",
+        "action": "Complete the missing tools or verify event firing.",
         "evidence": [
           "tracking_status",
           "tracking_tools",
@@ -183,14 +173,24 @@
         "authority": "READINESS_POLICY"
       },
       {
-        "code": "BRANCH-EXTENDED",
+        "code": "CREATIVE-ASSETS-LIMITED",
+        "severity": "warning",
+        "message": "Fewer than three creative variants were provided.",
+        "action": "Prepare additional variants to reduce creative fatigue during testing.",
+        "evidence": [
+          "creative_assets"
+        ],
+        "authority": "READINESS_POLICY"
+      },
+      {
+        "code": "BUSINESS-BRANCH-EXTENDED",
         "severity": "info",
-        "message": "This business branch is retained as an extended regression fixture and is outside the approved phase-one branch set.",
-        "action": "Keep it in regression tests but do not use it as a primary production branch until explicitly approved.",
+        "message": "This business branch is outside the Phase-one primary branch set.",
+        "action": "Review the generated strategy as an extended regression scenario.",
         "evidence": [
           "business_type"
         ],
-        "authority": "WIZARD_INPUT"
+        "authority": "DEFAULT_ASSUMPTION"
       }
     ],
     "strategy": {
@@ -567,7 +567,7 @@
         "path": "decisions.objective",
         "source": "rule",
         "authority": "DECISION_POLICY",
-        "source_ref": "CDKS-OBJ-CANONICAL",
+        "source_ref": "CDKS-OBJ-USER-CONFIRMED",
         "assumptions": [],
         "user_confirmed": false
       },
@@ -575,7 +575,7 @@
         "path": "decisions.funnel",
         "source": "rule",
         "authority": "DECISION_POLICY",
-        "source_ref": "CDKS-FUN-UNAWARE-EDUCATION",
+        "source_ref": "FUN-GD-002",
         "assumptions": [],
         "user_confirmed": false
       },
@@ -583,12 +583,12 @@
         "path": "decisions.channels",
         "source": "rule",
         "authority": "DECISION_POLICY",
-        "source_ref": "CDKS-CHANNEL-CANONICAL",
+        "source_ref": "CH-001",
         "assumptions": [],
         "user_confirmed": false
       },
       {
-        "path": "decisions.readiness",
+        "path": "readiness",
         "source": "rule",
         "authority": "READINESS_POLICY",
         "source_ref": "CDKS-READINESS-UNCONFIRMED",
