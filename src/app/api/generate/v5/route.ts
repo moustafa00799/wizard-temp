@@ -22,12 +22,14 @@ export async function POST(request: NextRequest) {
     const validatedOutput = CanonicalBlueprintSchema.parse(blueprint);
     const baseContract = buildBlueprintContractV3(validatedInput, validatedOutput, body);
     const strategyRequest = body && typeof body === 'object' && body.ai_strategy_builder && typeof body.ai_strategy_builder === 'object'
-      ? body.ai_strategy_builder as { enabled?: unknown; model?: unknown; provider?: unknown; mockScenario?: unknown }
+      ? body.ai_strategy_builder as { enabled?: unknown; model?: unknown; provider?: unknown; fallbackProvider?: unknown; benchmark?: unknown; mockScenario?: unknown }
       : {};
     const strategy = await buildAIStrategyProposal(validatedInput, validatedOutput, baseContract, {
       enabled: strategyRequest.enabled === true,
       model: typeof strategyRequest.model === 'string' ? strategyRequest.model : undefined,
-      provider: strategyRequest.provider === 'mock' || strategyRequest.provider === 'groq' ? strategyRequest.provider : undefined,
+      provider: strategyRequest.provider === 'mock' || strategyRequest.provider === 'groq' || strategyRequest.provider === 'mistral' || strategyRequest.provider === 'gemini' ? strategyRequest.provider : undefined,
+      fallbackProvider: strategyRequest.fallbackProvider === 'mistral' || strategyRequest.fallbackProvider === 'gemini' || strategyRequest.fallbackProvider === 'groq' ? strategyRequest.fallbackProvider : undefined,
+      benchmark: strategyRequest.benchmark === true,
       mockScenario: strategyRequest.mockScenario === 'baseline' || strategyRequest.mockScenario === 'override_attempt' || strategyRequest.mockScenario === 'malformed' || strategyRequest.mockScenario === 'failure'
         ? strategyRequest.mockScenario
         : undefined,

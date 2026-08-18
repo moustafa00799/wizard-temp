@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { generatePhase, isAIConfigured, getAIModelInfo } from "./ai-client";
+import { runStrategyProvider, isStrategyProviderConfigured, getStrategyProviderModel, type StrategyProviderName } from "./ai-strategy-provider";
 import { runMockStrategyBuilder } from "./ai-strategy-builder-mock";
 import type { MockStrategyScenario } from "./ai-strategy-builder-mock";
 import type { CanonicalWizardInput } from "./contracts/wizard-input";
@@ -21,13 +21,15 @@ const StrategyProposalSchema = z.object({
 
 type StrategyProposal = z.infer<typeof StrategyProposalSchema>;
 
-export type StrategyBuilderProvider = "groq" | "mock";
+export type StrategyBuilderProvider = StrategyProviderName | "mock";
 
 export type StrategyBuilderOptions = {
   enabled?: boolean;
   model?: string;
   provider?: StrategyBuilderProvider;
   mockScenario?: MockStrategyScenario;
+  fallbackProvider?: StrategyProviderName;
+  benchmark?: boolean;
 };
 
 const FORBIDDEN_OVERRIDE_TERMS = [
@@ -106,6 +108,7 @@ function sanitizeProposal(proposal: StrategyProposal): StrategyProposal {
 function traceFromProposal(
   proposal: StrategyProposal,
   model: string,
+  provenance?: BlueprintStrategyTrace["provenance"],
 ): BlueprintStrategyTrace {
   const safe = sanitizeProposal(proposal);
   return {
@@ -125,6 +128,7 @@ function traceFromProposal(
       ...safe.experiment_ideas.map((value) => `Experiment: ${value}`),
     ],
     rejected_changes: safe.rejected_changes,
+    provenance,
     limitations: [
       ...safe.limitations,
       "AI output is advisory and does not mutate CDKS decisions or the canonical Blueprint.",
@@ -133,14 +137,20 @@ function traceFromProposal(
   };
 }
 
-function disabledTrace(reason: string): BlueprintStrategyTrace {
+function disabledTrace(
+  reason: string,
+  model?: string,
+  provenance?: BlueprintStrategyTrace["provenance"],
+): BlueprintStrategyTrace {
   return {
     status: "not_requested",
     authority: "AI_STRATEGY_BUILDER",
+    model,
     proposed_changes: [],
     accepted_changes: [],
     rejected_changes: [],
     limitations: [reason],
+    provenance,
   };
 }
 
@@ -154,7 +164,9 @@ export async function buildAIStrategyProposal(
     return disabledTrace("AI Strategy Builder is disabled unless explicitly requested by the caller.");
   }
 
-  const provider = options.provider ?? "groq";
+  const configuredProvider = process.env.AI_STRATEGY_PROVIDER;
+  const provider: StrategyBuilderProvider = options.provider
+    ?? (configuredProvider === "mistral" || configuredProvider === "gemini" || configuredProvider === "mock" ? configuredProvider : "groq");
   const locale = contract.locale.startsWith("en") ? "en" : "ar";
 
   if (provider === "mock") {
@@ -179,37 +191,95 @@ export async function buildAIStrategyProposal(
     return traceFromProposal(parsed.data, result.model);
   }
 
-  if (!isAIConfigured()) {
+  const isAnonymizedFixture = contract.provenance.some((entry) => entry.source_ref.startsWith("fixture:"));
+  const providerMode = process.env.AI_PROVIDER_MODE;
+  const dataPolicy = process.env.AI_DATA_POLICY;
+
+  if (providerMode && providerMode !== "nonprod") {
     return {
-      ...disabledTrace("AI provider is not configured; deterministic CDKS output remains authoritative."),
+      ...disabledTrace("Only AI_PROVIDER_MODE=nonprod is allowed in this phase."),
       status: "failed",
-      model: options.model ?? getAIModelInfo().primaryModel,
+    };
+  }
+  if (dataPolicy === "anonymized_fixtures_only" && !isAnonymizedFixture) {
+    return {
+      ...disabledTrace("AI_DATA_POLICY permits anonymized fixtures only; this request was not identified as a fixture."),
+      status: "failed",
+    };
+  }
+  if (provider === "gemini" && (process.env.AI_BENCHMARK_ENABLED !== "true" || !options.benchmark || !isAnonymizedFixture)) {
+    return {
+      ...disabledTrace("Gemini is benchmark-only and requires an anonymized fixture request."),
+      status: "failed",
+    };
+  }
+
+  const model = getStrategyProviderModel(provider, options.model);
+  if (!isStrategyProviderConfigured(provider)) {
+    return {
+      ...disabledTrace(`${provider} provider is not configured; deterministic CDKS output remains authoritative.`, model),
+      status: "failed",
+      model,
     };
   }
 
   const prompts = proposalPrompt(input, blueprint, contract);
-  const result = await generatePhase(1, prompts.system, prompts.user, {
-    model: options.model,
+  const primary = await runStrategyProvider(prompts.system, prompts.user, {
+    provider,
+    model,
     timeoutMs: 15000,
-    retries: 1,
   });
+  let result = primary;
+
+  const fallbackProvider = options.benchmark
+    ? undefined
+    : options.fallbackProvider
+      ?? (process.env.AI_STRATEGY_FALLBACK_PROVIDER === "mistral" || process.env.AI_STRATEGY_FALLBACK_PROVIDER === "gemini"
+        ? process.env.AI_STRATEGY_FALLBACK_PROVIDER
+        : provider === "groq" ? "mistral" : undefined);
+
+  if (!primary.success && primary.retryable && fallbackProvider && fallbackProvider !== provider) {
+    const fallbackReason = primary.failureCategory === "timeout"
+      ? "timeout"
+      : primary.failureCategory === "quota"
+        ? "429"
+        : primary.failureCategory === "server"
+          ? "5xx"
+          : primary.failureCategory === "network"
+            ? "network"
+            : "provider_unavailable";
+    const fallback = await runStrategyProvider(prompts.system, prompts.user, {
+      provider: fallbackProvider,
+      timeoutMs: 15000,
+      fallbackFrom: provider,
+      fallbackReason,
+    });
+    result = {
+      ...fallback,
+      provenance: {
+        ...fallback.provenance,
+        fallbackFrom: provider,
+        fallbackReason,
+      },
+    };
+  }
 
   if (!result.success || !result.data) {
     return {
-      ...disabledTrace(result.error ?? "AI Strategy Builder returned no usable proposal."),
+      ...disabledTrace(result.error ?? "AI Strategy Builder returned no usable proposal.", result.provenance.model, result.provenance),
       status: "failed",
-      model: options.model ?? getAIModelInfo().primaryModel,
+      model: result.provenance.model,
     };
   }
 
   const parsed = StrategyProposalSchema.safeParse(result.data);
   if (!parsed.success) {
     return {
-      ...disabledTrace("AI Strategy Builder output failed the proposal schema validation."),
+      ...disabledTrace("AI Strategy Builder output failed the proposal schema validation.", result.provenance.model, result.provenance),
       status: "failed",
-      model: options.model ?? getAIModelInfo().primaryModel,
+      model: result.provenance.model,
     };
   }
 
-  return traceFromProposal(parsed.data, options.model ?? getAIModelInfo().primaryModel);
+  return traceFromProposal(parsed.data, result.provenance.model, result.provenance);
 }

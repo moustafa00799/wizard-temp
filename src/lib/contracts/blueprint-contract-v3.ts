@@ -1,6 +1,8 @@
 import { z } from "zod";
 import { CanonicalBlueprintSchema } from "./canonical-blueprint";
 import type { CanonicalWizardInput } from "./wizard-input";
+import { AiProvenanceSchema } from "./ai-provenance";
+import type { AiProvenance } from "./ai-provenance";
 
 export type BlueprintContractVersion = "3.0";
 export type BlueprintGenerationMode = "blueprint_only";
@@ -64,6 +66,7 @@ export interface BlueprintStrategyTrace {
   accepted_changes: string[];
   rejected_changes: string[];
   limitations: string[];
+  provenance?: AiProvenance;
 }
 
 export interface BlueprintValidationSummary {
@@ -167,6 +170,7 @@ const StrategyTraceSchema = z.object({
   accepted_changes: z.array(z.string()),
   rejected_changes: z.array(z.string()),
   limitations: z.array(z.string()),
+  provenance: AiProvenanceSchema.optional(),
 });
 
 const ReasoningTraceSchema = z.object({
