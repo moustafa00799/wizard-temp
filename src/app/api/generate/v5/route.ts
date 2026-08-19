@@ -5,6 +5,7 @@ import { CanonicalBlueprintSchema } from '@/lib/contracts/canonical-blueprint';
 import { buildBlueprintContractV3 } from '@/lib/contracts/build-blueprint-contract-v3';
 import { validateBlueprintContractV3 } from '@/lib/contracts/blueprint-contract-v3';
 import { buildAIStrategyProposal } from '@/lib/ai-strategy-builder';
+import { buildAIReasoning, reasoningTraceFromContract } from '@/lib/ai-reasoning-builder';
 import { ZodError } from 'zod';
 
 export async function POST(request: NextRequest) {
@@ -34,7 +35,21 @@ export async function POST(request: NextRequest) {
         ? strategyRequest.mockScenario
         : undefined,
     });
-    const contract = validateBlueprintContractV3({ ...baseContract, strategy });
+    const reasoningRequest = body && typeof body === 'object' && body.ai_reasoning && typeof body.ai_reasoning === 'object'
+      ? body.ai_reasoning as { enabled?: unknown; provider?: unknown; mockScenario?: unknown }
+      : {};
+    const reasoning = await buildAIReasoning(validatedInput, validatedOutput, baseContract, {
+      enabled: reasoningRequest.enabled === true,
+      provider: reasoningRequest.provider === 'mock' ? 'mock' : undefined,
+      mockScenario: reasoningRequest.mockScenario === 'baseline' || reasoningRequest.mockScenario === 'unsupported_claim' || reasoningRequest.mockScenario === 'override_attempt' || reasoningRequest.mockScenario === 'malformed' || reasoningRequest.mockScenario === 'failure'
+        ? reasoningRequest.mockScenario
+        : undefined,
+    });
+    const contract = validateBlueprintContractV3({
+      ...baseContract,
+      strategy,
+      reasoning: reasoningTraceFromContract(reasoning),
+    });
     const processingTime = Math.round(performance.now() - startTime);
 
     return NextResponse.json(

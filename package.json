@@ -18,6 +18,8 @@
     "test:provider:schema": "tsx scripts/provider-schema-regression.ts",
     "test:provider:fallback": "tsx scripts/provider-fallback-regression.ts",
     "test:ai:reasoning:contract": "tsx scripts/ai-reasoning-contract-regression.ts",
+    "test:ai:reasoning:builder": "tsx scripts/ai-reasoning-builder-regression.ts",
+    "test:api:reasoning:v5": "tsx scripts/api-reasoning-builder-v5.cjs",
     "test:quality:coverage": "node scripts/quality-reference-coverage-gate.cjs",
     "semantic-eval": "tsx scripts/semantic-runner.ts"
   },

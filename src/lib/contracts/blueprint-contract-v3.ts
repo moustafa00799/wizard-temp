@@ -3,6 +3,8 @@ import { CanonicalBlueprintSchema } from "./canonical-blueprint";
 import type { CanonicalWizardInput } from "./wizard-input";
 import { AiProvenanceSchema } from "./ai-provenance";
 import type { AiProvenance } from "./ai-provenance";
+import { AIReasoningContractSchema } from "./ai-reasoning";
+import type { AIReasoningContract } from "./ai-reasoning";
 
 export type BlueprintContractVersion = "3.0";
 export type BlueprintGenerationMode = "blueprint_only";
@@ -56,6 +58,7 @@ export interface BlueprintReasoningTrace {
   supported_claims: string[];
   unsupported_claims: string[];
   limitations: string[];
+  contract?: AIReasoningContract;
 }
 
 export interface BlueprintStrategyTrace {
@@ -181,6 +184,7 @@ const ReasoningTraceSchema = z.object({
   supported_claims: z.array(z.string()),
   unsupported_claims: z.array(z.string()),
   limitations: z.array(z.string()),
+  contract: AIReasoningContractSchema.optional(),
 });
 
 export const BlueprintContractV3Schema = z.object({
