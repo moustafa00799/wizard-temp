@@ -36,6 +36,8 @@ GEMINI_AI_TIMEOUT_MS=45000
 
 Groq is the primary strategy provider. For retryable failures such as timeout, rate limit, network failure, or provider-side 5xx errors, the request may be sent through Mistral. Authentication, not-found, quota, and structured-schema failures are fail-closed and are not silently retried. Gemini is benchmark-only and requires both an anonymized fixture marker and `benchmark: true` in the opt-in request.
 
+Groq uses a provider-specific strict wire schema that omits array-size annotations such as `maxItems`, because Groq Structured Outputs supports a JSON Schema subset. The canonical proposal is still validated locally by Zod with the `maxItems` limits after the provider response is parsed. Groq provenance therefore records the hash of the exact Groq wire schema, while Mistral and Gemini retain the canonical schema hash. This is a compatibility hardening measure, not a relaxation of CDKS governance or output validation.
+
 Every successful or failed provider attempt records sanitized provenance including provider, model, endpoint, structured-output mode, schema hash, prompt version, policy version, latency, token usage when returned, request id when supplied, failure category, HTTP status, error code, retryability, retry-after delay, and fallback metadata. Raw prompts, completions, response bodies, and API keys are never written to the benchmark report.
 
 The supported failure categories are:
@@ -81,10 +83,11 @@ npm run test:strategy:mock
 npm run test:fixtures:phase1
 npm run test:fixtures:v3
 npm run test:api:v5
+npm run test:provider:schema
 npm run test:ai:providers
 ```
 
-The last command without `--live` is safe and makes no external requests.
+The schema regression check is deterministic and makes no external requests. It verifies that Groq receives the compatibility wire schema while the canonical limits remain present for Mistral and Gemini. The last benchmark command without `--live` is safe and makes no external requests.
 
 The live benchmark is opt-in and requires the local development server to be running with `.env.local` loaded:
 

@@ -71,9 +71,44 @@ export const AI_STRATEGY_PROPOSAL_JSON_SCHEMA = {
   ],
 } as const;
 
+const GROQ_STRATEGY_PROPOSAL_JSON_SCHEMA = {
+  type: "object",
+  additionalProperties: false,
+  properties: {
+    strategic_summary: { type: "string" },
+    message_angles: { type: "array", items: { type: "string" } },
+    audience_hypotheses: { type: "array", items: { type: "string" } },
+    experiment_ideas: { type: "array", items: { type: "string" } },
+    proposed_changes: { type: "array", items: { type: "string" } },
+    rejected_changes: { type: "array", items: { type: "string" } },
+    limitations: { type: "array", items: { type: "string" } },
+  },
+  required: [
+    "strategic_summary",
+    "message_angles",
+    "audience_hypotheses",
+    "experiment_ideas",
+    "proposed_changes",
+    "rejected_changes",
+    "limitations",
+  ],
+} as const;
+
 const SCHEMA_HASH = createHash("sha256")
   .update(JSON.stringify(AI_STRATEGY_PROPOSAL_JSON_SCHEMA))
   .digest("hex");
+
+const GROQ_SCHEMA_HASH = createHash("sha256")
+  .update(JSON.stringify(GROQ_STRATEGY_PROPOSAL_JSON_SCHEMA))
+  .digest("hex");
+
+function schemaForProvider(provider: StrategyProviderName) {
+  return provider === "groq" ? GROQ_STRATEGY_PROPOSAL_JSON_SCHEMA : AI_STRATEGY_PROPOSAL_JSON_SCHEMA;
+}
+
+function schemaHashForProvider(provider: StrategyProviderName): string {
+  return provider === "groq" ? GROQ_SCHEMA_HASH : SCHEMA_HASH;
+}
 
 const PROVIDER_DEFAULTS: Record<StrategyProviderName, {
   endpoint: string;
@@ -135,7 +170,7 @@ function failureProvenance(options: StrategyProviderOptions, model: string): AiP
     model,
     endpoint: defaults.endpoint,
     structuredMode: defaults.structuredMode,
-    schemaHash: SCHEMA_HASH,
+    schemaHash: schemaHashForProvider(options.provider),
     promptVersion: options.promptVersion ?? PROMPT_VERSION,
     policyVersion: options.policyVersion ?? POLICY_VERSION,
     fallbackFrom: options.fallbackFrom,
@@ -212,14 +247,14 @@ function isAbortError(error: unknown): boolean {
   return error instanceof Error && (error.name === "AbortError" || /aborted|timeout/i.test(error.message));
 }
 
-function responseFormat(mode: StructuredMode) {
+function responseFormat(mode: StructuredMode, provider: StrategyProviderName) {
   if (mode === "strict_json_schema" || mode === "json_schema") {
     return {
       type: "json_schema",
       json_schema: {
         name: "campaign_strategy_proposal",
         strict: mode === "strict_json_schema",
-        schema: AI_STRATEGY_PROPOSAL_JSON_SCHEMA,
+        schema: schemaForProvider(provider),
       },
     };
   }
@@ -307,7 +342,7 @@ export async function runStrategyProvider(
         ],
         temperature: 0.2,
         max_tokens: 4096,
-        response_format: responseFormat(defaults.structuredMode),
+        response_format: responseFormat(defaults.structuredMode, options.provider),
         stream: false,
       }),
       signal: controller.signal,
@@ -421,4 +456,8 @@ export async function runStrategyProvider(
   }
 }
 
-export { SCHEMA_HASH, PROMPT_VERSION, POLICY_VERSION };
+export function getStrategyProviderResponseFormat(provider: StrategyProviderName) {
+  return responseFormat(PROVIDER_DEFAULTS[provider].structuredMode, provider);
+}
+
+export { SCHEMA_HASH, GROQ_SCHEMA_HASH, PROMPT_VERSION, POLICY_VERSION };

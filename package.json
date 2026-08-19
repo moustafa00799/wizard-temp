@@ -15,6 +15,7 @@
     "test:strategy:gate": "node scripts/api-strategy-gate-v5.cjs",
     "test:strategy:mock": "node scripts/api-mock-provider-v5.cjs",
     "test:ai:providers": "node scripts/api-ai-provider-v5.cjs",
+    "test:provider:schema": "tsx scripts/provider-schema-regression.ts",
     "semantic-eval": "tsx scripts/semantic-runner.ts"
   },
   "dependencies": {
@@ -36,6 +37,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.12",
     "tailwindcss": "^4",
+    "tsx": "^4.23.12",
     "typescript": "^5"
   },
   "overrides": {
