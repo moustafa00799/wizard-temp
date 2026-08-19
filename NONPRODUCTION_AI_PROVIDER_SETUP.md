@@ -138,3 +138,15 @@ The following values must remain unchanged in every response:
   "readiness": { "authority": "READINESS_POLICY" }
 }
 ```
+
+## Deterministic 429 fallback regression
+
+The local regression command below does not call any external provider and does not require API keys:
+
+```bash
+npm run test:provider:fallback
+```
+
+It injects a deterministic Groq `429 rate_limited` result followed by a successful Mistral result and asserts that the Strategy Builder records `fallbackFrom: "groq"`, `fallbackReason: "429"`, `strategyProvider: "mistral"`, and a completed advisory trace. It also verifies that `blueprint_only`, `DECISION_POLICY`, and `READINESS_POLICY` remain unchanged. This regression complements the live benchmark evidence from `EX-002` and prevents future changes from bypassing the governed fallback path.
+
+A live `429` is not treated as a successful direct Groq generation. It is recorded as a provider rate-limit event, while a successful Mistral response is recorded explicitly as fallback provenance.

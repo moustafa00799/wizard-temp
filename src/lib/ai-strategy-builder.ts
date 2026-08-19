@@ -28,6 +28,8 @@ type StrategyProposal = z.infer<typeof StrategyProposalSchema>;
 
 export type StrategyBuilderProvider = StrategyProviderName | "mock";
 
+export type StrategyProviderRunner = typeof runStrategyProvider;
+
 export type StrategyBuilderOptions = {
   enabled?: boolean;
   model?: string;
@@ -35,6 +37,8 @@ export type StrategyBuilderOptions = {
   mockScenario?: MockStrategyScenario;
   fallbackProvider?: StrategyProviderName;
   benchmark?: boolean;
+  /** Test-only seam; production routes use the real provider runner. */
+  providerRunner?: StrategyProviderRunner;
 };
 
 const FORBIDDEN_OVERRIDE_TERMS = [
@@ -229,7 +233,8 @@ export async function buildAIStrategyProposal(
   }
 
   const prompts = proposalPrompt(input, blueprint, contract);
-  const primary = await runStrategyProvider(prompts.system, prompts.user, {
+  const providerRunner = options.providerRunner ?? runStrategyProvider;
+  const primary = await providerRunner(prompts.system, prompts.user, {
     provider,
     model,
   });
@@ -252,7 +257,7 @@ export async function buildAIStrategyProposal(
           : primary.failureCategory === "network"
             ? "network"
             : "provider_unavailable";
-    const fallback = await runStrategyProvider(prompts.system, prompts.user, {
+    const fallback = await providerRunner(prompts.system, prompts.user, {
       provider: fallbackProvider,
       fallbackFrom: provider,
       fallbackReason,

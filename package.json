@@ -16,6 +16,7 @@
     "test:strategy:mock": "node scripts/api-mock-provider-v5.cjs",
     "test:ai:providers": "node scripts/api-ai-provider-v5.cjs",
     "test:provider:schema": "tsx scripts/provider-schema-regression.ts",
+    "test:provider:fallback": "tsx scripts/provider-fallback-regression.ts",
     "semantic-eval": "tsx scripts/semantic-runner.ts"
   },
   "dependencies": {
