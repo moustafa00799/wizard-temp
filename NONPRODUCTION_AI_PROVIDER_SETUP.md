@@ -68,7 +68,7 @@ AI_BENCHMARK_STOP_ON_NOT_FOUND=true
 AI_BENCHMARK_MAX_CASES=0
 ```
 
-`AI_BENCHMARK_MAX_CASES=0` means all ten fixtures; set it to `1`, `3`, or another small number for smoke tests. Do not reduce the intervals unless the provider dashboard confirms sufficient headroom.
+`AI_BENCHMARK_MAX_CASES=0` means all ten fixtures; set it to `1`, `3`, or another small number for smoke tests. For a safe resume after a provider limit, set `AI_BENCHMARK_FIXTURES` to one or more exact fixture filenames, for example `AI_BENCHMARK_FIXTURES=EX-003_local-service-calls.json`; the filter is applied before `AI_BENCHMARK_MAX_CASES`. Do not reduce the intervals unless the provider dashboard confirms sufficient headroom.
 
 ## Local checks
 

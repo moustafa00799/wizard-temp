@@ -26,6 +26,10 @@ const intervals = {
   gemini: safePositiveInt(process.env.AI_BENCHMARK_GEMINI_INTERVAL_MS, DEFAULT_INTERVALS_MS.gemini),
 };
 const maxCases = safePositiveInt(process.env.AI_BENCHMARK_MAX_CASES, 0);
+const requestedFixtures = (process.env.AI_BENCHMARK_FIXTURES || "")
+  .split(",")
+  .map((value) => value.trim())
+  .filter(Boolean);
 const stopOnRateLimit = process.env.AI_BENCHMARK_STOP_ON_RATE_LIMIT !== "false";
 const stopOnNotFound = process.env.AI_BENCHMARK_STOP_ON_NOT_FOUND !== "false";
 
@@ -40,7 +44,15 @@ function readFixtures() {
     .filter((name) => /^EX-\d+_.*\.json$/.test(name))
     .sort()
     .map((name) => ({ name, data: JSON.parse(fs.readFileSync(path.join(fixtureDir, name), "utf8")) }));
-  return maxCases > 0 ? fixtures.slice(0, maxCases) : fixtures;
+  const selectedFixtures = requestedFixtures.length
+    ? fixtures.filter((fixture) => requestedFixtures.includes(fixture.name))
+    : fixtures;
+  if (requestedFixtures.length && selectedFixtures.length !== requestedFixtures.length) {
+    const available = fixtures.map((fixture) => fixture.name).join(", ");
+    const missing = requestedFixtures.filter((name) => !fixtures.some((fixture) => fixture.name === name)).join(", ");
+    throw new Error(`Unknown benchmark fixture(s): ${missing}. Available fixtures: ${available}`);
+  }
+  return maxCases > 0 ? selectedFixtures.slice(0, maxCases) : selectedFixtures;
 }
 
 function sleep(ms) {
@@ -187,6 +199,7 @@ async function runOne(provider, fixture) {
     failedCases: results.filter((result) => !result.ok).length,
     intervalsMs: intervals,
     maxCases: maxCases || null,
+    fixtureFilter: requestedFixtures.length ? requestedFixtures : null,
     stopOnRateLimit,
     stopOnNotFound,
     providerRuns,
