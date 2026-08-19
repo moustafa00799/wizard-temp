@@ -1960,6 +1960,9 @@ export default function BlueprintPage() {
   const [blueprint, setBlueprint] =
     useState<any>(null);
 
+  const [generationEnvelope, setGenerationEnvelope] =
+    useState<any>(null);
+
   const [loading, setLoading] =
     useState(true);
 
@@ -1969,20 +1972,33 @@ export default function BlueprintPage() {
     );
 
   useEffect(() => {
-    const stored =
-      sessionStorage.getItem(
-        "blueprint_data"
-      );
+    const stored = sessionStorage.getItem("blueprint_data");
 
     if (stored) {
       try {
         const parsed = JSON.parse(stored);
-        setBlueprint(parsed?.data ?? parsed);
+        const isV5Envelope =
+          parsed &&
+          typeof parsed === "object" &&
+          parsed.status === "success" &&
+          parsed.version === "v5" &&
+          parsed.data &&
+          typeof parsed.data === "object";
+
+        if (isV5Envelope) {
+          setGenerationEnvelope(parsed);
+          setBlueprint(parsed.data);
+        } else {
+          // Backward compatibility for older locally generated records.
+          setGenerationEnvelope({
+            status: "legacy",
+            version: "legacy",
+            data: parsed?.data ?? parsed,
+          });
+          setBlueprint(parsed?.data ?? parsed);
+        }
       } catch (error) {
-        console.error(
-          "[Blueprint] Failed to parse blueprint_data",
-          error
-        );
+        console.error("[Blueprint] Failed to parse blueprint_data", error);
       }
     }
 
@@ -2054,6 +2070,15 @@ export default function BlueprintPage() {
                 wizardInput?.business_type,
                 "Campaign Blueprint"
               )}
+            </p>
+            <p className="text-xs text-gray-400 mt-1">
+              {generationEnvelope?.version === "v5"
+                ? `مصدر البيانات: دورة Wizard كاملة عبر /api/generate/v5${
+                    generationEnvelope.processingTimeMs
+                      ? ` · ${generationEnvelope.processingTimeMs}ms`
+                      : ""
+                  }`
+                : "مصدر البيانات: سجل محلي قديم"}
             </p>
           </div>
 

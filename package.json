@@ -20,6 +20,7 @@
     "test:ai:reasoning:contract": "tsx scripts/ai-reasoning-contract-regression.ts",
     "test:ai:reasoning:builder": "tsx scripts/ai-reasoning-builder-regression.ts",
     "test:api:reasoning:v5": "tsx scripts/api-reasoning-builder-v5.cjs",
+    "test:wizard:v5:real-flow": "node scripts/wizard-v5-real-flow.cjs",
     "test:quality:coverage": "node scripts/quality-reference-coverage-gate.cjs",
     "semantic-eval": "tsx scripts/semantic-runner.ts"
   },

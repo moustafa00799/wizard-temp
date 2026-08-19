@@ -148,10 +148,19 @@ export default function Step12_Review({ wizardData: passedWizardData, onBack }: 
 
     try {
       // ✅ تغيير المسار إلى الإصدار الجديد v5
+      sessionStorage.removeItem("blueprint_data");
+
       const response = await fetch("/api/generate/v5", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(wizardData),
+        body: JSON.stringify({
+          ...wizardData,
+          ai_reasoning: {
+            enabled: true,
+            provider: "mock",
+            mockScenario: "baseline",
+          },
+        }),
       });
 
       // محاكاة خطوات التقدم
@@ -170,24 +179,30 @@ export default function Step12_Review({ wizardData: passedWizardData, onBack }: 
         throw new Error(result.error || result.message || "فشل في إنشاء الـ Blueprint");
       }
 
-      // ✅ استخراج البيانات من الهيكل الجديد
+      // الاحتفاظ بالـ envelope v5 الكامل بدل تخزين contract مبتور.
+      // يتم تفعيل reasoning صراحةً عبر controlled mock provider في هذه المرحلة،
+      // دون أي اتصال بمزود AI حي أو منح reasoning سلطة تنفيذية.
       const blueprintData = result.data;
       const processingTime = result.processingTimeMs || 0;
 
       if (blueprintData && typeof blueprintData === "object") {
-        // تخزين الـ Blueprint مع بيانات المدخلات كما في السابق
-        const blueprintWithInput = {
-          ...blueprintData,
+        const v5Envelope = {
+          ...result,
+          data: {
+            ...blueprintData,
+            wizard_input: wizardData,
+          },
           wizard_input: wizardData,
         };
-        sessionStorage.setItem("blueprint_data", JSON.stringify(blueprintWithInput));
+        sessionStorage.setItem("blueprint_data", JSON.stringify(v5Envelope));
         sessionStorage.setItem("wizard_input", JSON.stringify(wizardData));
       }
 
-      // ✅ تحديث معلومات النتيجة للعرض (محاكاة لبيانات المصدر لأن v5 لا يرسلها)
       setResultMeta({
-        source: "CDKS v5 (Strategy + Rules + Execution + Compiler)",
-        aiGenerated: true,
+        source: "CDKS v5 (Rules + Strategy Contract + AI Reasoning Contract)",
+        aiGenerated: Boolean(
+          blueprintData?.reasoning?.contract || blueprintData?.reasoning
+        ),
         backfilled: true,
         totalLatencyMs: processingTime,
       });
