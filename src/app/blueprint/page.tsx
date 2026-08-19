@@ -6,6 +6,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import ReasoningDashboard from "../../components/ReasoningDashboard";
 
 type SectionKey =
   | "executive_summary"
@@ -1975,9 +1976,8 @@ export default function BlueprintPage() {
 
     if (stored) {
       try {
-        setBlueprint(
-          JSON.parse(stored)
-        );
+        const parsed = JSON.parse(stored);
+        setBlueprint(parsed?.data ?? parsed);
       } catch (error) {
         console.error(
           "[Blueprint] Failed to parse blueprint_data",
@@ -2085,7 +2085,17 @@ export default function BlueprintPage() {
         </div>
       </header>
 
-      <div className="max-w-6xl mx-auto px-4 py-6 flex gap-6">
+      <div className="max-w-6xl mx-auto px-4 py-6">
+        <ReasoningDashboard
+          reasoning={
+            blueprint?.reasoning?.contract ??
+            blueprint?.reasoning ??
+            null
+          }
+        />
+      </div>
+
+      <div className="max-w-6xl mx-auto px-4 pb-6 flex gap-6">
         <aside className="w-64 shrink-0 hidden md:block">
           <div className="bg-white rounded-xl border overflow-hidden sticky top-24">
             <div className="p-4 border-b bg-gray-50">
