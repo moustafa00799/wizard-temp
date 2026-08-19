@@ -45,3 +45,5 @@ Each material decision must include an authority, evidence paths, uncertainty li
 ## Future AI fields
 
 When AI Strategy Builder is enabled, it writes only to `strategy` and explicitly marked proposal fields. When AI Reasoning is enabled, it writes to `reasoning` and explanatory trace fields. Both must include provider/model, status, limitations, and accepted/rejected changes. The deterministic contract remains valid if AI is unavailable.
+
+The independent AI Reasoning draft is documented in `AI_REASONING_CONTRACT.md` and implemented in `src/lib/contracts/ai-reasoning.ts`. It expands the lightweight v3 reasoning trace into evidence-linked claims, uncertainties, decision impacts, grounding metrics, failure semantics, and immutable safety gates. It does not authorize mutations to CDKS, Blueprint, readiness, publication, or spending.
