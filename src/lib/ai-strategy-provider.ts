@@ -45,7 +45,7 @@ const POLICY_VERSION = "cdks-governance-v1";
 const DEFAULT_TIMEOUT_MS: Record<StrategyProviderName, number> = {
   groq: 15_000,
   mistral: 30_000,
-  gemini: 30_000,
+  gemini: 45_000,
 };
 
 export const AI_STRATEGY_PROPOSAL_JSON_SCHEMA = {
