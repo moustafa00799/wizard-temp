@@ -102,7 +102,7 @@ const PROVIDER_DEFAULTS: Record<StrategyProviderName, {
     endpoint: "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
     keyEnv: "GEMINI_API_KEY",
     modelEnv: "GEMINI_BENCHMARK_MODEL",
-    defaultModel: "gemini-2.5-flash",
+    defaultModel: "gemini-3.6-flash",
     structuredMode: "json_schema",
     trainingUse: "allowed",
     retention: "unknown",

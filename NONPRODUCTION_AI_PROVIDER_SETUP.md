@@ -26,10 +26,10 @@ The implementation accepts model and timeout overrides without changing code:
 ```env
 GROQ_STRATEGY_MODEL=openai/gpt-oss-120b
 MISTRAL_STRATEGY_MODEL=mistral-small-latest
-GEMINI_BENCHMARK_MODEL=gemini-2.5-flash
+GEMINI_BENCHMARK_MODEL=gemini-3.6-flash
 GROQ_AI_TIMEOUT_MS=15000
 MISTRAL_AI_TIMEOUT_MS=20000
-GEMINI_AI_TIMEOUT_MS=15000
+GEMINI_AI_TIMEOUT_MS=30000
 ```
 
 ## Provider behavior
