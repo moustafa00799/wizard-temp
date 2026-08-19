@@ -42,7 +42,11 @@ export type StrategyProviderResult = {
 
 const PROMPT_VERSION = "strategy-builder-v1";
 const POLICY_VERSION = "cdks-governance-v1";
-const DEFAULT_TIMEOUT_MS = 15_000;
+const DEFAULT_TIMEOUT_MS: Record<StrategyProviderName, number> = {
+  groq: 15_000,
+  mistral: 30_000,
+  gemini: 30_000,
+};
 
 export const AI_STRATEGY_PROPOSAL_JSON_SCHEMA = {
   type: "object",
@@ -121,7 +125,7 @@ function positiveInt(value: string | undefined, fallback: number): number {
 
 export function getStrategyProviderTimeoutMs(provider: StrategyProviderName, override?: number): number {
   if (override && Number.isFinite(override) && override > 0) return Math.floor(override);
-  return positiveInt(process.env[`${provider.toUpperCase()}_AI_TIMEOUT_MS`], DEFAULT_TIMEOUT_MS);
+  return positiveInt(process.env[`${provider.toUpperCase()}_AI_TIMEOUT_MS`], DEFAULT_TIMEOUT_MS[provider]);
 }
 
 function failureProvenance(options: StrategyProviderOptions, model: string): AiProvenance {
