@@ -21,19 +21,54 @@ MISTRAL_API_KEY=your_local_mistral_key
 GEMINI_API_KEY=your_local_google_ai_studio_key
 ```
 
-The implementation accepts model overrides without changing code:
+The implementation accepts model and timeout overrides without changing code:
 
 ```env
 GROQ_STRATEGY_MODEL=openai/gpt-oss-120b
 MISTRAL_STRATEGY_MODEL=mistral-small-latest
 GEMINI_BENCHMARK_MODEL=gemini-2.5-flash
+GROQ_AI_TIMEOUT_MS=15000
+MISTRAL_AI_TIMEOUT_MS=20000
+GEMINI_AI_TIMEOUT_MS=15000
 ```
 
 ## Provider behavior
 
-Groq is the primary strategy provider. For retryable failures such as timeout, rate limit, network failure, or provider-side 5xx errors, the request may be retried through Mistral. Authentication and schema failures are fail-closed and are not silently retried. Gemini is benchmark-only and requires both an anonymized fixture marker and `benchmark: true` in the opt-in request.
+Groq is the primary strategy provider. For retryable failures such as timeout, rate limit, network failure, or provider-side 5xx errors, the request may be sent through Mistral. Authentication, not-found, quota, and structured-schema failures are fail-closed and are not silently retried. Gemini is benchmark-only and requires both an anonymized fixture marker and `benchmark: true` in the opt-in request.
 
-Every successful or failed provider attempt records sanitized provenance including provider, model, endpoint, structured-output mode, schema hash, prompt version, policy version, latency, token usage when returned, and fallback metadata. Raw prompts, completions, and API keys are never written to the benchmark report.
+Every successful or failed provider attempt records sanitized provenance including provider, model, endpoint, structured-output mode, schema hash, prompt version, policy version, latency, token usage when returned, request id when supplied, failure category, HTTP status, error code, retryability, retry-after delay, and fallback metadata. Raw prompts, completions, response bodies, and API keys are never written to the benchmark report.
+
+The supported failure categories are:
+
+| Category | Meaning | Default retry/fallback behavior |
+|---|---|---|
+| `configuration` | Required local key is absent | No retry |
+| `auth` | Key or authentication rejected | No retry |
+| `not_found` | Endpoint or model was not found | Stop benchmark provider |
+| `rate_limited` | HTTP 429 or provider rate limit | Fallback in route; stop benchmark provider |
+| `quota` | Daily or account quota unavailable | No automatic retry |
+| `schema_rejected` | Structured output or JSON schema rejected | No retry |
+| `server` | HTTP 5xx | Fallback in route; benchmark records failure |
+| `timeout` | Local or upstream request timeout | Fallback in route; benchmark records failure |
+| `network` | Network or fetch failure | Fallback in route; benchmark records failure |
+| `unknown` | Unclassified provider failure | Fail-closed |
+
+## Safe benchmark controls
+
+The benchmark is deliberately sequential. Its default intervals are one request every 20 seconds for Groq, 15 seconds for Mistral, and 15 seconds for Gemini. These are conservative diagnostic defaults, not claims about the providers' official limits. A provider run stops after the first `rate_limited` or `not_found` result so that a known limit or configuration error does not consume the remaining daily quota.
+
+The controls can be overridden locally for a controlled test:
+
+```env
+AI_BENCHMARK_GROQ_INTERVAL_MS=20000
+AI_BENCHMARK_MISTRAL_INTERVAL_MS=15000
+AI_BENCHMARK_GEMINI_INTERVAL_MS=15000
+AI_BENCHMARK_STOP_ON_RATE_LIMIT=true
+AI_BENCHMARK_STOP_ON_NOT_FOUND=true
+AI_BENCHMARK_MAX_CASES=0
+```
+
+`AI_BENCHMARK_MAX_CASES=0` means all ten fixtures; set it to `1`, `3`, or another small number for smoke tests. Do not reduce the intervals unless the provider dashboard confirms sufficient headroom.
 
 ## Local checks
 
@@ -46,22 +81,40 @@ npm run test:strategy:mock
 npm run test:fixtures:phase1
 npm run test:fixtures:v3
 npm run test:api:v5
+npm run test:ai:providers
 ```
+
+The last command without `--live` is safe and makes no external requests.
 
 The live benchmark is opt-in and requires the local development server to be running with `.env.local` loaded:
 
 ```bash
 npm run dev -- -p 3001
-npm run test:ai:providers -- --live
 ```
 
-To test one provider only:
+Use a smoke test first:
 
 ```bash
+$env:AI_BENCHMARK_MAX_CASES="1"
 npm run test:ai:providers -- --live --provider=groq
 ```
 
-The script runs the ten anonymized fixtures, checks the v3 envelope, verifies CDKS and readiness authority, verifies both safety gates, requires a completed proposal, and writes only sanitized metadata to `tests/results/ai-provider-benchmark-v1.json`. That output directory is ignored by Git.
+Then test Mistral and Gemini separately:
+
+```bash
+$env:AI_BENCHMARK_MAX_CASES="1"
+npm run test:ai:providers -- --live --provider=mistral
+npm run test:ai:providers -- --live --provider=gemini
+```
+
+Only after the smoke tests pass should the full ten-fixture run be attempted:
+
+```bash
+$env:AI_BENCHMARK_MAX_CASES="0"
+npm run test:ai:providers -- --live --provider=groq
+```
+
+The script checks the v3 envelope, verifies CDKS and readiness authority, verifies both safety gates, requires a completed proposal for a pass, and writes only sanitized metadata to `tests/results/ai-provider-benchmark-v1.json`. That output directory is ignored by Git.
 
 ## Expected safety invariants
 

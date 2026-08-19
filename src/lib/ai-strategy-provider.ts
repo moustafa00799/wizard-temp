@@ -1,8 +1,14 @@
 import { createHash } from "node:crypto";
-import type { AiProvenance, AIProviderName, FallbackReason, StructuredMode } from "./contracts/ai-provenance";
+import type {
+  AiProvenance,
+  AIProviderFailureCategory,
+  AIProviderName,
+  FallbackReason,
+  StructuredMode,
+} from "./contracts/ai-provenance";
 
 export type StrategyProviderName = "groq" | "mistral" | "gemini";
-export type ProviderFailureCategory = "configuration" | "auth" | "quota" | "server" | "timeout" | "network" | "validation" | "unknown";
+export type ProviderFailureCategory = AIProviderFailureCategory;
 
 export type StrategyProviderOptions = {
   provider: StrategyProviderName;
@@ -14,6 +20,15 @@ export type StrategyProviderOptions = {
   fallbackReason?: FallbackReason;
 };
 
+export type ProviderFailure = {
+  category: ProviderFailureCategory;
+  retryable: boolean;
+  status?: number;
+  errorCode?: string;
+  requestId?: string;
+  retryAfterMs?: number;
+};
+
 export type StrategyProviderResult = {
   success: boolean;
   data: unknown | null;
@@ -21,6 +36,7 @@ export type StrategyProviderResult = {
   failureCategory?: ProviderFailureCategory;
   retryable?: boolean;
   status?: number;
+  failure?: ProviderFailure;
   provenance: AiProvenance;
 };
 
@@ -98,6 +114,16 @@ function providerModel(provider: StrategyProviderName, override?: string): strin
   return override || process.env[defaults.modelEnv] || defaults.defaultModel;
 }
 
+function positiveInt(value: string | undefined, fallback: number): number {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) && parsed > 0 ? Math.floor(parsed) : fallback;
+}
+
+export function getStrategyProviderTimeoutMs(provider: StrategyProviderName, override?: number): number {
+  if (override && Number.isFinite(override) && override > 0) return Math.floor(override);
+  return positiveInt(process.env[`${provider.toUpperCase()}_AI_TIMEOUT_MS`], DEFAULT_TIMEOUT_MS);
+}
+
 function failureProvenance(options: StrategyProviderOptions, model: string): AiProvenance {
   const defaults = PROVIDER_DEFAULTS[options.provider];
   return {
@@ -118,23 +144,62 @@ function failureProvenance(options: StrategyProviderOptions, model: string): AiP
   };
 }
 
-function classifyFailure(status: number | undefined, body: string): {
+function safeErrorCode(payload: unknown, body: string): string | undefined {
+  const value = payload as {
+    error?: { code?: unknown; type?: unknown; status?: unknown };
+    code?: unknown;
+  } | null;
+  const candidate = value?.error?.code ?? value?.error?.type ?? value?.error?.status ?? value?.code;
+  if (typeof candidate === "string" && /^[a-zA-Z0-9_.-]{1,100}$/.test(candidate)) return candidate;
+  if (typeof candidate === "number" && Number.isFinite(candidate)) return String(candidate);
+  const match = body.match(/(?:code|error_code)\\?"?\\s*[:=]\\s*\\?"?([a-zA-Z0-9_.-]{2,100})/i);
+  return match?.[1];
+}
+
+function retryAfterMs(value: string | null): number | undefined {
+  if (!value) return undefined;
+  const seconds = Number(value);
+  if (Number.isFinite(seconds) && seconds >= 0) return Math.min(Math.floor(seconds * 1000), 86_400_000);
+  const date = Date.parse(value);
+  if (!Number.isNaN(date)) return Math.min(Math.max(date - Date.now(), 0), 86_400_000);
+  return undefined;
+}
+
+function classifyFailure(status: number | undefined, body: string, errorCode?: string): {
   category: ProviderFailureCategory;
   retryable: boolean;
   message: string;
 } {
   const lower = body.toLowerCase();
-  if (status === 401 || status === 403 || lower.includes("invalid api key") || lower.includes("authentication")) {
+  if (status === 401 || lower.includes("invalid api key") || lower.includes("authentication") || lower.includes("unauthorized")) {
     return { category: "auth", retryable: false, message: "AI provider authentication failed." };
   }
-  if (status === 429 || lower.includes("rate limit") || lower.includes("quota")) {
-    return { category: "quota", retryable: true, message: "AI provider rate limit or quota was exceeded." };
+  if (status === 404 || lower.includes("notfound") || lower.includes("not found") || lower.includes("model not found")) {
+    return { category: "not_found", retryable: false, message: "AI provider endpoint or model was not found." };
+  }
+  if (status === 429 || lower.includes("rate_limit_exceeded") || lower.includes("rate limit")) {
+    return { category: "rate_limited", retryable: true, message: "AI provider request rate limit was exceeded." };
+  }
+  if (status === 403 && (lower.includes("quota") || lower.includes("resource exhausted"))) {
+    return { category: "quota", retryable: false, message: "AI provider quota was exhausted or unavailable." };
+  }
+  if (
+    lower.includes("json_validate_failed") ||
+    lower.includes("schema") ||
+    lower.includes("structured output") ||
+    lower.includes("response_format") ||
+    errorCode === "json_validate_failed"
+  ) {
+    return { category: "schema_rejected", retryable: false, message: "AI provider rejected the structured-output request." };
+  }
+  if (status === 408 || status === 504) {
+    return { category: "timeout", retryable: true, message: "AI provider request timed out upstream." };
   }
   if (status !== undefined && status >= 500) {
     return { category: "server", retryable: true, message: `AI provider server error (${status}).` };
   }
   if (status === 400 || status === 422) {
-    return { category: "validation", retryable: false, message: "AI provider rejected the structured-output request." };
+    return { category: "schema_rejected", retryable: false, message: "AI provider rejected the structured-output request." };
   }
   return { category: "unknown", retryable: false, message: "AI provider returned an unexpected error." };
 }
@@ -171,6 +236,23 @@ function parseJson(content: string): unknown {
   }
 }
 
+function withFailure(
+  provenance: AiProvenance,
+  failure: ProviderFailure,
+  latencyMs?: number,
+): AiProvenance {
+  return {
+    ...provenance,
+    requestId: failure.requestId,
+    latencyMs,
+    failureCategory: failure.category,
+    failureStatus: failure.status,
+    failureCode: failure.errorCode,
+    retryable: failure.retryable,
+    retryAfterMs: failure.retryAfterMs,
+  };
+}
+
 export function isStrategyProviderConfigured(provider: StrategyProviderName): boolean {
   return Boolean(process.env[PROVIDER_DEFAULTS[provider].keyEnv]);
 }
@@ -190,18 +272,20 @@ export async function runStrategyProvider(
   const apiKey = process.env[defaults.keyEnv];
 
   if (!apiKey) {
+    const failure: ProviderFailure = { category: "configuration", retryable: false };
     return {
       success: false,
       data: null,
       error: `${defaults.keyEnv} is not configured.`,
-      failureCategory: "configuration",
-      retryable: false,
-      provenance,
+      failureCategory: failure.category,
+      retryable: failure.retryable,
+      failure,
+      provenance: withFailure(provenance, failure),
     };
   }
 
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), options.timeoutMs ?? DEFAULT_TIMEOUT_MS);
+  const timeoutId = setTimeout(() => controller.abort(), getStrategyProviderTimeoutMs(options.provider, options.timeoutMs));
   const startedAt = Date.now();
 
   try {
@@ -227,48 +311,72 @@ export async function runStrategyProvider(
 
     const payload = await response.json().catch(() => null);
     const latencyMs = Date.now() - startedAt;
-    const requestId = response.headers.get("x-request-id") ?? undefined;
+    const requestId = response.headers.get("x-request-id") ?? response.headers.get("request-id") ?? undefined;
+    const body = JSON.stringify(payload ?? {});
+    const errorCode = safeErrorCode(payload, body);
+    const retryAfter = retryAfterMs(response.headers.get("retry-after"));
 
     if (!response.ok) {
-      const classified = classifyFailure(response.status, JSON.stringify(payload ?? {}));
+      const classified = classifyFailure(response.status, body, errorCode);
+      const failure: ProviderFailure = {
+        category: classified.category,
+        retryable: classified.retryable,
+        status: response.status,
+        errorCode,
+        requestId,
+        retryAfterMs: retryAfter,
+      };
       return {
         success: false,
         data: null,
         error: classified.message,
-        failureCategory: classified.category,
-        retryable: classified.retryable,
+        failureCategory: failure.category,
+        retryable: failure.retryable,
         status: response.status,
-        provenance: {
-          ...provenance,
-          requestId,
-          latencyMs,
-        },
+        failure,
+        provenance: withFailure(provenance, failure, latencyMs),
       };
     }
 
     const content = extractContent(payload);
     if (!content) {
+      const failure: ProviderFailure = {
+        category: "schema_rejected",
+        retryable: false,
+        status: response.status,
+        errorCode: "empty_content",
+        requestId,
+      };
       return {
         success: false,
         data: null,
         error: "AI provider returned empty content.",
-        failureCategory: "validation",
-        retryable: false,
+        failureCategory: failure.category,
+        retryable: failure.retryable,
         status: response.status,
-        provenance: { ...provenance, requestId, latencyMs },
+        failure,
+        provenance: withFailure(provenance, failure, latencyMs),
       };
     }
 
     const data = parseJson(content);
     if (data === null) {
+      const failure: ProviderFailure = {
+        category: "schema_rejected",
+        retryable: false,
+        status: response.status,
+        errorCode: "invalid_json_content",
+        requestId,
+      };
       return {
         success: false,
         data: null,
         error: "AI provider returned non-JSON content.",
-        failureCategory: "validation",
-        retryable: false,
+        failureCategory: failure.category,
+        retryable: failure.retryable,
         status: response.status,
-        provenance: { ...provenance, requestId, latencyMs },
+        failure,
+        provenance: withFailure(provenance, failure, latencyMs),
       };
     }
 
@@ -285,18 +393,24 @@ export async function runStrategyProvider(
         inputTokens: usage?.prompt_tokens,
         outputTokens: usage?.completion_tokens,
         totalTokens: usage?.total_tokens,
+        retryable: false,
       },
     };
   } catch (error) {
     const latencyMs = Date.now() - startedAt;
     const timeout = isAbortError(error);
+    const failure: ProviderFailure = {
+      category: timeout ? "timeout" : "network",
+      retryable: true,
+    };
     return {
       success: false,
       data: null,
       error: timeout ? "AI provider request timed out." : "AI provider network request failed.",
-      failureCategory: timeout ? "timeout" : "network",
-      retryable: true,
-      provenance: { ...provenance, latencyMs },
+      failureCategory: failure.category,
+      retryable: failure.retryable,
+      failure,
+      provenance: withFailure(provenance, failure, latencyMs),
     };
   } finally {
     clearTimeout(timeoutId);

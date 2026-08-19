@@ -3,6 +3,17 @@ import { z } from "zod";
 export type AIProviderName = "groq" | "mistral" | "gemini" | "openrouter" | "zai" | "mock";
 export type StructuredMode = "strict_json_schema" | "json_schema" | "json_object" | "none";
 export type FallbackReason = "timeout" | "429" | "5xx" | "provider_unavailable" | "network";
+export type AIProviderFailureCategory =
+  | "configuration"
+  | "auth"
+  | "not_found"
+  | "rate_limited"
+  | "quota"
+  | "schema_rejected"
+  | "server"
+  | "timeout"
+  | "network"
+  | "unknown";
 
 export interface AiProvenance {
   provider: AIProviderName;
@@ -20,6 +31,11 @@ export interface AiProvenance {
   totalTokens?: number;
   fallbackFrom?: AIProviderName;
   fallbackReason?: FallbackReason;
+  failureCategory?: AIProviderFailureCategory;
+  failureStatus?: number;
+  failureCode?: string;
+  retryable?: boolean;
+  retryAfterMs?: number;
   dataPolicySnapshot: {
     trainingUse: "allowed" | "disallowed" | "unknown";
     retention: "zero" | "temporary" | "unknown";
@@ -43,6 +59,22 @@ export const AiProvenanceSchema = z.object({
   totalTokens: z.number().int().nonnegative().optional(),
   fallbackFrom: z.enum(["groq", "mistral", "gemini", "openrouter", "zai", "mock"]).optional(),
   fallbackReason: z.enum(["timeout", "429", "5xx", "provider_unavailable", "network"]).optional(),
+  failureCategory: z.enum([
+    "configuration",
+    "auth",
+    "not_found",
+    "rate_limited",
+    "quota",
+    "schema_rejected",
+    "server",
+    "timeout",
+    "network",
+    "unknown",
+  ]).optional(),
+  failureStatus: z.number().int().nonnegative().optional(),
+  failureCode: z.string().max(100).optional(),
+  retryable: z.boolean().optional(),
+  retryAfterMs: z.number().int().nonnegative().optional(),
   dataPolicySnapshot: z.object({
     trainingUse: z.enum(["allowed", "disallowed", "unknown"]),
     retention: z.enum(["zero", "temporary", "unknown"]),

@@ -1,5 +1,10 @@
 import { z } from "zod";
-import { runStrategyProvider, isStrategyProviderConfigured, getStrategyProviderModel, type StrategyProviderName } from "./ai-strategy-provider";
+import {
+  runStrategyProvider,
+  isStrategyProviderConfigured,
+  getStrategyProviderModel,
+  type StrategyProviderName,
+} from "./ai-strategy-provider";
 import { runMockStrategyBuilder } from "./ai-strategy-builder-mock";
 import type { MockStrategyScenario } from "./ai-strategy-builder-mock";
 import type { CanonicalWizardInput } from "./contracts/wizard-input";
@@ -227,7 +232,6 @@ export async function buildAIStrategyProposal(
   const primary = await runStrategyProvider(prompts.system, prompts.user, {
     provider,
     model,
-    timeoutMs: 15000,
   });
   let result = primary;
 
@@ -241,7 +245,7 @@ export async function buildAIStrategyProposal(
   if (!primary.success && primary.retryable && fallbackProvider && fallbackProvider !== provider) {
     const fallbackReason = primary.failureCategory === "timeout"
       ? "timeout"
-      : primary.failureCategory === "quota"
+      : primary.failureCategory === "rate_limited" || primary.failureCategory === "quota"
         ? "429"
         : primary.failureCategory === "server"
           ? "5xx"
@@ -250,7 +254,6 @@ export async function buildAIStrategyProposal(
             : "provider_unavailable";
     const fallback = await runStrategyProvider(prompts.system, prompts.user, {
       provider: fallbackProvider,
-      timeoutMs: 15000,
       fallbackFrom: provider,
       fallbackReason,
     });

@@ -11,9 +11,23 @@ const configuredProviders = [
 ].filter((value) => ["groq", "mistral", "gemini"].includes(value));
 const providers = requestedProvider
   ? [requestedProvider]
-  : [...new Set(configuredProviders.length ? configuredProviders : ["groq", "mistral", "gemini"])];
+  : [...new Set(configuredProviders.length ? configuredProviders : ["groq", "mistral", "gemini"])]
+    .filter((provider) => ["groq", "mistral", "gemini"].includes(provider));
 const fixtureDir = path.join(process.cwd(), "tests", "fixtures", "wizard-inputs-v1");
 const resultPath = path.join(process.cwd(), "tests", "results", "ai-provider-benchmark-v1.json");
+const DEFAULT_INTERVALS_MS = { groq: 20_000, mistral: 15_000, gemini: 15_000 };
+const safePositiveInt = (value, fallback) => {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) && parsed >= 0 ? Math.floor(parsed) : fallback;
+};
+const intervals = {
+  groq: safePositiveInt(process.env.AI_BENCHMARK_GROQ_INTERVAL_MS, DEFAULT_INTERVALS_MS.groq),
+  mistral: safePositiveInt(process.env.AI_BENCHMARK_MISTRAL_INTERVAL_MS, DEFAULT_INTERVALS_MS.mistral),
+  gemini: safePositiveInt(process.env.AI_BENCHMARK_GEMINI_INTERVAL_MS, DEFAULT_INTERVALS_MS.gemini),
+};
+const maxCases = safePositiveInt(process.env.AI_BENCHMARK_MAX_CASES, 0);
+const stopOnRateLimit = process.env.AI_BENCHMARK_STOP_ON_RATE_LIMIT !== "false";
+const stopOnNotFound = process.env.AI_BENCHMARK_STOP_ON_NOT_FOUND !== "false";
 
 if (!LIVE) {
   console.log("AI provider benchmark is opt-in and makes live external requests.");
@@ -22,13 +36,18 @@ if (!LIVE) {
 }
 
 function readFixtures() {
-  return fs.readdirSync(fixtureDir)
+  const fixtures = fs.readdirSync(fixtureDir)
     .filter((name) => /^EX-\d+_.*\.json$/.test(name))
     .sort()
     .map((name) => ({ name, data: JSON.parse(fs.readFileSync(path.join(fixtureDir, name), "utf8")) }));
+  return maxCases > 0 ? fixtures.slice(0, maxCases) : fixtures;
 }
 
-function assertContract(payload, provider, fixtureName) {
+function sleep(ms) {
+  return ms > 0 ? new Promise((resolve) => setTimeout(resolve, ms)) : Promise.resolve();
+}
+
+function assertContract(payload, provider) {
   const contract = payload?.data;
   const failures = [];
   if (payload?.status !== "success") failures.push("http_envelope_not_success");
@@ -47,6 +66,13 @@ function assertContract(payload, provider, fixtureName) {
     if (actualProvider !== provider && !fallbackAllowed) failures.push("strategy_provenance_provider");
   }
   return { ok: failures.length === 0, failures, contract };
+}
+
+function stopReasonFrom(strategy) {
+  const category = strategy?.provenance?.failureCategory;
+  if (category === "rate_limited" || strategy?.provenance?.fallbackReason === "429") return "rate_limited";
+  if (category === "not_found") return "not_found";
+  return null;
 }
 
 async function runOne(provider, fixture) {
@@ -69,9 +95,11 @@ async function runOne(provider, fixture) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
-    const payload = await response.json();
-    const checked = assertContract(payload, provider, fixture.name);
+    const payload = await response.json().catch(() => null);
+    const checked = assertContract(payload, provider);
     const strategy = checked.contract?.strategy;
+    const provenance = strategy?.provenance ?? {};
+    const stopReason = stopReasonFrom(strategy);
     return {
       provider,
       fixture: fixture.name,
@@ -80,11 +108,18 @@ async function runOne(provider, fixture) {
       failures: checked.failures,
       strategyStatus: strategy?.status ?? null,
       model: strategy?.model ?? null,
-      strategyProvider: strategy?.provenance?.provider ?? null,
-      structuredMode: strategy?.provenance?.structuredMode ?? null,
-      fallbackFrom: strategy?.provenance?.fallbackFrom ?? null,
-      fallbackReason: strategy?.provenance?.fallbackReason ?? null,
-      latencyMs: strategy?.provenance?.latencyMs ?? Date.now() - startedAt,
+      strategyProvider: provenance.provider ?? null,
+      structuredMode: provenance.structuredMode ?? null,
+      fallbackFrom: provenance.fallbackFrom ?? null,
+      fallbackReason: provenance.fallbackReason ?? null,
+      failureCategory: provenance.failureCategory ?? null,
+      failureStatus: provenance.failureStatus ?? null,
+      failureCode: provenance.failureCode ?? null,
+      retryable: provenance.retryable ?? null,
+      retryAfterMs: provenance.retryAfterMs ?? null,
+      requestId: provenance.requestId ?? null,
+      latencyMs: provenance.latencyMs ?? Date.now() - startedAt,
+      stopReason,
     };
   } catch (error) {
     return {
@@ -99,7 +134,14 @@ async function runOne(provider, fixture) {
       structuredMode: null,
       fallbackFrom: null,
       fallbackReason: null,
+      failureCategory: "network",
+      failureStatus: null,
+      failureCode: null,
+      retryable: true,
+      retryAfterMs: null,
+      requestId: null,
       latencyMs: Date.now() - startedAt,
+      stopReason: null,
     };
   }
 }
@@ -107,10 +149,31 @@ async function runOne(provider, fixture) {
 (async () => {
   const fixtures = readFixtures();
   const results = [];
+  const providerRuns = [];
+  const stoppedProviders = [];
+
   for (const provider of providers) {
+    let stopped = false;
+    let previousRequestAt = null;
+    let casesRun = 0;
     for (const fixture of fixtures) {
-      results.push(await runOne(provider, fixture));
+      if (stopped) break;
+      if (previousRequestAt !== null) {
+        const elapsed = Date.now() - previousRequestAt;
+        await sleep(Math.max(0, intervals[provider] - elapsed));
+      }
+      previousRequestAt = Date.now();
+      const result = await runOne(provider, fixture);
+      results.push(result);
+      casesRun += 1;
+      const shouldStop = (result.stopReason === "rate_limited" && stopOnRateLimit)
+        || (result.stopReason === "not_found" && stopOnNotFound);
+      if (shouldStop) {
+        stopped = true;
+        stoppedProviders.push({ provider, reason: result.stopReason, fixture: fixture.name });
+      }
     }
+    providerRuns.push({ provider, casesRequested: fixtures.length, casesRun, stopped });
   }
 
   fs.mkdirSync(path.dirname(resultPath), { recursive: true });
@@ -122,6 +185,12 @@ async function runOne(provider, fixture) {
     totalCases: results.length,
     passedCases: results.filter((result) => result.ok).length,
     failedCases: results.filter((result) => !result.ok).length,
+    intervalsMs: intervals,
+    maxCases: maxCases || null,
+    stopOnRateLimit,
+    stopOnNotFound,
+    providerRuns,
+    stoppedProviders,
     results,
     note: "Sanitized benchmark metadata only. No prompts, completions, or API keys are stored.",
   };
@@ -130,6 +199,7 @@ async function runOne(provider, fixture) {
     totalCases: report.totalCases,
     passedCases: report.passedCases,
     failedCases: report.failedCases,
+    stoppedProviders: report.stoppedProviders,
     resultPath,
   }, null, 2));
   process.exit(report.failedCases === 0 ? 0 : 1);
