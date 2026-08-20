@@ -66,6 +66,6 @@ Blueprint-only safety: passed
 
 ## UI coverage
 
-يتضمن التقرير فحصًا منفصلًا لسطح عرض صفحة Blueprint. طبقة البيانات والـassertions الدلالية تغطي الأقسام الـ26، بينما صفحة Blueprint الحالية تملك renderers مباشرة لـ11 قسمًا فقط. لذلك يسجل التقرير UI coverage كحالة `partial` مع قائمة الأقسام الخمسة عشر التي تحتاج renderers أو display adapters مباشرة.
+يتضمن التقرير فحصًا منفصلًا لسطح عرض صفحة Blueprint. بعد هذه الدفعة أصبحت خريطة العرض تحتوي على renderer مباشر لكل قسم canonical من الأقسام الـ26، ويؤكد التقرير `canonicalSectionCount=26` و`renderedSectionCount=26` و`missingSections=[]` مع حالة `full`.
 
-هذا الفصل متعمد حتى لا يتم إعلان تكافؤ UI غير موجود فعليًا. إغلاق هذه القائمة هو الدفعة التالية اللازمة لإعلان Enterprise parity الكامل عبر جميع الأبعاد السبعة: structural، semantic، consistency، provenance، safety، UI، وregression.
+وبذلك أصبحت تغطية UI الآلية متسقة مع تغطية البيانات والـassertions الدلالية، مع إبقاء الحالات التي تكون فيها البيانات نفسها `unavailable` أو `check_manually` ظاهرة بصراحة بدل تحويلها إلى fallback أو قيمة مضللة.

@@ -14,12 +14,27 @@ type SectionKey =
   | "recommended_funnel"
   | "campaign_structure"
   | "audience_structure"
+  | "audience_analysis"
   | "budget_split"
+  | "creative_strategy"
   | "creative_angles"
+  | "tracking_assessment"
   | "tracking_checklist"
-  | "risk_flags"
+  | "launch_plan"
   | "first_14_days_plan"
-  | "pre_launch_fixes";
+  | "pre_launch_fixes"
+  | "offer_strategy"
+  | "monitoring"
+  | "budget_management"
+  | "testing"
+  | "benchmarks"
+  | "market_context"
+  | "platform_guides"
+  | "compliance"
+  | "technical_audit"
+  | "risk_flags"
+  | "flags"
+  | "debug";
 
 const sections: { key: SectionKey; title: string; icon: string }[] = [
   { key: "executive_summary", title: "الملخص التنفيذي", icon: "📊" },
@@ -27,12 +42,27 @@ const sections: { key: SectionKey; title: string; icon: string }[] = [
   { key: "recommended_funnel", title: "الـ Funnel المقترح", icon: "🔄" },
   { key: "campaign_structure", title: "هيكل الحملات", icon: "📢" },
   { key: "audience_structure", title: "هيكل الجمهور", icon: "👥" },
+  { key: "audience_analysis", title: "تحليل الجمهور", icon: "🔍" },
   { key: "budget_split", title: "توزيع الميزانية", icon: "💰" },
+  { key: "creative_strategy", title: "الاستراتيجية الإبداعية", icon: "🧠" },
   { key: "creative_angles", title: "الزوايا الإبداعية", icon: "🎨" },
+  { key: "tracking_assessment", title: "تقييم التتبع", icon: "📈" },
   { key: "tracking_checklist", title: "قائمة التتبع", icon: "📡" },
-  { key: "risk_flags", title: "تحذيرات المخاطر", icon: "⚠️" },
+  { key: "launch_plan", title: "خطة الإطلاق", icon: "🚀" },
   { key: "first_14_days_plan", title: "خطة أول 14 يوم", icon: "📅" },
   { key: "pre_launch_fixes", title: "إصلاحات ما قبل الإطلاق", icon: "🔧" },
+  { key: "offer_strategy", title: "استراتيجية العرض", icon: "🏷️" },
+  { key: "monitoring", title: "المراقبة بعد الإطلاق", icon: "👁️" },
+  { key: "budget_management", title: "إدارة الميزانية", icon: "🧮" },
+  { key: "testing", title: "خطة الاختبارات", icon: "🧪" },
+  { key: "benchmarks", title: "المؤشرات المرجعية", icon: "📏" },
+  { key: "market_context", title: "سياق السوق", icon: "🌍" },
+  { key: "platform_guides", title: "إرشادات المنصات", icon: "📚" },
+  { key: "compliance", title: "الامتثال", icon: "⚖️" },
+  { key: "technical_audit", title: "التدقيق التقني", icon: "🛠️" },
+  { key: "risk_flags", title: "تحذيرات المخاطر", icon: "⚠️" },
+  { key: "flags", title: "حالة النظام", icon: "🚩" },
+  { key: "debug", title: "التشخيص والتتبع", icon: "🧾" },
 ];
 
 /* -------------------------------------------------------------------------- */
@@ -2133,6 +2163,219 @@ function PreLaunchFixesSection({ data }: { data: any }) {
 }
 
 /* -------------------------------------------------------------------------- */
+/* Extended Enterprise Renderers                                               */
+/* -------------------------------------------------------------------------- */
+
+function ListBlock({ title, items, tone = "gray" }: { title: string; items: any; tone?: "gray" | "blue" | "green" | "yellow" | "red" }) {
+  const values = asArray(items);
+  const tones: Record<string, string> = {
+    gray: "bg-gray-50 border-gray-200",
+    blue: "bg-blue-50 border-blue-200",
+    green: "bg-green-50 border-green-200",
+    yellow: "bg-yellow-50 border-yellow-200",
+    red: "bg-red-50 border-red-200",
+  };
+  if (!values.length) return null;
+  return (
+    <div className={`rounded-xl border p-4 ${tones[tone]}`}>
+      <p className="text-sm font-bold text-gray-800 mb-2">{title}</p>
+      <ul className="space-y-2 text-sm text-gray-700">
+        {values.map((item: any, index: number) => (
+          <li key={index} className="flex gap-2 items-start">
+            <span className="text-gray-400">•</span>
+            <span>{displayValue(item)}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function StatusPill({ status }: { status: any }) {
+  const value = String(displayValue(status, "unavailable"));
+  const style = value === "pass" || value === "ready" || value === "present" || value === "available"
+    ? "bg-green-100 text-green-800"
+    : value === "fail" || value === "missing"
+    ? "bg-red-100 text-red-800"
+    : value === "warning" || value === "partial" || value === "check_manually"
+    ? "bg-yellow-100 text-yellow-800"
+    : "bg-gray-100 text-gray-700";
+  return <span className={`inline-flex rounded-full px-2 py-1 text-xs font-bold ${style}`}>{value}</span>;
+}
+
+function EvidenceCard({ label, value }: { label: string; value: any }) {
+  const object = getObject(value);
+  const source = object.source ?? object.source_id ?? object.rule_id;
+  const status = object.status ?? object.checklist_status;
+  return (
+    <div className="rounded-xl border bg-white p-4">
+      <div className="flex items-center justify-between gap-3 mb-3">
+        <p className="font-bold text-gray-900">{label}</p>
+        {status !== undefined && <StatusPill status={status} />}
+      </div>
+      {source !== undefined && <p className="text-xs text-gray-500 mb-2">المصدر: {displayValue(source)}</p>}
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+        {Object.entries(object)
+          .filter(([key]) => !["source", "source_id", "rule_id", "status", "checklist_status", "reasoning", "value"].includes(key))
+          .slice(0, 9)
+          .map(([key, item]) => <DataCard key={key} label={key} value={item} />)}
+      </div>
+      {object.reasoning && <p className="text-sm text-gray-600 mt-3 leading-relaxed">{displayValue(object.reasoning)}</p>}
+    </div>
+  );
+}
+
+function AudienceAnalysisSection({ data }: { data: any }) {
+  const size = getObject(data?.size_estimate);
+  const overlap = getObject(data?.overlap_check);
+  const frequency = getObject(data?.frequency_cap);
+  const pairs = asArray(overlap.overlapping_pairs);
+  return (
+    <div className="space-y-4">
+      <EvidenceCard label="تقدير حجم الجمهور" value={data?.size_estimate} />
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <DataCard label="الحد الأدنى" value={size.min} />
+        <DataCard label="الحد الأقصى" value={size.max} />
+        <DataCard label="الوصف" value={size.label} />
+        <DataCard label="الوصول اليومي" value={size.daily_reach_estimate} />
+      </div>
+      <EvidenceCard label="فحص تداخل الشرائح" value={data?.overlap_check} />
+      <div className="space-y-2">
+        {pairs.map((pair: any, index: number) => <DataCard key={index} label={displayValue(pair?.segment ?? pair?.name, `تداخل ${index + 1}`)} value={`${displayValue(pair?.overlap_percentage)}%`} />)}
+      </div>
+      <EvidenceCard label="حدود التكرار" value={data?.frequency_cap} />
+      <div className="grid grid-cols-3 gap-3">
+        <DataCard label="حد 7 أيام" value={frequency.max_frequency_7_days} />
+        <DataCard label="حد 30 يومًا" value={frequency.max_frequency_30_days} />
+        <DataCard label="عتبة التحذير" value={frequency.warning_threshold} />
+      </div>
+      <ReasoningBadge reasoning={reasoningFrom(data?.overlap_check, data?.frequency_cap)} />
+    </div>
+  );
+}
+
+function CreativeStrategySection({ data }: { data: any }) {
+  const formats = asArray(unwrap(data?.recommended_formats));
+  const schedule = getObject(data?.refresh_schedule);
+  const proof = getObject(data?.social_proof);
+  return (
+    <div className="space-y-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <DataCard label="اختبار فكرة جديدة كل" value={schedule.test_new_creative_every} />
+        <DataCard label="تحديث كامل كل" value={schedule.refresh_interval_days} />
+        <DataCard label="حالة الدليل الاجتماعي" value={<StatusPill status={proof.status} />} />
+        <DataCard label="عدد فجوات الدليل" value={asArray(proof.gaps).length} />
+      </div>
+      <div className="space-y-3">
+        {formats.map((format: any, index: number) => (
+          <div key={index} className="rounded-xl border bg-white p-4">
+            <div className="flex justify-between gap-3"><h4 className="font-bold">{displayValue(format.type, `صيغة ${index + 1}`)}</h4><StatusPill status={format.asset_ready ? "ready" : "check_manually"} /></div>
+            <p className="text-sm text-gray-600 mt-2">القناة: {displayValue(format.channel)}</p>
+            <p className="text-sm text-gray-600">المنصة/السياق: {displayValue(format.platform ?? format.placement)}</p>
+          </div>
+        ))}
+      </div>
+      <ListBlock title="فجوات الدليل الاجتماعي" items={proof.gaps} tone="yellow" />
+      <ReasoningBadge reasoning={reasoningFrom(data?.recommended_formats, data?.refresh_schedule, data?.social_proof)} />
+    </div>
+  );
+}
+
+function TrackingAssessmentSection({ data }: { data: any }) {
+  const score = getObject(data?.detailed_score);
+  const steps = asArray(score.setup_steps);
+  return (
+    <div className="space-y-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <DataCard label="درجة التتبع" value={`${displayValue(score.score)}%`} />
+        <DataCard label="الأدوات الموجودة" value={asArray(score.present_tools).length} />
+        <DataCard label="الأدوات الناقصة" value={asArray(score.missing_tools).length} />
+        <DataCard label="الأحداث المطلوبة" value={asArray(score.required_events).length} />
+      </div>
+      <ListBlock title="الأحداث المطلوبة" items={score.required_events} tone="blue" />
+      <div className="space-y-2">
+        {steps.map((step: any, index: number) => <div key={index} className="rounded-xl border bg-white p-4"><div className="flex justify-between"><p className="font-bold">{displayValue(step.tool, `أداة ${index + 1}`)}</p><StatusPill status={step.status ?? "check_manually"} /></div><ListBlock title="خطوات الإعداد" items={step.steps} tone="gray" /></div>)}
+      </div>
+      <ReasoningBadge reasoning={reasoningFrom(data?.detailed_score)} />
+    </div>
+  );
+}
+
+function LaunchPlanSection({ data }: { data: any }) {
+  const timeline = getObject(data?.detailed_timeline);
+  const checklist = getObject(data?.pre_launch_checklist);
+  return (
+    <div className="space-y-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3"><DataCard label="إجمالي الأيام" value={timeline.total_days} /><DataCard label="تاريخ الجاهزية" value={timeline.launch_ready_date} /><DataCard label="الثقة" value={timeline.confidence} /><DataCard label="حالة القائمة" value={<StatusPill status={checklist.ready_to_launch ? "ready" : "check_manually"} />} /></div>
+      <div className="space-y-2">{asArray(timeline.milestones).map((item: any, index: number) => <div key={index} className="rounded-xl border bg-white p-4"><div className="flex justify-between"><h4 className="font-bold">{displayValue(item.phase, `مرحلة ${index + 1}`)}</h4><span className="text-sm text-gray-500">{displayValue(item.days)} يوم</span></div><ListBlock title="المهام" items={item.tasks} tone="blue" /></div>)}</div>
+      <PreLaunchFixesSection data={checklist} />
+    </div>
+  );
+}
+
+function OfferStrategySection({ data }: { data: any }) {
+  const offer = getObject(data?.expiration_strategy ?? data);
+  return <div className="space-y-4"><div className="grid grid-cols-2 md:grid-cols-3 gap-3"><DataCard label="نوع العرض" value={offer.offer_type} /><DataCard label="المدة المقترحة" value={offer.recommended_duration} /><DataCard label="تكرار التحديث" value={offer.refresh_frequency} /></div><ListBlock title="تكتيكات الإلحاح" items={offer.urgency_tactics} tone="yellow" /><ListBlock title="أمثلة النصوص الإعلانية" items={offer.ad_copy_examples} tone="blue" /><ReasoningBadge reasoning={offer.reasoning} /></div>;
+}
+
+function MonitoringSection({ data }: { data: any }) {
+  const schedule = asArray(data?.monitoring_schedule);
+  return <div className="space-y-4"><div className="grid grid-cols-2 md:grid-cols-3 gap-3"><DataCard label="تكرار الفحص" value={data?.check_frequency} /><DataCard label="عدد مؤشرات الأداء" value={asArray(data?.primary_kpis).length} /><DataCard label="لوحة التقارير" value={asArray(data?.reporting_dashboard).length} /></div><ListBlock title="مؤشرات الأداء الأساسية" items={data?.primary_kpis} tone="blue" /><div className="space-y-2">{schedule.map((item: any, index: number) => <div key={index} className="rounded-xl border bg-white p-4"><p className="font-bold">{displayValue(item.day, `اليوم ${index + 1}`)}</p><ListBlock title="الإجراءات" items={item.actions} tone="gray" /></div>)}</div><EvidenceCard label="حدود التنبيه" value={data?.alert_thresholds} /></div>;
+}
+
+function BudgetManagementSection({ data }: { data: any }) {
+  const pacing = getObject(data?.pacing_strategy);
+  const burn = getObject(data?.burn_rate_analysis);
+  const weeks = ["week_1", "week_2", "week_3", "week_4"];
+  return <div className="space-y-4"><EvidenceCard label="استراتيجية التوزيع الشهري" value={data?.pacing_strategy} /><div className="grid grid-cols-2 md:grid-cols-4 gap-3">{weeks.map((week) => <DataCard key={week} label={week} value={`${displayValue(pacing.monthly_pacing?.[week]?.percentage)}%`} />)}</div><EvidenceCard label="تحليل معدل الإنفاق" value={data?.burn_rate_analysis} /><div className="space-y-2">{asArray(burn.weekly_projection).map((item: any, index: number) => <div key={index} className="flex justify-between rounded-lg border bg-white p-3 text-sm"><span>{displayValue(item.week, `أسبوع ${index + 1}`)}</span><span>{displayValue(item.projected_spend)} / تراكمي {displayValue(item.cumulative)}</span></div>)}</div><ListBlock title="تنبيهات معدل الإنفاق" items={burn.burn_rate_alerts} tone="yellow" /><DataCard label="محفز إعادة التوزيع" value={pacing.reallocation_trigger} /></div>;
+}
+
+function TestingSection({ data }: { data: any }) {
+  const plan = getObject(data?.ab_test_plan ?? data);
+  const tests = asArray(plan.tests);
+  return <div className="space-y-4"><div className="grid grid-cols-2 md:grid-cols-3 gap-3"><DataCard label="إجمالي ميزانية الاختبار" value={plan.total_test_budget} /><DataCard label="أقل مدة اختبار" value={plan.minimum_test_duration} /><DataCard label="عدد الاختبارات" value={tests.length} /></div>{tests.map((test: any, index: number) => <div key={index} className="rounded-xl border bg-white p-4"><div className="flex justify-between"><h4 className="font-bold">{displayValue(test.element, `اختبار ${index + 1}`)}</h4><span className="text-sm text-gray-500">{displayValue(test.duration_days)} يوم</span></div><ListBlock title="البدائل" items={test.variants} tone="blue" /><div className="grid grid-cols-2 gap-3 mt-3"><DataCard label="الإنفاق الأدنى" value={test.minimum_spend} /><DataCard label="مؤشر النجاح" value={test.success_metric} /></div></div>)}</div>;
+}
+
+function BenchmarksSection({ data }: { data: any }) {
+  const conversion = getObject(data?.conversion_benchmarks);
+  const targets = getObject(conversion.performance_targets ?? data?.performance_targets);
+  return <div className="space-y-4"><EvidenceCard label="المرجع التحويلي" value={data?.conversion_benchmarks} /><div className="grid grid-cols-2 md:grid-cols-4 gap-3"><DataCard label="CVR القطاع" value={conversion.industry_average_cvr} /><DataCard label="CTR القطاع" value={conversion.industry_average_ctr} /><DataCard label="CPA المستهدف" value={conversion.target_cpa} /><DataCard label="الحالة" value={<StatusPill status={conversion.status ?? data?.status} />} /></div><EvidenceCard label="أهداف الأداء" value={targets} /></div>;
+}
+
+function MarketContextSection({ data }: { data: any }) {
+  const seasonality = getObject(data?.seasonality);
+  const competitor = getObject(data?.competitor_analysis);
+  const cpc = getObject(competitor.estimated_cpc_range);
+  return <div className="space-y-4"><EvidenceCard label="الموسمية" value={data?.seasonality} /><div className="grid grid-cols-2 md:grid-cols-4 gap-3"><DataCard label="الشهر الحالي" value={seasonality.current_month} /><DataCard label="تعديل الميزانية" value={seasonality.budget_adjustment} /><DataCard label="مستوى المنافسة" value={<StatusPill status={competitor.competition_level} />} /><DataCard label="نطاق CPC" value={`${displayValue(cpc.low)} – ${displayValue(cpc.high)}`} /></div><ListBlock title="توصيات الموسمية" items={seasonality.recommendations} tone="blue" /><EvidenceCard label="تحليل المنافسين" value={data?.competitor_analysis} /><ListBlock title="استراتيجيات التمييز" items={competitor.differentiation_strategies} tone="green" /></div>;
+}
+
+function PlatformGuidesSection({ data }: { data: any }) {
+  const guides = asArray(getObject(data?.platform_specific_rules).value ?? data?.platform_specific_rules);
+  return <div className="space-y-3">{guides.map((guide: any, index: number) => <div key={index} className="rounded-xl border bg-white p-4"><div className="flex justify-between"><h4 className="font-bold">{displayValue(guide.platform, `منصة ${index + 1}`)}</h4><StatusPill status="available" /></div><DataCard label="ربط الهدف" value={guide.objective_mapping} /><ListBlock title="القواعد" items={guide.rules} tone="yellow" /><ListBlock title="أفضل الممارسات" items={guide.best_practices} tone="blue" /></div>)}</div>;
+}
+
+function ComplianceSection({ data }: { data: any }) {
+  const legal = getObject(data?.legal);
+  const privacy = getObject(data?.privacy);
+  return <div className="space-y-4"><EvidenceCard label="المتطلبات القانونية" value={data?.legal} /><div className="grid grid-cols-2 md:grid-cols-3 gap-3"><DataCard label="الإلزامي" value={legal.mandatory_count} /><DataCard label="حالة القائمة" value={<StatusPill status={legal.checklist_status} />} /><DataCard label="التوصية" value={legal.recommendation} /></div><ListBlock title="المتطلبات" items={legal.requirements} tone="yellow" /><EvidenceCard label="الخصوصية" value={data?.privacy} /><ListBlock title="التنظيمات المنطبقة" items={privacy.applicable_regulations} tone="blue" /><div className="space-y-2">{asArray(privacy.requirements).map((item: any, index: number) => <div key={index} className="rounded-lg border bg-white p-3"><p className="font-bold">{displayValue(item.regulation)}</p><ListBlock title="الإجراءات" items={item.actions} tone="gray" /></div>)}</div></div>;
+}
+
+function TechnicalAuditSection({ data }: { data: any }) {
+  const accessibility = getObject(data?.accessibility);
+  const mobile = getObject(data?.mobile_optimization);
+  return <div className="space-y-4"><div className="grid grid-cols-2 md:grid-cols-4 gap-3"><DataCard label="فحص الوصول" value={`${displayValue(accessibility.applicable_checks)} عنصر`} /><DataCard label="مراجعة يدوية" value={accessibility.manual_checks_required} /><DataCard label="درجة الجوال" value={`${displayValue(mobile.mobile_score)}%`} /><DataCard label="أوزان الجوال" value={asArray(mobile.checks).length} /></div><EvidenceCard label="الوصول Accessibility" value={data?.accessibility} /><ListBlock title="الإصلاحات ذات الأولوية" items={accessibility.priority_fixes} tone="red" /><EvidenceCard label="تحسين الجوال" value={data?.mobile_optimization} /><div className="grid grid-cols-1 md:grid-cols-3 gap-3"><EvidenceCard label="سرعة الصفحة" value={data?.page_speed} /><EvidenceCard label="شهادة SSL" value={data?.ssl_certificate} /><EvidenceCard label="سلطة النطاق" value={data?.domain_authority} /></div></div>;
+}
+
+function FlagsSection({ data }: { data: any }) {
+  return <div className="space-y-4"><ListBlock title="أخطاء" items={data?.errors} tone="red" /><ListBlock title="تحذيرات" items={data?.warnings} tone="yellow" /><ListBlock title="معلومات" items={data?.infos} tone="blue" />{!asArray(data?.errors).length && !asArray(data?.warnings).length && !asArray(data?.infos).length && <div className="rounded-xl border bg-green-50 border-green-200 p-4 text-green-800">لا توجد flags مسجلة من المحرك.</div>}</div>;
+}
+
+function DebugSection({ data }: { data: any }) {
+  const scores = getObject(data?.scores_breakdown);
+  return <div className="space-y-4"><div className="grid grid-cols-2 md:grid-cols-3 gap-3"><DataCard label="زمن التنفيذ" value={`${displayValue(data?.execution_time_ms)} ms`} /><DataCard label="القواعد المنفذة" value={data?.rules_executed} /><DataCard label="الإصدار" value={data?.engine_version ?? data?.rule_engine_version} /></div><div className="grid grid-cols-1 md:grid-cols-2 gap-4"><EvidenceCard label="تفصيل الجاهزية" value={scores.readiness} /><EvidenceCard label="تفصيل المخاطر" value={scores.risk} /></div><DataCard label="معرف التتبع" value={data?.trace_id ?? data?.request_id} /></div>;
+}
+
+/* -------------------------------------------------------------------------- */
 /* Renderer Map                                                               */
 /* -------------------------------------------------------------------------- */
 
@@ -2191,6 +2434,21 @@ function toBlueprintDisplayModel(raw: any): any {
       items: asArray(checklist?.items),
       summary: checklist?.summary,
     },
+    audience_analysis: raw?.audience_analysis ?? execution?.audience_analysis,
+    creative_strategy: raw?.creative_strategy ?? execution?.creative_strategy,
+    tracking_assessment: raw?.tracking_assessment ?? execution?.tracking_assessment,
+    launch_plan: raw?.launch_plan ?? launchPlan,
+    offer_strategy: raw?.offer_strategy ?? execution?.offer_strategy,
+    monitoring: raw?.monitoring ?? governance?.monitoring_plan?.post_launch_plan,
+    budget_management: raw?.budget_management ?? governance?.monitoring_plan?.budget_management,
+    testing: raw?.testing ?? governance?.monitoring_plan?.testing_plan?.ab_test_plan,
+    benchmarks: raw?.benchmarks ?? governance?.monitoring_plan?.testing_plan?.benchmarks,
+    market_context: raw?.market_context ?? governance?.monitoring_plan?.testing_plan?.market_context,
+    platform_guides: raw?.platform_guides ?? governance?.monitoring_plan?.testing_plan?.platform_guides,
+    compliance: raw?.compliance ?? governance?.monitoring_plan?.testing_plan?.compliance,
+    technical_audit: raw?.technical_audit ?? governance?.monitoring_plan?.testing_plan?.technical_audit,
+    flags: raw?.flags ?? raw?.flags,
+    debug: raw?.debug ?? raw?.telemetry,
   };
 }
 
@@ -2203,12 +2461,27 @@ const sectionRenderers: Record<
   recommended_funnel: RecommendedFunnelSection,
   campaign_structure: CampaignStructureSection,
   audience_structure: AudienceStructureSection,
+  audience_analysis: AudienceAnalysisSection,
   budget_split: BudgetSplitSection,
+  creative_strategy: CreativeStrategySection,
   creative_angles: CreativeAnglesSection,
+  tracking_assessment: TrackingAssessmentSection,
   tracking_checklist: TrackingChecklistSection,
-  risk_flags: RiskFlagsSection,
+  launch_plan: LaunchPlanSection,
   first_14_days_plan: First14DaysPlanSection,
   pre_launch_fixes: PreLaunchFixesSection,
+  offer_strategy: OfferStrategySection,
+  monitoring: MonitoringSection,
+  budget_management: BudgetManagementSection,
+  testing: TestingSection,
+  benchmarks: BenchmarksSection,
+  market_context: MarketContextSection,
+  platform_guides: PlatformGuidesSection,
+  compliance: ComplianceSection,
+  technical_audit: TechnicalAuditSection,
+  risk_flags: RiskFlagsSection,
+  flags: FlagsSection,
+  debug: DebugSection,
 };
 
 /* -------------------------------------------------------------------------- */
