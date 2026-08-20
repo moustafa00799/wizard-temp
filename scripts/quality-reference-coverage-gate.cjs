@@ -141,7 +141,7 @@ function referenceSectionCoverage(referenceFiles, blueprints) {
       };
     }
     const currentValues = blueprints.map((blueprint) => getPath(blueprint, mapping.current));
-    const currentSuffixes = [...new Set(currentValues.flatMap(relativeLeafPaths))];
+    const currentSuffixes = [...new Set(currentValues.flatMap((value) => relativeLeafPaths(value).map((item) => item.replace(/(^|\\.)value(?=\\.|$)/g, '').replace(/^\\./, '')).filter(Boolean)))];
     const covered = referenceSuffixes.filter((suffix) => currentSuffixes.includes(suffix));
     const structuralPercent = percentage(covered.length, referenceSuffixes.length);
     const status = mapping.mode === 'semantic'

@@ -1,6 +1,6 @@
 # Quality and Reference Coverage Gate
 
-Generated: 2026-08-20T02:41:54.704Z
+Generated: 2026-08-20T09:24:59.560Z
 Base URL: `http://127.0.0.1:3001`
 
 ## Result: **PASS_WITH_GAPS**
@@ -18,7 +18,7 @@ The gate is deterministic and uses only local fixtures, the local `/api/generate
 | Currency coverage | 3/3 (100%) |
 | Readiness states before confirmation | 1/3 (33.33%) |
 | Readiness states after confirmation | 3/3 (100%) |
-| Reference section structural coverage | 10/26 full; 16 partial; 0 missing |
+| Reference section structural coverage | 12/26 full; 14 partial; 0 missing |
 
 ## Fixture Matrix
 
@@ -40,7 +40,7 @@ The gate is deterministic and uses only local fixtures, the local `/api/generate
 | Reference section | Current v3 path | Status | Leaf fields covered | Structural coverage |
 |---|---|---|---:|---:|
 | executive_summary | blueprint.executive_summary | full | 6/6 | 100% |
-| strategy_summary | blueprint.strategy | partial | 26/35 | 74.29% |
+| strategy_summary | blueprint.strategy | full | 35/35 | 100% |
 | recommended_funnel | blueprint.strategy.recommended_funnel | full | 3/3 | 100% |
 | campaign_structure | blueprint.execution.campaign_structure | full | 4/4 | 100% |
 | audience_structure | blueprint.execution.audience_structure | full | 10/10 | 100% |
@@ -57,9 +57,9 @@ The gate is deterministic and uses only local fixtures, the local `/api/generate
 | compliance | blueprint.governance.monitoring_plan.testing_plan.compliance | partial | 6/14 | 42.86% |
 | technical_audit | blueprint.governance.monitoring_plan.testing_plan.technical_audit | partial | 15/50 | 30% |
 | offer_strategy | blueprint.execution.offer_strategy | partial | 3/10 | 30% |
-| budget_split | blueprint.execution.budget_split | partial | 19/28 | 67.86% |
+| budget_split | blueprint.execution.budget_split | partial | 20/28 | 71.43% |
 | creative_angles | blueprint.execution.creative_angles | full | 6/6 | 100% |
-| tracking_checklist | blueprint.execution.tracking_checklist | partial | 7/8 | 87.5% |
+| tracking_checklist | blueprint.execution.tracking_checklist | full | 8/8 | 100% |
 | risk_flags | blueprint.governance.risk_flags | full | 13/13 | 100% |
 | first_14_days_plan | blueprint.execution.launch_plan.detailed_timeline | partial | 3/7 | 42.86% |
 | pre_launch_fixes | blueprint.execution.launch_plan.pre_launch_checklist | partial | 3/11 | 27.27% |
@@ -69,7 +69,7 @@ The gate is deterministic and uses only local fixtures, the local `/api/generate
 ## Gaps and Recommendations
 
 - **Readiness before confirmation:** Missing v3 readiness states: ready, review. Add confirmed fixtures or controlled readiness variants; all current fixtures are intentionally unconfirmed and therefore blocked.
-- **Reference parity:** 16 reference sections are only semantically or structurally partial: strategy_summary, audience_analysis, launch_plan, monitoring, budget_management, testing, benchmarks, market_context, compliance, technical_audit, offer_strategy, budget_split, tracking_checklist, first_14_days_plan, pre_launch_fixes, debug. Add explicit fields or mapping documentation where the current v3 shape intentionally differs.
+- **Reference parity:** 14 reference sections are only semantically or structurally partial: audience_analysis, launch_plan, monitoring, budget_management, testing, benchmarks, market_context, compliance, technical_audit, offer_strategy, budget_split, first_14_days_plan, pre_launch_fixes, debug. Add explicit fields or mapping documentation where the current v3 shape intentionally differs.
 
 ## Regression Policy
 

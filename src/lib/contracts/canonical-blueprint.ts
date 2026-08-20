@@ -40,12 +40,14 @@ const StrategySchema = z.object({
   recommended_channels: z.object({
     value: z.array(z.string()),
     scores: z.record(z.string(), z.number()),
+    channel_scores: z.record(z.string(), z.number()),
     confidence: z.number().min(0).max(1),
     reasoning: z.string(),
     rule_id: z.string().optional(),
   }),
   funnel_type: z.object({
     value: z.enum(['trust_funnel', 'education_funnel', 'solution_funnel', 'lead_gen_call', 'direct_conversion']),
+    stages: z.array(z.string()),
     confidence: z.number().min(0).max(1),
     reasoning: z.string(),
     rule_id: z.string().optional(),
@@ -287,6 +289,7 @@ const ExecutionSchema = z.object({
         required: z.boolean(),
       })),
     }),
+    missing_items: z.array(z.string()),
     implementation_guide: z.object({
       steps: z.array(z.string()),
       estimated_time: z.string(),

@@ -19,6 +19,7 @@ export function resolveObjective(input: Partial<CanonicalWizardInput>): Objectiv
       value: input.primary_objective as ObjectiveDecision['value'],
       source: 'USER',
       confidence: 1.0,
+      rule_id: 'USER-OBJ-001',
       reasoning: `Preserved explicit user objective: ${input.primary_objective}`,
     };
   }

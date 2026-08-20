@@ -22,6 +22,7 @@
     "test:api:reasoning:v5": "tsx scripts/api-reasoning-builder-v5.cjs",
     "test:wizard:v5:real-flow": "node scripts/wizard-v5-real-flow.cjs",
     "test:quality:coverage": "node scripts/quality-reference-coverage-gate.cjs",
+    "test:reference-parity:semantic": "node scripts/reference-parity-semantic-regression.cjs",
     "semantic-eval": "tsx scripts/semantic-runner.ts"
   },
   "dependencies": {

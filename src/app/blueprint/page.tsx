@@ -627,6 +627,10 @@ function BudgetSplitSection({ data }: { data: any }) {
   const scaleBudget = getObject(data?.scale_budget);
 
   const allocationEntries = Object.entries(channelAllocation);
+  const allocationPercent = (value: any) => {
+    const numeric = numberValue(value);
+    return numeric <= 1 ? numeric * 100 : numeric;
+  };
 
   return (
     <div className="space-y-4">
@@ -672,7 +676,7 @@ function BudgetSplitSection({ data }: { data: any }) {
               className="flex items-center gap-3 bg-white rounded-lg p-3 border"
             >
               <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-700 font-bold text-sm">
-                {numberValue(percentage)}%
+                {allocationPercent(percentage)}%
               </div>
 
               <div className="flex-1">
@@ -681,7 +685,7 @@ function BudgetSplitSection({ data }: { data: any }) {
                 </p>
 
                 <p className="text-sm text-gray-500">
-                  {numberValue(percentage)}% من الميزانية
+                  {allocationPercent(percentage)}% من الميزانية
                 </p>
               </div>
             </div>

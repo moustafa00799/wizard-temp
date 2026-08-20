@@ -8,6 +8,24 @@ import { resolveFunnel, FunnelDecision } from '../policies/funnelPolicy';
 import { resolveChannels, ChannelDecision } from '../policies/channelPolicy';
 import { resolveLaunchReadiness, ReadinessDecision } from '../policies/launchReadinessPolicy';
 
+const CHANNEL_SCORE_KEYS = ['meta', 'google_ads', 'tiktok_ads', 'snapchat_ads', 'youtube', 'linkedin', 'x'] as const;
+
+function padChannelScores(scores: Record<string, number>): Record<string, number> {
+  return CHANNEL_SCORE_KEYS.reduce<Record<string, number>>((acc, channel) => {
+    acc[channel] = scores[channel] ?? 0;
+    return acc;
+  }, { ...scores });
+}
+
+function allocateEvenly(channels: string[]): Record<string, number> {
+  if (channels.length === 0) return {};
+  const share = 1 / channels.length;
+  return channels.reduce<Record<string, number>>((acc, channel) => {
+    acc[channel] = share;
+    return acc;
+  }, {});
+}
+
 // ============================================================
 // 1. تتبع المصدر (Provenance Tracker)
 // ============================================================
@@ -156,12 +174,14 @@ export class CDKSEngine {
       recommended_channels: {
         value: channels.value,
         scores: channels.scores,
+        channel_scores: padChannelScores(channels.scores),
         confidence: channels.confidence,
         reasoning: channels.reasoning,
         rule_id: channels.rule_id,
       },
       funnel_type: {
         value: funnel.value,
+        stages: funnelStages.map((stage) => stage.name),
         confidence: funnel.confidence,
         reasoning: funnel.reasoning,
         rule_id: funnel.rule_id,
@@ -251,6 +271,35 @@ export class CDKSEngine {
     };
     const socialProofCount = Object.values(socialProofPresent).filter(Boolean).length;
     const socialProofGaps = Object.entries(socialProofPresent).filter(([, present]) => !present).map(([key]) => key);
+
+    const dailyBudgetMin = input.budget_band?.includes('300') ? 300 : 100;
+    const dailyBudgetRecommended = input.budget_band?.includes('300') ? 500 : 200;
+    const dailyBudgetMax = input.budget_band?.includes('1000') ? 1000 : 500;
+    const monthlyBudget = Math.round(dailyBudgetRecommended * 30);
+    const testBudgetPercentage = 20;
+    const testBudgetAmount = Math.round((monthlyBudget * testBudgetPercentage) / 100);
+    const launchMilestones = [
+      { phase: 'foundation', days: 2, tasks: ['Confirm objective, audience, offer, and tracking ownership'], critical: true },
+      { phase: 'setup', days: 3, tasks: ['Prepare campaign structure, audiences, creatives, and events'], critical: true },
+      { phase: 'validation', days: 4, tasks: ['Validate implementation, QA events, and approve test variants'], critical: true },
+      { phase: 'launch_readiness', days: 5, tasks: ['Resolve required blockers and complete human approval checklist'], critical: true },
+    ];
+    const launchReadyDate = new Date(Date.now() + launchMilestones.reduce((sum, milestone) => sum + milestone.days, 0) * 86400000).toISOString();
+    const preLaunchItems = [
+      { category: 'tracking', item: 'Required conversion events configured', status: trackingScore >= 70 ? 'pass' : 'fail', required: true },
+      { category: 'creative', item: 'Required creative assets available', status: creativeAssetSet.size > 0 ? 'pass' : 'warning', required: true },
+      { category: 'audience', item: 'Audience definition and exclusions reviewed', status: (input.ideal_customer || input.audience_segments?.length) ? 'pass' : 'check_manually', required: true },
+      { category: 'approval', item: 'Human approval recorded before launch', status: 'check_manually', required: true },
+    ];
+    const preLaunchSummary = {
+      passed: preLaunchItems.filter(item => item.status === 'pass').length,
+      failed: preLaunchItems.filter(item => item.status === 'fail').length,
+      warnings: preLaunchItems.filter(item => item.status === 'warning').length,
+      manual: preLaunchItems.filter(item => item.status === 'check_manually').length,
+      total: preLaunchItems.length,
+    };
+    const preLaunchReady = preLaunchSummary.failed === 0 && preLaunchSummary.manual === 0;
+    const preLaunchCompletion = Math.round((preLaunchSummary.passed / preLaunchSummary.total) * 100);
 
     const execution = {
       campaign_structure: {
@@ -372,37 +421,38 @@ export class CDKSEngine {
       },
       budget_split: {
         daily_budget: {
-          min: input.budget_band?.includes('300') ? 300 : 100,
-          recommended: input.budget_band?.includes('300') ? 500 : 200,
-          max: input.budget_band?.includes('1000') ? 1000 : 500,
+          min: dailyBudgetMin,
+          recommended: dailyBudgetRecommended,
+          max: dailyBudgetMax,
           flexible: true,
           confidence: 0.85,
           reasoning: 'Daily budget derived from user budget band.',
           rule_id: 'BS-001',
         },
         channel_allocation: {
-          value: channels.value.reduce((acc, ch) => ({ ...acc, [ch]: Math.round(100 / channels.value.length) }), {}),
+          value: allocateEvenly(channels.value),
           confidence: 0.80,
-          reasoning: 'Budget distributed evenly across selected channels.',
+          reasoning: 'Budget distributed evenly across selected channels; shares sum to 1.',
           rule_id: 'BS-002',
         },
         test_budget: {
-          percentage: 20,
-          amount: 100,
+          percentage: testBudgetPercentage,
+          amount: testBudgetAmount,
           confidence: 0.75,
-          reasoning: 'Test budget set to 20% for initial learning.',
+          reasoning: `Test budget set to ${testBudgetPercentage}% of the projected 30-day budget for initial learning.`,
           rule_id: 'BS-003',
         },
         scale_budget: {
-          max: 2000,
+          max: dailyBudgetMax * 30,
           increment: '20% every 3 days',
           confidence: 0.70,
-          reasoning: 'Scale budget up to 2x with incremental increases.',
+          reasoning: 'Scale budget is capped by the projected monthly envelope and remains advisory.',
           rule_id: 'BS-004',
         },
         cac_target: {
           value: input.max_cac || 150,
           source: input.max_cac ? 'user_defined' : 'inferred',
+          flags: input.max_cac ? [] : ['inferred_cac_target'],
           confidence: 0.80,
           reasoning: 'CAC target derived from user input or inferred from business context.',
           rule_id: 'BS-005',
@@ -426,16 +476,17 @@ export class CDKSEngine {
         ],
       },
       tracking_checklist: {
-        required_events: input.key_events || ['page_view', 'purchase', 'add_to_cart'],
+        required_events: requiredEvents,
         setup_status: {
           overall: (input.tracking_status === 'ready' ? 'ready' : input.tracking_status === 'partial' ? 'partial' : 'missing') as 'ready' | 'partial' | 'missing',
-          score: input.tracking_status === 'ready' ? 100 : input.tracking_status === 'partial' ? 50 : 10,
-          items: (input.key_events || ['page_view']).map(ev => ({
+          score: trackingScore,
+          items: requiredEvents.map(ev => ({
             event: ev,
             status: (input.tracking_status === 'ready' ? 'ready' : 'missing') as 'ready' | 'missing',
             required: true,
           })),
         },
+        missing_items: missingTrackingTools,
         implementation_guide: {
           steps: [
             'Install Meta Pixel base code',
@@ -449,42 +500,28 @@ export class CDKSEngine {
       },
       launch_plan: {
         detailed_timeline: {
-          total_days: readiness.value === 'ready' ? 7 : 14,
-          milestones: [
-            { phase: 'Tracking & Technical Setup', days: 2, tasks: ['Install tracking pixels', 'Configure events'], critical: true },
-            { phase: 'Creative Production', days: 3, tasks: ['Design ad creatives', 'Write ad copy'], critical: true },
-            { phase: 'Campaign Build', days: 1, tasks: ['Create campaign structure', 'Set up audiences'], critical: true },
-            { phase: 'Review & Launch', days: 1, tasks: ['Final QA', 'Soft launch'], critical: true },
-          ],
-          critical_path: ['Tracking & Technical Setup', 'Creative Production', 'Campaign Build', 'Review & Launch'],
-          launch_ready_date: new Date(Date.now() + (readiness.value === 'ready' ? 7 : 14) * 24 * 60 * 60 * 1000).toISOString(),
+          total_days: launchMilestones.reduce((sum, milestone) => sum + milestone.days, 0),
+          milestones: launchMilestones,
+          critical_path: launchMilestones.filter(milestone => milestone.critical).map(milestone => milestone.phase),
+          launch_ready_date: launchReadyDate,
           confidence: 0.75,
-          reasoning: `Launch timeline estimated at ${readiness.value === 'ready' ? 7 : 14} days.`,
+          reasoning: 'Launch timeline is derived from tracking, creative, audience, and human approval readiness.',
           rule_id: 'RF-009',
         },
         pre_launch_checklist: {
-          items: [
-            { category: 'Technical', item: 'Tracking pixel installed and firing', status: (input.tracking_status === 'ready' ? 'pass' : 'fail') as 'pass' | 'fail', required: true },
-            { category: 'Creative', item: 'At least 3 ad creative variants', status: ((input.creative_assets?.length || 0) >= 3 ? 'pass' : 'warning') as 'pass' | 'warning', required: true },
-            { category: 'Campaign', item: 'Budget and bid strategy set', status: 'pass' as const, required: true },
-            { category: 'Campaign', item: 'Audience targeting defined', status: 'pass' as const, required: true },
-          ],
+          items: preLaunchItems,
           summary: {
-            passed: 2,
-            failed: input.tracking_status !== 'ready' ? 1 : 0,
-            warnings: (input.creative_assets?.length || 0) < 3 ? 1 : 0,
-            manual: 0,
-            total: 4,
-            ready_to_launch: readiness.value === 'ready',
-            completion_percentage: readiness.value === 'ready' ? 100 : 75,
+            ...preLaunchSummary,
+            ready_to_launch: preLaunchReady,
+            completion_percentage: preLaunchCompletion,
             confidence: 0.80,
-            reasoning: `Pre-launch checklist: ${readiness.value}`,
+            reasoning: `Pre-launch checklist: ${preLaunchSummary.passed}/${preLaunchSummary.total} passed; ${preLaunchSummary.manual} manual approvals remain.`,
             rule_id: 'RF-010',
           },
-          ready_to_launch: readiness.value === 'ready',
-          completion_percentage: readiness.value === 'ready' ? 100 : 75,
+          ready_to_launch: preLaunchReady,
+          completion_percentage: preLaunchCompletion,
           confidence: 0.80,
-          reasoning: `Pre-launch checklist: ${readiness.value}`,
+          reasoning: `Pre-launch checklist: ${preLaunchSummary.passed}/${preLaunchSummary.total} passed; ${preLaunchSummary.manual} manual approvals remain.`,
           rule_id: 'RF-010',
         },
       },

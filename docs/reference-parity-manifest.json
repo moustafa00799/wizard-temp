@@ -1,0 +1,1479 @@
+{
+  "manifest_version": "1.0.0",
+  "generated_at": "2026-08-20T09:04:00.523Z",
+  "purpose": "Deterministic reference-to-canonical parity manifest for CDKS Blueprint.",
+  "reference_files": [
+    "tests/fixtures/reference-blueprints/ecommerce.json",
+    "tests/fixtures/reference-blueprints/local_service.json"
+  ],
+  "contract_target": "CanonicalBlueprint additive parity extension",
+  "authority_model": "AI proposes; CDKS decides; human approves.",
+  "full_definition": [
+    "structural",
+    "semantic",
+    "consistency",
+    "provenance",
+    "safety",
+    "ui",
+    "regression"
+  ],
+  "summary": {
+    "total_sections": 26,
+    "full": 10,
+    "partial": 16,
+    "missing": 0,
+    "priority_batch": [
+      "strategy_summary",
+      "launch_plan",
+      "budget_split",
+      "tracking_checklist",
+      "first_14_days_plan",
+      "pre_launch_fixes"
+    ]
+  },
+  "sections": [
+    {
+      "id": "executive_summary",
+      "status": "full",
+      "priority": "baseline",
+      "referencePath": "executive_summary",
+      "canonicalPath": "executive_summary",
+      "sourceFields": [
+        "primary_objective",
+        "budget_band",
+        "tracking_status"
+      ],
+      "authority": "CDKS",
+      "rules": [
+        "RF-001",
+        "RF-004"
+      ],
+      "assertions": [
+        "readiness and risk fields are present",
+        "launch recommendation respects readiness blockers"
+      ],
+      "ui": "ExecutiveSummarySection",
+      "referenceLeaves": [
+        "readiness_level",
+        "readiness_score",
+        "risk_level",
+        "risk_score",
+        "launch_recommendation",
+        "estimated_launch_date"
+      ],
+      "referenceLeafCount": 6,
+      "semanticStatus": "verified_structural_baseline",
+      "requiredEvidence": [
+        "source_fields",
+        "authority",
+        "rules",
+        "confidence",
+        "reasoning",
+        "rule_id"
+      ],
+      "safetyConstraints": [
+        "generation_mode=blueprint_only",
+        "external_actions_allowed=false",
+        "budget_spend_allowed=false"
+      ]
+    },
+    {
+      "id": "strategy_summary",
+      "status": "partial",
+      "priority": "P0",
+      "referencePath": "strategy_summary",
+      "canonicalPath": "strategy",
+      "sourceFields": [
+        "primary_objective",
+        "ad_channels",
+        "campaign_direction",
+        "business_type",
+        "tracking_status",
+        "creative_assets"
+      ],
+      "authority": "CDKS",
+      "rules": [
+        "RF-001",
+        "RF-002",
+        "RF-003",
+        "RF-004"
+      ],
+      "assertions": [
+        "recommended objective has value/confidence/reasoning/rule_id",
+        "recommended channels use value array and scores",
+        "funnel type and timeline agree with objective",
+        "confidence breakdown is internally consistent"
+      ],
+      "ui": "StrategySummarySection",
+      "referenceLeaves": [
+        "recommended_objective.value",
+        "recommended_objective.confidence",
+        "recommended_objective.reasoning",
+        "recommended_objective.rule_id",
+        "recommended_channels.value",
+        "recommended_channels.channel_scores.meta",
+        "recommended_channels.channel_scores.google_ads",
+        "recommended_channels.channel_scores.tiktok_ads",
+        "recommended_channels.channel_scores.snapchat_ads",
+        "recommended_channels.channel_scores.youtube",
+        "recommended_channels.channel_scores.linkedin",
+        "recommended_channels.channel_scores.x",
+        "recommended_channels.confidence",
+        "recommended_channels.reasoning",
+        "recommended_channels.rule_id",
+        "funnel_type.value",
+        "funnel_type.stages",
+        "funnel_type.confidence",
+        "funnel_type.reasoning",
+        "funnel_type.rule_id",
+        "confidence_score.value",
+        "confidence_score.breakdown.tracking",
+        "confidence_score.breakdown.assets",
+        "confidence_score.breakdown.content",
+        "confidence_score.breakdown.capacity",
+        "confidence_score.breakdown.readiness",
+        "confidence_score.confidence",
+        "confidence_score.reasoning",
+        "confidence_score.rule_id",
+        "estimated_timeline.days",
+        "estimated_timeline.label",
+        "estimated_timeline.factors",
+        "estimated_timeline.confidence",
+        "estimated_timeline.reasoning",
+        "estimated_timeline.rule_id"
+      ],
+      "referenceLeafCount": 35,
+      "semanticStatus": "pending_leaf_semantic_assertions",
+      "requiredEvidence": [
+        "source_fields",
+        "authority",
+        "rules",
+        "confidence",
+        "reasoning",
+        "rule_id"
+      ],
+      "safetyConstraints": [
+        "generation_mode=blueprint_only",
+        "external_actions_allowed=false",
+        "budget_spend_allowed=false"
+      ]
+    },
+    {
+      "id": "recommended_funnel",
+      "status": "full",
+      "priority": "baseline",
+      "referencePath": "recommended_funnel",
+      "canonicalPath": "strategy.recommended_funnel",
+      "sourceFields": [
+        "primary_objective",
+        "campaign_direction",
+        "budget_band"
+      ],
+      "authority": "CDKS",
+      "rules": [
+        "RF-003",
+        "RF-012"
+      ],
+      "assertions": [
+        "stages are ordered",
+        "budget ratios sum to 1",
+        "stage KPIs agree with objective"
+      ],
+      "ui": "StrategySummarySection",
+      "referenceLeaves": [
+        "funnel_type",
+        "stages",
+        "total_stages"
+      ],
+      "referenceLeafCount": 3,
+      "semanticStatus": "verified_structural_baseline",
+      "requiredEvidence": [
+        "source_fields",
+        "authority",
+        "rules",
+        "confidence",
+        "reasoning",
+        "rule_id"
+      ],
+      "safetyConstraints": [
+        "generation_mode=blueprint_only",
+        "external_actions_allowed=false",
+        "budget_spend_allowed=false"
+      ]
+    },
+    {
+      "id": "campaign_structure",
+      "status": "full",
+      "priority": "baseline",
+      "referencePath": "campaign_structure",
+      "canonicalPath": "execution.campaign_structure",
+      "sourceFields": [
+        "business_type",
+        "primary_objective",
+        "ad_channels",
+        "campaign_direction"
+      ],
+      "authority": "CDKS",
+      "rules": [
+        "RF-005"
+      ],
+      "assertions": [
+        "campaign count and channel structure are consistent"
+      ],
+      "ui": "CampaignStructureSection",
+      "referenceLeaves": [
+        "campaign_count",
+        "campaigns",
+        "ad_set_structure.per_campaign",
+        "ad_set_structure.total"
+      ],
+      "referenceLeafCount": 4,
+      "semanticStatus": "verified_structural_baseline",
+      "requiredEvidence": [
+        "source_fields",
+        "authority",
+        "rules",
+        "confidence",
+        "reasoning",
+        "rule_id"
+      ],
+      "safetyConstraints": [
+        "generation_mode=blueprint_only",
+        "external_actions_allowed=false",
+        "budget_spend_allowed=false"
+      ]
+    },
+    {
+      "id": "audience_structure",
+      "status": "full",
+      "priority": "baseline",
+      "referencePath": "audience_structure",
+      "canonicalPath": "execution.audience_structure",
+      "sourceFields": [
+        "ideal_customer",
+        "audience_segments",
+        "geo_scope",
+        "target_locations"
+      ],
+      "authority": "CDKS",
+      "rules": [
+        "RF-006"
+      ],
+      "assertions": [
+        "segments and exclusions are disjoint where required"
+      ],
+      "ui": "AudienceStructureSection",
+      "referenceLeaves": [
+        "primary_audience.name",
+        "primary_audience.description",
+        "primary_audience.targeting_type",
+        "primary_audience.interests",
+        "primary_audience.size_estimate",
+        "segments",
+        "lookalike.recommended",
+        "lookalike.source",
+        "lookalike.priority",
+        "exclusions"
+      ],
+      "referenceLeafCount": 10,
+      "semanticStatus": "verified_structural_baseline",
+      "requiredEvidence": [
+        "source_fields",
+        "authority",
+        "rules",
+        "confidence",
+        "reasoning",
+        "rule_id"
+      ],
+      "safetyConstraints": [
+        "generation_mode=blueprint_only",
+        "external_actions_allowed=false",
+        "budget_spend_allowed=false"
+      ]
+    },
+    {
+      "id": "audience_analysis",
+      "status": "partial",
+      "priority": "P1",
+      "referencePath": "audience_analysis",
+      "canonicalPath": "execution.audience_analysis",
+      "sourceFields": [
+        "geo_scope",
+        "target_locations",
+        "audience_segments",
+        "business_type",
+        "ad_channels"
+      ],
+      "authority": "CDKS",
+      "rules": [
+        "RF-006",
+        "RF-013",
+        "RF-014"
+      ],
+      "assertions": [
+        "size range has label and applicability",
+        "overlap risk has recommendation",
+        "frequency thresholds are branch-aware",
+        "unknown market size is marked unavailable rather than fabricated"
+      ],
+      "ui": "AudienceAnalysisSection",
+      "referenceLeaves": [
+        "size_estimate.value.min",
+        "size_estimate.value.max",
+        "size_estimate.value.label",
+        "size_estimate.value.daily_reach_estimate",
+        "size_estimate.confidence",
+        "size_estimate.reasoning",
+        "size_estimate.rule_id",
+        "overlap_check.value.overlap_risk",
+        "overlap_check.value.overlapping_pairs",
+        "overlap_check.value.average_overlap",
+        "overlap_check.value.recommendations",
+        "overlap_check.confidence",
+        "overlap_check.reasoning",
+        "overlap_check.rule_id",
+        "frequency_cap.value.max_frequency_7_days",
+        "frequency_cap.value.max_frequency_30_days",
+        "frequency_cap.value.warning_threshold",
+        "frequency_cap.value.rationale",
+        "frequency_cap.value.action_if_exceeded",
+        "frequency_cap.confidence",
+        "frequency_cap.reasoning",
+        "frequency_cap.rule_id",
+        "overlap_check.value.segments",
+        "overlap_check.value.recommendation"
+      ],
+      "referenceLeafCount": 24,
+      "semanticStatus": "pending_leaf_semantic_assertions",
+      "requiredEvidence": [
+        "source_fields",
+        "authority",
+        "rules",
+        "confidence",
+        "reasoning",
+        "rule_id"
+      ],
+      "safetyConstraints": [
+        "generation_mode=blueprint_only",
+        "external_actions_allowed=false",
+        "budget_spend_allowed=false"
+      ]
+    },
+    {
+      "id": "creative_strategy",
+      "status": "full",
+      "priority": "baseline",
+      "referencePath": "creative_strategy",
+      "canonicalPath": "execution.creative_strategy",
+      "sourceFields": [
+        "creative_assets",
+        "content_capacity",
+        "sales_motion",
+        "awareness_level",
+        "business_type"
+      ],
+      "authority": "CDKS",
+      "rules": [
+        "RF-007",
+        "RF-015",
+        "RF-028"
+      ],
+      "assertions": [
+        "asset readiness is not true when assets are absent"
+      ],
+      "ui": "CreativeStrategySection",
+      "referenceLeaves": [
+        "recommended_formats.value",
+        "recommended_formats.confidence",
+        "recommended_formats.reasoning",
+        "recommended_formats.rule_id",
+        "refresh_schedule.value.refresh_interval_days",
+        "refresh_schedule.value.test_new_creative_every",
+        "refresh_schedule.value.sunset_threshold.ctr_drop",
+        "refresh_schedule.value.sunset_threshold.frequency",
+        "refresh_schedule.value.fatigue_indicators",
+        "refresh_schedule.value.refresh_triggers",
+        "refresh_schedule.confidence",
+        "refresh_schedule.reasoning",
+        "refresh_schedule.rule_id",
+        "social_proof.value.social_proof_score",
+        "social_proof.value.status",
+        "social_proof.value.present.testimonials",
+        "social_proof.value.present.ugc",
+        "social_proof.value.present.reviews",
+        "social_proof.value.present.case_studies",
+        "social_proof.value.gaps",
+        "social_proof.value.recommendations",
+        "social_proof.value.ad_performance_impact",
+        "social_proof.confidence",
+        "social_proof.reasoning",
+        "social_proof.rule_id"
+      ],
+      "referenceLeafCount": 25,
+      "semanticStatus": "verified_structural_baseline",
+      "requiredEvidence": [
+        "source_fields",
+        "authority",
+        "rules",
+        "confidence",
+        "reasoning",
+        "rule_id"
+      ],
+      "safetyConstraints": [
+        "generation_mode=blueprint_only",
+        "external_actions_allowed=false",
+        "budget_spend_allowed=false"
+      ]
+    },
+    {
+      "id": "tracking_assessment",
+      "status": "full",
+      "priority": "baseline",
+      "referencePath": "tracking_assessment",
+      "canonicalPath": "execution.tracking_assessment",
+      "sourceFields": [
+        "tracking_status",
+        "tracking_tools",
+        "key_events",
+        "conversion_model",
+        "conversion_destination"
+      ],
+      "authority": "CDKS",
+      "rules": [
+        "RF-008"
+      ],
+      "assertions": [
+        "score matches tracking status",
+        "required events match conversion model",
+        "AI cannot clear a tracking blocker"
+      ],
+      "ui": "TrackingAssessmentSection",
+      "referenceLeaves": [
+        "detailed_score.value.score",
+        "detailed_score.value.level",
+        "detailed_score.value.present_tools",
+        "detailed_score.value.missing_tools",
+        "detailed_score.value.required_events",
+        "detailed_score.value.setup_steps",
+        "detailed_score.confidence",
+        "detailed_score.reasoning",
+        "detailed_score.rule_id"
+      ],
+      "referenceLeafCount": 9,
+      "semanticStatus": "verified_structural_baseline",
+      "requiredEvidence": [
+        "source_fields",
+        "authority",
+        "rules",
+        "confidence",
+        "reasoning",
+        "rule_id"
+      ],
+      "safetyConstraints": [
+        "generation_mode=blueprint_only",
+        "external_actions_allowed=false",
+        "budget_spend_allowed=false"
+      ]
+    },
+    {
+      "id": "launch_plan",
+      "status": "partial",
+      "priority": "P0",
+      "referencePath": "launch_plan",
+      "canonicalPath": "execution.launch_plan",
+      "sourceFields": [
+        "build_mode",
+        "tracking_status",
+        "creative_assets",
+        "content_capacity",
+        "response_speed",
+        "constraints"
+      ],
+      "authority": "CDKS",
+      "rules": [
+        "RF-009",
+        "RF-010"
+      ],
+      "assertions": [
+        "timeline days are monotonic",
+        "critical path references existing milestones",
+        "launch readiness is blocked by required failed checks",
+        "checklist counters equal item states"
+      ],
+      "ui": "LaunchPlanSection",
+      "referenceLeaves": [
+        "detailed_timeline.value.total_days",
+        "detailed_timeline.value.milestones",
+        "detailed_timeline.value.critical_path",
+        "detailed_timeline.value.launch_ready_date",
+        "detailed_timeline.confidence",
+        "detailed_timeline.reasoning",
+        "detailed_timeline.rule_id",
+        "pre_launch_checklist.value.items",
+        "pre_launch_checklist.value.summary.passed",
+        "pre_launch_checklist.value.summary.failed",
+        "pre_launch_checklist.value.summary.warnings",
+        "pre_launch_checklist.value.summary.manual",
+        "pre_launch_checklist.value.summary.total",
+        "pre_launch_checklist.value.ready_to_launch",
+        "pre_launch_checklist.value.completion_percentage",
+        "pre_launch_checklist.confidence",
+        "pre_launch_checklist.reasoning",
+        "pre_launch_checklist.rule_id"
+      ],
+      "referenceLeafCount": 18,
+      "semanticStatus": "pending_leaf_semantic_assertions",
+      "requiredEvidence": [
+        "source_fields",
+        "authority",
+        "rules",
+        "confidence",
+        "reasoning",
+        "rule_id"
+      ],
+      "safetyConstraints": [
+        "generation_mode=blueprint_only",
+        "external_actions_allowed=false",
+        "budget_spend_allowed=false"
+      ]
+    },
+    {
+      "id": "monitoring",
+      "status": "partial",
+      "priority": "P1",
+      "referencePath": "monitoring",
+      "canonicalPath": "governance.monitoring_plan.post_launch_plan",
+      "sourceFields": [
+        "north_star_kpi",
+        "primary_objective",
+        "budget_band",
+        "max_cac",
+        "tracking_status"
+      ],
+      "authority": "CDKS",
+      "rules": [
+        "RF-018",
+        "RF-019"
+      ],
+      "assertions": [
+        "KPIs are measurable",
+        "frequency and schedule are explicit",
+        "threshold alerts map to selected KPIs",
+        "no automatic external action is enabled"
+      ],
+      "ui": "MonitoringSection",
+      "referenceLeaves": [
+        "post_launch_plan.value.primary_kpis",
+        "post_launch_plan.value.check_frequency",
+        "post_launch_plan.value.monitoring_schedule",
+        "post_launch_plan.value.alert_thresholds.cpa_spike",
+        "post_launch_plan.value.alert_thresholds.ctr_drop",
+        "post_launch_plan.value.alert_thresholds.spend_imbalance",
+        "post_launch_plan.value.alert_thresholds.frequency_high",
+        "post_launch_plan.value.reporting_dashboard",
+        "post_launch_plan.confidence",
+        "post_launch_plan.reasoning",
+        "post_launch_plan.rule_id"
+      ],
+      "referenceLeafCount": 11,
+      "semanticStatus": "pending_leaf_semantic_assertions",
+      "requiredEvidence": [
+        "source_fields",
+        "authority",
+        "rules",
+        "confidence",
+        "reasoning",
+        "rule_id"
+      ],
+      "safetyConstraints": [
+        "generation_mode=blueprint_only",
+        "external_actions_allowed=false",
+        "budget_spend_allowed=false"
+      ]
+    },
+    {
+      "id": "budget_management",
+      "status": "partial",
+      "priority": "P1",
+      "referencePath": "budget_management",
+      "canonicalPath": "governance.monitoring_plan.budget_management",
+      "sourceFields": [
+        "budget_band",
+        "budget_flexibility",
+        "max_cac",
+        "primary_objective",
+        "ad_channels"
+      ],
+      "authority": "CDKS",
+      "rules": [
+        "RF-011",
+        "RF-020"
+      ],
+      "assertions": [
+        "daily and monthly pacing use envelope currency",
+        "reallocation triggers are advisory",
+        "burn-rate thresholds are explicit",
+        "no spend action can be executed"
+      ],
+      "ui": "BudgetManagementSection",
+      "referenceLeaves": [
+        "pacing_strategy.value.monthly_pacing.week_1.percentage",
+        "pacing_strategy.value.monthly_pacing.week_1.amount",
+        "pacing_strategy.value.monthly_pacing.week_1.focus",
+        "pacing_strategy.value.monthly_pacing.week_2.percentage",
+        "pacing_strategy.value.monthly_pacing.week_2.amount",
+        "pacing_strategy.value.monthly_pacing.week_2.focus",
+        "pacing_strategy.value.monthly_pacing.week_3.percentage",
+        "pacing_strategy.value.monthly_pacing.week_3.amount",
+        "pacing_strategy.value.monthly_pacing.week_3.focus",
+        "pacing_strategy.value.monthly_pacing.week_4.percentage",
+        "pacing_strategy.value.monthly_pacing.week_4.amount",
+        "pacing_strategy.value.monthly_pacing.week_4.focus",
+        "pacing_strategy.value.daily_targets.min_spend",
+        "pacing_strategy.value.daily_targets.target_spend",
+        "pacing_strategy.value.daily_targets.max_spend",
+        "pacing_strategy.value.daily_targets.warning_threshold",
+        "pacing_strategy.value.reallocation_trigger",
+        "pacing_strategy.value.emergency_pause",
+        "pacing_strategy.confidence",
+        "pacing_strategy.reasoning",
+        "pacing_strategy.rule_id",
+        "burn_rate_analysis.value.monthly_budget",
+        "burn_rate_analysis.value.daily_target",
+        "burn_rate_analysis.value.weekly_projection",
+        "burn_rate_analysis.value.burn_rate_alerts",
+        "burn_rate_analysis.value.pacing_recommendation",
+        "burn_rate_analysis.confidence",
+        "burn_rate_analysis.reasoning",
+        "burn_rate_analysis.rule_id"
+      ],
+      "referenceLeafCount": 29,
+      "semanticStatus": "pending_leaf_semantic_assertions",
+      "requiredEvidence": [
+        "source_fields",
+        "authority",
+        "rules",
+        "confidence",
+        "reasoning",
+        "rule_id"
+      ],
+      "safetyConstraints": [
+        "generation_mode=blueprint_only",
+        "external_actions_allowed=false",
+        "budget_spend_allowed=false"
+      ]
+    },
+    {
+      "id": "testing",
+      "status": "partial",
+      "priority": "P1",
+      "referencePath": "testing",
+      "canonicalPath": "governance.monitoring_plan.testing_plan.ab_test_plan",
+      "sourceFields": [
+        "primary_objective",
+        "creative_assets",
+        "content_capacity",
+        "budget_band",
+        "risk_tolerance"
+      ],
+      "authority": "CDKS",
+      "rules": [
+        "RF-021",
+        "RF-022"
+      ],
+      "assertions": [
+        "each test has variant, duration, minimum spend, KPI and success criterion",
+        "test budget does not exceed available budget",
+        "tests are recommendations only"
+      ],
+      "ui": "TestingSection",
+      "referenceLeaves": [
+        "ab_test_plan.value.tests",
+        "ab_test_plan.value.total_test_budget",
+        "ab_test_plan.value.test_priority",
+        "ab_test_plan.value.minimum_test_duration",
+        "ab_test_plan.value.statistical_significance",
+        "ab_test_plan.confidence",
+        "ab_test_plan.reasoning",
+        "ab_test_plan.rule_id"
+      ],
+      "referenceLeafCount": 8,
+      "semanticStatus": "pending_leaf_semantic_assertions",
+      "requiredEvidence": [
+        "source_fields",
+        "authority",
+        "rules",
+        "confidence",
+        "reasoning",
+        "rule_id"
+      ],
+      "safetyConstraints": [
+        "generation_mode=blueprint_only",
+        "external_actions_allowed=false",
+        "budget_spend_allowed=false"
+      ]
+    },
+    {
+      "id": "benchmarks",
+      "status": "partial",
+      "priority": "P1",
+      "referencePath": "benchmarks",
+      "canonicalPath": "governance.monitoring_plan.testing_plan.benchmarks",
+      "sourceFields": [
+        "business_type",
+        "geo_scope",
+        "target_locations",
+        "currency",
+        "primary_objective"
+      ],
+      "authority": "CDKS",
+      "rules": [
+        "RF-023"
+      ],
+      "assertions": [
+        "every benchmark has source/freshness or unavailable status",
+        "market and currency are explicit",
+        "AI cannot invent market facts"
+      ],
+      "ui": "BenchmarksSection",
+      "referenceLeaves": [
+        "conversion_benchmarks.value.industry_average_cvr",
+        "conversion_benchmarks.value.industry_average_ctr",
+        "conversion_benchmarks.value.target_cpa",
+        "conversion_benchmarks.value.performance_targets.week_1.cvr",
+        "conversion_benchmarks.value.performance_targets.week_1.ctr",
+        "conversion_benchmarks.value.performance_targets.week_2.cvr",
+        "conversion_benchmarks.value.performance_targets.week_2.ctr",
+        "conversion_benchmarks.value.performance_targets.week_3_plus.cvr",
+        "conversion_benchmarks.value.performance_targets.week_3_plus.ctr",
+        "conversion_benchmarks.value.source",
+        "conversion_benchmarks.confidence",
+        "conversion_benchmarks.reasoning",
+        "conversion_benchmarks.rule_id"
+      ],
+      "referenceLeafCount": 13,
+      "semanticStatus": "pending_leaf_semantic_assertions",
+      "requiredEvidence": [
+        "source_fields",
+        "authority",
+        "rules",
+        "confidence",
+        "reasoning",
+        "rule_id"
+      ],
+      "safetyConstraints": [
+        "generation_mode=blueprint_only",
+        "external_actions_allowed=false",
+        "budget_spend_allowed=false"
+      ]
+    },
+    {
+      "id": "market_context",
+      "status": "partial",
+      "priority": "P2",
+      "referencePath": "market_context",
+      "canonicalPath": "governance.monitoring_plan.testing_plan.market_context",
+      "sourceFields": [
+        "geo_scope",
+        "target_locations",
+        "business_type",
+        "offer_type",
+        "competitor_advantage"
+      ],
+      "authority": "CDKS",
+      "rules": [
+        "RF-024",
+        "RF-025"
+      ],
+      "assertions": [
+        "market and region are explicit",
+        "seasonality applicability is explained",
+        "unknown CPC or saturation is unavailable, not fabricated"
+      ],
+      "ui": "MarketContextSection",
+      "referenceLeaves": [
+        "seasonality.value.current_month",
+        "seasonality.value.seasonality_factor",
+        "seasonality.value.season",
+        "seasonality.value.budget_adjustment",
+        "seasonality.value.cpc_expectation",
+        "seasonality.value.recommendations",
+        "seasonality.confidence",
+        "seasonality.reasoning",
+        "seasonality.rule_id",
+        "competitor_analysis.value.competition_level",
+        "competitor_analysis.value.estimated_cpc_range.low",
+        "competitor_analysis.value.estimated_cpc_range.high",
+        "competitor_analysis.value.market_saturation",
+        "competitor_analysis.value.differentiation_strategies",
+        "competitor_analysis.value.ad_spend_recommendation",
+        "competitor_analysis.value.content_differentiation",
+        "competitor_analysis.confidence",
+        "competitor_analysis.reasoning",
+        "competitor_analysis.rule_id"
+      ],
+      "referenceLeafCount": 19,
+      "semanticStatus": "pending_leaf_semantic_assertions",
+      "requiredEvidence": [
+        "source_fields",
+        "authority",
+        "rules",
+        "confidence",
+        "reasoning",
+        "rule_id"
+      ],
+      "safetyConstraints": [
+        "generation_mode=blueprint_only",
+        "external_actions_allowed=false",
+        "budget_spend_allowed=false"
+      ]
+    },
+    {
+      "id": "platform_guides",
+      "status": "full",
+      "priority": "baseline",
+      "referencePath": "platform_guides",
+      "canonicalPath": "governance.monitoring_plan.testing_plan.platform_guides",
+      "sourceFields": [
+        "ad_channels",
+        "primary_objective",
+        "creative_assets",
+        "tracking_tools"
+      ],
+      "authority": "CDKS",
+      "rules": [
+        "RF-026"
+      ],
+      "assertions": [
+        "only selected platforms are included",
+        "tracking and creative requirements are channel-specific"
+      ],
+      "ui": "PlatformGuidesSection",
+      "referenceLeaves": [
+        "platform_specific_rules.value",
+        "platform_specific_rules.confidence",
+        "platform_specific_rules.reasoning",
+        "platform_specific_rules.rule_id"
+      ],
+      "referenceLeafCount": 4,
+      "semanticStatus": "verified_structural_baseline",
+      "requiredEvidence": [
+        "source_fields",
+        "authority",
+        "rules",
+        "confidence",
+        "reasoning",
+        "rule_id"
+      ],
+      "safetyConstraints": [
+        "generation_mode=blueprint_only",
+        "external_actions_allowed=false",
+        "budget_spend_allowed=false"
+      ]
+    },
+    {
+      "id": "compliance",
+      "status": "partial",
+      "priority": "P2",
+      "referencePath": "compliance",
+      "canonicalPath": "governance.monitoring_plan.testing_plan.compliance",
+      "sourceFields": [
+        "geo_scope",
+        "target_locations",
+        "business_type",
+        "offer_type",
+        "conversion_destination"
+      ],
+      "authority": "CDKS",
+      "rules": [
+        "RF-027"
+      ],
+      "assertions": [
+        "regulations are market/platform scoped",
+        "mandatory counts match requirements",
+        "manual consultation is explicit",
+        "not_applicable is explained"
+      ],
+      "ui": "ComplianceSection",
+      "referenceLeaves": [
+        "legal.value.requirements",
+        "legal.value.mandatory_count",
+        "legal.value.checklist_status",
+        "legal.value.recommendation",
+        "legal.confidence",
+        "legal.reasoning",
+        "legal.rule_id",
+        "privacy.value.applicable_regulations",
+        "privacy.value.requirements",
+        "privacy.value.compliance_status",
+        "privacy.value.recommended_consultation",
+        "privacy.confidence",
+        "privacy.reasoning",
+        "privacy.rule_id"
+      ],
+      "referenceLeafCount": 14,
+      "semanticStatus": "pending_leaf_semantic_assertions",
+      "requiredEvidence": [
+        "source_fields",
+        "authority",
+        "rules",
+        "confidence",
+        "reasoning",
+        "rule_id"
+      ],
+      "safetyConstraints": [
+        "generation_mode=blueprint_only",
+        "external_actions_allowed=false",
+        "budget_spend_allowed=false"
+      ]
+    },
+    {
+      "id": "technical_audit",
+      "status": "partial",
+      "priority": "P2",
+      "referencePath": "technical_audit",
+      "canonicalPath": "governance.monitoring_plan.testing_plan.technical_audit",
+      "sourceFields": [
+        "conversion_destination",
+        "tracking_status",
+        "tracking_tools",
+        "creative_assets"
+      ],
+      "authority": "CDKS",
+      "rules": [
+        "RF-029"
+      ],
+      "assertions": [
+        "accessibility/mobile checks are explicit",
+        "speed/SSL/authority are sourced or unavailable",
+        "manual checks are counted"
+      ],
+      "ui": "TechnicalAuditSection",
+      "referenceLeaves": [
+        "accessibility.value.checks",
+        "accessibility.value.applicable_checks",
+        "accessibility.value.manual_checks_required",
+        "accessibility.value.overall_status",
+        "accessibility.value.priority_fixes",
+        "accessibility.confidence",
+        "accessibility.reasoning",
+        "accessibility.rule_id",
+        "mobile_optimization.value.mobile_score",
+        "mobile_optimization.value.status",
+        "mobile_optimization.value.checks",
+        "mobile_optimization.value.traffic_share_note",
+        "mobile_optimization.value.quick_wins",
+        "mobile_optimization.confidence",
+        "mobile_optimization.reasoning",
+        "mobile_optimization.rule_id",
+        "page_speed.value.speed_score",
+        "page_speed.value.target_metrics.lcp",
+        "page_speed.value.target_metrics.fid",
+        "page_speed.value.target_metrics.cls",
+        "page_speed.value.target_metrics.ttfb",
+        "page_speed.value.recommendations",
+        "page_speed.value.tools",
+        "page_speed.value.impact_on_ads",
+        "page_speed.confidence",
+        "page_speed.reasoning",
+        "page_speed.rule_id",
+        "ssl_certificate.value.status",
+        "ssl_certificate.value.required",
+        "ssl_certificate.value.reason",
+        "ssl_certificate.value.check_items",
+        "ssl_certificate.value.ad_platform_impact.meta",
+        "ssl_certificate.value.ad_platform_impact.google_ads",
+        "ssl_certificate.value.ad_platform_impact.tiktok",
+        "ssl_certificate.value.tools",
+        "ssl_certificate.confidence",
+        "ssl_certificate.reasoning",
+        "ssl_certificate.rule_id",
+        "domain_authority.value.status",
+        "domain_authority.value.benchmarks.new",
+        "domain_authority.value.benchmarks.established",
+        "domain_authority.value.benchmarks.leader",
+        "domain_authority.value.ad_impact.quality_score",
+        "domain_authority.value.ad_impact.trust_signal",
+        "domain_authority.value.ad_impact.organic_synergy",
+        "domain_authority.value.improvement_actions",
+        "domain_authority.value.tools",
+        "domain_authority.confidence",
+        "domain_authority.reasoning",
+        "domain_authority.rule_id"
+      ],
+      "referenceLeafCount": 50,
+      "semanticStatus": "pending_leaf_semantic_assertions",
+      "requiredEvidence": [
+        "source_fields",
+        "authority",
+        "rules",
+        "confidence",
+        "reasoning",
+        "rule_id"
+      ],
+      "safetyConstraints": [
+        "generation_mode=blueprint_only",
+        "external_actions_allowed=false",
+        "budget_spend_allowed=false"
+      ]
+    },
+    {
+      "id": "offer_strategy",
+      "status": "partial",
+      "priority": "P2",
+      "referencePath": "offer_strategy",
+      "canonicalPath": "execution.offer_strategy",
+      "sourceFields": [
+        "offer_type",
+        "offer_description",
+        "core_message",
+        "objections",
+        "risk_tolerance"
+      ],
+      "authority": "CDKS",
+      "rules": [
+        "RF-016",
+        "RF-017"
+      ],
+      "assertions": [
+        "duration and urgency agree with offer type",
+        "copy examples are derived from offer inputs",
+        "refresh frequency is explicit"
+      ],
+      "ui": "OfferStrategySection",
+      "referenceLeaves": [
+        "expiration_strategy.value.offer_type",
+        "expiration_strategy.value.recommended_duration",
+        "expiration_strategy.value.max_duration",
+        "expiration_strategy.value.urgency_level",
+        "expiration_strategy.value.urgency_tactics",
+        "expiration_strategy.value.ad_copy_examples",
+        "expiration_strategy.value.refresh_frequency",
+        "expiration_strategy.confidence",
+        "expiration_strategy.reasoning",
+        "expiration_strategy.rule_id"
+      ],
+      "referenceLeafCount": 10,
+      "semanticStatus": "pending_leaf_semantic_assertions",
+      "requiredEvidence": [
+        "source_fields",
+        "authority",
+        "rules",
+        "confidence",
+        "reasoning",
+        "rule_id"
+      ],
+      "safetyConstraints": [
+        "generation_mode=blueprint_only",
+        "external_actions_allowed=false",
+        "budget_spend_allowed=false"
+      ]
+    },
+    {
+      "id": "budget_split",
+      "status": "partial",
+      "priority": "P0",
+      "referencePath": "budget_split",
+      "canonicalPath": "execution.budget_split",
+      "sourceFields": [
+        "budget_band",
+        "budget_flexibility",
+        "ad_channels",
+        "average_order_value",
+        "profit_margin",
+        "max_cac"
+      ],
+      "authority": "CDKS",
+      "rules": [
+        "RF-011",
+        "RF-012"
+      ],
+      "assertions": [
+        "channel allocation sums to 1",
+        "only selected channels receive allocation",
+        "test percentage is 0-100",
+        "CAC uses envelope currency",
+        "daily budget min <= recommended <= max"
+      ],
+      "ui": "BudgetSplitSection",
+      "referenceLeaves": [
+        "daily_budget.value.min",
+        "daily_budget.value.recommended",
+        "daily_budget.value.max",
+        "daily_budget.value.flexible",
+        "daily_budget.confidence",
+        "daily_budget.reasoning",
+        "daily_budget.rule_id",
+        "channel_allocation.value.google_ads",
+        "channel_allocation.value.meta",
+        "channel_allocation.confidence",
+        "channel_allocation.reasoning",
+        "channel_allocation.rule_id",
+        "test_budget.value.percentage",
+        "test_budget.value.amount",
+        "test_budget.confidence",
+        "test_budget.reasoning",
+        "test_budget.rule_id",
+        "scale_budget.value.max",
+        "scale_budget.value.increment",
+        "scale_budget.confidence",
+        "scale_budget.reasoning",
+        "scale_budget.rule_id",
+        "cac_target.value",
+        "cac_target.source",
+        "cac_target.flags",
+        "cac_target.confidence",
+        "cac_target.reasoning",
+        "cac_target.rule_id"
+      ],
+      "referenceLeafCount": 28,
+      "semanticStatus": "pending_leaf_semantic_assertions",
+      "requiredEvidence": [
+        "source_fields",
+        "authority",
+        "rules",
+        "confidence",
+        "reasoning",
+        "rule_id"
+      ],
+      "safetyConstraints": [
+        "generation_mode=blueprint_only",
+        "external_actions_allowed=false",
+        "budget_spend_allowed=false"
+      ]
+    },
+    {
+      "id": "creative_angles",
+      "status": "full",
+      "priority": "baseline",
+      "referencePath": "creative_angles",
+      "canonicalPath": "execution.creative_angles",
+      "sourceFields": [
+        "core_message",
+        "usp",
+        "persuasion_angle",
+        "conversion_destination"
+      ],
+      "authority": "CDKS",
+      "rules": [
+        "RF-007"
+      ],
+      "assertions": [
+        "primary and alternatives include CTA"
+      ],
+      "ui": "CreativeAnglesSection",
+      "referenceLeaves": [
+        "primary_angle.name",
+        "primary_angle.hook",
+        "primary_angle.body",
+        "primary_angle.cta",
+        "alternative_angles",
+        "formats"
+      ],
+      "referenceLeafCount": 6,
+      "semanticStatus": "verified_structural_baseline",
+      "requiredEvidence": [
+        "source_fields",
+        "authority",
+        "rules",
+        "confidence",
+        "reasoning",
+        "rule_id"
+      ],
+      "safetyConstraints": [
+        "generation_mode=blueprint_only",
+        "external_actions_allowed=false",
+        "budget_spend_allowed=false"
+      ]
+    },
+    {
+      "id": "tracking_checklist",
+      "status": "partial",
+      "priority": "P0",
+      "referencePath": "tracking_checklist",
+      "canonicalPath": "execution.tracking_checklist",
+      "sourceFields": [
+        "tracking_status",
+        "tracking_tools",
+        "key_events",
+        "conversion_model"
+      ],
+      "authority": "CDKS",
+      "rules": [
+        "RF-008",
+        "RF-030"
+      ],
+      "assertions": [
+        "required events equal assessment events",
+        "setup status agrees with tracking status",
+        "implementation steps include tool and verification"
+      ],
+      "ui": "TrackingChecklistSection",
+      "referenceLeaves": [
+        "required_events",
+        "setup_status.overall",
+        "setup_status.score",
+        "setup_status.items",
+        "missing_items",
+        "implementation_guide.steps",
+        "implementation_guide.estimated_time",
+        "implementation_guide.complexity"
+      ],
+      "referenceLeafCount": 8,
+      "semanticStatus": "pending_leaf_semantic_assertions",
+      "requiredEvidence": [
+        "source_fields",
+        "authority",
+        "rules",
+        "confidence",
+        "reasoning",
+        "rule_id"
+      ],
+      "safetyConstraints": [
+        "generation_mode=blueprint_only",
+        "external_actions_allowed=false",
+        "budget_spend_allowed=false"
+      ]
+    },
+    {
+      "id": "risk_flags",
+      "status": "full",
+      "priority": "baseline",
+      "referencePath": "risk_flags",
+      "canonicalPath": "governance.risk_flags",
+      "sourceFields": [
+        "constraints",
+        "tracking_status",
+        "budget_band",
+        "risk_tolerance"
+      ],
+      "authority": "CDKS",
+      "rules": [
+        "RF-031"
+      ],
+      "assertions": [
+        "critical blockers are separate from warnings"
+      ],
+      "ui": "RiskFlagsSection",
+      "referenceLeaves": [
+        "critical",
+        "warnings",
+        "recommendations",
+        "risk_score.value",
+        "risk_score.level",
+        "risk_score.breakdown.tracking",
+        "risk_score.breakdown.budget",
+        "risk_score.breakdown.content",
+        "risk_score.breakdown.response",
+        "risk_score.breakdown.constraints",
+        "risk_score.confidence",
+        "risk_score.reasoning",
+        "risk_score.rule_id"
+      ],
+      "referenceLeafCount": 13,
+      "semanticStatus": "verified_structural_baseline",
+      "requiredEvidence": [
+        "source_fields",
+        "authority",
+        "rules",
+        "confidence",
+        "reasoning",
+        "rule_id"
+      ],
+      "safetyConstraints": [
+        "generation_mode=blueprint_only",
+        "external_actions_allowed=false",
+        "budget_spend_allowed=false"
+      ]
+    },
+    {
+      "id": "first_14_days_plan",
+      "status": "partial",
+      "priority": "P0",
+      "referencePath": "launch_plan.detailed_timeline",
+      "canonicalPath": "execution.launch_plan.detailed_timeline",
+      "sourceFields": [
+        "build_mode",
+        "tracking_status",
+        "creative_assets",
+        "content_capacity",
+        "response_speed"
+      ],
+      "authority": "CDKS",
+      "rules": [
+        "RF-009"
+      ],
+      "assertions": [
+        "milestones cover the declared total days",
+        "tasks are non-empty for active phases",
+        "critical path is a subset of milestone phases"
+      ],
+      "ui": "First14DaysPlanSection",
+      "referenceLeaves": [
+        "value.total_days",
+        "value.milestones",
+        "value.critical_path",
+        "value.launch_ready_date",
+        "confidence",
+        "reasoning",
+        "rule_id"
+      ],
+      "referenceLeafCount": 7,
+      "semanticStatus": "pending_leaf_semantic_assertions",
+      "requiredEvidence": [
+        "source_fields",
+        "authority",
+        "rules",
+        "confidence",
+        "reasoning",
+        "rule_id"
+      ],
+      "safetyConstraints": [
+        "generation_mode=blueprint_only",
+        "external_actions_allowed=false",
+        "budget_spend_allowed=false"
+      ]
+    },
+    {
+      "id": "pre_launch_fixes",
+      "status": "partial",
+      "priority": "P0",
+      "referencePath": "launch_plan.pre_launch_checklist",
+      "canonicalPath": "execution.launch_plan.pre_launch_checklist",
+      "sourceFields": [
+        "tracking_status",
+        "tracking_tools",
+        "creative_assets",
+        "conversion_destination",
+        "constraints"
+      ],
+      "authority": "CDKS",
+      "rules": [
+        "RF-010",
+        "RF-032"
+      ],
+      "assertions": [
+        "summary counters equal item statuses",
+        "required fail items prevent ready_to_launch",
+        "manual checks remain manual"
+      ],
+      "ui": "PreLaunchFixesSection",
+      "referenceLeaves": [
+        "value.items",
+        "value.summary.passed",
+        "value.summary.failed",
+        "value.summary.warnings",
+        "value.summary.manual",
+        "value.summary.total",
+        "value.ready_to_launch",
+        "value.completion_percentage",
+        "confidence",
+        "reasoning",
+        "rule_id"
+      ],
+      "referenceLeafCount": 11,
+      "semanticStatus": "pending_leaf_semantic_assertions",
+      "requiredEvidence": [
+        "source_fields",
+        "authority",
+        "rules",
+        "confidence",
+        "reasoning",
+        "rule_id"
+      ],
+      "safetyConstraints": [
+        "generation_mode=blueprint_only",
+        "external_actions_allowed=false",
+        "budget_spend_allowed=false"
+      ]
+    },
+    {
+      "id": "flags",
+      "status": "full",
+      "priority": "baseline",
+      "referencePath": "flags",
+      "canonicalPath": "flags",
+      "sourceFields": [
+        "constraints",
+        "tracking_status"
+      ],
+      "authority": "CDKS",
+      "rules": [
+        "RF-031"
+      ],
+      "assertions": [
+        "errors/warnings/infos are arrays"
+      ],
+      "ui": "FlagsSection",
+      "referenceLeaves": [
+        "errors",
+        "warnings",
+        "infos"
+      ],
+      "referenceLeafCount": 3,
+      "semanticStatus": "verified_structural_baseline",
+      "requiredEvidence": [
+        "source_fields",
+        "authority",
+        "rules",
+        "confidence",
+        "reasoning",
+        "rule_id"
+      ],
+      "safetyConstraints": [
+        "generation_mode=blueprint_only",
+        "external_actions_allowed=false",
+        "budget_spend_allowed=false"
+      ]
+    },
+    {
+      "id": "debug",
+      "status": "partial",
+      "priority": "P2",
+      "referencePath": "debug",
+      "canonicalPath": "telemetry",
+      "sourceFields": [
+        "final_confirmed_inputs"
+      ],
+      "authority": "CDKS",
+      "rules": [
+        "RF-033"
+      ],
+      "assertions": [
+        "timing and rules executed are present",
+        "decision trace excludes secrets and raw prompts",
+        "validation summary is internally consistent"
+      ],
+      "ui": "DebugSection",
+      "referenceLeaves": [
+        "execution_time_ms",
+        "rules_executed",
+        "scores_breakdown.readiness.assets",
+        "scores_breakdown.readiness.tracking",
+        "scores_breakdown.readiness.content",
+        "scores_breakdown.readiness.conversion_path",
+        "scores_breakdown.readiness.data_completeness",
+        "scores_breakdown.risk.tracking",
+        "scores_breakdown.risk.budget",
+        "scores_breakdown.risk.content",
+        "scores_breakdown.risk.response",
+        "scores_breakdown.risk.constraints"
+      ],
+      "referenceLeafCount": 12,
+      "semanticStatus": "pending_leaf_semantic_assertions",
+      "requiredEvidence": [
+        "source_fields",
+        "authority",
+        "rules",
+        "confidence",
+        "reasoning",
+        "rule_id"
+      ],
+      "safetyConstraints": [
+        "generation_mode=blueprint_only",
+        "external_actions_allowed=false",
+        "budget_spend_allowed=false"
+      ]
+    }
+  ]
+}
