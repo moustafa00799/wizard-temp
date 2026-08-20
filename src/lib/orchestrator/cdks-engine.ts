@@ -331,6 +331,9 @@ export class CDKSEngine {
             overlapping_pairs: overlappingPairs,
             average_overlap: overlappingPairs.length ? 10 : 0,
             recommendations: overlappingPairs.length ? ['Exclude overlapping audiences', 'Prioritize the highest-intent segment'] : ['Current segmentation is optimal'],
+            // Reference-compatible aliases: preserve the canonical pair model and expose the reference vocabulary.
+            segments: overlappingPairs.map((pair) => ({ segment_1: pair.segment_a, segment_2: pair.segment_b, overlap_score: pair.overlap_percentage })),
+            recommendation: overlappingPairs.length ? 'Exclude overlapping audiences and prioritize the highest-intent segment.' : 'Only one or non-overlapping segments detected — no overlap risk.',
           },
           confidence: 0.70,
           reasoning: `Audience overlap: ${overlapRisk} risk with ${overlappingPairs.length} overlapping pairs.`,
@@ -745,21 +748,51 @@ export class CDKSEngine {
               rule_id: 'RF-024',
             },
             page_speed: {
+              value: {
+                speed_score: 'manual_test_required',
+                target_metrics: { lcp: '< 2.5 seconds', fid: '< 100ms', cls: '< 0.1', ttfb: '< 600ms' },
+                recommendations: [
+                  { action: 'Compress images (WebP format)', impact: 'high', effort: 'low' },
+                  { action: 'Enable browser caching', impact: 'medium', effort: 'low' },
+                  { action: 'Minify CSS/JS files', impact: 'medium', effort: 'low' },
+                  { action: 'Use CDN for static assets', impact: 'high', effort: 'medium' },
+                  { action: 'Lazy load images and videos', impact: 'medium', effort: 'medium' },
+                  { action: 'Remove unused JavaScript', impact: 'high', effort: 'medium' },
+                ],
+                tools: ['Google PageSpeed Insights', 'GTmetrix', 'WebPageTest', 'Lighthouse'],
+                impact_on_ads: 'Landing-page speed must be validated with a real destination before launch; no performance claim is inferred here.',
+              },
               status: 'not_applicable',
               confidence: 0.90,
-              reasoning: 'No web destination detected.',
+              reasoning: 'No web destination detected; technical speed score remains a manual pre-launch check.',
               rule_id: 'RF-025',
             },
             ssl_certificate: {
+              value: {
+                status: 'check_manually',
+                required: true,
+                reason: 'HTTPS must be verified for every web destination before launch.',
+                check_items: ['Valid SSL certificate (not expired)', 'HTTPS redirect from HTTP', 'Mixed content check (no HTTP resources on HTTPS page)', 'HSTS header recommended'],
+                ad_platform_impact: { meta: 'Required for landing page ads', google_ads: 'Required for web destinations', tiktok: 'Required for web destination ads' },
+                tools: ['SSL Labs Test', 'Why No Padlock', 'Browser DevTools'],
+              },
               status: 'not_applicable',
               confidence: 0.90,
-              reasoning: 'No web destination detected.',
+              reasoning: 'No web destination detected; SSL verification remains a manual pre-launch check.',
               rule_id: 'RF-026',
             },
             domain_authority: {
+              value: {
+                status: 'unavailable',
+                message: 'No verified website or external authority measurement was supplied; do not infer a domain score.',
+                benchmarks: { new: null, established: null, leader: null },
+                ad_impact: { quality_score: 'Unavailable until measured with an external tool.', trust_signal: 'Unavailable until measured with an external tool.', organic_synergy: 'Unavailable until measured with an external tool.' },
+                improvement_actions: ['Verify the domain with an approved external SEO tool', 'Review landing-page quality and trust signals after measurement'],
+                tools: ['Moz', 'Ahrefs', 'SEMrush', 'Ubersuggest'],
+              },
               status: 'not_applicable',
               confidence: 0.90,
-              reasoning: 'No web destination detected.',
+              reasoning: 'No verified website or external domain-authority measurement was supplied.',
               rule_id: 'RF-027',
             },
           },
@@ -784,10 +817,30 @@ export class CDKSEngine {
       infos: ['CDKS Engine v1.0.0 generated this blueprint.'],
     };
 
-    // Telemetry
+    // Telemetry: deterministic diagnostics derived from declared inputs only.
+    const nonEmptyInputCount = Object.values(input).filter((value) => {
+      if (Array.isArray(value)) return value.length > 0;
+      return value !== undefined && value !== null && String(value).trim().length > 0;
+    }).length;
     const telemetry = {
       execution_time_ms: Date.now() - startTime,
       rules_executed: 4,
+      scores_breakdown: {
+        readiness: {
+          assets: Math.min(20, (Array.isArray(input.creative_assets) ? input.creative_assets.length : 0) * 4),
+          tracking: Math.min(25, (Array.isArray(input.tracking_tools) ? input.tracking_tools.length : 0) * 5),
+          content: input.content_capacity === 'hard' ? 15 : input.content_capacity ? 10 : 0,
+          conversion_path: input.conversion_destination ? 15 : 0,
+          data_completeness: Math.min(15, Math.round((nonEmptyInputCount / 41) * 15)),
+        },
+        risk: {
+          tracking: input.tracking_status === 'advanced' ? 0 : input.tracking_status ? 15 : 25,
+          budget: input.budget_band ? 0 : 5,
+          content: input.content_capacity === 'hard' ? 5 : 0,
+          response: input.response_speed === 'slow' ? 5 : 2,
+          constraints: Array.isArray(input.constraints) && input.constraints.length > 0 ? 4 : 0,
+        },
+      },
     };
 
     // ------------------------------------------

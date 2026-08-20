@@ -97,6 +97,9 @@ const AudienceAnalysisSchema = z.object({
       overlapping_pairs: z.array(z.object({ segment_a: z.string(), segment_b: z.string(), overlap_percentage: z.number() })),
       average_overlap: z.number(),
       recommendations: z.array(z.string()),
+      // Reference-compatible aliases retained alongside the canonical names.
+      segments: z.array(z.record(z.string(), z.unknown())),
+      recommendation: z.string(),
     }),
     confidence: z.number().min(0).max(1),
     reasoning: z.string(),
@@ -576,18 +579,42 @@ const GovernanceSchema = z.object({
           rule_id: z.string().optional(),
         }),
         page_speed: z.object({
+          value: z.object({
+            speed_score: z.string(),
+            target_metrics: z.object({ lcp: z.string(), fid: z.string(), cls: z.string(), ttfb: z.string() }),
+            recommendations: z.array(z.object({ action: z.string(), impact: z.string(), effort: z.string() })),
+            tools: z.array(z.string()),
+            impact_on_ads: z.string(),
+          }),
+          // Canonical status is retained for compact consumers.
           status: z.string(),
           confidence: z.number().min(0).max(1),
           reasoning: z.string(),
           rule_id: z.string().optional(),
         }),
         ssl_certificate: z.object({
+          value: z.object({
+            status: z.string(),
+            required: z.boolean(),
+            reason: z.string(),
+            check_items: z.array(z.string()),
+            ad_platform_impact: z.record(z.string(), z.string()),
+            tools: z.array(z.string()),
+          }),
           status: z.string(),
           confidence: z.number().min(0).max(1),
           reasoning: z.string(),
           rule_id: z.string().optional(),
         }),
         domain_authority: z.object({
+          value: z.object({
+            status: z.string(),
+            message: z.string(),
+            benchmarks: z.object({ new: z.number().nullable(), established: z.number().nullable(), leader: z.number().nullable() }),
+            ad_impact: z.object({ quality_score: z.string(), trust_signal: z.string(), organic_synergy: z.string() }),
+            improvement_actions: z.array(z.string()),
+            tools: z.array(z.string()),
+          }),
           status: z.string(),
           confidence: z.number().min(0).max(1),
           reasoning: z.string(),
@@ -623,6 +650,22 @@ export const CanonicalBlueprintSchema = z.object({
   telemetry: z.object({
     execution_time_ms: z.number().int().nonnegative(),
     rules_executed: z.number().int().nonnegative(),
+    scores_breakdown: z.object({
+      readiness: z.object({
+        assets: z.number(),
+        tracking: z.number(),
+        content: z.number(),
+        conversion_path: z.number(),
+        data_completeness: z.number(),
+      }),
+      risk: z.object({
+        tracking: z.number(),
+        budget: z.number(),
+        content: z.number(),
+        response: z.number(),
+        constraints: z.number(),
+      }),
+    }),
   }),
 
   // التنبيهات (اختياري)

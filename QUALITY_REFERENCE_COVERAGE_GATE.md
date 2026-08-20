@@ -1,6 +1,6 @@
 # Quality and Reference Coverage Gate
 
-Generated: 2026-08-20T09:24:59.560Z
+Generated: 2026-08-20T09:40:20.650Z
 Base URL: `http://127.0.0.1:3001`
 
 ## Result: **PASS_WITH_GAPS**
@@ -18,7 +18,7 @@ The gate is deterministic and uses only local fixtures, the local `/api/generate
 | Currency coverage | 3/3 (100%) |
 | Readiness states before confirmation | 1/3 (33.33%) |
 | Readiness states after confirmation | 3/3 (100%) |
-| Reference section structural coverage | 12/26 full; 14 partial; 0 missing |
+| Reference section structural coverage | 26/26 full; 0 partial; 0 missing |
 
 ## Fixture Matrix
 
@@ -44,32 +44,31 @@ The gate is deterministic and uses only local fixtures, the local `/api/generate
 | recommended_funnel | blueprint.strategy.recommended_funnel | full | 3/3 | 100% |
 | campaign_structure | blueprint.execution.campaign_structure | full | 4/4 | 100% |
 | audience_structure | blueprint.execution.audience_structure | full | 10/10 | 100% |
-| audience_analysis | blueprint.execution.audience_analysis | partial | 22/24 | 91.67% |
+| audience_analysis | blueprint.execution.audience_analysis | full | 24/24 | 100% |
 | creative_strategy | blueprint.execution.creative_strategy | full | 25/25 | 100% |
 | tracking_assessment | blueprint.execution.tracking_assessment | full | 9/9 | 100% |
-| launch_plan | blueprint.execution.launch_plan | partial | 6/18 | 33.33% |
-| monitoring | blueprint.governance.monitoring_plan.post_launch_plan | partial | 3/11 | 27.27% |
-| budget_management | blueprint.governance.monitoring_plan.budget_management | partial | 6/29 | 20.69% |
-| testing | blueprint.governance.monitoring_plan.testing_plan.ab_test_plan | partial | 3/8 | 37.5% |
-| benchmarks | blueprint.governance.monitoring_plan.testing_plan.benchmarks | partial | 3/13 | 23.08% |
-| market_context | blueprint.governance.monitoring_plan.testing_plan.market_context | partial | 6/19 | 31.58% |
+| launch_plan | blueprint.execution.launch_plan | full | 18/18 | 100% |
+| monitoring | blueprint.governance.monitoring_plan.post_launch_plan | full | 11/11 | 100% |
+| budget_management | blueprint.governance.monitoring_plan.budget_management | full | 29/29 | 100% |
+| testing | blueprint.governance.monitoring_plan.testing_plan.ab_test_plan | full | 8/8 | 100% |
+| benchmarks | blueprint.governance.monitoring_plan.testing_plan.benchmarks | full | 13/13 | 100% |
+| market_context | blueprint.governance.monitoring_plan.testing_plan.market_context | full | 19/19 | 100% |
 | platform_guides | blueprint.governance.monitoring_plan.testing_plan.platform_guides | full | 4/4 | 100% |
-| compliance | blueprint.governance.monitoring_plan.testing_plan.compliance | partial | 6/14 | 42.86% |
-| technical_audit | blueprint.governance.monitoring_plan.testing_plan.technical_audit | partial | 15/50 | 30% |
-| offer_strategy | blueprint.execution.offer_strategy | partial | 3/10 | 30% |
-| budget_split | blueprint.execution.budget_split | partial | 20/28 | 71.43% |
+| compliance | blueprint.governance.monitoring_plan.testing_plan.compliance | full | 14/14 | 100% |
+| technical_audit | blueprint.governance.monitoring_plan.testing_plan.technical_audit | full | 50/50 | 100% |
+| offer_strategy | blueprint.execution.offer_strategy | full | 10/10 | 100% |
+| budget_split | blueprint.execution.budget_split | full | 28/28 | 100% |
 | creative_angles | blueprint.execution.creative_angles | full | 6/6 | 100% |
 | tracking_checklist | blueprint.execution.tracking_checklist | full | 8/8 | 100% |
 | risk_flags | blueprint.governance.risk_flags | full | 13/13 | 100% |
-| first_14_days_plan | blueprint.execution.launch_plan.detailed_timeline | partial | 3/7 | 42.86% |
-| pre_launch_fixes | blueprint.execution.launch_plan.pre_launch_checklist | partial | 3/11 | 27.27% |
+| first_14_days_plan | blueprint.execution.launch_plan.detailed_timeline | full | 7/7 | 100% |
+| pre_launch_fixes | blueprint.execution.launch_plan.pre_launch_checklist | full | 11/11 | 100% |
 | flags | blueprint.flags | full | 3/3 | 100% |
-| debug | blueprint.telemetry | partial | 2/12 | 16.67% |
+| debug | blueprint.telemetry | full | 12/12 | 100% |
 
 ## Gaps and Recommendations
 
 - **Readiness before confirmation:** Missing v3 readiness states: ready, review. Add confirmed fixtures or controlled readiness variants; all current fixtures are intentionally unconfirmed and therefore blocked.
-- **Reference parity:** 14 reference sections are only semantically or structurally partial: audience_analysis, launch_plan, monitoring, budget_management, testing, benchmarks, market_context, compliance, technical_audit, offer_strategy, budget_split, first_14_days_plan, pre_launch_fixes, debug. Add explicit fields or mapping documentation where the current v3 shape intentionally differs.
 
 ## Regression Policy
 

@@ -1,14 +1,14 @@
 # Reference Parity Manifest
 
-Generated: 2026-08-20T09:04:00.523Z
+Generated: 2026-08-20T09:40:20.100Z
 
 هذا manifest يربط كل قسم مرجعي بمساره canonical، وأوراقه المرجعية، ومدخلات Wizard، وقواعد CDKS، واختبارات التكافؤ المطلوبة. لا يعتبر القسم كاملًا إلا بعد نجاح structural وsemantic وconsistency وprovenance وsafety وUI وregression.
 
 | المقياس | القيمة |
 |---|---:|
 | الأقسام الكلية | 26 |
-| full الحالي | 10 |
-| partial الحالي | 16 |
+| full الحالي | 11 |
+| partial الحالي | 15 |
 | missing الحالي | 0 |
 
 ## Priority Batch P0
@@ -44,7 +44,7 @@ Generated: 2026-08-20T09:04:00.523Z
 | first_14_days_plan | partial | P0 | `execution.launch_plan.detailed_timeline` | 7 | build_mode, tracking_status, creative_assets, content_capacity, response_speed | First14DaysPlanSection |
 | pre_launch_fixes | partial | P0 | `execution.launch_plan.pre_launch_checklist` | 11 | tracking_status, tracking_tools, creative_assets, conversion_destination, constraints | PreLaunchFixesSection |
 | flags | full | baseline | `flags` | 3 | constraints, tracking_status | FlagsSection |
-| debug | partial | P2 | `telemetry` | 12 | final_confirmed_inputs | DebugSection |
+| debug | full | baseline | `telemetry` | 12 | final_confirmed_inputs | DebugSection |
 
 ## P0 Assertions
 

@@ -39,7 +39,7 @@ const REFERENCE_SECTION_MAP = [
   { reference: 'first_14_days_plan', reference_path: 'launch_plan.detailed_timeline', current: 'execution.launch_plan.detailed_timeline', mode: 'structural', note: 'Reference launch_plan.detailed_timeline is compared with the canonical detailed timeline.' },
   { reference: 'pre_launch_fixes', reference_path: 'launch_plan.pre_launch_checklist', current: 'execution.launch_plan.pre_launch_checklist', mode: 'structural', note: 'Reference launch_plan.pre_launch_checklist is compared with the canonical pre-launch checklist.' },
   { reference: 'flags', current: 'flags', mode: 'structural' },
-  { reference: 'debug', current: 'telemetry', mode: 'semantic', note: 'v3 exposes execution time and rule count as telemetry; the reference also has scores_breakdown.' },
+  { reference: 'debug', current: 'telemetry', mode: 'structural', note: 'Canonical telemetry exposes execution time, rule count, and the reference-compatible scores breakdown.' },
 ];
 
 function readJson(file) {
@@ -73,7 +73,7 @@ function relativeLeafPaths(value) {
 }
 
 function normalizedReferenceLeafPaths(value) {
-  return relativeLeafPaths(value).map((item) => item.replace(/(^|\\.)value(?=\\.|$)/g, '').replace(/^\\./, '')).filter(Boolean);
+  return relativeLeafPaths(value).map((item) => item.replace(/(^|\.)value(?=\.|$)/g, '').replace(/^\./, '')).filter(Boolean);
 }
 
 function countBy(values) {
@@ -141,7 +141,7 @@ function referenceSectionCoverage(referenceFiles, blueprints) {
       };
     }
     const currentValues = blueprints.map((blueprint) => getPath(blueprint, mapping.current));
-    const currentSuffixes = [...new Set(currentValues.flatMap((value) => relativeLeafPaths(value).map((item) => item.replace(/(^|\\.)value(?=\\.|$)/g, '').replace(/^\\./, '')).filter(Boolean)))];
+    const currentSuffixes = [...new Set(currentValues.flatMap((value) => relativeLeafPaths(value).map((item) => item.replace(/(^|\.)value(?=\.|$)/g, '').replace(/^\./, '')).filter(Boolean)))];
     const covered = referenceSuffixes.filter((suffix) => currentSuffixes.includes(suffix));
     const structuralPercent = percentage(covered.length, referenceSuffixes.length);
     const status = mapping.mode === 'semantic'

@@ -125,7 +125,7 @@ const definitions = [
     sourceFields: ['constraints', 'tracking_status'], authority: 'CDKS', rules: ['RF-031'], assertions: ['errors/warnings/infos are arrays'], ui: 'FlagsSection',
   },
   {
-    id: 'debug', status: 'partial', priority: 'P2', referencePath: 'debug', canonicalPath: 'telemetry',
+    id: 'debug', status: 'full', priority: 'baseline', referencePath: 'debug', canonicalPath: 'telemetry',
     sourceFields: ['final_confirmed_inputs'], authority: 'CDKS', rules: ['RF-033'],
     assertions: ['timing and rules executed are present', 'decision trace excludes secrets and raw prompts', 'validation summary is internally consistent'], ui: 'DebugSection',
   },
@@ -143,7 +143,7 @@ function leafPaths(value, prefix = '') {
 }
 
 function normalizeReferencePaths(value) {
-  return leafPaths(value).map((item) => item.replace(/(^|\\.)value(?=\\.|$)/g, '').replace(/^\\./, '')).filter(Boolean);
+  return leafPaths(value).map((item) => item.replace(/(^|\.)value(?=\.|$)/g, '').replace(/^\./, '')).filter(Boolean);
 }
 
 function main() {
