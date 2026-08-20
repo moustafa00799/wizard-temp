@@ -247,7 +247,10 @@ function ExecutiveSummarySection({ data }: { data: any }) {
 
 function StrategySummarySection({ data }: { data: any }) {
   const objective = unwrap(data?.recommended_objective);
-  const channels = asArray(data?.recommended_channels);
+  const channels = asArray(
+    data?.recommended_channels?.value ??
+      data?.recommended_channels
+  );
   const funnel = unwrap(data?.funnel_type);
   const confidence = unwrap(data?.confidence_score);
 
@@ -613,8 +616,13 @@ function AudienceStructureSection({ data }: { data: any }) {
 function BudgetSplitSection({ data }: { data: any }) {
   const daily = getObject(data?.daily_budget);
   const monthly = unwrap(data?.monthly_budget);
-  const cac = unwrap(data?.cac_target);
-  const channelAllocation = getObject(data?.channel_allocation);
+  const cacValue =
+    data?.cac_target?.value ??
+    unwrap(data?.cac_target);
+  const channelAllocation = getObject(
+    data?.channel_allocation?.value ??
+      data?.channel_allocation
+  );
   const testBudget = getObject(data?.test_budget);
   const scaleBudget = getObject(data?.scale_budget);
 
@@ -641,7 +649,15 @@ function BudgetSplitSection({ data }: { data: any }) {
           }
         />
 
-        <DataCard label="هدف CAC" value={cac} />
+        <DataCard
+          label="هدف CAC"
+          value={
+            cacValue !== undefined &&
+            cacValue !== null
+              ? `${cacValue} EGP`
+              : cacValue
+          }
+        />
       </div>
 
       {allocationEntries.length > 0 && (
@@ -680,7 +696,7 @@ function BudgetSplitSection({ data }: { data: any }) {
             testBudget.amount !== undefined
               ? `${testBudget.amount} EGP (${numberValue(
                   testBudget.percentage
-                ) * 100}%)`
+                )}%)`
               : data?.test_budget
           }
         />
@@ -1672,10 +1688,15 @@ function RiskFlagsSection({ data }: { data: any }) {
 /* -------------------------------------------------------------------------- */
 
 function First14DaysPlanSection({ data }: { data: any }) {
+  const milestones = asArray(
+    data?.milestones ??
+      data?.detailed_timeline?.milestones
+  );
   const week1 = asArray(data?.week_1);
   const week2 = asArray(data?.week_2);
   const schedule = asArray(data?.daily_budget_schedule);
   const launch = asArray(data?.launch_sequence);
+  const detailedTimeline = getObject(data?.detailed_timeline);
 
   const renderDay = (item: any, index: number) => (
     <div
@@ -1722,8 +1743,80 @@ function First14DaysPlanSection({ data }: { data: any }) {
     </div>
   );
 
+  const renderMilestone = (milestone: any, index: number) => {
+    const tasks = asArray(milestone?.tasks);
+
+    return (
+      <div
+        key={index}
+        className="rounded-xl border bg-white p-4"
+      >
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <p className="font-bold text-gray-900">
+              {displayValue(
+                milestone?.phase,
+                `المرحلة ${index + 1}`
+              )}
+            </p>
+            <p className="text-xs text-gray-500 mt-1">
+              الأيام: {displayValue(milestone?.days)}
+            </p>
+          </div>
+          {milestone?.critical !== undefined && (
+            <span
+              className={`px-2 py-1 rounded-full text-xs font-medium ${
+                milestone.critical
+                  ? "bg-red-100 text-red-700"
+                  : "bg-gray-100 text-gray-600"
+              }`}
+            >
+              {milestone.critical
+                ? "مسار حرج"
+                : "غير حرج"}
+            </span>
+          )}
+        </div>
+
+        {tasks.length > 0 && (
+          <ul className="mt-3 space-y-1 text-sm text-gray-700 list-disc list-inside">
+            {tasks.map((task: any, taskIndex: number) => (
+              <li key={taskIndex}>{displayValue(task)}</li>
+            ))}
+          </ul>
+        )}
+      </div>
+    );
+  };
+
   return (
     <div className="space-y-4">
+      {milestones.length > 0 && (
+        <div className="space-y-3">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <DataCard
+              label="إجمالي الأيام"
+              value={data?.total_days ?? data?.detailed_timeline?.total_days}
+            />
+            <DataCard
+              label="تاريخ الجاهزية"
+              value={data?.launch_ready_date ?? data?.detailed_timeline?.launch_ready_date}
+            />
+            <DataCard
+              label="مستوى الثقة"
+              value={data?.detailed_timeline?.confidence}
+            />
+            <DataCard
+              label="عدد المراحل"
+              value={milestones.length}
+            />
+          </div>
+          <div className="space-y-2">
+            {milestones.map(renderMilestone)}
+          </div>
+        </div>
+      )}
+
       {(week1.length > 0 || week2.length > 0) && (
         <>
           {week1.length > 0 && (
@@ -1832,6 +1925,60 @@ function First14DaysPlanSection({ data }: { data: any }) {
         </div>
       )}
 
+      {milestones.length === 0 &&
+        week1.length === 0 &&
+        week2.length === 0 &&
+        schedule.length === 0 &&
+        launch.length === 0 &&
+        Object.keys(detailedTimeline).length > 0 && (
+          <div className="space-y-3">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <DataCard
+                label="إجمالي الأيام"
+                value={detailedTimeline.total_days}
+              />
+              <DataCard
+                label="تاريخ الجاهزية"
+                value={detailedTimeline.launch_ready_date}
+              />
+              <DataCard
+                label="مستوى الثقة"
+                value={detailedTimeline.confidence}
+              />
+              <DataCard
+                label="معرف القاعدة"
+                value={detailedTimeline.rule_id}
+              />
+            </div>
+
+            {Object.entries(detailedTimeline)
+              .filter(
+                ([key]) =>
+                  ![
+                    "total_days",
+                    "launch_ready_date",
+                    "confidence",
+                    "rule_id",
+                  ].includes(key)
+              )
+              .map(([key, value]) => (
+                <div
+                  key={key}
+                  className="rounded-xl border bg-gray-50 p-4"
+                >
+                  <p className="text-sm font-bold text-gray-800 mb-2">
+                    {key}
+                  </p>
+                  <pre className="text-xs text-gray-700 whitespace-pre-wrap overflow-auto" dir="ltr">
+                    {typeof value === "string"
+                      ? value
+                      : JSON.stringify(value, null, 2)}
+                  </pre>
+                </div>
+              ))}
+          </div>
+        )}
+
       <ReasoningBadge reasoning={data?.reasoning} />
     </div>
   );
@@ -1842,87 +1989,139 @@ function First14DaysPlanSection({ data }: { data: any }) {
 /* -------------------------------------------------------------------------- */
 
 function PreLaunchFixesSection({ data }: { data: any }) {
-  const priorityColors: Record<string, string> = {
-    must_fix:
-      "bg-red-50 border-red-200 text-red-800",
-    should_fix:
-      "bg-yellow-50 border-yellow-200 text-yellow-800",
-    nice_to_have:
-      "bg-blue-50 border-blue-200 text-blue-800",
+  const statusStyles: Record<string, string> = {
+    pass: "bg-green-50 border-green-200 text-green-800",
+    fail: "bg-red-50 border-red-200 text-red-800",
+    warning: "bg-yellow-50 border-yellow-200 text-yellow-800",
+    check_manually: "bg-blue-50 border-blue-200 text-blue-800",
   };
 
-  const priorityLabels: Record<string, string> = {
-    must_fix: "يجب إصلاحه",
-    should_fix: "يفضل إصلاحه",
-    nice_to_have: "للتحسين",
+  const statusLabels: Record<string, string> = {
+    pass: "اجتاز الفحص",
+    fail: "يحتاج إصلاحًا",
+    warning: "تحذير",
+    check_manually: "يتطلب مراجعة يدوية",
   };
+
+  const items = asArray(
+    data?.items ?? data?.checklist_items
+  );
+  const summary = getObject(
+    data?.summary ?? data?.checklist_summary
+  );
+
+  const renderItem = (item: any, index: number) => {
+    const status = String(item?.status ?? "check_manually");
+    const style =
+      statusStyles[status] ??
+      statusStyles.check_manually;
+    const label =
+      statusLabels[status] ??
+      statusLabels.check_manually;
+
+    return (
+      <div
+        key={index}
+        className={`rounded-lg p-3 border text-sm ${style}`}
+      >
+        <div className="flex items-start justify-between gap-3">
+          <p className="font-medium">
+            {displayValue(
+              item?.item ??
+                item?.description ??
+                item?.action ??
+                item
+            )}
+          </p>
+          <span className="shrink-0 text-xs font-bold">
+            {label}
+          </span>
+        </div>
+
+        {(item?.category ||
+          item?.required !== undefined) && (
+          <div className="flex gap-3 mt-1 text-xs opacity-80">
+            {item?.category && (
+              <span>{displayValue(item.category)}</span>
+            )}
+            {item?.required !== undefined && (
+              <span>
+                {item.required
+                  ? "إلزامي"
+                  : "غير إلزامي"}
+              </span>
+            )}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const legacyGroups = [
+    {
+      key: "must_fix",
+      title: "يجب إصلاحه",
+      icon: "🔴",
+      style: statusStyles.fail,
+    },
+    {
+      key: "should_fix",
+      title: "يفضل إصلاحه",
+      icon: "🟡",
+      style: statusStyles.warning,
+    },
+    {
+      key: "nice_to_have",
+      title: "للتحسين",
+      icon: "🔵",
+      style: statusStyles.check_manually,
+    },
+  ] as const;
 
   return (
     <div className="space-y-4">
-      {(
-        [
-          "must_fix",
-          "should_fix",
-          "nice_to_have",
-        ] as const
-      ).map((priority) => {
-        const items = asArray(data?.[priority]);
+      {Object.keys(summary).length > 0 && (
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <DataCard label="الإجمالي" value={summary.total} />
+          <DataCard label="اجتاز" value={summary.passed} />
+          <DataCard label="فشل" value={summary.failed} />
+          <DataCard label="نسبة الاكتمال" value={summary.completion_percentage !== undefined ? `${summary.completion_percentage}%` : undefined} />
+        </div>
+      )}
 
-        if (items.length === 0) return null;
+      {items.length > 0 ? (
+        <div className="space-y-2">
+          {items.map(renderItem)}
+        </div>
+      ) : (
+        legacyGroups.map((group) => {
+          const legacyItems = asArray(data?.[group.key]);
+          if (legacyItems.length === 0) return null;
 
-        return (
-          <div
-            key={priority}
-            className="space-y-2"
-          >
-            <p className="text-sm font-bold">
-              {priority === "must_fix"
-                ? "🔴"
-                : priority === "should_fix"
-                ? "🟡"
-                : "🔵"}{" "}
-              {priorityLabels[priority]}
-            </p>
-
-            {items.map((item: any, index) => (
-              <div
-                key={index}
-                className={`rounded-lg p-3 border text-sm ${priorityColors[priority]}`}
-              >
-                <p className="font-medium">
-                  {displayValue(
-                    item?.item ??
-                      item?.description ??
-                      item?.action ??
-                      item
-                  )}
-                </p>
-
-                {(item?.estimated_time ||
-                  item?.category) && (
-                  <div className="flex gap-3 mt-1 text-xs opacity-80">
-                    {item?.estimated_time && (
-                      <span>
-                        {displayValue(
-                          item.estimated_time
-                        )}
-                      </span>
+          return (
+            <div key={group.key} className="space-y-2">
+              <p className="text-sm font-bold">
+                {group.icon} {group.title}
+              </p>
+              {legacyItems.map((item: any, index: number) => (
+                <div
+                  key={index}
+                  className={`rounded-lg p-3 border text-sm ${group.style}`}
+                >
+                  <p className="font-medium">
+                    {displayValue(
+                      item?.item ??
+                        item?.description ??
+                        item?.action ??
+                        item
                     )}
-
-                    {item?.category && (
-                      <span>
-                        {displayValue(
-                          item.category
-                        )}
-                      </span>
-                    )}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        );
-      })}
+                  </p>
+                </div>
+              ))}
+            </div>
+          );
+        })
+      )}
 
       <ReasoningBadge reasoning={data?.reasoning} />
     </div>
@@ -1932,6 +2131,64 @@ function PreLaunchFixesSection({ data }: { data: any }) {
 /* -------------------------------------------------------------------------- */
 /* Renderer Map                                                               */
 /* -------------------------------------------------------------------------- */
+
+function toBlueprintDisplayModel(raw: any): any {
+  const strategy = raw?.strategy ?? {};
+  const execution = raw?.execution ?? {};
+  const governance = raw?.governance ?? {};
+  const campaignStructure = execution?.campaign_structure ?? {};
+  const launchPlan = execution?.launch_plan ?? {};
+  const timeline = launchPlan?.detailed_timeline ?? {};
+  const checklist = launchPlan?.pre_launch_checklist ?? {};
+  const campaigns = asArray(campaignStructure?.campaigns);
+
+  const funnelType = strategy?.funnel_type;
+  const funnelStages = campaigns.map((campaign: any, index: number) => ({
+    name: campaign?.name ?? campaign?.campaign_name ?? `حملة ${index + 1}`,
+    goal: campaign?.objective ?? campaign?.goal ?? campaign?.purpose,
+    content:
+      campaign?.message ??
+      campaign?.creative_direction ??
+      campaign?.description,
+    kpi: campaign?.primary_kpi ?? campaign?.kpi ?? campaign?.success_metric,
+    budget_percentage:
+      campaign?.budget_share ??
+      campaign?.budget_percentage ??
+      campaign?.budget_ratio,
+  }));
+
+  return {
+    ...raw,
+    strategy_summary: raw?.strategy_summary ?? strategy,
+    recommended_funnel: raw?.recommended_funnel ?? {
+      funnel_type: funnelType,
+      total_stages: funnelStages.length,
+      stages: funnelStages,
+      reasoning: funnelType?.reasoning,
+    },
+    campaign_structure:
+      raw?.campaign_structure ?? campaignStructure,
+    audience_structure:
+      raw?.audience_structure ?? execution?.audience_structure,
+    budget_split: raw?.budget_split ?? execution?.budget_split,
+    creative_angles: raw?.creative_angles ?? execution?.creative_angles,
+    tracking_checklist:
+      raw?.tracking_checklist ?? execution?.tracking_checklist,
+    risk_flags: raw?.risk_flags ?? governance?.risk_flags,
+    first_14_days_plan: raw?.first_14_days_plan ?? {
+      ...launchPlan,
+      detailed_timeline: timeline,
+      total_days: timeline?.total_days,
+      launch_ready_date: timeline?.launch_ready_date,
+      milestones: asArray(timeline?.milestones),
+      critical_path: asArray(timeline?.critical_path),
+    },
+    pre_launch_fixes: raw?.pre_launch_fixes ?? {
+      items: asArray(checklist?.items),
+      summary: checklist?.summary,
+    },
+  };
+}
 
 const sectionRenderers: Record<
   SectionKey,
@@ -1987,7 +2244,13 @@ export default function BlueprintPage() {
 
         if (isV5Envelope) {
           setGenerationEnvelope(parsed);
-          setBlueprint(parsed.data);
+          // v5 stores the rich 11-section CanonicalBlueprint under
+          // data.blueprint; the surrounding data object is BlueprintContractV3.
+          setBlueprint(
+            toBlueprintDisplayModel(
+              parsed.data?.blueprint ?? parsed.data
+            )
+          );
         } else {
           // Backward compatibility for older locally generated records.
           setGenerationEnvelope({
@@ -1995,7 +2258,11 @@ export default function BlueprintPage() {
             version: "legacy",
             data: parsed?.data ?? parsed,
           });
-          setBlueprint(parsed?.data ?? parsed);
+          setBlueprint(
+            toBlueprintDisplayModel(
+              parsed?.data ?? parsed
+            )
+          );
         }
       } catch (error) {
         console.error("[Blueprint] Failed to parse blueprint_data", error);
@@ -2048,10 +2315,11 @@ export default function BlueprintPage() {
   const SectionRenderer =
     sectionRenderers[activeSection];
 
-  const wizardInput =
-    getObject(
-      blueprint?.wizard_input
-    );
+  const wizardInput = getObject(
+    generationEnvelope?.data?.wizard_input ??
+      generationEnvelope?.wizard_input ??
+      blueprint?.raw_input_summary
+  );
 
   return (
     <div
@@ -2113,6 +2381,8 @@ export default function BlueprintPage() {
       <div className="max-w-6xl mx-auto px-4 py-6">
         <ReasoningDashboard
           reasoning={
+            generationEnvelope?.data?.reasoning?.contract ??
+            generationEnvelope?.data?.reasoning ??
             blueprint?.reasoning?.contract ??
             blueprint?.reasoning ??
             null
@@ -2208,11 +2478,7 @@ export default function BlueprintPage() {
             </div>
 
             <SectionRenderer
-              data={
-                blueprint?.[
-                  activeSection
-                ]
-              }
+              data={blueprint?.[activeSection]}
             />
           </div>
 

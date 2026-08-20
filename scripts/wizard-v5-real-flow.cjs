@@ -39,6 +39,38 @@ async function main() {
   assert(envelope.data && typeof envelope.data === "object", "v5 data contract is missing");
   assert(envelope.data.wizard_input === undefined, "server contract must not invent wizard_input");
 
+  const richBlueprint = envelope.data.blueprint;
+  const expectedSections = [
+    ["executive_summary", richBlueprint?.executive_summary],
+    ["strategy_summary", richBlueprint?.strategy],
+    ["recommended_funnel", richBlueprint?.strategy?.funnel_type],
+    ["campaign_structure", richBlueprint?.execution?.campaign_structure],
+    ["audience_structure", richBlueprint?.execution?.audience_structure],
+    ["budget_split", richBlueprint?.execution?.budget_split],
+    ["creative_angles", richBlueprint?.execution?.creative_angles],
+    ["tracking_checklist", richBlueprint?.execution?.tracking_checklist],
+    ["risk_flags", richBlueprint?.governance?.risk_flags],
+    [
+      "first_14_days_plan",
+      richBlueprint?.execution?.launch_plan?.detailed_timeline,
+    ],
+    [
+      "pre_launch_fixes",
+      richBlueprint?.execution?.launch_plan?.pre_launch_checklist,
+    ],
+  ];
+  assert(
+    richBlueprint && typeof richBlueprint === "object",
+    "rich Blueprint payload is missing at data.blueprint"
+  );
+  const populatedSections = expectedSections.filter(([, value]) => {
+    return value && typeof value === "object" && Object.keys(value).length > 0;
+  });
+  assert(
+    populatedSections.length === expectedSections.length,
+    `rich Blueprint sections incomplete: ${populatedSections.length}/${expectedSections.length}`
+  );
+
   const reasoning = envelope.data.reasoning?.contract;
   assert(reasoning, "real v5 response must contain reasoning.contract");
   assert(reasoning.contract_version === "1.0", "reasoning contract version is missing");
@@ -60,6 +92,7 @@ async function main() {
     reasoningStatus: reasoning.status,
     evidenceCoveragePercent: reasoning.grounding.evidence_coverage_percent,
     claimCount: reasoning.claims?.length ?? 0,
+    richBlueprintSections: populatedSections.length,
     safety: reasoning.safety,
   }, null, 2));
 }
