@@ -1,6 +1,6 @@
 # Quality and Reference Coverage Gate
 
-Generated: 2026-08-20T09:40:20.650Z
+Generated: 2026-08-20T14:56:40.162Z
 Base URL: `http://127.0.0.1:3001`
 
 ## Result: **PASS_WITH_GAPS**

@@ -23,6 +23,7 @@
     "test:wizard:v5:real-flow": "node scripts/wizard-v5-real-flow.cjs",
     "test:quality:coverage": "node scripts/quality-reference-coverage-gate.cjs",
     "test:reference-parity:semantic": "node scripts/reference-parity-semantic-regression.cjs",
+    "test:reference-parity:enterprise": "node scripts/reference-parity-enterprise-regression.cjs",
     "semantic-eval": "tsx scripts/semantic-runner.ts"
   },
   "dependencies": {
