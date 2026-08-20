@@ -113,6 +113,38 @@ export class CDKSEngine {
     // 2.2 بناء كائنات متوافقة مع Schema
     // ------------------------------------------
 
+    const funnelStagesByType: Record<string, Array<{ name: string; objective: string; content_template: string; kpi: string; budget_ratio: number }>> = {
+      trust_funnel: [
+        { name: 'Trust_Building', objective: 'engagement', content_template: 'brand_story', kpi: 'engagement_rate', budget_ratio: 0.20 },
+        { name: 'Offer', objective: 'traffic', content_template: 'offer_details', kpi: 'ctr', budget_ratio: 0.25 },
+        { name: 'Urgency', objective: 'conversions', content_template: 'urgency_scarcity', kpi: 'conversion_rate', budget_ratio: 0.25 },
+        { name: 'Conversion', objective: 'conversions', content_template: 'final_cta', kpi: 'cpa', budget_ratio: 0.30 },
+      ],
+      education_funnel: [
+        { name: 'Awareness', objective: 'reach', content_template: 'educational_intro', kpi: 'reach', budget_ratio: 0.30 },
+        { name: 'Consideration', objective: 'engagement', content_template: 'problem_solution', kpi: 'engagement_rate', budget_ratio: 0.30 },
+        { name: 'Conversion', objective: 'conversions', content_template: 'lead_or_message_cta', kpi: 'conversion_rate', budget_ratio: 0.40 },
+      ],
+      solution_funnel: [
+        { name: 'Problem', objective: 'awareness', content_template: 'pain_point', kpi: 'video_view_rate', budget_ratio: 0.30 },
+        { name: 'Solution', objective: 'traffic', content_template: 'solution_explanation', kpi: 'ctr', budget_ratio: 0.30 },
+        { name: 'Lead', objective: 'conversions', content_template: 'lead_capture', kpi: 'cpl', budget_ratio: 0.40 },
+      ],
+      lead_gen_call: [
+        { name: 'Local_Intent', objective: 'awareness', content_template: 'local_problem', kpi: 'reach', budget_ratio: 0.30 },
+        { name: 'Trust', objective: 'engagement', content_template: 'testimonial_or_proof', kpi: 'engagement_rate', budget_ratio: 0.30 },
+        { name: 'Call_Action', objective: 'conversions', content_template: 'call_cta', kpi: 'cost_per_message', budget_ratio: 0.40 },
+      ],
+      direct_conversion: [
+        { name: 'Product', objective: 'traffic', content_template: 'product_benefits', kpi: 'ctr', budget_ratio: 0.35 },
+        { name: 'Retargeting', objective: 'conversions', content_template: 'offer_reminder', kpi: 'conversion_rate', budget_ratio: 0.65 },
+      ],
+    };
+    const funnelStages = (funnelStagesByType[funnel.value] || funnelStagesByType.trust_funnel).map((stage, index) => ({
+      stage_number: index + 1,
+      ...stage,
+    }));
+
     // Strategy object
     const strategy = {
       recommended_objective: {
@@ -133,6 +165,11 @@ export class CDKSEngine {
         confidence: funnel.confidence,
         reasoning: funnel.reasoning,
         rule_id: funnel.rule_id,
+      },
+      recommended_funnel: {
+        funnel_type: funnel.value,
+        stages: funnelStages,
+        total_stages: funnelStages.length,
       },
       confidence_score: {
         value: 85,
@@ -158,6 +195,63 @@ export class CDKSEngine {
     };
 
     // Execution object
+    const trackingTools = input.tracking_tools || [];
+    const requiredTrackingTools = ['pixel', 'ga4', 'capi'];
+    const missingTrackingTools = requiredTrackingTools.filter(tool => !trackingTools.includes(tool));
+    const trackingScore = input.tracking_status === 'ready'
+      ? 100
+      : input.tracking_status === 'partial'
+        ? Math.max(40, Math.round((trackingTools.length / requiredTrackingTools.length) * 100))
+        : 10;
+    const trackingLevel = trackingScore >= 90 ? 'excellent' : trackingScore >= 70 ? 'good' : trackingScore >= 40 ? 'fair' : 'poor';
+    const requiredEvents = input.key_events || ['page_view', 'purchase', 'add_to_cart'];
+    const trackingSetupSteps = missingTrackingTools.map(tool => ({
+      tool,
+      steps: tool === 'capi'
+        ? ['Set up server-side API', 'Configure event deduplication', 'Test with Events Manager']
+        : tool === 'ga4'
+          ? ['Create GA4 property', 'Install measurement tag', 'Verify conversion events']
+          : ['Install base pixel code', 'Configure conversion events', 'Verify event firing'],
+    }));
+    const audienceSegments = input.audience_segments || [];
+    const audienceSize = input.geo_scope === 'local_radius'
+      ? { min: 10000, max: 100000, label: '10K-100K', daily_reach_estimate: 10000 }
+      : input.geo_scope === 'country'
+        ? { min: 200000, max: 4000000, label: '200K-4.0M', daily_reach_estimate: 200000 }
+        : { min: 50000, max: 500000, label: '50K-500K', daily_reach_estimate: 50000 };
+    const overlappingPairs = audienceSegments.length > 1
+      ? audienceSegments.slice(0, -1).map((segment, index) => ({
+          segment_a: segment,
+          segment_b: audienceSegments[index + 1],
+          overlap_percentage: 10,
+        }))
+      : [];
+    const overlapRisk = overlappingPairs.length > 2 ? 'medium' : 'low';
+    const creativeAssetSet = new Set(input.creative_assets || []);
+    const recommendedFormats = [
+      ...(channels.value.includes('meta') ? [
+        { type: 'carousel', priority: 1, specs: '1080x1080, 3-5 cards', best_for: input.business_type || 'all', channel: 'meta', asset_ready: creativeAssetSet.has('images') },
+        { type: 'video', priority: 2, specs: '1080x1080 or 1080x1920, 15-30s', best_for: 'all', channel: 'meta', asset_ready: creativeAssetSet.has('video') },
+        { type: 'image', priority: 3, specs: '1080x1080 or 1200x628', best_for: 'all', channel: 'meta', asset_ready: creativeAssetSet.has('images') },
+      ] : []),
+      ...(channels.value.includes('google_ads') ? [
+        { type: 'responsive_search', priority: 6, specs: '3 headlines, 2 descriptions', best_for: 'search', channel: 'google_ads', asset_ready: false },
+        { type: 'display', priority: 7, specs: '300x250, 728x90', best_for: 'retargeting', channel: 'google_ads', asset_ready: creativeAssetSet.has('images') },
+        { type: 'performance_max', priority: 8, specs: 'Mixed assets', best_for: 'ecommerce', channel: 'google_ads', asset_ready: creativeAssetSet.has('images') && creativeAssetSet.has('video') },
+      ] : []),
+      ...(channels.value.includes('tiktok_ads') ? [
+        { type: 'short_video', priority: 4, specs: '1080x1920, 9-15s', best_for: 'prospecting', channel: 'tiktok_ads', asset_ready: creativeAssetSet.has('video') },
+      ] : []),
+    ];
+    const socialProofPresent = {
+      testimonials: creativeAssetSet.has('testimonials'),
+      ugc: creativeAssetSet.has('ugc'),
+      reviews: creativeAssetSet.has('reviews'),
+      case_studies: creativeAssetSet.has('case_studies'),
+    };
+    const socialProofCount = Object.values(socialProofPresent).filter(Boolean).length;
+    const socialProofGaps = Object.entries(socialProofPresent).filter(([, present]) => !present).map(([key]) => key);
+
     const execution = {
       campaign_structure: {
         campaign_count: channels.value.length,
@@ -173,6 +267,85 @@ export class CDKSEngine {
         ad_set_structure: {
           per_campaign: 2,
           total: channels.value.length * 2,
+        },
+      },
+      audience_analysis: {
+        size_estimate: {
+          value: audienceSize,
+          confidence: input.geo_scope ? 0.75 : 0.55,
+          reasoning: `Audience size estimated from geo scope: ${input.geo_scope || 'unknown'}.`,
+          rule_id: 'RF-006',
+        },
+        overlap_check: {
+          value: {
+            overlap_risk: overlapRisk,
+            overlapping_pairs: overlappingPairs,
+            average_overlap: overlappingPairs.length ? 10 : 0,
+            recommendations: overlappingPairs.length ? ['Exclude overlapping audiences', 'Prioritize the highest-intent segment'] : ['Current segmentation is optimal'],
+          },
+          confidence: 0.70,
+          reasoning: `Audience overlap: ${overlapRisk} risk with ${overlappingPairs.length} overlapping pairs.`,
+          rule_id: 'RF-013',
+        },
+        frequency_cap: {
+          value: {
+            max_frequency_7_days: input.campaign_direction === 'retargeting' ? 5 : 4,
+            max_frequency_30_days: input.campaign_direction === 'retargeting' ? 15 : 12,
+            warning_threshold: 3,
+            rationale: 'Standard frequency cap for prospecting and controlled retargeting campaigns.',
+            action_if_exceeded: 'Pause ad set or refresh creative',
+          },
+          confidence: 0.80,
+          reasoning: 'Frequency cap derived from campaign direction.',
+          rule_id: 'RF-014',
+        },
+      },
+      creative_strategy: {
+        recommended_formats: {
+          value: recommendedFormats,
+          confidence: 0.80,
+          reasoning: `Recommended ${recommendedFormats.length} creative formats across ${channels.value.length} channels.`,
+          rule_id: 'RF-007',
+        },
+        refresh_schedule: {
+          value: {
+            refresh_interval_days: input.content_capacity === 'hard' ? 14 : 10,
+            test_new_creative_every: 5,
+            sunset_threshold: { ctr_drop: 30, frequency: 4 },
+            fatigue_indicators: ['CTR drops > 20% from baseline', 'Frequency exceeds recommended cap', 'CPA increases > 30%', 'Engagement rate declines'],
+            refresh_triggers: ['After 7 days if CTR is below baseline', 'When frequency reaches cap', 'Every 10 days automatically'],
+          },
+          confidence: 0.75,
+          reasoning: `Creative refresh cadence derived from content capacity: ${input.content_capacity || 'unknown'}.`,
+          rule_id: 'RF-015',
+        },
+        social_proof: {
+          value: {
+            social_proof_score: socialProofCount * 25,
+            status: socialProofCount === 0 ? 'missing' : socialProofCount < 4 ? 'partial' : 'present',
+            present: socialProofPresent,
+            gaps: socialProofGaps,
+            recommendations: socialProofGaps.map(gap => `Collect or produce ${gap.replace('_', ' ')}`),
+            ad_performance_impact: 'Ads with relevant social proof may improve trust and conversion; validate impact with controlled tests.',
+          },
+          confidence: 0.80,
+          reasoning: `Social proof score: ${socialProofCount * 25}/100 based on declared assets.`,
+          rule_id: 'RF-028',
+        },
+      },
+      tracking_assessment: {
+        detailed_score: {
+          value: {
+            score: trackingScore,
+            level: trackingLevel,
+            present_tools: trackingTools,
+            missing_tools: missingTrackingTools,
+            required_events: requiredEvents,
+            setup_steps: trackingSetupSteps,
+          },
+          confidence: 0.85,
+          reasoning: `Tracking score ${trackingScore}/100: ${trackingTools.length}/${requiredTrackingTools.length} core tools present.`,
+          rule_id: 'RF-008',
         },
       },
       audience_structure: {
@@ -308,6 +481,11 @@ export class CDKSEngine {
             reasoning: `Pre-launch checklist: ${readiness.value}`,
             rule_id: 'RF-010',
           },
+          ready_to_launch: readiness.value === 'ready',
+          completion_percentage: readiness.value === 'ready' ? 100 : 75,
+          confidence: 0.80,
+          reasoning: `Pre-launch checklist: ${readiness.value}`,
+          rule_id: 'RF-010',
         },
       },
       offer_strategy: {
@@ -359,8 +537,13 @@ export class CDKSEngine {
           alert_thresholds: {
             cpa_spike: 'CPA increases > 50% from target',
             ctr_drop: 'CTR drops below 0.5%',
+            spend_imbalance: 'One ad set consumes > 70% of the allocated budget',
+            frequency_high: 'Frequency exceeds 3 in 7 days',
           },
           reporting_dashboard: ['Meta Ads Manager', 'Google Analytics 4'],
+          confidence: 0.80,
+          reasoning: 'Monitoring plan with daily checks and budget/frequency alerts.',
+          rule_id: 'RF-011',
         },
         budget_management: {
           pacing_strategy: {
@@ -414,7 +597,20 @@ export class CDKSEngine {
             rule_id: 'RF-016',
           },
           benchmarks: {
-            conversion_benchmarks: { industry_average_cvr: 2.5, industry_average_ctr: 1.2, target_cpa: 45 },
+            conversion_benchmarks: {
+              industry_average_cvr: 2.5,
+              industry_average_ctr: 1.2,
+              target_cpa: 45,
+              performance_targets: {
+                week_1: { cvr: 1.25, ctr: 0.84 },
+                week_2: { cvr: 2.0, ctr: 1.08 },
+                week_3_plus: { cvr: 2.5, ctr: 1.2 },
+              },
+              source: 'Industry benchmarks — Meta & Google Ads averages 2024',
+              confidence: 0.70,
+              reasoning: 'Benchmarks for ecommerce/sales.',
+              rule_id: 'RF-017',
+            },
             performance_targets: {
               week_1: { cvr: 1.25, ctr: 0.84 },
               week_2: { cvr: 2.0, ctr: 1.08 },
@@ -450,15 +646,17 @@ export class CDKSEngine {
             },
           },
           platform_guides: {
-            platform_specific_rules: channels.value.map(ch => ({
-              platform: ch === 'meta' ? 'Meta (Facebook/Instagram)' : ch === 'google_ads' ? 'Google Ads' : ch === 'tiktok_ads' ? 'TikTok Ads' : ch,
-              rules: ['Use platform best practices for ad creative', 'Set up proper tracking'],
-              objective_mapping: objective.value.toUpperCase(),
-              best_practices: ['Test multiple ad formats', 'Monitor performance metrics'],
-            })),
-            confidence: 0.85,
-            reasoning: 'Platform-specific rules for selected channels.',
-            rule_id: 'RF-020',
+            platform_specific_rules: {
+              value: channels.value.map(ch => ({
+                platform: ch === 'meta' ? 'Meta (Facebook/Instagram)' : ch === 'google_ads' ? 'Google Ads' : ch === 'tiktok_ads' ? 'TikTok Ads' : ch,
+                rules: ['Use platform best practices for ad creative', 'Set up proper tracking'],
+                objective_mapping: objective.value.toUpperCase(),
+                best_practices: ['Test multiple ad formats', 'Monitor performance metrics'],
+              })),
+              confidence: 0.85,
+              reasoning: 'Platform-specific rules for selected channels.',
+              rule_id: 'RF-020',
+            },
           },
           compliance: {
             legal: {

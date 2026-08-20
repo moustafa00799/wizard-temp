@@ -50,6 +50,18 @@ const StrategySchema = z.object({
     reasoning: z.string(),
     rule_id: z.string().optional(),
   }),
+  recommended_funnel: z.object({
+    funnel_type: z.enum(['trust_funnel', 'education_funnel', 'solution_funnel', 'lead_gen_call', 'direct_conversion']),
+    stages: z.array(z.object({
+      stage_number: z.number().int().positive(),
+      name: z.string(),
+      objective: z.string(),
+      content_template: z.string(),
+      kpi: z.string(),
+      budget_ratio: z.number().min(0).max(1),
+    })),
+    total_stages: z.number().int().positive(),
+  }),
   confidence_score: z.object({
     value: z.number().min(0).max(100),
     breakdown: z.record(z.string(), z.number()).optional(),
@@ -68,9 +80,104 @@ const StrategySchema = z.object({
 });
 
 // ================================================================
-// 4. التنفيذ (Execution) - مطابق تمامًا لمخرجات المحرك
+// 4. أقسام parity الإضافية (Canonical v3.1)
+// ================================================================
+const AudienceAnalysisSchema = z.object({
+  size_estimate: z.object({
+    value: z.object({ min: z.number(), max: z.number(), label: z.string(), daily_reach_estimate: z.number() }),
+    confidence: z.number().min(0).max(1),
+    reasoning: z.string(),
+    rule_id: z.string().optional(),
+  }),
+  overlap_check: z.object({
+    value: z.object({
+      overlap_risk: z.enum(['low', 'medium', 'high']),
+      overlapping_pairs: z.array(z.object({ segment_a: z.string(), segment_b: z.string(), overlap_percentage: z.number() })),
+      average_overlap: z.number(),
+      recommendations: z.array(z.string()),
+    }),
+    confidence: z.number().min(0).max(1),
+    reasoning: z.string(),
+    rule_id: z.string().optional(),
+  }),
+  frequency_cap: z.object({
+    value: z.object({
+      max_frequency_7_days: z.number(),
+      max_frequency_30_days: z.number(),
+      warning_threshold: z.number(),
+      rationale: z.string(),
+      action_if_exceeded: z.string(),
+    }),
+    confidence: z.number().min(0).max(1),
+    reasoning: z.string(),
+    rule_id: z.string().optional(),
+  }),
+});
+
+const CreativeStrategySchema = z.object({
+  recommended_formats: z.object({
+    value: z.array(z.object({
+      type: z.string(),
+      priority: z.number().int().positive(),
+      specs: z.string(),
+      best_for: z.string(),
+      channel: z.string(),
+      asset_ready: z.boolean(),
+    })),
+    confidence: z.number().min(0).max(1),
+    reasoning: z.string(),
+    rule_id: z.string().optional(),
+  }),
+  refresh_schedule: z.object({
+    value: z.object({
+      refresh_interval_days: z.number().int().positive(),
+      test_new_creative_every: z.number().int().positive(),
+      sunset_threshold: z.object({ ctr_drop: z.number(), frequency: z.number() }),
+      fatigue_indicators: z.array(z.string()),
+      refresh_triggers: z.array(z.string()),
+    }),
+    confidence: z.number().min(0).max(1),
+    reasoning: z.string(),
+    rule_id: z.string().optional(),
+  }),
+  social_proof: z.object({
+    value: z.object({
+      social_proof_score: z.number().min(0).max(100),
+      status: z.enum(['present', 'partial', 'missing']),
+      present: z.object({ testimonials: z.boolean(), ugc: z.boolean(), reviews: z.boolean(), case_studies: z.boolean() }),
+      gaps: z.array(z.string()),
+      recommendations: z.array(z.string()),
+      ad_performance_impact: z.string(),
+    }),
+    confidence: z.number().min(0).max(1),
+    reasoning: z.string(),
+    rule_id: z.string().optional(),
+  }),
+});
+
+const TrackingAssessmentSchema = z.object({
+  detailed_score: z.object({
+    value: z.object({
+      score: z.number().min(0).max(100),
+      level: z.enum(['excellent', 'good', 'fair', 'poor']),
+      present_tools: z.array(z.string()),
+      missing_tools: z.array(z.string()),
+      required_events: z.array(z.string()),
+      setup_steps: z.array(z.object({ tool: z.string(), steps: z.array(z.string()) })),
+    }),
+    confidence: z.number().min(0).max(1),
+    reasoning: z.string(),
+    rule_id: z.string().optional(),
+  }),
+});
+
+// ================================================================
+// 5. التنفيذ (Execution) - مطابق تمامًا لمخرجات المحرك
 // ================================================================
 const ExecutionSchema = z.object({
+  audience_analysis: AudienceAnalysisSchema,
+  creative_strategy: CreativeStrategySchema,
+  tracking_assessment: TrackingAssessmentSchema,
   campaign_structure: z.object({
     campaign_count: z.number().int().positive(),
     campaigns: z.array(z.object({
@@ -220,6 +327,11 @@ const ExecutionSchema = z.object({
         reasoning: z.string(),
         rule_id: z.string().optional(),
       }),
+      ready_to_launch: z.boolean(),
+      completion_percentage: z.number().min(0).max(100),
+      confidence: z.number().min(0).max(1),
+      reasoning: z.string(),
+      rule_id: z.string().optional(),
     }),
   }),
   offer_strategy: z.object({
@@ -279,6 +391,9 @@ const GovernanceSchema = z.object({
       })),
       alert_thresholds: z.record(z.string(), z.string()),
       reporting_dashboard: z.array(z.string()),
+      confidence: z.number().min(0).max(1),
+      reasoning: z.string(),
+      rule_id: z.string().optional(),
     }),
     budget_management: z.object({
       pacing_strategy: z.object({
@@ -342,6 +457,15 @@ const GovernanceSchema = z.object({
           industry_average_cvr: z.number(),
           industry_average_ctr: z.number(),
           target_cpa: z.number(),
+          performance_targets: z.object({
+            week_1: z.object({ cvr: z.number(), ctr: z.number() }),
+            week_2: z.object({ cvr: z.number(), ctr: z.number() }),
+            week_3_plus: z.object({ cvr: z.number(), ctr: z.number() }),
+          }),
+          source: z.string(),
+          confidence: z.number().min(0).max(1),
+          reasoning: z.string(),
+          rule_id: z.string().optional(),
         }),
         performance_targets: z.object({
           week_1: z.object({ cvr: z.number(), ctr: z.number() }),
@@ -378,15 +502,17 @@ const GovernanceSchema = z.object({
         }),
       }),
       platform_guides: z.object({
-        platform_specific_rules: z.array(z.object({
-          platform: z.string(),
-          rules: z.array(z.string()),
-          objective_mapping: z.string(),
-          best_practices: z.array(z.string()),
-        })),
-        confidence: z.number().min(0).max(1),
-        reasoning: z.string(),
-        rule_id: z.string().optional(),
+        platform_specific_rules: z.object({
+          value: z.array(z.object({
+            platform: z.string(),
+            rules: z.array(z.string()),
+            objective_mapping: z.string(),
+            best_practices: z.array(z.string()),
+          })),
+          confidence: z.number().min(0).max(1),
+          reasoning: z.string(),
+          rule_id: z.string().optional(),
+        }),
       }),
       compliance: z.object({
         legal: z.object({

@@ -11,17 +11,17 @@ const TARGET_LOCALES = ['ar', 'en'];
 const TARGET_CURRENCIES = ['EGP', 'SAR', 'USD'];
 const TARGET_READINESS = ['ready', 'review', 'blocked'];
 const READINESS_BASELINE = { before: 1, after: 3 };
-const REFERENCE_SECTION_BASELINE = { full: 6, missing: 8 };
+const REFERENCE_SECTION_BASELINE = { full: 10, missing: 0 };
 
 const REFERENCE_SECTION_MAP = [
   { reference: 'executive_summary', current: 'executive_summary', mode: 'structural' },
   { reference: 'strategy_summary', current: 'strategy', mode: 'structural' },
-  { reference: 'recommended_funnel', current: 'strategy.funnel_type', mode: 'semantic', note: 'v3 keeps the funnel decision as a governed strategy field; the reference has a separate staged funnel object.' },
+  { reference: 'recommended_funnel', current: 'strategy.recommended_funnel', mode: 'structural', note: 'Canonical strategy now exposes the staged funnel object explicitly.' },
   { reference: 'campaign_structure', current: 'execution.campaign_structure', mode: 'structural' },
   { reference: 'audience_structure', current: 'execution.audience_structure', mode: 'structural' },
-  { reference: 'audience_analysis', current: null, mode: 'missing', note: 'No equivalent audience overlap, size, or frequency analysis section in CanonicalBlueprint v3.' },
-  { reference: 'creative_strategy', current: null, mode: 'missing', note: 'No equivalent creative refresh/social-proof strategy section in CanonicalBlueprint v3.' },
-  { reference: 'tracking_assessment', current: null, mode: 'missing', note: 'Tracking is represented as a checklist, but the reference also exposes a detailed assessment section.' },
+  { reference: 'audience_analysis', current: 'execution.audience_analysis', mode: 'structural', note: 'Canonical v3.1 exposes size, overlap, and frequency analysis.' },
+  { reference: 'creative_strategy', current: 'execution.creative_strategy', mode: 'structural', note: 'Canonical v3.1 separates creative format, refresh, and social-proof strategy from execution angles.' },
+  { reference: 'tracking_assessment', current: 'execution.tracking_assessment', mode: 'structural', note: 'Canonical v3.1 exposes a detailed diagnostic assessment alongside the setup checklist.' },
   { reference: 'launch_plan', current: 'execution.launch_plan', mode: 'structural' },
   { reference: 'monitoring', reference_path: 'monitoring.post_launch_plan', current: 'governance.monitoring_plan.post_launch_plan', mode: 'structural' },
   { reference: 'budget_management', reference_path: 'budget_management', current: 'governance.monitoring_plan.budget_management', mode: 'structural' },
@@ -36,8 +36,8 @@ const REFERENCE_SECTION_MAP = [
   { reference: 'creative_angles', current: 'execution.creative_angles', mode: 'structural' },
   { reference: 'tracking_checklist', current: 'execution.tracking_checklist', mode: 'structural' },
   { reference: 'risk_flags', current: 'governance.risk_flags', mode: 'structural' },
-  { reference: 'first_14_days_plan', current: null, mode: 'missing', note: 'No dedicated first-14-days operating plan in CanonicalBlueprint v3.' },
-  { reference: 'pre_launch_fixes', current: null, mode: 'missing', note: 'Warnings exist, but the reference has a prioritized pre-launch-fixes object with estimated time and recommendation.' },
+  { reference: 'first_14_days_plan', reference_path: 'launch_plan.detailed_timeline', current: 'execution.launch_plan.detailed_timeline', mode: 'structural', note: 'Reference launch_plan.detailed_timeline is compared with the canonical detailed timeline.' },
+  { reference: 'pre_launch_fixes', reference_path: 'launch_plan.pre_launch_checklist', current: 'execution.launch_plan.pre_launch_checklist', mode: 'structural', note: 'Reference launch_plan.pre_launch_checklist is compared with the canonical pre-launch checklist.' },
   { reference: 'flags', current: 'flags', mode: 'structural' },
   { reference: 'debug', current: 'telemetry', mode: 'semantic', note: 'v3 exposes execution time and rule count as telemetry; the reference also has scores_breakdown.' },
 ];
