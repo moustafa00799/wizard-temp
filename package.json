@@ -24,6 +24,7 @@
     "test:quality:coverage": "node scripts/quality-reference-coverage-gate.cjs",
     "test:reference-parity:semantic": "node scripts/reference-parity-semantic-regression.cjs",
     "test:reference-parity:enterprise": "node scripts/reference-parity-enterprise-regression.cjs",
+    "test:knowledge:contracts": "tsx scripts/knowledge-contract-regression.ts",
     "semantic-eval": "tsx scripts/semantic-runner.ts"
   },
   "dependencies": {
@@ -35,6 +36,7 @@
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "uuid": "^14.0.1",
+    "zod": "^3.25.76",
     "zustand": "^5.0.14"
   },
   "devDependencies": {

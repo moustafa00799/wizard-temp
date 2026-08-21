@@ -1,0 +1,114 @@
+{
+  "package": {
+    "contractVersion": "1.0",
+    "packageId": "pkg-fixture-eg-ecommerce-001",
+    "generatedAt": "2026-08-21T00:00:00.000Z",
+    "market": "EG",
+    "industry": "ecommerce_general",
+    "locale": "ar",
+    "currency": "EGP",
+    "sourceRecords": [
+      {
+        "contractVersion": "1.0",
+        "sourceId": "src-google-keyword-planning-docs",
+        "publisher": "Google Ads API",
+        "sourceUrl": "https://developers.google.com/google-ads/api/docs/keyword-planning/overview",
+        "sourceType": "official_document",
+        "jurisdiction": "global",
+        "language": "en",
+        "licenseStatus": "unknown",
+        "observedAt": "2026-08-21T00:00:00.000Z",
+        "freshnessPolicy": "on_demand",
+        "limitations": [
+          "Documentation source only; it does not provide a captured CPC, demand, conversion, or saturation metric for this fixture."
+        ],
+        "version": "fixture-reference-1",
+        "enabled": true
+      }
+    ],
+    "evidenceReferences": [],
+    "snapshots": [
+      {
+        "contractVersion": "1.0",
+        "snapshotId": "snapshot-eg-ecommerce-missing-001",
+        "market": "EG",
+        "industry": "ecommerce_general",
+        "locale": "ar",
+        "currency": "EGP",
+        "capturedAt": "2026-08-21T00:00:00.000Z",
+        "freshnessStatus": "missing",
+        "facts": [
+          {
+            "factId": "fact-cpc-missing",
+            "name": "search_cpc",
+            "value": null,
+            "status": "unavailable",
+            "sourceIds": [],
+            "unavailableReason": "No verified market source is registered for CPC in this market and industry.",
+            "scope": {
+              "market": "EG",
+              "industry": "ecommerce_general",
+              "locale": "ar",
+              "currency": "EGP"
+            }
+          },
+          {
+            "factId": "fact-saturation-missing",
+            "name": "market_saturation",
+            "value": null,
+            "status": "unavailable",
+            "sourceIds": [],
+            "unavailableReason": "No verified source supports a market saturation estimate for this scope.",
+            "scope": {
+              "market": "EG",
+              "industry": "ecommerce_general",
+              "locale": "ar",
+              "currency": "EGP"
+            }
+          }
+        ],
+        "competitorObservations": [],
+        "keywordSignals": [],
+        "seasonalitySignals": [],
+        "unknowns": [
+          "Keyword demand and CPC are unavailable until a permitted, captured source is connected.",
+          "Competitor performance and saturation are unavailable; no inference is made from ad visibility."
+        ],
+        "contradictions": [],
+        "sourceIds": [],
+        "confidence": 0,
+        "limitations": [
+          "This is a deterministic fixture and is not evidence of current Egyptian market performance."
+        ]
+      }
+    ],
+    "claims": [
+      {
+        "contractVersion": "1.0",
+        "claimId": "claim-cpc-unavailable",
+        "text": "CPC benchmark is unavailable for this market and industry scope.",
+        "type": "fact",
+        "evidenceIds": [],
+        "market": "EG",
+        "industry": "ecommerce_general",
+        "confidence": 0,
+        "status": "unavailable",
+        "createdAt": "2026-08-21T00:00:00.000Z",
+        "limitations": [
+          "No official captured metric is available in the fixture."
+        ]
+      }
+    ],
+    "status": "limited",
+    "freshnessStatus": "missing",
+    "limitations": [
+      "The package is suitable for contract and fail-closed regression tests only.",
+      "The system must not describe this package as Market-Validated."
+    ],
+    "retrieval": {
+      "strategy": "deterministic_fixture",
+      "queryHash": "fixture-query-eg-ecommerce-001",
+      "selectedEvidenceIds": []
+    }
+  }
+}
