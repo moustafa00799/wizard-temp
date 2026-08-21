@@ -1,13 +1,14 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
+import { NextRequest } from 'next/server';
 import { POST } from '../src/app/api/generate/v5/route';
 
 const fixturePath = path.join(process.cwd(), 'tests/fixtures/wizard-inputs-v1/EX-001_ecommerce-sales.json');
 const fixture = JSON.parse(fs.readFileSync(fixturePath, 'utf8'));
 
 async function call(payload: unknown) {
-  const request = new Request('http://localhost/api/generate/v5', {
+  const request = new NextRequest('http://localhost/api/generate/v5', {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify(payload),
