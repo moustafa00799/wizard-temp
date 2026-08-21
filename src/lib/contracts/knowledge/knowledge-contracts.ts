@@ -274,13 +274,21 @@ export const IndustryProfileSchema = z.object({
   seasonality: z.array(SeasonalitySignalSchema),
   sourceIds: z.array(SourceIdSchema),
   limitations: z.array(NonEmptyStringSchema),
-  status: z.enum(["matched", "unmatched", "deprecated"]),
+  status: z.enum(["matched", "draft", "unmatched", "deprecated"]),
 }).superRefine((profile, context) => {
   if (profile.status === "matched" && profile.sourceIds.length === 0) {
     context.addIssue({ code: z.ZodIssueCode.custom, path: ["sourceIds"], message: "Matched industry profiles require source IDs or an explicit profile source registry entry." });
   }
   if (profile.status === "unmatched" && profile.sourceIds.length > 0) {
     context.addIssue({ code: z.ZodIssueCode.custom, path: ["sourceIds"], message: "Unmatched profiles must not claim source-backed industry coverage." });
+  }
+  if (profile.status === "draft") {
+    if (profile.sourceIds.length > 0) {
+      context.addIssue({ code: z.ZodIssueCode.custom, path: ["sourceIds"], message: "Draft profiles cannot claim external source coverage." });
+    }
+    if (profile.limitations.length === 0) {
+      context.addIssue({ code: z.ZodIssueCode.custom, path: ["limitations"], message: "Draft profiles require explicit limitations." });
+    }
   }
 });
 export type IndustryProfile = z.infer<typeof IndustryProfileSchema>;

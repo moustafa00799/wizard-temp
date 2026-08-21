@@ -26,6 +26,7 @@
     "test:reference-parity:enterprise": "node scripts/reference-parity-enterprise-regression.cjs",
     "test:knowledge:contracts": "tsx scripts/knowledge-contract-regression.ts",
     "test:knowledge:evidence": "tsx scripts/knowledge-evidence-regression.ts",
+    "test:knowledge:industry": "tsx scripts/industry-profile-regression.ts",
     "semantic-eval": "tsx scripts/semantic-runner.ts"
   },
   "dependencies": {
