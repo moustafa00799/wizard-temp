@@ -1,10 +1,8 @@
 import {
-  KnowledgeCurrencySchema,
   KnowledgeLocaleSchema,
   KnowledgeMarketSchema,
   SourceRecordSchema,
   type FreshnessPolicy,
-  type KnowledgeCurrency,
   type KnowledgeLocale,
   type KnowledgeMarket,
   type SourceRecord,
@@ -14,7 +12,6 @@ export type SourceRegistryScope = {
   market?: KnowledgeMarket;
   industry?: string;
   language?: KnowledgeLocale;
-  currency?: KnowledgeCurrency;
 };
 
 export type SourceFreshness = {
@@ -142,14 +139,23 @@ export class SourceRegistry {
       .sort((left, right) => new Date(left.observedAt).getTime() - new Date(right.observedAt).getTime());
   }
 
-  lookup(scope: SourceRegistryScope = {}, now = new Date()): SourceRegistryLookup[] {
+  lookup(scope: SourceRegistryScope = {}, now = new Date(), version?: string): SourceRegistryLookup[] {
     const industry = normalizeIndustry(scope.industry);
-    return this.list()
+    const candidates = version ? [this.getByVersionForLookup(scope, version)].filter((source): source is SourceRecord => Boolean(source)) : this.list();
+    return candidates
       .filter((source) => source.enabled)
       .filter((source) => hasScopeValue(source.market, scope.market))
       .filter((source) => hasScopeValue(normalizeIndustry(source.industry), industry))
       .filter((source) => hasScopeValue(source.language, scope.language))
       .map((source) => ({ sourceId: source.sourceId, source, freshness: freshnessFor(source, now) }));
+  }
+
+  private getByVersionForLookup(scope: SourceRegistryScope, version: string): SourceRecord | undefined {
+    const candidates = [...this.records.values()].flatMap((versions) => [...versions.values()]);
+    return candidates.find((source) => source.version === version
+      && hasScopeValue(source.market, scope.market)
+      && hasScopeValue(normalizeIndustry(source.industry), normalizeIndustry(scope.industry))
+      && hasScopeValue(source.language, scope.language));
   }
 
   freshness(sourceId: string, now = new Date(), version?: string): SourceFreshness {
@@ -163,7 +169,7 @@ export class SourceRegistry {
   assertUsable(sourceId: string, scope: SourceRegistryScope = {}, now = new Date(), version?: string): SourceRegistryLookup {
     const source = this.get(sourceId, version);
     if (!source || !source.enabled) throw new Error(`Source ${sourceId} is unavailable or disabled.`);
-    const matches = this.lookup(scope, now).find((candidate) => candidate.sourceId === sourceId && candidate.source.version === source.version);
+    const matches = this.lookup(scope, now, version).find((candidate) => candidate.sourceId === sourceId && candidate.source.version === source.version);
     if (!matches) throw new Error(`Source ${sourceId} does not cover the requested market, industry, or language scope.`);
     if (matches.source.licenseStatus !== "approved") {
       throw new Error(`Source ${sourceId} cannot be used as approved evidence while licenseStatus=${matches.source.licenseStatus}.`);
@@ -187,8 +193,4 @@ export function isKnowledgeMarket(value: unknown): value is KnowledgeMarket {
 
 export function isKnowledgeLocale(value: unknown): value is KnowledgeLocale {
   return KnowledgeLocaleSchema.safeParse(value).success;
-}
-
-export function isKnowledgeCurrency(value: unknown): value is KnowledgeCurrency {
-  return KnowledgeCurrencySchema.safeParse(value).success;
 }
