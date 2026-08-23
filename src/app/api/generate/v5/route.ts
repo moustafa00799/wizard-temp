@@ -6,6 +6,8 @@ import { buildBlueprintContractV3 } from '@/lib/contracts/build-blueprint-contra
 import { validateBlueprintContractV3 } from '@/lib/contracts/blueprint-contract-v3';
 import { buildAIStrategyProposal } from '@/lib/ai-strategy-builder';
 import { buildAIReasoning, reasoningTraceFromContract } from '@/lib/ai-reasoning-builder';
+import { buildScopedStrategyContext } from '@/lib/knowledge/strategy-context';
+import type { ScopedStrategyContext } from '@/lib/contracts/knowledge-strategy-context';
 import { ZodError } from 'zod';
 
 export async function POST(request: NextRequest) {
@@ -22,6 +24,12 @@ export async function POST(request: NextRequest) {
     
     const validatedOutput = CanonicalBlueprintSchema.parse(blueprint);
     const baseContract = buildBlueprintContractV3(validatedInput, validatedOutput, body);
+    const knowledgeSelection = body && typeof body === 'object' && body.knowledge_strategy_selection && typeof body.knowledge_strategy_selection === 'object'
+      ? body.knowledge_strategy_selection
+      : undefined;
+    const knowledgeContext: ScopedStrategyContext | undefined = knowledgeSelection
+      ? buildScopedStrategyContext(knowledgeSelection)
+      : undefined;
     const strategyRequest = body && typeof body === 'object' && body.ai_strategy_builder && typeof body.ai_strategy_builder === 'object'
       ? body.ai_strategy_builder as { enabled?: unknown; model?: unknown; provider?: unknown; fallbackProvider?: unknown; benchmark?: unknown; mockScenario?: unknown }
       : {};
@@ -34,6 +42,7 @@ export async function POST(request: NextRequest) {
       mockScenario: strategyRequest.mockScenario === 'baseline' || strategyRequest.mockScenario === 'override_attempt' || strategyRequest.mockScenario === 'malformed' || strategyRequest.mockScenario === 'failure'
         ? strategyRequest.mockScenario
         : undefined,
+      knowledgeContext,
     });
     const reasoningRequest = body && typeof body === 'object' && body.ai_reasoning && typeof body.ai_reasoning === 'object'
       ? body.ai_reasoning as { enabled?: unknown; provider?: unknown; mockScenario?: unknown }

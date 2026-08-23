@@ -13,6 +13,7 @@ import type {
   BlueprintStrategyTrace,
   BlueprintContractV3,
 } from "./contracts/blueprint-contract-v3";
+import type { ScopedStrategyContext } from "./contracts/knowledge-strategy-context";
 
 const StrategyProposalSchema = z.object({
   strategic_summary: z.string().min(1),
@@ -39,6 +40,8 @@ export type StrategyBuilderOptions = {
   benchmark?: boolean;
   /** Test-only seam; production routes use the real provider runner. */
   providerRunner?: StrategyProviderRunner;
+  /** Optional, validated, market-and-industry scoped evidence context. */
+  knowledgeContext?: ScopedStrategyContext;
 };
 
 const FORBIDDEN_OVERRIDE_TERMS = [
@@ -65,6 +68,7 @@ function proposalPrompt(
   input: CanonicalWizardInput,
   blueprint: CanonicalBlueprint,
   contract: BlueprintContractV3,
+  knowledgeContext?: ScopedStrategyContext,
 ): { system: string; user: string } {
   return {
     system: `You are the AI Strategy Builder inside a governed campaign-planning system.
@@ -74,6 +78,8 @@ You are a proposal layer, not a decision authority. CDKS remains authoritative.
 You MUST NOT change, replace, or reinterpret objective, funnel, channels, budget, readiness, launch status, or any external action.
 Do not publish campaigns, call advertising platforms, spend money, or claim that a campaign is ready.
 All proposals must be grounded in the supplied Wizard input and CDKS decisions. If data is missing or unconfirmed, state the limitation.
+When a scoped Knowledge context is supplied, use only its exact market/industry scope, cite its evidence IDs or source IDs, preserve its limitations, and never turn account-owned data into a market benchmark.
+Never invent CPC, CPA, CVR, ROAS, saturation, competitor-performance, or offer-level demand benchmarks when the context marks them unavailable. Never claim that the overall system is Market-Validated.
 Write all text in the requested locale. Keep proposed changes actionable but non-binding.`,
     user: JSON.stringify({
       locale: contract.locale,
@@ -90,6 +96,7 @@ Write all text in the requested locale. Keep proposed changes actionable but non
         blueprint_id: blueprint.blueprint_id,
         strategy: blueprint.strategy,
       },
+      knowledge_context: knowledgeContext ?? null,
       safety: {
         generation_mode: "blueprint_only",
         external_actions_allowed: false,
@@ -114,10 +121,20 @@ function sanitizeProposal(proposal: StrategyProposal): StrategyProposal {
   };
 }
 
+function knowledgeLimitations(context?: ScopedStrategyContext): string[] {
+  if (!context) return [];
+  return [
+    `Scoped Knowledge context ${context.contextId} was supplied for ${context.market}/${context.industry}.`,
+    `Scoped validation status: ${context.scopedValidationStatus}; globalMarketValidated remains false.`,
+    ...context.limitations.slice(0, 4),
+  ];
+}
+
 function traceFromProposal(
   proposal: StrategyProposal,
   model: string,
   provenance?: BlueprintStrategyTrace["provenance"],
+  knowledgeContext?: ScopedStrategyContext,
 ): BlueprintStrategyTrace {
   const safe = sanitizeProposal(proposal);
   return {
@@ -140,6 +157,7 @@ function traceFromProposal(
     provenance,
     limitations: [
       ...safe.limitations,
+      ...knowledgeLimitations(knowledgeContext),
       "AI output is advisory and does not mutate CDKS decisions or the canonical Blueprint.",
       "AI output is not a launch authorization and cannot trigger external actions.",
     ],
@@ -150,6 +168,7 @@ function disabledTrace(
   reason: string,
   model?: string,
   provenance?: BlueprintStrategyTrace["provenance"],
+  knowledgeContext?: ScopedStrategyContext,
 ): BlueprintStrategyTrace {
   return {
     status: "not_requested",
@@ -158,8 +177,7 @@ function disabledTrace(
     proposed_changes: [],
     accepted_changes: [],
     rejected_changes: [],
-    limitations: [reason],
-    provenance,
+    limitations: [reason, ...knowledgeLimitations(knowledgeContext)],
   };
 }
 
@@ -170,7 +188,7 @@ export async function buildAIStrategyProposal(
   options: StrategyBuilderOptions = {},
 ): Promise<BlueprintStrategyTrace> {
   if (!options.enabled) {
-    return disabledTrace("AI Strategy Builder is disabled unless explicitly requested by the caller.");
+    return disabledTrace("AI Strategy Builder is disabled unless explicitly requested by the caller.", undefined, undefined, options.knowledgeContext);
   }
 
   const configuredProvider = process.env.AI_STRATEGY_PROVIDER;
@@ -182,7 +200,7 @@ export async function buildAIStrategyProposal(
     const result = runMockStrategyBuilder(options.mockScenario ?? "baseline", locale);
     if (!result.success || !result.data) {
       return {
-        ...disabledTrace(result.error ?? "Controlled mock provider returned no usable proposal."),
+        ...disabledTrace(result.error ?? "Controlled mock provider returned no usable proposal.", result.model, undefined, options.knowledgeContext),
         status: "failed",
         model: result.model,
       };
@@ -191,13 +209,13 @@ export async function buildAIStrategyProposal(
     const parsed = StrategyProposalSchema.safeParse(result.data);
     if (!parsed.success) {
       return {
-        ...disabledTrace("Controlled mock provider returned an invalid proposal fixture."),
+        ...disabledTrace("Controlled mock provider returned an invalid proposal fixture.", result.model, undefined, options.knowledgeContext),
         status: "failed",
         model: result.model,
       };
     }
 
-    return traceFromProposal(parsed.data, result.model);
+    return traceFromProposal(parsed.data, result.model, undefined, options.knowledgeContext);
   }
 
   const isAnonymizedFixture = contract.provenance.some((entry) => entry.source_ref.startsWith("fixture:"));
@@ -206,19 +224,19 @@ export async function buildAIStrategyProposal(
 
   if (providerMode && providerMode !== "nonprod") {
     return {
-      ...disabledTrace("Only AI_PROVIDER_MODE=nonprod is allowed in this phase."),
+      ...disabledTrace("Only AI_PROVIDER_MODE=nonprod is allowed in this phase.", undefined, undefined, options.knowledgeContext),
       status: "failed",
     };
   }
   if (dataPolicy === "anonymized_fixtures_only" && !isAnonymizedFixture) {
     return {
-      ...disabledTrace("AI_DATA_POLICY permits anonymized fixtures only; this request was not identified as a fixture."),
+      ...disabledTrace("AI_DATA_POLICY permits anonymized fixtures only; this request was not identified as a fixture.", undefined, undefined, options.knowledgeContext),
       status: "failed",
     };
   }
   if (provider === "gemini" && (process.env.AI_BENCHMARK_ENABLED !== "true" || !options.benchmark || !isAnonymizedFixture)) {
     return {
-      ...disabledTrace("Gemini is benchmark-only and requires an anonymized fixture request."),
+      ...disabledTrace("Gemini is benchmark-only and requires an anonymized fixture request.", undefined, undefined, options.knowledgeContext),
       status: "failed",
     };
   }
@@ -226,13 +244,13 @@ export async function buildAIStrategyProposal(
   const model = getStrategyProviderModel(provider, options.model);
   if (!isStrategyProviderConfigured(provider)) {
     return {
-      ...disabledTrace(`${provider} provider is not configured; deterministic CDKS output remains authoritative.`, model),
+      ...disabledTrace(`${provider} provider is not configured; deterministic CDKS output remains authoritative.`, model, undefined, options.knowledgeContext),
       status: "failed",
       model,
     };
   }
 
-  const prompts = proposalPrompt(input, blueprint, contract);
+  const prompts = proposalPrompt(input, blueprint, contract, options.knowledgeContext);
   const providerRunner = options.providerRunner ?? runStrategyProvider;
   const primary = await providerRunner(prompts.system, prompts.user, {
     provider,
@@ -274,7 +292,7 @@ export async function buildAIStrategyProposal(
 
   if (!result.success || !result.data) {
     return {
-      ...disabledTrace(result.error ?? "AI Strategy Builder returned no usable proposal.", result.provenance.model, result.provenance),
+      ...disabledTrace(result.error ?? "AI Strategy Builder returned no usable proposal.", result.provenance.model, result.provenance, options.knowledgeContext),
       status: "failed",
       model: result.provenance.model,
     };
@@ -283,11 +301,11 @@ export async function buildAIStrategyProposal(
   const parsed = StrategyProposalSchema.safeParse(result.data);
   if (!parsed.success) {
     return {
-      ...disabledTrace("AI Strategy Builder output failed the proposal schema validation.", result.provenance.model, result.provenance),
+      ...disabledTrace("AI Strategy Builder output failed the proposal schema validation.", result.provenance.model, result.provenance, options.knowledgeContext),
       status: "failed",
       model: result.provenance.model,
     };
   }
 
-  return traceFromProposal(parsed.data, result.provenance.model, result.provenance);
+  return traceFromProposal(parsed.data, result.provenance.model, result.provenance, options.knowledgeContext);
 }
