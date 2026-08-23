@@ -8,3 +8,6 @@ export * from "./meta/meta-snapshot-collector";
 export * from "./meta/meta-snapshot-queue";
 export * from "./meta/meta-evidence-adapter";
 export * from "./meta/meta-csv-import-adapter";
+export * from "./providers/provider-snapshot-contracts";
+export * from "./providers/provider-evidence-adapter";
+export * from "./providers/provider-content-classification";

@@ -29,6 +29,8 @@
     "test:knowledge:industry": "tsx scripts/industry-profile-regression.ts",
     "test:knowledge:meta-collector": "tsx scripts/meta-snapshot-regression.ts",
     "test:knowledge:meta-csv": "tsx scripts/meta-csv-import-regression.ts",
+    "test:knowledge:providers": "tsx scripts/provider-evidence-regression.ts",
+    "test:knowledge:content": "tsx scripts/provider-content-classification-regression.ts",
     "semantic-eval": "tsx scripts/semantic-runner.ts"
   },
   "dependencies": {
