@@ -105,10 +105,12 @@ async function main() {
   assert.ok(routeBody.data?.strategy.limitations.some((item) => item.includes(saEcommerce.contextId)));
 
   const educationRecommendations = contexts.slice(1).map((context) => buildStrategyRecommendation(educationInput, educationBlueprint, context));
-  for (const recommendation of educationRecommendations) {
+  for (const [index, recommendation] of educationRecommendations.entries()) {
     assert.equal(recommendation.industry, "education");
     assert.equal(recommendation.status, "advisory_only");
-    assert.ok(recommendation.limitations.some((item) => item.includes("No IndustryProfile matched")));
+    assert.equal(contexts[index + 1].industryProfile.status, "matched");
+    assert.equal(contexts[index + 1].industryProfile.profileStatus, "draft");
+    assert.ok(recommendation.limitations.some((item) => item.includes("matched IndustryProfile is draft")));
     assert.ok(recommendation.requiredValidations.some((item) => item.includes("نوع التعليم")));
   }
 

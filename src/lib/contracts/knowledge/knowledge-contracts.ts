@@ -11,7 +11,7 @@ export type KnowledgeCurrency = z.infer<typeof KnowledgeCurrencySchema>;
 export const KnowledgeLocaleSchema = z.enum(["ar", "en"]);
 export type KnowledgeLocale = z.infer<typeof KnowledgeLocaleSchema>;
 
-export const BusinessBranchSchema = z.enum(["local_service", "ecommerce", "app", "b2b"]);
+export const BusinessBranchSchema = z.enum(["local_service", "ecommerce", "education", "app", "b2b"]);
 export type BusinessBranch = z.infer<typeof BusinessBranchSchema>;
 
 export const FreshnessPolicySchema = z.enum(["daily", "weekly", "monthly", "on_demand"]);

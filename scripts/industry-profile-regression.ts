@@ -7,7 +7,7 @@ import {
 } from "../src/lib/knowledge";
 import { IndustryProfileSchema } from "../src/lib/contracts/knowledge";
 
-assert.equal(INDUSTRY_PROFILES.length, 4);
+assert.equal(INDUSTRY_PROFILES.length, 5);
 for (const profile of INDUSTRY_PROFILES) {
   IndustryProfileSchema.parse(profile);
   assert.equal(profile.status, "draft");
@@ -25,6 +25,19 @@ const localAlias = resolveIndustryProfile({ branch: "local_service", industryKey
 assert.equal(localAlias.status, "matched");
 assert.equal(localAlias.matchedBy, "explicit_alias");
 assert.equal(localAlias.profile?.industryKey, "local_service_general");
+
+const educationExact = resolveIndustryProfile({ branch: "education", industryKey: "education_general" });
+assert.equal(educationExact.status, "matched");
+assert.equal(educationExact.matchedBy, "exact_key");
+assert.equal(educationExact.profile?.branch, "education");
+assert.equal(educationExact.profile?.status, "draft");
+assert.ok(educationExact.profile?.complianceConstraints.some((item) => /accreditation|licensing/i.test(item)));
+assert.ok(educationExact.profile?.trackingNeeds.includes("qualified_lead_definition"));
+
+const educationAlias = resolveIndustryProfile({ industryKey: "education" });
+assert.equal(educationAlias.status, "matched");
+assert.equal(educationAlias.matchedBy, "explicit_alias");
+assert.equal(educationAlias.profile?.industryKey, "education_general");
 
 const appAlias = resolveIndustryProfile({ industryKey: "mobile-app" });
 assert.equal(appAlias.status, "matched");
@@ -63,7 +76,7 @@ assert.match(draftProfilePackage.industryProfile?.limitations[0] ?? "", /not ind
 console.log(JSON.stringify({
   test: "industry-profile-regression",
   status: "PASS",
-  assertions: 24,
+  assertions: 32,
   profiles: INDUSTRY_PROFILES.map((profile) => ({ profileId: profile.profileId, branch: profile.branch, status: profile.status })),
   liveAiCalls: 0,
   marketValidated: false,

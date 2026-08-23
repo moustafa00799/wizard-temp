@@ -46,6 +46,7 @@ function resolveProfile(industry: string): IndustryProfileResolution {
   const result = resolveIndustryProfile({ industryKey: industry });
   return {
     status: result.status,
+    profileStatus: result.profile?.status ?? "unmatched",
     requestedIndustry: industry,
     ...(result.profile ? {
       profileId: result.profile.profileId,
@@ -109,6 +110,9 @@ function baseLimitations(snapshot: MarketEvidenceSnapshot, decision: ScopedValid
   ];
   if (profile.status === "unmatched") {
     limitations.push(`No IndustryProfile matched the requested industry ${profile.requestedIndustry}; industry-specific profile assumptions must be reviewed by a human.`);
+  }
+  if (profile.profileStatus === "draft") {
+    limitations.push("The matched IndustryProfile is draft and directional; it is not an independently validated market benchmark.");
   }
   return [...new Set(limitations)];
 }

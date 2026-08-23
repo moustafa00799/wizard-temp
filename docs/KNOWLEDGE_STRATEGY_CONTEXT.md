@@ -42,10 +42,10 @@ Only an approved existing CDKS flow may produce a new Blueprint
 | النطاق | حالة التحقق scoped | IndustryProfile | القيد الرئيسي |
 |---|---|---|---|
 | `SA/ecommerce_general` | `market_validated` | matched إلى `ecommerce_general` | لا يوجد CPC/CPA/CVR/ROAS/saturation benchmark |
-| `EG/education` | `market_validated` | unmatched | الأدلة تخص التعليم الرسمي ولا تقيس طلب العرض الخاص أو الإلكتروني |
-| `SA/education` | `market_validated` | unmatched | الأدلة تخص النظام التعليمي ولا تقيس طلب العرض أو أداء الإعلان |
+| `EG/education` | `market_validated` | matched إلى `education_general` بصيغة draft | الأدلة تخص التعليم الرسمي ولا تقيس طلب العرض الخاص أو الإلكتروني |
+| `SA/education` | `market_validated` | matched إلى `education_general` بصيغة draft | الأدلة تخص النظام التعليمي ولا تقيس طلب العرض أو أداء الإعلان |
 
-يتم تمثيل `education` عمدًا كصناعة سوقية مستقلة عن `IndustryProfile` الحالية. عدم وجود Profile لا يمنع السياق التفسيري، لكنه يضيف limitation إلزامية ويمنع تمرير افتراضات صناعة تعليمية على أنها Profile معتمد.
+يتم تمثيل `education` كصناعة سوقية مستقلة، وترتبط الآن صراحةً بـ`education_general` عبر alias وProfile مستقل. يظل الملف `draft` واتجاهيًا؛ لذلك لا يمنح تحققًا سوقيًا ولا يسمح بتمرير افتراضات التعليم كحقائق مثبتة.
 
 ## عقد الأمان
 
@@ -102,6 +102,23 @@ const recommendation = buildStrategyRecommendation(
   }
 }
 ```
+
+## قواعد Education IndustryProfile
+
+يستخدم `education_general` فرعًا مستقلًا داخل `BusinessBranch` ولا يُحوّل إلى `b2b` أو `ecommerce`. ملفه العام يصف دورة العمل من الوعي بالحاجة إلى المقارنة ثم التسجيل والحضور والإكمال والإحالة، لكنه يترك المدة الفعلية للقياس من بيانات القبول والتسجيل والحضور والإكمال الخاصة بالعميل.
+
+| مجال القاعدة | القاعدة التشغيلية |
+|---|---|
+| نوع العرض | يدعم course وcohort وworkshop وexam prep وtutoring وsubscription، ويجب تحديد النوع الفعلي في Wizard brief |
+| الشرائح | الطلاب، أولياء الأمور، المهنيون، مغيرو المسار، ومطورّو المهارات؛ لا تُفترض الشريحة دون وصف العرض والعمر والأهلية |
+| مؤشرات القياس | `qualified_lead` ثم `application` ثم `enrollment`؛ لا يكفي عدّ النماذج الخام |
+| الرسائل | نتيجة تعلم محددة ومنهج وإثبات قابل للتحقق؛ ممنوع ضمان الدرجات أو التوظيف أو القبول أو الدخل أو النتائج التعليمية بلا substantiation ومراجعة |
+| الامتثال | مراجعة الاعتماد والترخيص وادعاءات المدربين والنتائج والخصوصية والشهادات وموافقة ولي الأمر عند الحاجة |
+| القياس | ربط `lead` و`application` و`course_signup` وتعريف qualified lead وربط مراحل القبول/CRM |
+| الأدلة السوقية | مؤشرات التعليم الرسمي سياق فقط، ولا تثبت طلب الدروس أو الدورات الخاصة أو الإلكترونية |
+| benchmarks | CPC وCPA وCVR وROAS وsaturation وlead-quality وcompletion تبقى unavailable في Profile draft |
+
+يجب أن يظل هذا Profile بصيغة `draft` وبـ`sourceIds=[]` حتى تُسجل له مراجعة مستقلة ومصادر معتمدة خاصة بقواعد الصناعة. وجود مصادر Market Evidence في حزم EG/education أو SA/education لا يحول Profile العام تلقائيًا إلى matched evidence-backed profile.
 
 ## التوصيات التجريبية الأولى
 

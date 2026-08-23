@@ -79,6 +79,7 @@ export type StrategyEvidenceFact = z.infer<typeof StrategyEvidenceFactSchema>;
 
 export const IndustryProfileResolutionSchema = z.object({
   status: z.enum(["matched", "unmatched"]),
+  profileStatus: z.enum(["matched", "draft", "unmatched", "deprecated"]),
   requestedIndustry: z.string().trim().min(1),
   profileId: z.string().trim().min(1).optional(),
   resolvedIndustryKey: z.string().trim().min(1).optional(),
