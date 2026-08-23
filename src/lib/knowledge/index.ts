@@ -2,3 +2,8 @@ export * from "./source-registry";
 export * from "./evidence-package";
 export type { SourceRecord } from "@/lib/contracts/knowledge";
 export * from "./industry-profiles";
+export * from "./meta/meta-snapshot-contracts";
+export * from "./meta/meta-snapshot-store";
+export * from "./meta/meta-snapshot-collector";
+export * from "./meta/meta-snapshot-queue";
+export * from "./meta/meta-evidence-adapter";

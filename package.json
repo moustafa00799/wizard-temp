@@ -27,6 +27,7 @@
     "test:knowledge:contracts": "tsx scripts/knowledge-contract-regression.ts",
     "test:knowledge:evidence": "tsx scripts/knowledge-evidence-regression.ts",
     "test:knowledge:industry": "tsx scripts/industry-profile-regression.ts",
+    "test:knowledge:meta-collector": "tsx scripts/meta-snapshot-regression.ts",
     "semantic-eval": "tsx scripts/semantic-runner.ts"
   },
   "dependencies": {
