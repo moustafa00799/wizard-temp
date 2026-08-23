@@ -31,6 +31,8 @@ export type MetaCsvNormalizedRow = {
   name?: string;
   delivery?: string;
   attribution_setting?: string;
+  country?: string;
+  publisher_platform?: string;
   results?: number;
   result_indicator?: string;
   reach?: number;
@@ -191,6 +193,8 @@ function supportedFields(headers: string[]): string[] {
     ["name", /^(campaign|ad set|ad) name$/],
     ["delivery", /^(campaign|ad set|ad) delivery$/],
     ["attribution_setting", "attribution setting"],
+    ["country", /^country$/],
+    ["publisher_platform", /^(publisher platform|publisher_platform|platform)$/],
     ["results", "results"],
     ["result_indicator", "result indicator"],
     ["reach", "reach"],
@@ -221,7 +225,7 @@ function missingFields(headers: string[]): string[] {
     ["conversion_value", /conversion value/],
     ["roas", /\broas\b/],
     ["country", /country/],
-    ["publisher_platform", /publisher platform/],
+    ["publisher_platform", /^(publisher platform|publisher_platform|platform)$/],
     ["placement", /placement|platform position/],
     ["creative", /creative|primary text|headline|description/],
   ];
@@ -246,6 +250,8 @@ function normalizedRow(
     name: stringAt(row, headers, ENTITY_NAME_HEADERS[entityLevel]),
     delivery: stringAt(row, headers, /^(campaign|ad set|ad) delivery$/),
     attribution_setting: stringAt(row, headers, "attribution setting"),
+    country: stringAt(row, headers, /^country$/),
+    publisher_platform: stringAt(row, headers, /^(publisher platform|publisher_platform|platform)$/),
     results: numberAt(row, headers, "results"),
     result_indicator: stringAt(row, headers, "result indicator"),
     reach: numberAt(row, headers, "reach"),

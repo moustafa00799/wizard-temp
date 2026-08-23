@@ -38,6 +38,15 @@ const UNAVAILABLE_METRICS = [
   "Creative-level copy and media metadata",
 ] as const;
 
+const DIMENSION_FIELDS = [
+  { field: "country", label: "country" },
+  { field: "publisher_platform", label: "publisher platform" },
+] as const;
+
+function safeDimensionToken(value: string): string {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "unknown";
+}
+
 function numericValue(row: Record<string, unknown>, field: string): number | undefined {
   const value = row[field];
   if (typeof value === "number" && Number.isFinite(value)) return value;
@@ -115,6 +124,37 @@ function factsFromRows(
       scope,
     });
   }
+
+  for (const dimension of DIMENSION_FIELDS) {
+    const groups = new Map<string, Record<string, number>>();
+    for (const row of records) {
+      const rawValue = row[dimension.field];
+      const value = typeof rawValue === "string" ? rawValue.trim() : "";
+      if (!value) continue;
+      const totals = groups.get(value) ?? {};
+      for (const metric of ADDITIVE_METRICS) {
+        const metricValue = numericValue(row, metric.field);
+        if (metricValue !== undefined) totals[metric.field] = (totals[metric.field] ?? 0) + metricValue;
+      }
+      groups.set(value, totals);
+    }
+    for (const [value, totals] of groups) {
+      for (const metric of ADDITIVE_METRICS) {
+        const total = totals[metric.field];
+        if (total === undefined) continue;
+        facts.push({
+          factId: `meta-${dimension.field}-${safeDimensionToken(value)}-${metric.field}`,
+          name: `${metric.name} by ${dimension.label}: ${value}`,
+          value: Number(total.toFixed(6)),
+          unit: metric.unit,
+          status: "evidence_backed",
+          sourceIds: [sourceId],
+          observedAt,
+          scope,
+        });
+      }
+    }
+  }
   return facts;
 }
 
@@ -136,7 +176,7 @@ function sourceFor(input: BuildMetaEvidencePackageInput, sourceId: string): Sour
       "Interpretation is limited to the explicit account, market, industry, locale, and query scope.",
       "Raw access credentials are never part of the snapshot.",
     ],
-    version: "meta-api-read-only-1",
+    version: input.collection.queryHash.startsWith("meta-csv-") ? "meta-csv-official-1" : "meta-api-read-only-1",
     enabled: true,
   };
 }
@@ -155,19 +195,22 @@ export function buildMetaEvidencePackage(
   const facts = hasEvidence
     ? factsFromRows(usableRows, input, sourceId, input.capturedAt)
     : [];
-  const unavailableFacts = UNAVAILABLE_METRICS.map((name, index) => unavailableMarketFact({
-    factId: `meta-unavailable-${index}`,
-    name,
-    market: input.market,
-    industry: input.industry,
-    locale: input.locale,
-    currency: input.currency,
-    reason: input.collection.status === "rate_limited"
-      ? "Meta rate limit prevented collection for this metric scope."
-      : input.collection.status === "circuit_open"
-        ? "The per-account Meta circuit breaker is open; collection was intentionally paused."
-        : "The current read-only collection did not return this field for the requested scope.",
-  }));
+  const hasPublisherPlatformDimension = usableRows.some((row) => Boolean(row && typeof row === "object" && typeof (row as Record<string, unknown>).publisher_platform === "string" && ((row as Record<string, unknown>).publisher_platform as string).trim() !== ""));
+  const unavailableFacts = UNAVAILABLE_METRICS
+    .filter((name) => name !== "Publisher platform coverage" || !hasPublisherPlatformDimension)
+    .map((name, index) => unavailableMarketFact({
+      factId: `meta-unavailable-${index}`,
+      name,
+      market: input.market,
+      industry: input.industry,
+      locale: input.locale,
+      currency: input.currency,
+      reason: input.collection.status === "rate_limited"
+        ? "Meta rate limit prevented collection for this metric scope."
+        : input.collection.status === "circuit_open"
+          ? "The per-account Meta circuit breaker is open; collection was intentionally paused."
+          : "The current read-only collection did not return this field for the requested scope.",
+    }));
 
   const snapshotStatus = input.collection.status === "rate_limited" || input.collection.status === "circuit_open" || input.collection.status === "failed"
     ? "missing"

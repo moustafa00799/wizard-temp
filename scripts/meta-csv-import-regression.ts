@@ -54,6 +54,52 @@ function testImportsOfficialCsvShape(): void {
   assert.ok(pkg.snapshots[0].facts.some((fact) => fact.name === "Reach" && fact.status === "unavailable"));
 }
 
+function testImportsBreakdownColumns(): void {
+  const countryCsv = `Reporting starts,Reporting ends,Campaign name,Country,Amount spent (EGP),Impressions\n2023-07-23,2026-08-22,Country campaign,EG,12.5,1000\n`;
+  const country = importMetaAdsManagerCsv({
+    accountId: "act_1259153761545048",
+    entityLevel: "campaign",
+    dateStart: "2023-07-23",
+    dateStop: "2026-08-22",
+    capturedAt,
+    csvText: countryCsv,
+    currency: "EGP",
+    locale: "ar",
+  });
+  const countryRow = country.collection.rows[0] as Record<string, unknown>;
+  assert.equal(countryRow.country, "EG");
+  assert.equal((countryRow.raw as Record<string, string>).Country, "EG");
+  assert.ok(country.metadata.availableFields.includes("country"));
+  assert.ok(!country.metadata.missingFields.includes("country breakdown"));
+
+  const platformCsv = `Reporting starts,Reporting ends,Campaign name,Platform,Amount spent (EGP),Impressions\n2023-07-23,2026-08-22,Platform campaign,Facebook,8.5,500\n`;
+  const platform = importMetaAdsManagerCsv({
+    accountId: "act_1259153761545048",
+    entityLevel: "campaign",
+    dateStart: "2023-07-23",
+    dateStop: "2026-08-22",
+    capturedAt,
+    csvText: platformCsv,
+    currency: "EGP",
+    locale: "ar",
+  });
+  const platformRow = platform.collection.rows[0] as Record<string, unknown>;
+  assert.equal(platformRow.publisher_platform, "Facebook");
+  assert.equal((platformRow.raw as Record<string, string>).Platform, "Facebook");
+  assert.ok(platform.metadata.availableFields.includes("publisher_platform"));
+  assert.ok(!platform.metadata.missingFields.includes("publisher platform breakdown"));
+  const platformPackage = buildMetaEvidencePackage(new SourceRegistry(), {
+    collection: platform.collection,
+    market: "EG",
+    industry: "unclassified",
+    locale: "ar",
+    currency: "EGP",
+    capturedAt,
+  });
+  assert.ok(platformPackage.snapshots[0].facts.some((fact) => fact.name === "Meta spend by publisher platform: Facebook" && fact.value === 8.5));
+  assert.ok(!platformPackage.snapshots[0].facts.some((fact) => fact.name === "Publisher platform coverage" && fact.status === "unavailable"));
+}
+
 function testRejectsOutOfScopeAccount(): void {
   assert.throws(
     () => importMetaAdsManagerCsv({
@@ -88,9 +134,10 @@ function testRejectsWrongEntityExport(): void {
 
 function main(): void {
   testImportsOfficialCsvShape();
+  testImportsBreakdownColumns();
   testRejectsOutOfScopeAccount();
   testRejectsWrongEntityExport();
-  console.log("Meta CSV import regression: 3/3 scenarios PASS");
+  console.log("Meta CSV import regression: 4/4 scenarios PASS");
 }
 
 main();
