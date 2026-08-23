@@ -7,3 +7,4 @@ export * from "./meta/meta-snapshot-store";
 export * from "./meta/meta-snapshot-collector";
 export * from "./meta/meta-snapshot-queue";
 export * from "./meta/meta-evidence-adapter";
+export * from "./meta/meta-csv-import-adapter";
