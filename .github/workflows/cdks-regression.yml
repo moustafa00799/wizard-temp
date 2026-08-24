@@ -28,6 +28,14 @@ jobs:
       - name: Build production
         run: npm run build
 
+      - name: Advisory and privacy regressions
+        run: |
+          npm run test:provider:schema
+          npm run test:cdks:debug
+          npm run test:wizard:review:consent
+          npm run test:ai:reasoning:live
+          npm run test:ai:reasoning:contract
+
       - name: Start production server
         run: PORT=3001 HOSTNAME=0.0.0.0 npm run start > /tmp/cdks-next.log 2>&1 &
 
