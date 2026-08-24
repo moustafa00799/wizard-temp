@@ -32,6 +32,7 @@
     "test:knowledge:providers": "tsx scripts/provider-evidence-regression.ts",
     "test:knowledge:content": "tsx scripts/provider-content-classification-regression.ts",
     "test:knowledge:strategy-context": "tsx scripts/knowledge-strategy-context-regression.ts",
+    "test:database:foundation": "tsx scripts/database-foundation-regression.ts",
     "generate:knowledge:strategy-recommendations": "tsx scripts/generate-selected-market-strategy-recommendations.ts",
     "semantic-eval": "tsx scripts/semantic-runner.ts"
   },
