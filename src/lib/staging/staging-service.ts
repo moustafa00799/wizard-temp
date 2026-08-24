@@ -50,6 +50,14 @@ function asJsonRecord(value: unknown): JsonRecord {
   return value as JsonRecord;
 }
 
+function asRecord(value: unknown): JsonRecord {
+  return value && typeof value === "object" ? value as JsonRecord : {};
+}
+
+function asStringArray(value: unknown): string[] {
+  return Array.isArray(value) ? value.filter((item): item is string => typeof item === "string") : [];
+}
+
 function buildBlueprintContract(input: CanonicalWizardInput, blueprint: CanonicalBlueprint, scenario: StagingScenario) {
   return buildBlueprintContractV3(input, blueprint, {
     currency: scenario.selection.snapshot.currency,
@@ -389,7 +397,13 @@ export async function runPersonalStagingScenario(scenarioId: string) {
   const { repositories } = getState();
   const stored = repositories.staging.getRun(STAGING_WORKSPACE_ID, scenario.id);
   if (!stored) throw new Error(`Staging scenario ${scenario.id} was not seeded.`);
+  const input = canonicalizeWizardInput(scenario.input);
   const recommendation = stored.run.recommendation as JsonRecord;
+  const authority = asRecord(stored.run.authority);
+  const objectiveDecision = asRecord(authority.objective);
+  const funnelDecision = asRecord(authority.funnel);
+  const channelDecision = asRecord(authority.channels);
+  const readinessDecision = asRecord(authority.readiness);
   return {
     scenario: {
       id: scenario.id,
@@ -400,6 +414,21 @@ export async function runPersonalStagingScenario(scenarioId: string) {
     blueprintId: stored.blueprintId,
     contextId: stored.contextId,
     recommendationId: stored.recommendationId,
+    wizardSummary: {
+      businessType: input.business_type,
+      primaryObjective: input.primary_objective,
+      targetLocations: [...input.target_locations],
+      conversionDestination: input.conversion_destination,
+      adChannels: [...input.ad_channels],
+      trackingStatus: input.tracking_status,
+      finalConfirmedInputs: input.final_confirmed_inputs,
+    },
+    blueprintAuthority: {
+      objective: typeof objectiveDecision.value === "string" ? objectiveDecision.value : input.primary_objective,
+      funnel: typeof funnelDecision.value === "string" ? funnelDecision.value : "",
+      channels: asStringArray(channelDecision.value),
+      readiness: readinessDecision,
+    },
     recommendation,
     governance: {
       generationMode: "blueprint_only",
@@ -408,7 +437,7 @@ export async function runPersonalStagingScenario(scenarioId: string) {
       requiresHumanApproval: true,
       canonicalBlueprintUnchanged: true,
     },
-    note: "This is a redacted personal staging result. It is not a client production strategy and cannot launch or publish a campaign.",
+    note: "هذه نتيجة Personal Staging منقحة وليست استراتيجية إنتاجية للعميل، ولا يمكنها إنشاء أو نشر حملة.",
   };
 }
 
