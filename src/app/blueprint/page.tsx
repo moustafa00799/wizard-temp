@@ -2524,6 +2524,88 @@ const sectionRenderers: Record<
 };
 
 /* -------------------------------------------------------------------------- */
+/* Client-first outcome                                                       */
+/* -------------------------------------------------------------------------- */
+
+function ClientStatus({ status }: { status: string }) {
+  const tone = status.includes("blocked")
+    ? "border-rose-200 bg-rose-50 text-rose-800"
+    : status.includes("fix") || status.includes("review")
+      ? "border-amber-200 bg-amber-50 text-amber-800"
+      : "border-emerald-200 bg-emerald-50 text-emerald-800";
+  return <span className={`inline-flex rounded-full border px-3 py-1 text-xs font-bold ${tone}`}>{status}</span>;
+}
+
+function ClientOutcomeSummary({ blueprint, wizardInput, reasoningActive }: { blueprint: any; wizardInput: any; reasoningActive: boolean }) {
+  const executive = getObject(blueprint?.executive_summary);
+  const strategy = getObject(blueprint?.strategy_summary ?? blueprint?.strategy);
+  const funnel = getObject(blueprint?.recommended_funnel);
+  const campaignStructure = getObject(blueprint?.campaign_structure);
+  const preLaunch = getObject(blueprint?.pre_launch_fixes);
+  const risks = getObject(blueprint?.risk_flags);
+  const campaigns = asArray(campaignStructure?.campaigns);
+  const fixes = asArray(preLaunch?.items ?? preLaunch?.fixes ?? preLaunch?.actions);
+  const riskItems = asArray(risks?.items ?? risks?.flags ?? risks?.warnings);
+  const recommendation = displayValue(executive?.recommendation ?? blueprint?.recommendation, "يحتاج مراجعة");
+  const readiness = displayValue(executive?.readiness_score ?? blueprint?.readiness_score, "غير محددة");
+  const riskScore = displayValue(executive?.risk_score ?? blueprint?.risk_score, "غير محددة");
+  const strategyText = displayValue(
+    strategy?.strategic_summary ?? strategy?.summary ?? strategy?.positioning ?? strategy?.core_strategy,
+    "سيتم بناء التوصية من مدخلاتك وقواعد CDKS والسياق المتاح."
+  );
+  const funnelName = displayValue(funnel?.funnel_type ?? strategy?.funnel_type, "سيتم تحديده بعد المراجعة");
+  const channelValue = wizardInput?.ad_channels ?? strategy?.recommended_channels ?? strategy?.channels;
+  const locationValue = wizardInput?.target_locations ?? wizardInput?.geo_scope;
+  const objectiveValue = wizardInput?.primary_objective ?? strategy?.recommended_objective;
+  const nextStep = fixes[0] ? displayValue(fixes[0]) : "مراجعة التوصية واعتمادها بشريًا قبل أي إطلاق.";
+
+  return (
+    <section className="mt-6 space-y-5" aria-label="ملخص العميل النهائي">
+      <div className="rounded-3xl border border-blue-100 bg-gradient-to-l from-blue-50 via-white to-indigo-50 p-6 shadow-sm">
+        <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-blue-700">ملخص العميل</p>
+            <h2 className="mt-2 text-2xl font-bold text-gray-900">ماذا خرجنا به من إجاباتك؟</h2>
+            <p className="mt-2 max-w-3xl text-sm leading-7 text-gray-600">هذه الصفحة تلخص ما فهمه النظام عن نشاطك، وما يقترحه كخطة أولية. القرارات قابلة للمراجعة، ولا يوجد إطلاق أو إنفاق تلقائي.</p>
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <ClientStatus status={recommendation} />
+            {reasoningActive && <span className="rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1 text-xs font-bold text-indigo-800">AI يفسر ويقترح فقط</span>}
+          </div>
+        </div>
+
+        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="rounded-2xl border border-white bg-white/80 p-4"><p className="text-xs text-gray-500">الهدف</p><p className="mt-2 font-bold text-gray-900">{displayValue(objectiveValue)}</p></div>
+          <div className="rounded-2xl border border-white bg-white/80 p-4"><p className="text-xs text-gray-500">السوق / المواقع</p><p className="mt-2 font-bold text-gray-900">{displayValue(locationValue)}</p></div>
+          <div className="rounded-2xl border border-white bg-white/80 p-4"><p className="text-xs text-gray-500">القنوات في مدخلاتك</p><p className="mt-2 font-bold text-gray-900">{displayValue(channelValue)}</p></div>
+          <div className="rounded-2xl border border-white bg-white/80 p-4"><p className="text-xs text-gray-500">الجاهزية / المخاطرة</p><p className="mt-2 font-bold text-gray-900">{readiness} / {riskScore}</p></div>
+        </div>
+      </div>
+
+      <div className="grid gap-4 lg:grid-cols-3">
+        <div className="rounded-2xl border border-gray-200 bg-white p-5"><p className="text-xs font-bold text-gray-500">الاستراتيجية باختصار</p><p className="mt-3 text-sm leading-7 text-gray-800">{strategyText}</p></div>
+        <div className="rounded-2xl border border-gray-200 bg-white p-5"><p className="text-xs font-bold text-gray-500">المسار المقترح</p><p className="mt-3 text-lg font-bold text-gray-900">{funnelName}</p><p className="mt-2 text-sm leading-6 text-gray-600">سيُستخدم هذا المسار لتنظيم انتقال العميل من الرسالة إلى التحويل.</p></div>
+        <div className="rounded-2xl border border-gray-200 bg-white p-5"><p className="text-xs font-bold text-gray-500">شكل الخطة</p><p className="mt-3 text-lg font-bold text-gray-900">{campaigns.length || displayValue(campaignStructure?.campaign_count, "عدة مراحل")} حملات / مراحل</p><p className="mt-2 text-sm leading-6 text-gray-600">التفاصيل الكاملة متاحة في قسم Blueprint المتقدم أدناه.</p></div>
+      </div>
+
+      <div className="grid gap-4 lg:grid-cols-2">
+        <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5">
+          <div className="flex items-center justify-between gap-3"><h3 className="font-bold text-amber-950">قبل أي إطلاق</h3><span className="rounded-full bg-white/70 px-2.5 py-1 text-xs font-bold text-amber-800">مراجعة مطلوبة</span></div>
+          <p className="mt-3 text-sm leading-7 text-amber-900">{nextStep}</p>
+          {fixes.length > 1 && <p className="mt-2 text-xs text-amber-800">هناك {fixes.length - 1} نقاط أخرى في قائمة الإصلاحات المتقدمة.</p>}
+          {riskItems.length > 0 && <p className="mt-2 text-xs text-amber-800">يوجد أيضًا {riskItems.length} تحذير/تحذيرات تحتاج مراجعة.</p>}
+        </div>
+        <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5">
+          <h3 className="font-bold text-emerald-950">الخطوة التالية لك</h3>
+          <p className="mt-3 text-sm leading-7 text-emerald-900">راجع التوصية، صحح البيانات أو التتبع عند الحاجة، ثم اعتمد النتيجة يدويًا. النظام لا ينشئ حملة ولا ينشرها من هذه الصفحة.</p>
+          <div className="mt-3 flex flex-wrap gap-2 text-xs font-bold text-emerald-800"><span className="rounded-full bg-white/70 px-2.5 py-1">CDKS يقرر</span><span className="rounded-full bg-white/70 px-2.5 py-1">AI يشرح</span><span className="rounded-full bg-white/70 px-2.5 py-1">الإنسان يعتمد</span></div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
 /* Main Page                                                                  */
 /* -------------------------------------------------------------------------- */
 
@@ -2715,18 +2797,35 @@ export default function BlueprintPage() {
       </header>
 
       <div className="max-w-6xl mx-auto px-4 py-6">
-        <ReasoningDashboard
-          reasoning={
-            generationEnvelope?.data?.reasoning?.contract ??
-            generationEnvelope?.data?.reasoning ??
-            blueprint?.reasoning?.contract ??
-            blueprint?.reasoning ??
-            null
-          }
+        <ClientOutcomeSummary
+          blueprint={blueprint}
+          wizardInput={wizardInput}
+          reasoningActive={reasoningActive}
         />
-      </div>
 
-      <div className="max-w-6xl mx-auto px-4 pb-6 flex gap-6">
+        <details className="mt-6 overflow-hidden rounded-2xl border border-indigo-100 bg-white shadow-sm">
+          <summary className="cursor-pointer list-none px-5 py-4 text-sm font-bold text-indigo-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">
+            تفسير AI والحوكمة — عرض اختياري
+          </summary>
+          <div className="border-t border-indigo-100 px-4 pb-4">
+            <ReasoningDashboard
+              reasoning={
+                generationEnvelope?.data?.reasoning?.contract ??
+                generationEnvelope?.data?.reasoning ??
+                blueprint?.reasoning?.contract ??
+                blueprint?.reasoning ??
+                null
+              }
+            />
+          </div>
+        </details>
+
+        <details className="mt-4 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+          <summary className="cursor-pointer list-none px-5 py-4 text-sm font-bold text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
+            Blueprint التفصيلي — للمراجعة المتقدمة (26 قسمًا)
+          </summary>
+          <div className="border-t border-gray-200 px-4 pb-4">
+            <div className="max-w-6xl mx-auto py-4 flex gap-6">
         <aside className="w-64 shrink-0 hidden md:block">
           <div className="bg-white rounded-xl border overflow-hidden sticky top-24">
             <div className="p-4 border-b bg-gray-50">
@@ -2840,6 +2939,9 @@ export default function BlueprintPage() {
             )}
           </div>
         </main>
+            </div>
+          </div>
+        </details>
       </div>
     </div>
   );
