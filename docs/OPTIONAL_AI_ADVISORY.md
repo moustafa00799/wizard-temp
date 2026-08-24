@@ -53,7 +53,7 @@ MISTRAL_AI_TIMEOUT_MS=30000
 
 ## provenance والخصوصية
 
-تُحفظ في النتيجة بيانات وصفية منقحة فقط: المزود، النموذج، endpoint، نوع structured output، hash للـschema، إصدارات prompt والسياسة، زمن الطلب، token usage إن أعاده المزود، request ID إن توفر، وبيانات fallback والفشل. لا تُحفظ prompts أو completions أو response bodies أو مفاتيح API في تقارير benchmark أو ملفات المستودع. سجلات CDKS التفصيلية مغلقة افتراضيًا؛ لا تُفعّل `CDKS_DEBUG=true` إلا في بيئة تطوير مضبوطة، وعند تفعيلها يُسجل ملخص حقول محدود بدل مدخلات Wizard الكاملة.
+تُحفظ في النتيجة بيانات وصفية منقحة فقط: المزود، النموذج، endpoint، نوع structured output، hash للـschema، إصدارات prompt والسياسة، زمن الطلب، token usage إن أعاده المزود، request ID إن توفر، وبيانات fallback والفشل. لا تُحفظ prompts أو completions أو response bodies أو مفاتيح API في تقارير benchmark أو ملفات المستودع. سجلات CDKS التفصيلية مغلقة افتراضيًا؛ لا تُفعّل `CDKS_DEBUG=true` إلا في بيئة تطوير مضبوطة، وعند تفعيلها يُسجل ملخص حقول محدود بدل مدخلات Wizard الكاملة. يرسل مزود Reasoning حقول الاستدلال فقط؛ أما `reasoning_id` و`blueprint_id` و`authority` وحواجز السلامة وprovenance فيضيفها الخادم بعد التحقق ولا يثق بقيم يرسلها المزود.
 
 ## الاختبارات
 

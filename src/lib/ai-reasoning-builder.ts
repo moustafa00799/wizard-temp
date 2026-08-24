@@ -1,4 +1,5 @@
 import { randomUUID } from "node:crypto";
+import { z } from "zod";
 import type { BlueprintContractV3, BlueprintReasoningTrace } from "./contracts/blueprint-contract-v3";
 import {
   AIReasoningContractSchema,
@@ -82,7 +83,20 @@ function failureContract(
   });
 }
 
-function normalizeProviderOutput(
+const AIReasoningProviderOutputSchema = AIReasoningContractSchema
+  .omit({
+    reasoning_id: true,
+    blueprint_id: true,
+    generated_at: true,
+    authority: true,
+    model: true,
+    safety: true,
+    provenance: true,
+    failure: true,
+  })
+  .extend({ status: z.literal("completed") });
+
+function normalizeControlledOutput(
   output: unknown,
   contract: BlueprintContractV3,
   model: string,
@@ -110,6 +124,33 @@ function normalizeProviderOutput(
     return { contract: validateAIReasoningContract(candidate) };
   } catch {
     return { failure: failureContract(contract, "REASONING_SEMANTIC_INVALID", "Controlled reasoning output failed semantic contract validation.", model) };
+  }
+}
+
+function normalizeProviderOutput(
+  output: unknown,
+  contract: BlueprintContractV3,
+  model: string,
+): { contract?: ValidatedAIReasoningContract; failure?: ValidatedAIReasoningContract } {
+  const parsed = AIReasoningProviderOutputSchema.safeParse(output);
+  if (!parsed.success) {
+    return { failure: failureContract(contract, "REASONING_SCHEMA_INVALID", "AI Reasoning provider output failed the provider schema.", model) };
+  }
+
+  const candidate: AIReasoningContract = {
+    ...parsed.data,
+    reasoning_id: randomUUID(),
+    blueprint_id: contract.blueprint_id,
+    generated_at: new Date().toISOString(),
+    locale: contract.locale,
+    model,
+    authority: "AI_REASONING",
+    safety: safety(),
+  };
+  try {
+    return { contract: validateAIReasoningContract(candidate) };
+  } catch {
+    return { failure: failureContract(contract, "REASONING_SEMANTIC_INVALID", "AI Reasoning provider output failed semantic contract validation.", model) };
   }
 }
 
@@ -270,7 +311,7 @@ export async function buildAIReasoning(
     const result = runMockReasoningBuilder(options.mockScenario ?? "baseline", contract.locale);
     if (!result.success) return failureContract(contract, "REASONING_PROVIDER_FAILURE", result.error, result.model);
 
-    const normalized = normalizeProviderOutput(result.data, contract, result.model);
+    const normalized = normalizeControlledOutput(result.data, contract, result.model);
     return normalized.contract ?? normalized.failure!;
   }
 

@@ -39,11 +39,27 @@ function provenance(provider: "groq" | "mistral") {
   };
 }
 
+function providerOnlyData(value: unknown): unknown {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return value;
+  const {
+    reasoning_id: _reasoningId,
+    blueprint_id: _blueprintId,
+    generated_at: _generatedAt,
+    authority: _authority,
+    model: _model,
+    safety: _safety,
+    provenance: _provenance,
+    failure: _failure,
+    ...providerData
+  } = value as Record<string, unknown>;
+  return providerData;
+}
+
 function success(provider: "groq" | "mistral", scenario: "baseline" | "malformed" = "baseline"): ReasoningProviderResult {
   const result = runMockReasoningBuilder(scenario, "ar");
   return {
     success: true,
-    data: result.success ? result.data : null,
+    data: result.success ? providerOnlyData(result.data) : null,
     error: null,
     provenance: provenance(provider),
   };
