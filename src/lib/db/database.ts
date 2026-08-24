@@ -1,6 +1,7 @@
 import { DatabaseSync } from "node:sqlite";
 import { createHash } from "node:crypto";
 import { DATABASE_FOUNDATION_MIGRATION_ID, DATABASE_FOUNDATION_MIGRATION_SQL } from "./migrations/0001_database_foundation";
+import { PERSONAL_STAGING_MIGRATION_ID, PERSONAL_STAGING_MIGRATION_SQL } from "./migrations/0002_personal_staging";
 
 export type DatabaseLocation = ":memory:" | string;
 export type JsonRecord = Record<string, unknown>;
@@ -182,11 +183,15 @@ export function openDatabase(location: DatabaseLocation = ":memory:"): DatabaseS
 
 export function applyDatabaseMigrations(database: DatabaseSync): void {
   database.exec("CREATE TABLE IF NOT EXISTS schema_migrations (migration_id TEXT PRIMARY KEY, applied_at TEXT NOT NULL);");
-  const exists = database.prepare("SELECT migration_id FROM schema_migrations WHERE migration_id = ?").get<{ migration_id: string }>(DATABASE_FOUNDATION_MIGRATION_ID);
-  if (!exists) {
-    database.exec(DATABASE_FOUNDATION_MIGRATION_SQL);
-    database.prepare("INSERT INTO schema_migrations (migration_id, applied_at) VALUES (?, ?)").run(DATABASE_FOUNDATION_MIGRATION_ID, now());
-  }
+  const apply = (migrationId: string, sql: string) => {
+    const exists = database.prepare("SELECT migration_id FROM schema_migrations WHERE migration_id = ?").get<{ migration_id: string }>(migrationId);
+    if (!exists) {
+      database.exec(sql);
+      database.prepare("INSERT INTO schema_migrations (migration_id, applied_at) VALUES (?, ?)").run(migrationId, now());
+    }
+  };
+  apply(DATABASE_FOUNDATION_MIGRATION_ID, DATABASE_FOUNDATION_MIGRATION_SQL);
+  apply(PERSONAL_STAGING_MIGRATION_ID, PERSONAL_STAGING_MIGRATION_SQL);
 }
 
 export function createRepositories(database: DatabaseSync) {
@@ -201,7 +206,7 @@ export function createRepositories(database: DatabaseSync) {
   const getBlueprint = database.prepare("SELECT * FROM canonical_blueprints WHERE blueprint_id = ?");
   const createSource = database.prepare("INSERT INTO source_records (source_id, publisher, source_url, source_type, market, industry, language, license_status, current_version, enabled, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
   const createSourceVersion = database.prepare("INSERT INTO source_versions (source_id, version, observed_at, freshness_policy, limitations_json, source_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)");
-  const createProfile = database.prepare("INSERT INTO industry_profiles (profile_id, version, industry_key, branch, status, profile_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)");
+  const createProfile = database.prepare("INSERT OR IGNORE INTO industry_profiles (profile_id, version, industry_key, branch, status, profile_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)");
   const createSnapshot = database.prepare("INSERT INTO knowledge_snapshots (snapshot_id, workspace_id, market, industry, locale, currency, captured_at, freshness_status, confidence, source_ids_json, snapshot_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
   const getSnapshot = database.prepare("SELECT * FROM knowledge_snapshots WHERE workspace_id = ? AND snapshot_id = ?");
   const createFact = database.prepare("INSERT INTO market_facts (fact_id, snapshot_id, market, industry, status, value_json, source_ids_json, observed_at, fact_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -219,6 +224,8 @@ export function createRepositories(database: DatabaseSync) {
   const createCursor = database.prepare("INSERT INTO sync_cursors (connection_id, cursor_key, cursor_value, updated_at) VALUES (?, ?, ?, ?) ON CONFLICT(connection_id, cursor_key) DO UPDATE SET cursor_value = excluded.cursor_value, updated_at = excluded.updated_at");
   const createApproval = database.prepare("INSERT INTO approval_events (approval_id, workspace_id, object_type, object_id, decision, actor_user_id, note, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
   const createAudit = database.prepare("INSERT INTO audit_events (audit_event_id, workspace_id, event_type, object_type, object_id, actor_type, payload_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+  const createStagingRun = database.prepare("INSERT INTO staging_runs (staging_run_id, workspace_id, scenario_id, blueprint_id, context_id, recommendation_id, status, run_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+  const getStagingRun = database.prepare("SELECT * FROM staging_runs WHERE workspace_id = ? AND scenario_id = ?");
 
   return {
     workspaces: {
@@ -327,6 +334,36 @@ export function createRepositories(database: DatabaseSync) {
       },
       upsertCursor(connectionId: string, cursorKey: string, cursorValue: string) {
         createCursor.run(connectionId, cursorKey, cursorValue, now());
+      },
+    },
+    staging: {
+      createRun(input: { stagingRunId: string; workspaceId: string; scenarioId: string; blueprintId: string; contextId: string; recommendationId: string; status: "completed" | "failed"; run: JsonRecord; createdAt?: string }) {
+        createStagingRun.run(input.stagingRunId, input.workspaceId, input.scenarioId, input.blueprintId, input.contextId, input.recommendationId, input.status, json(input.run), input.createdAt ?? now());
+      },
+      getRun(workspaceId: string, scenarioId: string): {
+        stagingRunId: string;
+        workspaceId: string;
+        scenarioId: string;
+        blueprintId: string;
+        contextId: string;
+        recommendationId: string;
+        status: "completed" | "failed";
+        createdAt: string;
+        run: JsonRecord;
+      } | undefined {
+        const row = getStagingRun.get(workspaceId, scenarioId) as Row | undefined;
+        if (!row) return undefined;
+        return {
+          stagingRunId: String(row.staging_run_id),
+          workspaceId: String(row.workspace_id),
+          scenarioId: String(row.scenario_id),
+          blueprintId: String(row.blueprint_id),
+          contextId: String(row.context_id),
+          recommendationId: String(row.recommendation_id),
+          status: String(row.status) as "completed" | "failed",
+          createdAt: String(row.created_at),
+          run: parseJson<JsonRecord>(row.run_json),
+        };
       },
     },
     governance: {

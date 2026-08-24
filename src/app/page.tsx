@@ -10,12 +10,20 @@ export default function Home() {
         <p className="text-gray-400 mb-8 leading-relaxed">
           أجب على أسئلة ذكية واحصل على استراتيجية إعلانية كاملة خلال دقائق
         </p>
-        <Link
-          href="/wizard"
-          className="inline-block px-8 py-4 bg-violet-600 hover:bg-violet-500 text-white rounded-xl font-bold text-lg transition-colors shadow-lg shadow-violet-900/30"
-        >
-          ابدأ الآن →
-        </Link>
+        <div className="flex flex-col items-center gap-3">
+          <Link
+            href="/wizard"
+            className="inline-block px-8 py-4 bg-violet-600 hover:bg-violet-500 text-white rounded-xl font-bold text-lg transition-colors shadow-lg shadow-violet-900/30"
+          >
+            ابدأ الآن →
+          </Link>
+          <Link
+            href="/staging"
+            className="inline-block px-6 py-3 border border-slate-700 hover:border-violet-500 text-slate-300 hover:text-white rounded-xl font-semibold text-sm transition-colors"
+          >
+            افتح بيئة الاختبار الشخصية
+          </Link>
+        </div>
       </div>
     </div>
   );

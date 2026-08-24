@@ -11,3 +11,7 @@ export {
   DATABASE_FOUNDATION_MIGRATION_ID,
   DATABASE_FOUNDATION_MIGRATION_SQL,
 } from "./migrations/0001_database_foundation";
+export {
+  PERSONAL_STAGING_MIGRATION_ID,
+  PERSONAL_STAGING_MIGRATION_SQL,
+} from "./migrations/0002_personal_staging";

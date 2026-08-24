@@ -37,6 +37,9 @@ yarn-error.log*
 /tests/results/
 /QUALITY_REFERENCE_COVERAGE_GATE.json
 
+# personal staging runtime data
+/.local/
+
 # vercel
 .vercel
 
