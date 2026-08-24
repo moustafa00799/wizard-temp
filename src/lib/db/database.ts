@@ -2,6 +2,7 @@ import { DatabaseSync } from "node:sqlite";
 import { createHash } from "node:crypto";
 import { DATABASE_FOUNDATION_MIGRATION_ID, DATABASE_FOUNDATION_MIGRATION_SQL } from "./migrations/0001_database_foundation";
 import { PERSONAL_STAGING_MIGRATION_ID, PERSONAL_STAGING_MIGRATION_SQL } from "./migrations/0002_personal_staging";
+import { STAGING_TEST_RUNS_MIGRATION_ID, STAGING_TEST_RUNS_MIGRATION_SQL } from "./migrations/0003_staging_test_runs";
 
 export type DatabaseLocation = ":memory:" | string;
 export type JsonRecord = Record<string, unknown>;
@@ -192,6 +193,7 @@ export function applyDatabaseMigrations(database: DatabaseSync): void {
   };
   apply(DATABASE_FOUNDATION_MIGRATION_ID, DATABASE_FOUNDATION_MIGRATION_SQL);
   apply(PERSONAL_STAGING_MIGRATION_ID, PERSONAL_STAGING_MIGRATION_SQL);
+  apply(STAGING_TEST_RUNS_MIGRATION_ID, STAGING_TEST_RUNS_MIGRATION_SQL);
 }
 
 export function createRepositories(database: DatabaseSync) {
@@ -226,6 +228,8 @@ export function createRepositories(database: DatabaseSync) {
   const createAudit = database.prepare("INSERT INTO audit_events (audit_event_id, workspace_id, event_type, object_type, object_id, actor_type, payload_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
   const createStagingRun = database.prepare("INSERT INTO staging_runs (staging_run_id, workspace_id, scenario_id, blueprint_id, context_id, recommendation_id, status, run_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
   const getStagingRun = database.prepare("SELECT * FROM staging_runs WHERE workspace_id = ? AND scenario_id = ?");
+  const createStagingTestRun = database.prepare("INSERT INTO staging_test_runs (test_run_id, workspace_id, suite, seed, variants_per_case, total_runs, status, report_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+  const getLatestStagingTestRun = database.prepare("SELECT * FROM staging_test_runs WHERE workspace_id = ? ORDER BY created_at DESC LIMIT 1");
 
   return {
     workspaces: {
@@ -363,6 +367,26 @@ export function createRepositories(database: DatabaseSync) {
           status: String(row.status) as "completed" | "failed",
           createdAt: String(row.created_at),
           run: parseJson<JsonRecord>(row.run_json),
+        };
+      },
+    },
+    testing: {
+      createSuiteRun(input: { testRunId: string; workspaceId: string; suite: "wizard-fixtures-v1"; seed: number; variantsPerCase: number; totalRuns: number; status: "completed" | "failed"; report: JsonRecord; createdAt?: string }) {
+        createStagingTestRun.run(input.testRunId, input.workspaceId, input.suite, input.seed, input.variantsPerCase, input.totalRuns, input.status, json(input.report), input.createdAt ?? now());
+      },
+      getLatestSuiteRun(workspaceId: string) {
+        const row = getLatestStagingTestRun.get(workspaceId) as Row | undefined;
+        if (!row) return undefined;
+        return {
+          testRunId: String(row.test_run_id),
+          workspaceId: String(row.workspace_id),
+          suite: String(row.suite),
+          seed: Number(row.seed),
+          variantsPerCase: Number(row.variants_per_case),
+          totalRuns: Number(row.total_runs),
+          status: String(row.status) as "completed" | "failed",
+          createdAt: String(row.created_at),
+          report: parseJson<JsonRecord>(row.report_json),
         };
       },
     },

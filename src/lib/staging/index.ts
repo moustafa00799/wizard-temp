@@ -1,6 +1,7 @@
 export {
   getPersonalStagingOverview,
   runPersonalStagingScenario,
+  runPersonalRandomizedSuite,
   seedPersonalStaging,
   closePersonalStaging,
   STAGING_DB_PATH,
@@ -13,3 +14,4 @@ export {
   type StagingScenario,
   type StagingScenarioId,
 } from "./demo-scenarios";
+export { runRandomizedWizardFixtureSuite, type RandomizedSuiteResult } from "./randomized-suite";

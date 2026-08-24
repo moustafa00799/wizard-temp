@@ -221,7 +221,7 @@ export class CDKSEngine {
     const trackingScore = input.tracking_status === 'ready'
       ? 100
       : input.tracking_status === 'partial'
-        ? Math.max(40, Math.round((trackingTools.length / requiredTrackingTools.length) * 100))
+        ? Math.min(100, Math.max(40, Math.round((trackingTools.length / requiredTrackingTools.length) * 100)))
         : 10;
     const trackingLevel = trackingScore >= 90 ? 'excellent' : trackingScore >= 70 ? 'good' : trackingScore >= 40 ? 'fair' : 'poor';
     const requiredEvents = input.key_events || ['page_view', 'purchase', 'add_to_cart'];

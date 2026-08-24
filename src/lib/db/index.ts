@@ -15,3 +15,7 @@ export {
   PERSONAL_STAGING_MIGRATION_ID,
   PERSONAL_STAGING_MIGRATION_SQL,
 } from "./migrations/0002_personal_staging";
+export {
+  STAGING_TEST_RUNS_MIGRATION_ID,
+  STAGING_TEST_RUNS_MIGRATION_SQL,
+} from "./migrations/0003_staging_test_runs";

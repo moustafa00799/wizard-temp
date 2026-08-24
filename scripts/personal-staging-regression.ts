@@ -30,7 +30,23 @@ assert.equal(overview.governance.budgetSpendAllowed, false);
 assert.equal(overview.governance.globalMarketValidated, false);
 assert.equal(overview.tests.canonicalBlueprintMutation, false);
 assert.equal(overview.tests.secretMaterialStored, false);
-assert.equal(overview.tests.migrationCount, 2);
+assert.equal(overview.tests.migrationCount, 3);
+assert.equal(overview.randomizedSuite, null);
+
+const suite = await staging.runRandomizedWizardFixtureSuite({ seed: 20260824, variantsPerCase: 3 });
+assert.equal(suite.status, "PASS");
+assert.equal(suite.corpusCount, 10);
+assert.equal(suite.variantsPerCase, 3);
+assert.equal(suite.totalRuns, 30);
+assert.equal(suite.summary.pass, 30);
+assert.equal(suite.summary.fail, 0);
+assert.equal(suite.summary.canonicalBlueprintMutation, false);
+assert.equal(suite.summary.externalActions, false);
+assert.equal(suite.summary.budgetSpend, false);
+assert.equal(suite.results.length, 30);
+assert.ok(suite.results.every((result) => result.checks.noSecretMaterial === "pass"));
+const repeatedSuite = await staging.runRandomizedWizardFixtureSuite({ seed: 20260824, variantsPerCase: 3 });
+assert.deepEqual(repeatedSuite.results, suite.results);
 
 const secondOverview = await staging.getPersonalStagingOverview();
 assert.deepEqual(secondOverview.counts, overview.counts);
@@ -64,6 +80,23 @@ const apiRunJson = await apiRun.json() as { scenario: { id: string }; governance
 assert.equal(apiRunJson.scenario.id, "sa-ecommerce");
 assert.equal(apiRunJson.governance.externalActionsAllowed, false);
 
+const suiteApiRun = await POST(new Request("http://localhost/api/staging", {
+  method: "POST",
+  headers: { "content-type": "application/json" },
+  body: JSON.stringify({ action: "run-suite", seed: 20260824, variantsPerCase: 3 }),
+}));
+assert.equal(suiteApiRun.status, 200);
+const suiteApiJson = await suiteApiRun.json() as { status: string; totalRuns: number; summary: { pass: number; externalActions: boolean } };
+assert.equal(suiteApiJson.status, "PASS");
+assert.equal(suiteApiJson.totalRuns, 30);
+assert.equal(suiteApiJson.summary.pass, 30);
+assert.equal(suiteApiJson.summary.externalActions, false);
+
+const afterSuiteOverview = await staging.getPersonalStagingOverview();
+assert.equal(afterSuiteOverview.counts.stagingTestRuns, 1);
+assert.equal(afterSuiteOverview.randomizedSuite?.totalRuns, 30);
+assert.equal(afterSuiteOverview.randomizedSuite?.status, "completed");
+
 const invalidApiRun = await POST(new Request("http://localhost/api/staging", {
   method: "POST",
   headers: { "content-type": "application/json" },
@@ -74,7 +107,7 @@ assert.equal(invalidApiRun.status, 400);
 const reopened = openDatabase(databasePath);
 const migrationCount = reopened.prepare("SELECT COUNT(*) AS count FROM schema_migrations").get<{ count: number }>();
 const runCount = reopened.prepare("SELECT COUNT(*) AS count FROM staging_runs WHERE workspace_id = ?").get<{ count: number }>(staging.STAGING_WORKSPACE_ID);
-assert.equal(migrationCount?.count, 2);
+assert.equal(migrationCount?.count, 3);
 assert.equal(runCount?.count, 3);
 assert.equal(reopened.prepare("SELECT COUNT(*) AS count FROM provider_connections WHERE connection_status = 'write_enabled'").get<{ count: number }>()?.count, 0);
 reopened.close();
@@ -84,12 +117,12 @@ fs.rmSync(tempDir, { recursive: true, force: true });
   console.log(JSON.stringify({
     test: "personal-staging-regression",
   status: "PASS",
-  assertions: 38,
-  scenarios: 3,
+    assertions: 58,
+    scenarios: 3,
   api: "GET/POST/invalid-input passed",
   seedIdempotent: true,
   fileBackedPersistence: true,
-  migrationCount: 2,
+    migrationCount: 3,
   writeConnections: "blocked",
   globalMarketValidated: false,
   canonicalBlueprintMutation: false,

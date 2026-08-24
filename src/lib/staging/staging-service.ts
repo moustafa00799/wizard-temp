@@ -17,6 +17,7 @@ import {
   type JsonRecord,
 } from "../db";
 import { getStagingScenario, STAGING_SCENARIOS, type StagingScenario } from "./demo-scenarios";
+import { runRandomizedWizardFixtureSuite } from "./randomized-suite";
 
 const STAGING_WORKSPACE_ID = "workspace-personal-staging";
 const STAGING_USER_ID = "user-personal-owner";
@@ -312,6 +313,7 @@ export async function getPersonalStagingOverview() {
       evidencePackages: count(database, "evidence_packages"),
       contexts: count(database, "strategy_contexts"),
       recommendations: count(database, "strategy_recommendations"),
+      stagingTestRuns: count(database, "staging_test_runs"),
       approvalsPending: count(database, "approval_events", "decision = 'pending'"),
       auditEvents: count(database, "audit_events"),
     },
@@ -331,7 +333,54 @@ export async function getPersonalStagingOverview() {
       canonicalBlueprintMutation: false,
       secretMaterialStored: false,
     },
+    randomizedSuite: (() => {
+      const latest = repositories.testing.getLatestSuiteRun(STAGING_WORKSPACE_ID);
+      if (!latest) return null;
+      const report = latest.report as { summary?: JsonRecord; corpusCount?: number; totalRuns?: number };
+      return {
+        testRunId: latest.testRunId,
+        seed: latest.seed,
+        variantsPerCase: latest.variantsPerCase,
+        totalRuns: latest.totalRuns,
+        status: latest.status,
+        summary: report.summary ?? {},
+        createdAt: latest.createdAt,
+      };
+    })(),
   };
+}
+
+export async function runPersonalRandomizedSuite(options: { seed?: number; variantsPerCase?: number } = {}) {
+  await seedPersonalStaging();
+  const result = await runRandomizedWizardFixtureSuite(options);
+  const { repositories } = getState();
+  const testRunId = `staging-test-${result.seed}-${Date.now()}`;
+  repositories.testing.createSuiteRun({
+    testRunId,
+    workspaceId: STAGING_WORKSPACE_ID,
+    suite: "wizard-fixtures-v1",
+    seed: result.seed,
+    variantsPerCase: result.variantsPerCase,
+    totalRuns: result.totalRuns,
+    status: result.status === "PASS" ? "completed" : "failed",
+    report: asJsonRecord(result),
+  });
+  repositories.governance.createAuditEvent({
+    auditEventId: `audit-${testRunId}`,
+    workspaceId: STAGING_WORKSPACE_ID,
+    eventType: "randomized_suite_completed",
+    objectType: "staging_test_run",
+    objectId: testRunId,
+    actorType: "system",
+    payload: {
+      seed: result.seed,
+      variantsPerCase: result.variantsPerCase,
+      totalRuns: result.totalRuns,
+      externalActionsAllowed: false,
+      budgetSpendAllowed: false,
+    },
+  });
+  return { ...result, testRunId };
 }
 
 export async function runPersonalStagingScenario(scenarioId: string) {

@@ -20,6 +20,8 @@
 
 يمكن تشغيل كل سيناريو من الواجهة. التشغيل يقرأ السجل المزروع، ويعرض Blueprint ID، وStrategy Context، والتوصية، والمصادر، والقيود، وقرارات CDKS، دون إنشاء حملة أو إرسال طلب إلى منصة خارجية.
 
+يوجد زر واحد باسم **تشغيل 30 اختبارًا** يشغّل الحالات العشر الأصلية الموجودة في `tests/fixtures/wizard-inputs-v1` بثلاثة variants لكل حالة. يستخدم التشغيل seed ثابتًا `20260824`، ولذلك يمكن إعادة نفس النتائج واكتشاف أي regression بصورة قابلة للتتبع. نتيجة كل suite تحفظ في `staging_test_runs` مع seed وعدد variants وحالة التشغيل والتقرير المنقح، وتظهر آخر نتيجة في لوحة Staging.
+
 ## تخزين runtime
 
 تستخدم البيئة قاعدة SQLite ملفية في:
@@ -88,6 +90,25 @@ npm run test:personal-staging
 10. غياب `write_enabled` وsecret material.
 11. روابط evidence وعدم وجود recommendation بلا context.
 12. حذف ملفات الاختبار المؤقتة بعد انتهاء regression.
+
+## Randomized Regression
+
+يشغّل الأمر التالي corpus الحالات العشر من دون بيانات عميل أو اتصال خارجي:
+
+```bash
+npm run test:personal-staging
+```
+
+يؤدي التشغيل إلى 30 run افتراضيًا: `10 cases × 3 variants`. لا تستخدم العشوائية غير القابلة للتكرار؛ كل variant مشتق من fixture أصلية مع seed محسوب من seed الأساسي ورقم الحالة ورقم variant. الاختبار يثبت canonicalization، نجاح CDKS وBlueprint، سقف tracking score، عدم وجود secrets، حظر external actions وbudget spend، وعدم تغير Canonical Blueprint. كما يختبر تكرار نفس seed وتساوي النتائج.
+
+الـAPI المقابل للزر هو:
+
+```text
+POST /api/staging
+{"action":"run-suite","seed":20260824,"variantsPerCase":3}
+```
+
+يقبل `variantsPerCase` قيمة من 1 إلى 10، ولا يسمح Scenario IDs أو actions غير معرفة. التغيير في seed مفيد لتوسيع التغطية، لكن يجب حفظه مع نتيجة الاختبار حتى يمكن إعادة فحص الفشل.
 
 ## اختبار HTTP محلي
 

@@ -9,6 +9,7 @@ type Overview = {
   counts: Record<string, number>;
   governance: Record<string, string | boolean>;
   tests: { databaseRegressionAssertions: number; migrationCount: number; foreignKeys: string; canonicalBlueprintMutation: boolean; secretMaterialStored: boolean };
+  randomizedSuite: { testRunId: string; seed: number; variantsPerCase: number; totalRuns: number; status: string; summary: Record<string, unknown>; createdAt: string } | null;
 };
 
 type Recommendation = {
@@ -24,6 +25,17 @@ type Recommendation = {
   market: string;
   industry: string;
   currency: string;
+};
+
+type SuiteResult = {
+  suite: string;
+  status: string;
+  seed: number;
+  variantsPerCase: number;
+  corpusCount: number;
+  totalRuns: number;
+  testRunId: string;
+  summary: { pass: number; fail: number; uniqueDecisionDigests: number; canonicalBlueprintMutation: boolean; externalActions: boolean; budgetSpend: boolean };
 };
 
 type ScenarioResult = {
@@ -74,6 +86,8 @@ export default function StagingPage() {
   const [selected, setSelected] = useState<ScenarioResult | null>(null);
   const [loading, setLoading] = useState(true);
   const [running, setRunning] = useState<string | null>(null);
+  const [suiteRunning, setSuiteRunning] = useState(false);
+  const [suiteResult, setSuiteResult] = useState<SuiteResult | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   async function loadOverview() {
@@ -88,6 +102,26 @@ export default function StagingPage() {
       setError(loadError instanceof Error ? loadError.message : "تعذر تحميل بيئة الاختبار.");
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function runSuite() {
+    setSuiteRunning(true);
+    setError(null);
+    try {
+      const response = await fetch("/api/staging", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ action: "run-suite", seed: 20260824, variantsPerCase: 3 }),
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message ?? "تعذر تشغيل الاختبار الجماعي.");
+      setSuiteResult(data as SuiteResult);
+      await loadOverview();
+    } catch (suiteError) {
+      setError(suiteError instanceof Error ? suiteError.message : "تعذر تشغيل الاختبار الجماعي.");
+    } finally {
+      setSuiteRunning(false);
     }
   }
 
@@ -131,8 +165,9 @@ export default function StagingPage() {
               مساحة اختبار تحاكي رحلة العميل من brief وWizard إلى CDKS وBlueprint وStrategy Recommendation، مع بيانات منقحة واختبارات حوكمة مفعلة.
             </p>
           </div>
-          <div className="flex gap-3">
+          <div className="flex flex-wrap gap-3">
             <button onClick={() => void loadOverview()} className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/10">تحديث الحالة</button>
+            <button onClick={() => void runSuite()} disabled={suiteRunning} className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white transition hover:bg-emerald-500 disabled:cursor-wait disabled:opacity-50">{suiteRunning ? "جارٍ اختبار 30 حالة..." : "تشغيل 30 اختبارًا"}</button>
             <Link href="/wizard" className="rounded-xl bg-violet-600 px-4 py-2 text-sm font-bold text-white transition hover:bg-violet-500">فتح Wizard</Link>
           </div>
         </header>
@@ -185,11 +220,24 @@ export default function StagingPage() {
             </section>
 
             <section className="mb-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+              <div className="rounded-2xl border border-emerald-400/20 bg-emerald-400/5 p-5"><p className="text-xs text-emerald-200">Randomized Suite</p><p className="mt-2 text-lg font-bold text-white">{overview.randomizedSuite ? `${overview.randomizedSuite.totalRuns} تشغيل` : "لم يُشغّل بعد"}</p><p className="mt-1 text-xs text-slate-400">{overview.randomizedSuite ? `seed ${overview.randomizedSuite.seed}` : "10 حالات × 3 variants"}</p></div>
               <div className="rounded-2xl border border-emerald-400/20 bg-emerald-400/5 p-5"><p className="text-xs text-emerald-200">Canonical Blueprint</p><p className="mt-2 text-lg font-bold text-white">غير قابل للتغيير</p></div>
               <div className="rounded-2xl border border-emerald-400/20 bg-emerald-400/5 p-5"><p className="text-xs text-emerald-200">الأسرار</p><p className="mt-2 text-lg font-bold text-white">لا توجد أسرار مخزنة</p></div>
               <div className="rounded-2xl border border-amber-400/20 bg-amber-400/5 p-5"><p className="text-xs text-amber-200">الاتصالات</p><p className="mt-2 text-lg font-bold text-white">Read-only فقط</p></div>
               <div className="rounded-2xl border border-amber-400/20 bg-amber-400/5 p-5"><p className="text-xs text-amber-200">Global validation</p><p className="mt-2 text-lg font-bold text-white">false</p></div>
             </section>
+
+            {suiteResult && (
+              <section className="mb-8 rounded-3xl border border-emerald-300/20 bg-emerald-400/5 p-5 sm:p-7">
+                <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                  <div><p className="text-xs font-bold uppercase tracking-widest text-emerald-300">Randomized Regression</p><h2 className="mt-2 text-2xl font-black text-white">نجح اختبار الحالات العشر</h2><p className="mt-2 text-sm leading-6 text-slate-300">تم تشغيل {suiteResult.totalRuns} variant قابل لإعادة الإنتاج باستخدام seed ثابت، دون تعديل Blueprint أو إجراء خارجي.</p></div>
+                  <StatusPill>{suiteResult.summary.pass}/{suiteResult.totalRuns} PASS</StatusPill>
+                </div>
+                <div className="mt-5 grid grid-cols-2 gap-3 md:grid-cols-5">
+                  {[["corpus", String(suiteResult.corpusCount)], ["variants/case", String(suiteResult.variantsPerCase)], ["seed", String(suiteResult.seed)], ["unique decisions", String(suiteResult.summary.uniqueDecisionDigests)], ["blueprint mutation", String(suiteResult.summary.canonicalBlueprintMutation)]].map(([key, value]) => <div key={key} className="rounded-xl bg-black/15 p-3"><p className="text-xs text-slate-400">{key}</p><p className="mt-1 font-bold text-white">{value}</p></div>)}
+                </div>
+              </section>
+            )}
 
             {selected && (
               <section className="space-y-5 rounded-3xl border border-violet-300/20 bg-slate-950/70 p-5 sm:p-7">
