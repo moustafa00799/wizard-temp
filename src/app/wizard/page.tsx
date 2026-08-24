@@ -2,7 +2,11 @@
 
 import { useEffect, useCallback, useState } from "react";
 import { useWizardStore } from "@/lib/store";
-import { getDummyData, getCurrentProfileName } from "@/lib/dev-autofill";
+import {
+  getDummyData,
+  getCurrentProfileName,
+} from "@/lib/dev-autofill";
+import { preserveWizardConsent } from "@/lib/wizard-generation";
 import Step0_Start from "./steps/Step0_Start";
 import Step1_Business from "./steps/Step1_Business";
 import Step2_Value from "./steps/Step2_Value";
@@ -56,7 +60,7 @@ function DevToast({ message, visible }: ToastProps) {
 }
 
 export default function WizardPage() {
-  const { currentStep, setStep, setField } = useWizardStore();
+  const { currentStep, setStep, setField, data } = useWizardStore();
   const [toast, setToast] = useState<string | null>(null);
 
   // FIX E: Always start at step 0
@@ -87,24 +91,26 @@ export default function WizardPage() {
     [setStep]
   );
 
+  const applyDummyData = useCallback(() => {
+    const filled = preserveWizardConsent(data, getDummyData());
+    (Object.keys(filled) as (keyof typeof filled)[]).forEach((key) => {
+      setField(key, filled[key] as any);
+    });
+    setStep(12);
+    showToast(`تم ملء البيانات — ${getCurrentProfileName()}`);
+  }, [data.ai_advisory_enabled, setField, setStep, showToast]);
+
   // Ctrl+Shift+D → auto-fill
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.ctrlKey && e.shiftKey && e.key === "D") {
         e.preventDefault();
-        const filled = getDummyData();
-        const profileName = getCurrentProfileName();
-        (Object.keys(filled) as (keyof typeof filled)[]).forEach((key) => {
-          setField(key, filled[key] as any);
-        });
-        setStep(12);
-        showToast(`Dummy data loaded — ${profileName}`);
-        console.info(`[DEV] Auto-fill applied: ${profileName}`, filled);
+        applyDummyData();
       }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [setField, setStep, showToast]);
+  }, [applyDummyData]);
 
   const progress = Math.round(((currentStep + 1) / TOTAL_STEPS) * 100);
 
@@ -138,15 +144,7 @@ export default function WizardPage() {
       </header>
 {process.env.NODE_ENV === "development" && (
   <button
-    onClick={() => {
-      const filled = getDummyData();
-      const profileName = getCurrentProfileName();
-      (Object.keys(filled) as (keyof typeof filled)[]).forEach((key) => {
-        setField(key, filled[key] as any);
-      });
-      setStep(12);
-      showToast(`تم ملء البيانات — ${profileName}`);
-    }}
+    onClick={applyDummyData}
     className="text-xs bg-violet-900/50 border border-violet-700 text-violet-300 px-3 py-1 rounded-lg hover:bg-violet-800/50 transition-colors"
   >
     🧪 ملء تلقائي
@@ -183,10 +181,11 @@ export default function WizardPage() {
         {currentStep === 10 && <Step10_Resources onNext={goNext} onBack={goBack} />}
         {currentStep === 11 && <Step11_Priority onNext={goNext} onBack={goBack} />}
         {currentStep === 12 && (
-          <Step12_Review 
-  onBack={goBack} 
-  onGoToStep={goToStep} 
-/>
+          <Step12_Review
+            wizardData={data}
+            onBack={goBack}
+            onGoToStep={goToStep}
+          />
         )}
         <DevToast message={toast ?? ""} visible={toast !== null} />
       </main>

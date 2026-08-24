@@ -7,6 +7,7 @@
 
 import React, { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { buildWizardGenerationPayload } from "@/lib/wizard-generation";
 
 type GenerationStatus =
   | "idle"
@@ -160,10 +161,7 @@ export default function Step12_Review({ wizardData: passedWizardData, onBack }: 
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          ...wizardData,
-          ai_advisory: {
-            enabled: wizardData.ai_advisory_enabled === true,
-          },
+          ...buildWizardGenerationPayload(wizardData),
         }),
       });
 
