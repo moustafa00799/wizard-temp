@@ -69,6 +69,30 @@ const sections: { key: SectionKey; title: string; icon: string }[] = [
 /* Safe rendering helpers                                                     */
 /* -------------------------------------------------------------------------- */
 
+const DISPLAY_LABELS: Record<string, string> = {
+  ready_with_fixes: "جاهز مع إصلاحات",
+  ready: "جاهز",
+  review: "يحتاج مراجعة",
+  blocked: "متوقف مؤقتًا",
+  good: "جيدة",
+  medium: "متوسطة",
+  high: "مرتفعة",
+  low: "منخفضة",
+  ecommerce: "التجارة الإلكترونية",
+  sales: "المبيعات",
+  leads: "العملاء المحتملون",
+  website: "الموقع الإلكتروني",
+  store: "المتجر الإلكتروني",
+  website_purchase: "شراء من الموقع",
+  partial: "جزئي",
+  complete: "مكتمل",
+  meta: "Meta",
+  google_ads: "Google Ads",
+  tiktok_ads: "TikTok Ads",
+  linkedin: "LinkedIn",
+  blueprint_only: "Blueprint فقط",
+};
+
 function unwrap(value: any): any {
   if (
     value &&
@@ -94,7 +118,7 @@ function displayValue(value: any, fallback = "غير محدد"): string {
   }
 
   if (typeof unwrapped === "string" || typeof unwrapped === "number") {
-    return String(unwrapped);
+    return typeof unwrapped === "string" ? DISPLAY_LABELS[unwrapped] ?? unwrapped : String(unwrapped);
   }
 
   if (typeof unwrapped === "boolean") {
@@ -192,9 +216,11 @@ function ReasoningBadge({ reasoning }: { reasoning?: any }) {
 function SourceBadge({
   aiGenerated,
   backfilled,
+  reasoningActive,
 }: {
   aiGenerated?: boolean;
   backfilled?: boolean;
+  reasoningActive?: boolean;
 }) {
   if (aiGenerated) {
     return (
@@ -212,9 +238,22 @@ function SourceBadge({
     );
   }
 
+  if (reasoningActive) {
+    return (
+      <div className="flex items-center gap-2">
+        <span className="bg-indigo-100 text-indigo-800 px-2 py-1 rounded-full text-xs">
+          🧠 AI Reasoning — استشاري
+        </span>
+        <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs">
+          ⚙️ قرارات CDKS / Rules Engine
+        </span>
+      </div>
+    );
+  }
+
   return (
     <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs">
-      ⚙️ Rules Engine
+      ⚙️ قرارات CDKS / Rules Engine
     </span>
   );
 }
@@ -2597,6 +2636,16 @@ export default function BlueprintPage() {
       generationEnvelope?.wizard_input ??
       blueprint?.raw_input_summary
   );
+  const reasoningContract =
+    generationEnvelope?.data?.reasoning?.contract ??
+    generationEnvelope?.data?.reasoning ??
+    blueprint?.reasoning?.contract ??
+    blueprint?.reasoning;
+  const reasoningActive = Boolean(
+    reasoningContract &&
+    typeof reasoningContract === "object" &&
+    reasoningContract.status !== "not_requested"
+  );
 
   return (
     <div
@@ -2622,9 +2671,18 @@ export default function BlueprintPage() {
                     generationEnvelope.processingTimeMs
                       ? ` · ${generationEnvelope.processingTimeMs}ms`
                       : ""
-                  }`
+                  }${reasoningActive ? " · AI Reasoning استشاري" : ""}`
                 : "مصدر البيانات: سجل محلي قديم"}
             </p>
+            <div className="mt-4 rounded-xl border border-indigo-100 bg-indigo-50 px-4 py-3 text-sm leading-6 text-indigo-900">
+              <p><strong>ما الذي تراه هنا؟</strong> هذه نتيجة مدخلات Wizard بعد تحويلها إلى قرارات CDKS وBlueprint، مع طبقة AI تشرح وتقترح فقط.</p>
+              <div className="mt-2 flex flex-wrap gap-2 text-xs font-semibold">
+                <span className="rounded-full bg-white px-2.5 py-1">Wizard محفوظ</span>
+                <span className="rounded-full bg-white px-2.5 py-1">CDKS يقرر</span>
+                <span className="rounded-full bg-white px-2.5 py-1">AI يفسر ويقترح</span>
+                <span className="rounded-full bg-white px-2.5 py-1">الإنسان يعتمد</span>
+              </div>
+            </div>
           </div>
 
           <div className="flex items-center gap-3">
@@ -2641,6 +2699,7 @@ export default function BlueprintPage() {
                 blueprint?.backfilled ??
                 false
               }
+              reasoningActive={reasoningActive}
             />
 
             <button
@@ -2686,7 +2745,7 @@ export default function BlueprintPage() {
                         section.key
                       )
                     }
-                    className={`w-full text-right px-4 py-3 text-sm font-medium transition-colors flex items-center gap-2 ${
+                    className={`w-full text-right px-4 py-3 text-sm font-medium transition-colors flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-inset ${
                       activeSection ===
                       section.key
                         ? "bg-blue-50 text-blue-700 border-r-4 border-blue-600"
@@ -2714,7 +2773,7 @@ export default function BlueprintPage() {
                   .value as SectionKey
               )
             }
-            className="w-full p-3 bg-white border rounded-xl text-sm font-medium"
+            className="w-full p-3 bg-white border rounded-xl text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
           >
             {sections.map(
               (section) => (

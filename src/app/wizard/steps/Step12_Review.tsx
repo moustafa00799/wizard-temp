@@ -129,8 +129,8 @@ export default function Step12_Review({ wizardData: passedWizardData, onBack }: 
   }, [passedWizardData]);
 
   const progressSteps: { key: GenerationStatus; label: string; description: string }[] = [
-    { key: "generating_ai", label: "جاري بناء الاستراتيجية بالذكاء الاصطناعي", description: "Gemini يحلل بياناتك ويبني Blueprint مخصص..." },
-    { key: "validating", label: "التحقق من صحة البيانات", description: "يتم التأكد من اكتمال الأقسام الـ 11..." },
+    { key: "generating_ai", label: "جاري بناء التوصية بالذكاء الاصطناعي الاستشاري", description: "طبقة AI تفسر المدخلات وتقترح، بينما تظل قرارات CDKS هي السلطة الأساسية..." },
+    { key: "validating", label: "التحقق من صحة البيانات", description: "يتم التأكد من اكتمال مخرجات Blueprint والعقود..." },
     { key: "backfilling", label: "تعبئة البيانات الناقصة", description: "Rules Engine يُكمل أي قسم غير مكتمل..." },
     { key: "adapting", label: "تحويل البيانات للعرض", description: "جاري تجهيز Blueprint للعرض النهائي..." },
   ];
@@ -285,7 +285,7 @@ export default function Step12_Review({ wizardData: passedWizardData, onBack }: 
     <div className="max-w-3xl mx-auto p-6 space-y-6" dir="rtl">
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-bold text-gray-900">مراجعة نهائية وإنشاء الـ Blueprint</h2>
-        <p className="text-gray-600">سنقوم بتحليل بياناتك وإنشاء استراتيجية إعلانية كاملة مكونة من 11 قسم</p>
+        <p className="text-gray-600">سنقوم بتحليل بياناتك وإنشاء Blueprint منظم يضم طبقات استراتيجية وتشغيلية وتفسيرية قابلة للمراجعة</p>
       </div>
 
       <div className="bg-gray-50 rounded-xl p-5 border border-gray-200 space-y-4">
