@@ -112,7 +112,7 @@ export const AI_REASONING_PROVIDER_JSON_SCHEMA = {
           excerpt: { type: "string" },
           limitations: { type: "array", items: { type: "string" } },
         },
-        required: ["id", "kind", "path", "source_ref", "authority", "user_confirmed", "relevance", "limitations"],
+          required: ["id", "kind", "path", "source_ref", "authority", "user_confirmed", "relevance", "excerpt", "limitations"],
       },
     },
     uncertainties: {
@@ -206,6 +206,21 @@ function failureCategory(status: number | undefined, body: string): { category: 
   return { category: "unknown", retryable: false, message: "AI Reasoning provider returned an unexpected error." };
 }
 
+function responseFormat(provider: ReasoningProviderName) {
+  return {
+    type: "json_schema",
+    json_schema: {
+      name: "ai_reasoning_contract",
+      strict: PROVIDER_DEFAULTS[provider].structuredMode === "strict_json_schema",
+      schema: AI_REASONING_PROVIDER_JSON_SCHEMA,
+    },
+  };
+}
+
+export function getReasoningProviderResponseFormat(provider: ReasoningProviderName) {
+  return responseFormat(provider);
+}
+
 function extractContent(payload: unknown): string {
   const value = payload as { choices?: Array<{ message?: { content?: unknown } }> };
   return typeof value?.choices?.[0]?.message?.content === "string" ? value.choices[0].message.content.trim() : "";
@@ -268,14 +283,7 @@ export async function runReasoningProvider(
         ],
         temperature: 0.1,
         max_tokens: 4096,
-        response_format: {
-          type: "json_schema",
-          json_schema: {
-            name: "ai_reasoning_contract",
-            strict: defaults.structuredMode === "strict_json_schema",
-            schema: AI_REASONING_PROVIDER_JSON_SCHEMA,
-          },
-        },
+        response_format: responseFormat(options.provider),
         stream: false,
       }),
       signal: controller.signal,

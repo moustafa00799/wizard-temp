@@ -118,15 +118,13 @@ export default function Step12_Review({ wizardData: passedWizardData, onBack }: 
         const extracted = extractWizardData(parsed);
         if (extracted) {
           setWizardData(extracted);
-          console.log(`[Step12] Loaded wizard data from localStorage: ${key}`);
           return;
         }
-      } catch (error) {
-        console.warn(`[Step12] Failed to parse ${key}`, error);
+      } catch {
+        // Ignore malformed legacy drafts and continue to the next storage key.
       }
     }
 
-    console.warn("[Step12] No wizard data found");
   }, [passedWizardData]);
 
   const progressSteps: { key: GenerationStatus; label: string; description: string }[] = [

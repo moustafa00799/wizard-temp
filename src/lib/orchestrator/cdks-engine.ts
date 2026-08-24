@@ -10,6 +10,15 @@ import { resolveLaunchReadiness, ReadinessDecision } from '../policies/launchRea
 
 const CHANNEL_SCORE_KEYS = ['meta', 'google_ads', 'tiktok_ads', 'snapchat_ads', 'youtube', 'linkedin', 'x'] as const;
 
+function cdksDebug(message: string, details?: unknown): void {
+  if (process.env.CDKS_DEBUG !== 'true') return;
+  if (details === undefined) {
+    console.log(message);
+    return;
+  }
+  console.log(message, details);
+}
+
 function padChannelScores(scores: Record<string, number>): Record<string, number> {
   return CHANNEL_SCORE_KEYS.reduce<Record<string, number>>((acc, channel) => {
     acc[channel] = scores[channel] ?? 0;
@@ -56,9 +65,14 @@ class ProvenanceTracker {
 // ============================================================
 export class CDKSEngine {
   async generate(input: CanonicalWizardInput): Promise<CanonicalBlueprint> {
-    console.log('\n🔍 [CDKS DEBUG] ====== STARTING CDKS ENGINE ======');
-    console.log('🔍 [CDKS DEBUG] Engine version: v2.0.0 (WITH DEBUG LOGS)');
-    console.log('🔍 [CDKS DEBUG] Input:', JSON.stringify(input, null, 2));
+    cdksDebug('\n🔍 [CDKS DEBUG] ====== STARTING CDKS ENGINE ======');
+    cdksDebug('🔍 [CDKS DEBUG] Engine version: v2.0.0 (WITH DEBUG LOGS)');
+    cdksDebug('🔍 [CDKS DEBUG] Input summary:', {
+      business_type: input.business_type,
+      primary_objective: input.primary_objective,
+      budget_band: input.budget_band,
+      tracking_status: input.tracking_status,
+    });
 
     const startTime = Date.now();
     const provenance = new ProvenanceTracker();
@@ -69,12 +83,12 @@ export class CDKSEngine {
 
     // 1. الهدف الاستراتيجي (Objective)
     const objective = resolveObjective(input);
-    console.log('🔍 [CDKS DEBUG] ==== OBJECTIVE RESOLVED ====');
-    console.log('🔍 [CDKS DEBUG]   value:', objective.value);
-    console.log('🔍 [CDKS DEBUG]   source:', objective.source);
-    console.log('🔍 [CDKS DEBUG]   confidence:', objective.confidence);
-    console.log('🔍 [CDKS DEBUG]   rule_id:', objective.rule_id);
-    console.log('🔍 [CDKS DEBUG]   reasoning:', objective.reasoning);
+    cdksDebug('🔍 [CDKS DEBUG] ==== OBJECTIVE RESOLVED ====');
+    cdksDebug('🔍 [CDKS DEBUG]   value:', objective.value);
+    cdksDebug('🔍 [CDKS DEBUG]   source:', objective.source);
+    cdksDebug('🔍 [CDKS DEBUG]   confidence:', objective.confidence);
+    cdksDebug('🔍 [CDKS DEBUG]   rule_id:', objective.rule_id);
+    cdksDebug('🔍 [CDKS DEBUG]   reasoning:', objective.reasoning);
 
     provenance.record('objective', objective.value, objective.source, {
       rule_id: objective.rule_id,
@@ -84,12 +98,12 @@ export class CDKSEngine {
 
     // 2. مسار التحويل (Funnel)
     const funnel = resolveFunnel(input, objective);
-    console.log('🔍 [CDKS DEBUG] ==== FUNNEL RESOLVED ====');
-    console.log('🔍 [CDKS DEBUG]   value:', funnel.value);
-    console.log('🔍 [CDKS DEBUG]   source:', funnel.source);
-    console.log('🔍 [CDKS DEBUG]   confidence:', funnel.confidence);
-    console.log('🔍 [CDKS DEBUG]   rule_id:', funnel.rule_id);
-    console.log('🔍 [CDKS DEBUG]   reasoning:', funnel.reasoning);
+    cdksDebug('🔍 [CDKS DEBUG] ==== FUNNEL RESOLVED ====');
+    cdksDebug('🔍 [CDKS DEBUG]   value:', funnel.value);
+    cdksDebug('🔍 [CDKS DEBUG]   source:', funnel.source);
+    cdksDebug('🔍 [CDKS DEBUG]   confidence:', funnel.confidence);
+    cdksDebug('🔍 [CDKS DEBUG]   rule_id:', funnel.rule_id);
+    cdksDebug('🔍 [CDKS DEBUG]   reasoning:', funnel.reasoning);
 
     provenance.record('funnel', funnel.value, funnel.source, {
       rule_id: funnel.rule_id,
@@ -99,11 +113,11 @@ export class CDKSEngine {
 
     // 3. القنوات (Channels)
     const channels = resolveChannels(input, objective, funnel);
-    console.log('🔍 [CDKS DEBUG] ==== CHANNELS RESOLVED ====');
-    console.log('🔍 [CDKS DEBUG]   value:', channels.value);
-    console.log('🔍 [CDKS DEBUG]   scores:', channels.scores);
-    console.log('🔍 [CDKS DEBUG]   source:', channels.source);
-    console.log('🔍 [CDKS DEBUG]   rule_id:', channels.rule_id);
+    cdksDebug('🔍 [CDKS DEBUG] ==== CHANNELS RESOLVED ====');
+    cdksDebug('🔍 [CDKS DEBUG]   value:', channels.value);
+    cdksDebug('🔍 [CDKS DEBUG]   scores:', channels.scores);
+    cdksDebug('🔍 [CDKS DEBUG]   source:', channels.source);
+    cdksDebug('🔍 [CDKS DEBUG]   rule_id:', channels.rule_id);
 
     provenance.record('channels', channels.value, channels.source, {
       rule_id: channels.rule_id,
@@ -113,13 +127,13 @@ export class CDKSEngine {
 
     // 4. جاهزية الإطلاق (Launch Readiness)
     const readiness = resolveLaunchReadiness(input, objective, funnel);
-    console.log('🔍 [CDKS DEBUG] ==== READINESS RESOLVED ====');
-    console.log('🔍 [CDKS DEBUG]   value:', readiness.value);
-    console.log('🔍 [CDKS DEBUG]   score:', readiness.score);
-    console.log('🔍 [CDKS DEBUG]   risk_level:', readiness.risk_level);
-    console.log('🔍 [CDKS DEBUG]   blockers:', readiness.blockers);
-    console.log('🔍 [CDKS DEBUG]   fixes:', readiness.required_fixes);
-    console.log('🔍 [CDKS DEBUG]   reasoning:', readiness.reasoning);
+    cdksDebug('🔍 [CDKS DEBUG] ==== READINESS RESOLVED ====');
+    cdksDebug('🔍 [CDKS DEBUG]   value:', readiness.value);
+    cdksDebug('🔍 [CDKS DEBUG]   score:', readiness.score);
+    cdksDebug('🔍 [CDKS DEBUG]   risk_level:', readiness.risk_level);
+    cdksDebug('🔍 [CDKS DEBUG]   blockers:', readiness.blockers);
+    cdksDebug('🔍 [CDKS DEBUG]   fixes:', readiness.required_fixes);
+    cdksDebug('🔍 [CDKS DEBUG]   reasoning:', readiness.reasoning);
 
     provenance.record('launch_readiness', readiness.value, readiness.source, {
       rule_id: readiness.rule_id,
@@ -869,12 +883,12 @@ export class CDKSEngine {
       flags,
     };
 
-    console.log('🔍 [CDKS DEBUG] ====== FINAL DECISIONS ======');
-    console.log('🔍 [CDKS DEBUG]   Objective:', objective.value);
-    console.log('🔍 [CDKS DEBUG]   Funnel:', funnel.value);
-    console.log('🔍 [CDKS DEBUG]   Channels:', channels.value);
-    console.log('🔍 [CDKS DEBUG]   Launch:', readiness.value);
-    console.log('🔍 [CDKS DEBUG] ====== END OF DEBUG ======\n');
+    cdksDebug('🔍 [CDKS DEBUG] ====== FINAL DECISIONS ======');
+    cdksDebug('🔍 [CDKS DEBUG]   Objective:', objective.value);
+    cdksDebug('🔍 [CDKS DEBUG]   Funnel:', funnel.value);
+    cdksDebug('🔍 [CDKS DEBUG]   Channels:', channels.value);
+    cdksDebug('🔍 [CDKS DEBUG]   Launch:', readiness.value);
+    cdksDebug('🔍 [CDKS DEBUG] ====== END OF DEBUG ======\n');
 
     // ------------------------------------------
     // 2.4 التحقق النهائي باستخدام Zod
