@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
 import { INDUSTRY_PROFILES } from "../src/lib/knowledge";
 import { IndustryProfileSchema } from "../src/lib/contracts/knowledge";
 import { applyDatabaseMigrations, createRepositories, openDatabase, sha256Json } from "../src/lib/db";
@@ -248,7 +250,7 @@ assert.throws(() => repositories.sources.create({
 }));
 assert.throws(() => database.exec("DELETE FROM workspaces WHERE workspace_id = 'ws-demo'"));
 
-const diskPath = `/tmp/cdks-database-foundation-${process.pid}.db`;
+const diskPath = path.join(os.tmpdir(), `cdks-database-foundation-${process.pid}.db`);
 const diskDatabase = openDatabase(diskPath);
 const diskRepositories = createRepositories(diskDatabase);
 diskRepositories.workspaces.create({ workspaceId: "ws-persisted", name: "Persisted Redacted Workspace", createdAt });
