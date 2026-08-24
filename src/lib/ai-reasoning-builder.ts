@@ -137,8 +137,23 @@ function normalizeProviderOutput(
     return { failure: failureContract(contract, "REASONING_SCHEMA_INVALID", "AI Reasoning provider output failed the provider schema.", model) };
   }
 
-  const candidate: AIReasoningContract = {
+  const derivedCounts = parsed.data.claims.reduce((result, claim) => {
+    if (claim.status === "supported") result.supported += 1;
+    if (claim.status === "qualified") result.qualified += 1;
+    if (claim.status === "unsupported" || claim.status === "rejected") result.unsupported += 1;
+    return result;
+  }, { supported: 0, qualified: 0, unsupported: 0 });
+  const providerData = {
     ...parsed.data,
+    grounding: {
+      ...parsed.data.grounding,
+      supported_claim_count: derivedCounts.supported,
+      qualified_claim_count: derivedCounts.qualified,
+      unsupported_claim_count: derivedCounts.unsupported,
+    },
+  };
+  const candidate: AIReasoningContract = {
+    ...providerData,
     reasoning_id: randomUUID(),
     blueprint_id: contract.blueprint_id,
     generated_at: new Date().toISOString(),

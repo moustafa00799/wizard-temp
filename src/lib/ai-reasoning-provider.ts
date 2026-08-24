@@ -76,7 +76,7 @@ export const AI_REASONING_PROVIDER_JSON_SCHEMA = {
     locale: { type: "string", enum: ["ar", "en"] },
     purpose: { type: "string", enum: ["explain", "critique", "gap_analysis", "synthesize"] },
     status: { type: "string", enum: ["completed"] },
-    summary: { type: "string" },
+    summary: { type: "string", minLength: 1 },
     claims: {
       type: "array",
       items: {

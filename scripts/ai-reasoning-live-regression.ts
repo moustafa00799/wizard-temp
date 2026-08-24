@@ -89,6 +89,32 @@ async function main() {
   assert.equal(capturedUserPrompt.includes("private.example.test"), false);
   assert.equal(capturedUserPrompt.includes("super-secret-token-1234567890"), false);
 
+  const inconsistent = await buildAIReasoning(input, blueprint, contract, {
+    enabled: true,
+    provider: "groq",
+    liveAllowed: true,
+    providerRunner: async () => {
+      const result = success("groq");
+      if (!result.success || !result.data || typeof result.data !== "object") return result;
+      return {
+        ...result,
+        data: {
+          ...(result.data as Record<string, unknown>),
+          grounding: {
+            ...((result.data as Record<string, unknown>).grounding as Record<string, unknown>),
+            supported_claim_count: 99,
+            qualified_claim_count: 99,
+            unsupported_claim_count: 99,
+          },
+        },
+      };
+    },
+  });
+  assert.equal(inconsistent.status, "completed");
+  assert.equal(inconsistent.grounding.supported_claim_count, 1);
+  assert.equal(inconsistent.grounding.qualified_claim_count, 1);
+  assert.equal(inconsistent.grounding.unsupported_claim_count, 0);
+
   calls = 0;
   const blocked = await buildAIReasoning(input, blueprint, contract, {
     enabled: true,
@@ -136,7 +162,7 @@ async function main() {
   assert.equal(fallback.provenance?.fallbackReason, "429");
   assert.equal(fallbackCalls, 2);
 
-  console.log(JSON.stringify({ status: "PASS", assertions: 12, scenarios: 4, externalRequests: 0 }, null, 2));
+  console.log(JSON.stringify({ status: "PASS", assertions: 16, scenarios: 5, externalRequests: 0 }, null, 2));
 }
 
 void main();
