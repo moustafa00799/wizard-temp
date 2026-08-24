@@ -14,6 +14,7 @@ import type {
   BlueprintContractV3,
 } from "./contracts/blueprint-contract-v3";
 import type { ScopedStrategyContext } from "./contracts/knowledge-strategy-context";
+import { sanitizeUnknownForAI } from "./ai-sanitizer";
 
 const StrategyProposalSchema = z.object({
   strategic_summary: z.string().min(1),
@@ -38,6 +39,8 @@ export type StrategyBuilderOptions = {
   mockScenario?: MockStrategyScenario;
   fallbackProvider?: StrategyProviderName;
   benchmark?: boolean;
+  /** Client opt-in is accepted only when the server explicitly enables live non-production mode. */
+  liveAllowed?: boolean;
   /** Test-only seam; production routes use the real provider runner. */
   providerRunner?: StrategyProviderRunner;
   /** Optional, validated, market-and-industry scoped evidence context. */
@@ -81,7 +84,7 @@ All proposals must be grounded in the supplied Wizard input and CDKS decisions. 
 When a scoped Knowledge context is supplied, use only its exact market/industry scope, cite its evidence IDs or source IDs, preserve its limitations, and never turn account-owned data into a market benchmark.
 Never invent CPC, CPA, CVR, ROAS, saturation, competitor-performance, or offer-level demand benchmarks when the context marks them unavailable. Never claim that the overall system is Market-Validated.
 Write all text in the requested locale. Keep proposed changes actionable but non-binding.`,
-    user: JSON.stringify({
+    user: JSON.stringify(sanitizeUnknownForAI({
       locale: contract.locale,
       currency: contract.currency,
       wizard_input: input,
@@ -102,7 +105,7 @@ Write all text in the requested locale. Keep proposed changes actionable but non
         external_actions_allowed: false,
         budget_spend_allowed: false,
       },
-    }),
+    })),
   };
 }
 
@@ -218,9 +221,25 @@ export async function buildAIStrategyProposal(
     return traceFromProposal(parsed.data, result.model, undefined, options.knowledgeContext);
   }
 
+  if (options.liveAllowed === false) {
+    return {
+      ...disabledTrace("Live Strategy Builder is unavailable until the server enables non-production AI mode.", getStrategyProviderModel(provider, options.model), undefined, options.knowledgeContext),
+      status: "failed",
+      model: getStrategyProviderModel(provider, options.model),
+    };
+  }
+
   const isAnonymizedFixture = contract.provenance.some((entry) => entry.source_ref.startsWith("fixture:"));
   const providerMode = process.env.AI_PROVIDER_MODE;
   const dataPolicy = process.env.AI_DATA_POLICY;
+
+  if (options.liveAllowed === true && dataPolicy !== "sanitized_wizard_only") {
+    return {
+      ...disabledTrace("Live client AI requires AI_DATA_POLICY=sanitized_wizard_only.", getStrategyProviderModel(provider, options.model), undefined, options.knowledgeContext),
+      status: "failed",
+      model: getStrategyProviderModel(provider, options.model),
+    };
+  }
 
   if (providerMode && providerMode !== "nonprod") {
     return {

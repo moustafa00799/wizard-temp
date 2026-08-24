@@ -7,15 +7,29 @@ import {
   type ValidatedAIReasoningContract,
 } from "./contracts/ai-reasoning";
 import { runMockReasoningBuilder, type MockReasoningScenario } from "./ai-reasoning-builder-mock";
+import {
+  getReasoningProviderModel,
+  runReasoningProvider,
+  type ReasoningProviderName,
+  type ReasoningProviderResult,
+} from "./ai-reasoning-provider";
 import type { CanonicalBlueprint } from "./contracts/canonical-blueprint";
 import type { CanonicalWizardInput } from "./contracts/wizard-input";
+import { sanitizeUnknownForAI } from "./ai-sanitizer";
 
-export type ReasoningBuilderProvider = "mock";
+export type ReasoningBuilderProvider = ReasoningProviderName | "mock";
+export type ReasoningProviderRunner = typeof runReasoningProvider;
 
 export type ReasoningBuilderOptions = {
   enabled?: boolean;
   provider?: ReasoningBuilderProvider;
+  model?: string;
+  fallbackProvider?: ReasoningProviderName;
+  /** Client opt-in is accepted only when the server explicitly enables live non-production mode. */
+  liveAllowed?: boolean;
   mockScenario?: MockReasoningScenario;
+  /** Test-only seam; live calls use the governed provider runner. */
+  providerRunner?: ReasoningProviderRunner;
 };
 
 function safety(): AIReasoningContract["safety"] {
@@ -37,6 +51,7 @@ function failureContract(
   code: string,
   message: string,
   model?: string,
+  provenance?: AIReasoningContract["provenance"],
 ): ValidatedAIReasoningContract {
   return validateAIReasoningContract({
     contract_version: "1.0",
@@ -62,6 +77,7 @@ function failureContract(
       evidence_only_mode: true,
     },
     safety: safety(),
+    ...(provenance ? { provenance } : {}),
     failure: { code, message, retryable: false },
   });
 }
@@ -124,21 +140,192 @@ function disabledContract(contract: BlueprintContractV3): ValidatedAIReasoningCo
   });
 }
 
+function reasoningPrompt(
+  input: CanonicalWizardInput,
+  blueprint: CanonicalBlueprint,
+  contract: BlueprintContractV3,
+): { system: string; user: string } {
+  return {
+    system: `You are the governed AI Reasoning layer inside a campaign-planning system.
+Return JSON only and follow the supplied AI Reasoning Contract schema.
+Explain CDKS decisions; do not replace, challenge, or mutate them.
+All decision_impacts.changed values must be false.
+Use only the supplied evidence IDs. If a statement cannot be supported, mark it qualified or unsupported and include an uncertainty.
+Never authorize launch, change budget, publish a campaign, call an advertising platform, or claim market validation.
+Use the requested locale and keep the output concise.`,
+    user: JSON.stringify(sanitizeUnknownForAI({
+      locale: contract.locale,
+      wizard_input: input,
+      cdks_authority: {
+        blueprint_id: contract.blueprint_id,
+        decisions: contract.decisions,
+        readiness: contract.readiness,
+        warnings: contract.warnings,
+      },
+      canonical_blueprint: {
+        blueprint_id: blueprint.blueprint_id,
+        strategy: blueprint.strategy,
+      },
+      available_evidence: [
+        {
+          id: "evidence-wizard-input",
+          kind: "wizard_input",
+          path: "wizard_input",
+          source_ref: "wizard:input:sanitized",
+          authority: "WIZARD_INPUT",
+          user_confirmed: (contract.provenance ?? []).some((entry) => entry.source_ref.startsWith("fixture:")) ? true : false,
+          relevance: "primary",
+          limitations: ["تم إرسال نسخة منقحة فقط إلى مزود AI."],
+        },
+        {
+          id: "evidence-objective",
+          kind: "cdks_decision",
+          path: "decisions.objective.value",
+          source_ref: "cdks:decisions.objective",
+          authority: "DECISION_POLICY",
+          user_confirmed: true,
+          relevance: "primary",
+          limitations: [],
+        },
+        {
+          id: "evidence-funnel",
+          kind: "cdks_decision",
+          path: "decisions.funnel.value",
+          source_ref: "cdks:decisions.funnel",
+          authority: "DECISION_POLICY",
+          user_confirmed: false,
+          relevance: "supporting",
+          limitations: [],
+        },
+        {
+          id: "evidence-readiness",
+          kind: "rule_output",
+          path: "readiness.value",
+          source_ref: "cdks:readiness",
+          authority: "READINESS_POLICY",
+          user_confirmed: false,
+          relevance: "primary",
+          limitations: ["الجاهزية ليست إذن إطلاق."],
+        },
+      ],
+      safety: {
+        generation_mode: "blueprint_only",
+        external_actions_allowed: false,
+        budget_spend_allowed: false,
+      },
+    })),
+  };
+}
+
+const ALLOWED_REASONING_EVIDENCE_IDS = new Set([
+  "evidence-wizard-input",
+  "evidence-objective",
+  "evidence-funnel",
+  "evidence-readiness",
+]);
+const ALLOWED_REASONING_DECISION_REFS = new Set([
+  "decisions.objective",
+  "decisions.funnel",
+  "decisions.channels",
+  "readiness",
+]);
+
+function normalizeLiveOutput(
+  output: unknown,
+  contract: BlueprintContractV3,
+  model: string,
+  provenance: NonNullable<ValidatedAIReasoningContract["provenance"]>,
+): { contract?: ValidatedAIReasoningContract; failure?: ValidatedAIReasoningContract } {
+  const normalized = normalizeProviderOutput(output, contract, model);
+  if (!normalized.contract) return normalized;
+
+  const unknownEvidence = normalized.contract.evidence.some((item) => !ALLOWED_REASONING_EVIDENCE_IDS.has(item.id));
+  const unknownClaimEvidence = normalized.contract.claims.some((claim) => claim.evidence_refs.some((ref) => !ALLOWED_REASONING_EVIDENCE_IDS.has(ref)));
+  const unknownDecisionRefs = normalized.contract.claims.some((claim) => claim.decision_refs.some((ref) => !ALLOWED_REASONING_DECISION_REFS.has(ref)))
+    || normalized.contract.decision_impacts.some((impact) => !ALLOWED_REASONING_DECISION_REFS.has(impact.decision_ref));
+  if (unknownEvidence || unknownClaimEvidence || unknownDecisionRefs) {
+    return { failure: failureContract(contract, "REASONING_EVIDENCE_OUT_OF_SCOPE", "Live AI Reasoning referenced evidence or decisions outside the server-approved scope.", model, provenance) };
+  }
+
+  return {
+    contract: validateAIReasoningContract({
+      ...normalized.contract,
+      evidence: normalized.contract.evidence,
+      grounding: { ...normalized.contract.grounding, evidence_only_mode: true },
+      provenance,
+    }),
+  };
+}
+
 export async function buildAIReasoning(
-  _input: CanonicalWizardInput,
-  _blueprint: CanonicalBlueprint,
+  input: CanonicalWizardInput,
+  blueprint: CanonicalBlueprint,
   contract: BlueprintContractV3,
   options: ReasoningBuilderOptions = {},
 ): Promise<ValidatedAIReasoningContract> {
   if (!options.enabled) return disabledContract(contract);
-  if ((options.provider ?? "mock") !== "mock") {
-    return failureContract(contract, "REASONING_PROVIDER_NOT_ALLOWED", "Only the controlled mock provider is allowed in this phase.", "mock-reasoning-v1");
+
+  const provider = options.provider ?? "mock";
+  if (provider === "mock") {
+    const result = runMockReasoningBuilder(options.mockScenario ?? "baseline", contract.locale);
+    if (!result.success) return failureContract(contract, "REASONING_PROVIDER_FAILURE", result.error, result.model);
+
+    const normalized = normalizeProviderOutput(result.data, contract, result.model);
+    return normalized.contract ?? normalized.failure!;
   }
 
-  const result = runMockReasoningBuilder(options.mockScenario ?? "baseline", contract.locale);
-  if (!result.success) return failureContract(contract, "REASONING_PROVIDER_FAILURE", result.error, result.model);
+  if (options.liveAllowed === false) {
+    const model = getReasoningProviderModel(provider, options.model);
+    return failureContract(contract, "REASONING_LIVE_NOT_ENABLED", "Live AI Reasoning is unavailable until the server enables non-production AI mode.", model);
+  }
+  if (options.liveAllowed === true && process.env.AI_DATA_POLICY !== "sanitized_wizard_only") {
+    const model = getReasoningProviderModel(provider, options.model);
+    return failureContract(contract, "REASONING_DATA_POLICY_NOT_ALLOWED", "Live client AI requires AI_DATA_POLICY=sanitized_wizard_only.", model);
+  }
 
-  const normalized = normalizeProviderOutput(result.data, contract, result.model);
+  const model = getReasoningProviderModel(provider, options.model);
+  const prompts = reasoningPrompt(input, blueprint, contract);
+  const runner = options.providerRunner ?? runReasoningProvider;
+  const primary = await runner(prompts.system, prompts.user, { provider, model });
+  let result: ReasoningProviderResult = primary;
+
+  const fallbackProvider = options.fallbackProvider ?? (provider === "groq" ? "mistral" : undefined);
+  if (!primary.success && primary.retryable && fallbackProvider && fallbackProvider !== provider) {
+    const fallbackReason = primary.failureCategory === "timeout"
+      ? "timeout"
+      : primary.failureCategory === "rate_limited"
+        ? "429"
+        : primary.failureCategory === "server"
+          ? "5xx"
+          : primary.failureCategory === "network"
+            ? "network"
+            : "provider_unavailable";
+    const fallback = await runner(prompts.system, prompts.user, {
+      provider: fallbackProvider,
+      fallbackFrom: provider,
+      fallbackReason,
+    });
+    result = {
+      ...fallback,
+      provenance: {
+        ...fallback.provenance,
+        fallbackFrom: provider,
+        fallbackReason,
+      },
+    };
+  }
+
+  if (!result.success || !result.data) {
+    return failureContract(
+      contract,
+      `REASONING_PROVIDER_${(result.failureCategory ?? "FAILURE").toUpperCase()}`,
+      result.error ?? "AI Reasoning provider returned no usable output.",
+      result.provenance.model,
+      result.provenance,
+    );
+  }
+
+  const normalized = normalizeLiveOutput(result.data, contract, result.provenance.model, result.provenance);
   return normalized.contract ?? normalized.failure!;
 }
 

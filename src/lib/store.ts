@@ -43,6 +43,8 @@ export interface DataModel {
   top_priority: string | null;
   risk_tolerance: string | null;
   final_confirmed_inputs: boolean | null;
+  /** Client consent for optional sanitized AI advisory processing. */
+  ai_advisory_enabled: boolean;
 }
 
 const EMPTY_DATA: DataModel = {
@@ -87,6 +89,7 @@ const EMPTY_DATA: DataModel = {
   top_priority: null,
   risk_tolerance: null,
   final_confirmed_inputs: null,
+  ai_advisory_enabled: false,
 };
 
 interface WizardStore {

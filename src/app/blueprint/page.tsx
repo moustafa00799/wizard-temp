@@ -2536,7 +2536,7 @@ function ClientStatus({ status }: { status: string }) {
   return <span className={`inline-flex rounded-full border px-3 py-1 text-xs font-bold ${tone}`}>{status}</span>;
 }
 
-function ClientOutcomeSummary({ blueprint, wizardInput, reasoningActive }: { blueprint: any; wizardInput: any; reasoningActive: boolean }) {
+function ClientOutcomeSummary({ blueprint, wizardInput, reasoningActive, strategyTrace, reasoningStatus }: { blueprint: any; wizardInput: any; reasoningActive: boolean; strategyTrace: any; reasoningStatus: string }) {
   const executive = getObject(blueprint?.executive_summary);
   const strategy = getObject(blueprint?.strategy_summary ?? blueprint?.strategy);
   const funnel = getObject(blueprint?.recommended_funnel);
@@ -2558,6 +2558,16 @@ function ClientOutcomeSummary({ blueprint, wizardInput, reasoningActive }: { blu
   const locationValue = wizardInput?.target_locations ?? wizardInput?.geo_scope;
   const objectiveValue = wizardInput?.primary_objective ?? strategy?.recommended_objective;
   const nextStep = fixes[0] ? displayValue(fixes[0]) : "مراجعة التوصية واعتمادها بشريًا قبل أي إطلاق.";
+  const strategyStatus = strategyTrace?.status === "completed"
+    ? "Strategy Builder مكتمل"
+    : strategyTrace?.status === "failed"
+      ? "Strategy Builder فشل مغلقًا"
+      : "Strategy Builder غير مشغّل";
+  const reasoningStatusLabel = reasoningStatus === "completed"
+    ? "Reasoning مكتمل"
+    : reasoningStatus === "failed"
+      ? "Reasoning فشل مغلقًا"
+      : "Reasoning غير مشغّل";
 
   return (
     <section className="mt-6 space-y-5" aria-label="ملخص العميل النهائي">
@@ -2574,11 +2584,12 @@ function ClientOutcomeSummary({ blueprint, wizardInput, reasoningActive }: { blu
           </div>
         </div>
 
-        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
           <div className="rounded-2xl border border-white bg-white/80 p-4"><p className="text-xs text-gray-500">الهدف</p><p className="mt-2 font-bold text-gray-900">{displayValue(objectiveValue)}</p></div>
           <div className="rounded-2xl border border-white bg-white/80 p-4"><p className="text-xs text-gray-500">السوق / المواقع</p><p className="mt-2 font-bold text-gray-900">{displayValue(locationValue)}</p></div>
           <div className="rounded-2xl border border-white bg-white/80 p-4"><p className="text-xs text-gray-500">القنوات في مدخلاتك</p><p className="mt-2 font-bold text-gray-900">{displayValue(channelValue)}</p></div>
           <div className="rounded-2xl border border-white bg-white/80 p-4"><p className="text-xs text-gray-500">الجاهزية / المخاطرة</p><p className="mt-2 font-bold text-gray-900">{readiness} / {riskScore}</p></div>
+          <div className="rounded-2xl border border-white bg-white/80 p-4"><p className="text-xs text-gray-500">حالة AI الاستشاري</p><p className="mt-2 font-bold text-gray-900">{strategyStatus}</p><p className="mt-1 text-xs text-gray-500">{reasoningStatusLabel}</p></div>
         </div>
       </div>
 
@@ -2801,6 +2812,8 @@ export default function BlueprintPage() {
           blueprint={blueprint}
           wizardInput={wizardInput}
           reasoningActive={reasoningActive}
+          strategyTrace={generationEnvelope?.data?.strategy}
+          reasoningStatus={reasoningContract?.status ?? "not_requested"}
         />
 
         <details className="mt-6 overflow-hidden rounded-2xl border border-indigo-100 bg-white shadow-sm">

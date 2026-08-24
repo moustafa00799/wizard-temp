@@ -82,6 +82,7 @@ const PROFILES: DataModel[] = [
     top_priority: "increase_demand",
     risk_tolerance: "high_if_return",
     final_confirmed_inputs: true,
+    ai_advisory_enabled: false,
   },
 
   // ── Profile 2: Local service (plumbing/home services) ─────────────────────
@@ -130,6 +131,7 @@ const PROFILES: DataModel[] = [
     top_priority: "tracking_fix",
     risk_tolerance: "medium",
     final_confirmed_inputs: true,
+    ai_advisory_enabled: false,
   },
 
   // ── Profile 3: B2B SaaS ───────────────────────────────────────────────────
@@ -190,6 +192,7 @@ const PROFILES: DataModel[] = [
     top_priority: "lead_quality",
     risk_tolerance: "result_first",
     final_confirmed_inputs: true,
+    ai_advisory_enabled: false,
   },
 ];
 

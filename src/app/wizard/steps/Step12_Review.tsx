@@ -129,7 +129,13 @@ export default function Step12_Review({ wizardData: passedWizardData, onBack }: 
   }, [passedWizardData]);
 
   const progressSteps: { key: GenerationStatus; label: string; description: string }[] = [
-    { key: "generating_ai", label: "جاري بناء التوصية بالذكاء الاصطناعي الاستشاري", description: "طبقة AI تفسر المدخلات وتقترح، بينما تظل قرارات CDKS هي السلطة الأساسية..." },
+    {
+      key: "generating_ai",
+      label: wizardData?.ai_advisory_enabled ? "جاري تشغيل AI الاستشاري اختياريًا" : "جاري بناء Blueprint بواسطة CDKS",
+      description: wizardData?.ai_advisory_enabled
+        ? "سيحلل AI النسخة المنقحة ويقترح، بينما تظل قرارات CDKS هي السلطة الأساسية..."
+        : "يطبق CDKS قواعد القرار والجاهزية على مدخلاتك دون إرسالها إلى مزود AI خارجي...",
+    },
     { key: "validating", label: "التحقق من صحة البيانات", description: "يتم التأكد من اكتمال مخرجات Blueprint والعقود..." },
     { key: "backfilling", label: "تعبئة البيانات الناقصة", description: "Rules Engine يُكمل أي قسم غير مكتمل..." },
     { key: "adapting", label: "تحويل البيانات للعرض", description: "جاري تجهيز Blueprint للعرض النهائي..." },
@@ -155,10 +161,8 @@ export default function Step12_Review({ wizardData: passedWizardData, onBack }: 
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...wizardData,
-          ai_reasoning: {
-            enabled: true,
-            provider: "mock",
-            mockScenario: "baseline",
+          ai_advisory: {
+            enabled: wizardData.ai_advisory_enabled === true,
           },
         }),
       });
@@ -180,8 +184,8 @@ export default function Step12_Review({ wizardData: passedWizardData, onBack }: 
       }
 
       // الاحتفاظ بالـ envelope v5 الكامل بدل تخزين contract مبتور.
-      // يتم تفعيل reasoning صراحةً عبر controlled mock provider في هذه المرحلة،
-      // دون أي اتصال بمزود AI حي أو منح reasoning سلطة تنفيذية.
+      // AI الاستشاري يظل اختياريًا؛ الخادم يقرر إن كان سيستخدم مزودًا حيًا
+      // في وضع Non-Production، مع بقاء CDKS وBlueprint-only حاكمين دائمًا.
       const blueprintData = result.data;
       const processingTime = result.processingTimeMs || 0;
 
