@@ -10,7 +10,7 @@
 
 ## الملخص التنفيذي
 
-تم استنفاد مجموعة كبيرة من المصادر العامة القابلة للوصول دون صلاحيات خاصة، ثم تحويلها إلى snapshots وSource Records وEvidence Packages قابلة لإعادة البناء. توسعت Registry من 9 إلى **35 مصدرًا مسجلًا**، وأصبح الـmanifest يضم **14 artifact عامًا إضافيًا** فوق World Bank وCAPMAS وGoogle Trends. أُبقيت ملفات HTML وPDF وCSV/JSON الخام الكبيرة في التخزين المحلي مع hashes وروابط إعادة التنزيل، ولم تُضمّن عشوائيًا في Git.
+تم استنفاد مجموعة كبيرة من المصادر العامة القابلة للوصول دون صلاحيات خاصة، ثم تحويلها إلى snapshots وSource Records وEvidence Packages قابلة لإعادة البناء. توسعت Registry من 9 إلى **53 مصدرًا مسجلًا**، وأصبح الـmanifest يضم **22 artifact عامًا إضافيًا** فوق World Bank وCAPMAS وGoogle Trends. أُبقيت ملفات HTML وPDF وCSV/JSON الخام الكبيرة في التخزين المحلي مع hashes وروابط إعادة التنزيل، ولم تُضمّن عشوائيًا في Git.
 
 المصادر الجديدة حسّنت طبقات **السياق السكاني والاقتصادي والرقمي والتعليمي والتجاري ونشاط المدفوعات**. لكنها لا تعوّض البيانات الخاصة اللازمة لقياس الجمهور الإعلاني أو أداء الحملات أو funnel العميل. لذلك لم يتم تحويل أي مؤشر عام إلى CPC أو CPA أو CVR أو ROAS أو reach أو frequency أو saturation، ولم يتم اعتبار نشاط الدفع أو التجارة الدولية دليلًا مباشرًا على الطلب الإعلاني.
 
@@ -29,6 +29,12 @@
 | DataSaudi/GASTAT للتجارة مع مصر | 53 صادرات و64 واردات | سياق تجارة السعودية مع مصر فقط | ليست تجارة إلكترونية محلية أو أداء حملات |
 | KAPSARC/SAMA | 2,992 ملاحظة قطاعية، و44 قطاع/مدينة، و32 ملاحظة تفصيلية حديثة | نشاط دفع إجمالي حسب القطاع والمدينة للسعودية | لا يثبت أن النشاط إلكتروني بالكامل ولا يربط إعلانًا بتحويل |
 | ITU workbook | فحص جميع الأوراق | تحقق من التغطية الإقليمية | الملف المتاح احتوى على مجاميع إقليمية ولم يحتوِ صفوفًا مباشرة لمصر أو السعودية |
+| CBE | 2 ملاحظتان نوعيتان | مكونات وأهداف نظام الدفع المصري | الصفحة مؤسسية ونوعية، واستخراجها النصي محمي؛ لا توجد سلسلة رقمية في artifact |
+| SAMA news-1139 | 5 ملاحظات | 85% من مدفوعات التجزئة إلكترونية في 2025، مقابل 79% في 2024، و14.6/12.6 مليار معاملة إلكترونية في 2025/2024 | إجمالي وطني لنظام الدفع، وليس تجارة إلكترونية أو أداء إعلان |
+| SAMA واجهة التجارة الإلكترونية وPOS | ملاحظتان نوعيتان | خصائص الواجهة ونطاق تقارير POS الأسبوعية | لم تُستخرج صفوف رقمية جديدة من صفحة POS |
+| وزارة التخطيط المصرية وNafeza | 3 ملاحظات | اكتشاف نطاق الحسابات القومية، وسعرا تحويل جمركيان ظاهرين لـUSD وSAR مقابل EGP | سياق اقتصادي/تطبيع عملة فقط؛ لا طلب إعلاني |
+| Noon/Amazon | 11 ملاحظة | فئات وعروض وأسعار وتقييمات وبائعون ومخزون على صفحات عامة في EG/SA | snapshots صفحـية غير ممثلة؛ Amazon EG product بقي unavailable بسبب CAPTCHA |
+| Google Play وApple App Store | 4 ملاحظات | تقييمات وتنزيلات/إصدارات عامة بlocale المتجر | ليست active users أو installs أو market share خاصة بمصر/السعودية |
 
 أرقام الأعداد أعلاه هي أعداد الملاحظات التي نتجت من الإدخال، وليست أحجام جمهور أو تقديرات سوق. مصدر UNESCO يذكر رخصة **CC BY-SA 4.0** في artifact الخاص به، بينما لم يتم افتراض الترخيص للمصادر الأخرى التي لم تعرض شروط استخدام صريحة [9] [10] [11] [12] [13] [14].
 
@@ -48,12 +54,28 @@
 
 أضاف UNCTAD مؤشرات مثل التجارة الدولية للخدمات القابلة للتسليم رقميًا، ونسب الأعمال ذات الوجود على الويب، ونسب الأعمال التي تضع طلبات عبر الإنترنت عندما تكون الملاحظة متاحة. هذه المؤشرات مفيدة لتكوين فرضية عن البيئة الرقمية، لكنها لا تثبت حجم الطلب المحلي أو أداء حملة بعينها [10].
 
+### CBE وSAMA والبدائل المصرية
+
+توضح صفحة CBE العامة بنية نظام الدفع الوطني المصري، بما في ذلك RTGS وNational Switch وACH والخدمات المصرفية عبر الإنترنت والهاتف ومدفوعات وتحصيل الحكومة والفواتير، كما تصف أهداف تطوير المدفوعات الإلكترونية والتشغيل البيني وحماية المستهلك. ولأن صفحة CBE لم تقدم سلسلة رقمية في الالتقاط، سُجلت كملاحظة مؤسسية نوعية فقط، مع توثيق أن مستخرج النص واجه رفضًا رسميًا وعدم تجاوز الحماية [19].
+
+أضاف خبر SAMA الرسمي خمس ملاحظات وطنية: **85%** من إجمالي مدفوعات التجزئة كانت إلكترونية في 2025 مقابل **79%** في 2024، وبلغ عدد المعاملات الإلكترونية **14.6 مليار** في 2025 مقابل **12.6 مليار** في 2024. تُستخدم هذه القيم كسياق محدود لنظام الدفع السعودي، وليست مبيعات تجارة إلكترونية أو حجم جمهور أو benchmark إعلاني [20]. كما أضيف وصف واجهة مدفوعات التجارة الإلكترونية التي تربط mada بالشبكات العالمية وتستخدم tokenization، ووصف صفحة تقارير POS الأسبوعية التي تحدد الأبعاد المتاحة دون اختلاق صف رقمي [21] [22].
+
+تمت قراءة صفحة وزارة التخطيط المصرية التي تكتشف نطاق الحسابات القومية السنوية والفصلية والحسابات الإقليمية، وصفحة Nafeza التي عرضت معدلي تحويل جمركيين بتاريخ 24 فبراير 2026: **47.8800 EGP لكل USD** و**12.7646 EGP لكل SAR**. لم تُنسخ جداول GDP التفاعلية، ولا ينبغي استخدام معدلات Nafeza كأسعار استهلاكية أو توقعات سوقية [23] [24]. أما data.gov.eg وEgypt Data Portal فسُجلا كمسارين discovery/unavailable بعد حالات error/rejection؛ لم تُستنتج منهما أي قيم.
+
+### ملاحظات المتاجر والتطبيقات
+
+تمت إضافة artifact صغير حتمي لملاحظات الصفحات العامة. في Noon مصر، ظهرت فئة الهواتف بفلاتر للعلامة والسعر والتقييم والذاكرة والبائع، وظهرت صفحة Galaxy A17 بسعر **10,315 EGP** وتقييم **4.5/5 من 2,652 تقييمًا** ومخزون منخفض. وفي Noon السعودية، ظهرت صفحة Galaxy S25 Ultra بسعر **3,298.95 SAR** مقابل **3,559 SAR** وتقييم **4.5/5 من 6,830 تقييمًا** مع خصم 7% ومخزون منخفض. هذه قيم صفحة المنتج وقت الالتقاط وليست متوسطات أو مبيعات أو حصة سوق [25] [26].
+
+في Amazon مصر، حُفظت شرائح merchandising الظاهرة في الصفحة الرئيسية مثل أقل من EGP 199 وأقل من EGP 499 ومن EGP 500 ومن EGP 999، مع مثال مراتب من EGP 935، بينما بقيت محاولة صفحة المنتج غير متاحة بسبب CAPTCHA ولم تُكرر أو تُتجاوز. وفي Amazon السعودية، أظهرت صفحة كابل Anker سعر **38.90 SAR** مقابل **59 SAR** وتقييم **4.5** من **106,328 مراجعة** وFulfilled by Amazon وبائع AnkerDirect SA، مع حفظ بطاقات التوصية كobservations صفحة لا كعينة سوق ممثلة [27] [28].
+
+تم حفظ أرقام متاجر التطبيقات مع locale صريح. أظهر Google Play لـNoon تقييم 4.6 وتنزيلات 50M+، ولـAmazon تقييم 4.3 وتنزيلات 1B+، مع الاحتفاظ بفروق عدد المراجعات بين رأس الصفحة وقسم Ratings and reviews. وأظهر App Store الأمريكي Noon بتقييم 4.5 و326K Ratings، وAmazon بتقييم 4.8 و8.4M Ratings. لا تُحول هذه الأرقام إلى active users أو installs خاصة بمصر أو السعودية أو market share [29] [30] [31] [32].
+
 ## الحزم المحدودة المنشأة
 
 | الحزمة | النطاق الدقيق | الحالة | عدد الحقائق | عدد المصادر | أهم ما ينقصها |
 |---|---|---|---:|---:|---|
 | `pkg-eg-education-public-20260825` | EG / education_general / ar / EGP | `limited`, freshness `fresh` | 36 | 5 | طلب التعليم الحالي، audience size، CPC/CPA/CVR/ROAS، creative observations، funnel |
-| `pkg-sa-ecommerce-public-20260825` | SA / ecommerce_general / ar / SAR | `limited`, freshness `fresh` | 33 | 5 | حجم البحث المطلق، audience size، CPC/CPA/CVR/ROAS، attribution، creative observations |
+| `pkg-sa-ecommerce-public-20260825` | SA / ecommerce_general / ar / SAR | `limited`, freshness `fresh` | 35 | 6 | حجم البحث المطلق، audience size، CPC/CPA/CVR/ROAS، attribution، creative observations |
 | `pkg-eg-local-service-public-20260825` | EG / local_service_general / ar / EGP | `limited`, freshness `fresh` | 19 | 5 | إشارات طلب محلي كافية، calls/CRM، audience size، CPC/CPA/CVR/ROAS، creative observations |
 
 تحتوي كل حزمة على facts متاحة من مصادر عامة وfacts `unavailable` معلنة صراحة، وإشارات keyword اتجاهية أو غير متاحة، وseasonality غير متاحة، وcompetitor observations غير متاحة. بعض artifacts العامة موجودة في manifest لكنها لا تنطبق على كل نطاق؛ لا يتم نسخ fact إلى نطاق صناعة إلا إذا مرّ باختبار السوق والصناعة واللغة والعملة في المولد.
@@ -62,8 +84,8 @@
 
 | بوابة التحقق | النتيجة |
 |---|---:|
-| Source Registry وSourceRecord parsing | PASS؛ 35 مصدرًا |
-| public ingestion regression | PASS؛ 89 assertion |
+| Source Registry وSourceRecord parsing | PASS؛ 53 مصدرًا |
+| public ingestion regression | PASS؛ 108 assertion |
 | public evidence package regression | PASS؛ 40 assertion |
 | public quality report | PASS؛ hashes وsource IDs وقيود benchmark |
 | market validation gate | BLOCKED؛ `marketValidated=false` |
@@ -96,6 +118,7 @@
 
 ```bash
 npm run knowledge:public:full
+# يعيد أيضًا بناء CBE/SAMA وmarketplace/app-store artifacts حتميًا
 npm run test:knowledge:public-ingestion
 npm run test:knowledge:public-evidence
 npm run test:knowledge:public-quality
@@ -140,3 +163,31 @@ npm run test:knowledge:public-quality
 [17]: https://www.oecd.org/en/data/insights/data-explainers/2024/09/api.html "OECD Data Explorer API documentation"
 
 [18]: https://data.imf.org/en/Resource-Pages/IMF-API "IMF Data API documentation"
+
+[19]: https://www.cbe.org.eg/en/payment-systems-and-services "Central Bank of Egypt — Payment Systems and Services"
+
+[20]: https://www.sama.gov.sa/en-US/MediaCenter/News/pages/news-1139.aspx "SAMA — E-Payments Account for 85% of Total Retail Payments in 2025"
+
+[21]: https://sama.gov.sa/en-US/MediaCenter/News/pages/news-1095.aspx "SAMA — E-commerce payments interface"
+
+[22]: https://www.sama.gov.sa/en-US/Statistics/Indices/Pages/POS.aspx "SAMA — Weekly POS reports"
+
+[23]: https://mped.gov.eg/Analytics?lang=en "Egypt Ministry of Planning and Economic Development — National Accounts Data"
+
+[24]: https://sandbox.nafeza.gov.eg/ar/currencies "Nafeza — Egyptian Customs foreign-exchange conversion rates"
+
+[25]: https://www.noon.com/egypt-en/galaxy-a17-dual-sim-4g-black-4gb-ram-128gb-middle-east-version/N70214276V/p/?o=b93223709b1aab3c "Noon Egypt — Galaxy A17 product page"
+
+[26]: https://www.noon.com/saudi-en/galaxy-s25-ultra-dual-sim-titanium-black-12gb-ram-256gb-5g-international-version/N70142933V/p/ "Noon Saudi Arabia — Galaxy S25 Ultra product page"
+
+[27]: https://www.amazon.eg/-/en/ "Amazon Egypt — public homepage"
+
+[28]: https://www.amazon.sa/-/en/Anker-2-Pack-Premium-Charger-Samsung/dp/B07DC5PPFV/ "Amazon Saudi Arabia — Anker USB-C cable product page"
+
+[29]: https://play.google.com/store/apps/details?id=com.noon.buyerapp&hl=en_US "Google Play — Noon app page"
+
+[30]: https://play.google.com/store/apps/details?id=com.amazon.mShop.android.shopping&hl=en_US "Google Play — Amazon Shopping app page"
+
+[31]: https://apps.apple.com/us/app/noon-shopping-food-grocery/id1269038866 "Apple App Store US — Noon app page"
+
+[32]: https://apps.apple.com/us/app/amazon-shopping/id297606951 "Apple App Store US — Amazon Shopping app page"
