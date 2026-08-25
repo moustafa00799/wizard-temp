@@ -68,6 +68,7 @@ function packageStatus(
   if (freshnessStatus === "missing" || snapshots.length === 0) return "missing";
   if (freshnessStatus !== "fresh") return "limited";
   if (snapshots.some((snapshot) => snapshot.contradictions.length > 0)) return "limited";
+  if (snapshots.some((snapshot) => snapshot.limitations.some((limitation) => /coverage incomplete|coverage gap|industry-specific evidence is unavailable/i.test(limitation)))) return "limited";
   if (sourceRecords.some((source) => source.licenseStatus !== "approved" || !source.enabled)) return "limited";
   return "ready";
 }

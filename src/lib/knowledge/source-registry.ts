@@ -40,7 +40,9 @@ function normalizeIndustry(value: string | undefined): string | undefined {
 
 function hasScopeValue(sourceValue: string | undefined, requestedValue: string | undefined): boolean {
   if (!requestedValue) return true;
-  return sourceValue === requestedValue;
+  // An omitted source scope means the source is generic for that dimension.
+  // A populated scope remains an explicit restriction.
+  return sourceValue === undefined || sourceValue === requestedValue;
 }
 
 function freshnessFor(source: SourceRecord, now: Date): SourceFreshness {

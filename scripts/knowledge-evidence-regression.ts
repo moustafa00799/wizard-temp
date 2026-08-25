@@ -39,6 +39,18 @@ assert.equal(registry.getVersion(source.sourceId, "fixture-1")?.version, "fixtur
 assert.equal(registry.get(source.sourceId)?.version, "fixture-2");
 assert.equal(registry.lookup({ market: "EG", industry: "ecommerce_general", language: "en" }).length, 1);
 assert.equal(registry.lookup({ market: "SA", industry: "ecommerce_general", language: "en" }).length, 0);
+const genericSource: SourceRecord = {
+  ...source,
+  sourceId: "src-generic-official-context",
+  jurisdiction: "global",
+  market: undefined,
+  industry: undefined,
+  language: undefined,
+  version: "generic-1",
+};
+const genericRegistry = new SourceRegistry([genericSource]);
+assert.equal(genericRegistry.lookup({ market: "EG", industry: "education_general", language: "ar" }).length, 1);
+assert.equal(genericRegistry.lookup({ market: "SA", industry: "local_service_general", language: "en" }).length, 1);
 assert.equal(registry.freshness(source.sourceId, new Date("2026-08-22T00:00:00.000Z"), "fixture-1").status, "fresh");
 assert.equal(registry.freshness(source.sourceId, new Date("2026-08-27T00:00:00.000Z"), "fixture-1").status, "stale");
 assert.equal(registry.freshness(source.sourceId, new Date("2026-08-30T00:00:00.000Z"), "fixture-1").status, "expired");
@@ -104,6 +116,29 @@ const readyPackage = buildEvidencePackage(registry, {
 });
 assert.equal(readyPackage.status, "ready");
 assert.equal(readyPackage.freshnessStatus, "fresh");
+const limitedCoveragePackage = buildEvidencePackage(registry, {
+  packageId: "pkg-eg-ecommerce-coverage-gap-001",
+  generatedAt: "2026-08-21T00:00:00.000Z",
+  market: "EG",
+  industry: "ecommerce_general",
+  locale: "ar",
+  currency: "EGP",
+  snapshots: [{
+    ...freshSnapshot,
+    snapshotId: "snapshot-eg-ecommerce-coverage-gap-001",
+    limitations: [...freshSnapshot.limitations, "Coverage incomplete: industry-specific evidence is unavailable."],
+  }],
+  evidenceReferences: readyPackage.evidenceReferences,
+  claims: readyPackage.claims,
+  queryHash: "query-eg-ecommerce-coverage-gap-001",
+});
+assert.equal(limitedCoveragePackage.status, "limited");
+assert.equal(limitedCoveragePackage.freshnessStatus, "fresh");
+assert.equal(genericRegistry.assertUsable("src-generic-official-context", {
+  market: "SA",
+  industry: "local_service_general",
+  language: "en",
+}).sourceId, "src-generic-official-context");
 assert.equal(readyPackage.sourceRecords[0]?.sourceId, source.sourceId);
 assert.deepEqual(readyPackage.retrieval.selectedEvidenceIds, ["evidence-policy-001"]);
 EvidencePackageSchema.parse(readyPackage);
@@ -177,7 +212,7 @@ expectRejected("non-approved source use", () => restrictedRegistry.assertUsable(
 console.log(JSON.stringify({
   test: "knowledge-evidence-regression",
   status: "PASS",
-  assertions: 16,
+  assertions: 19,
   liveAiCalls: 0,
   marketValidated: false,
   message: "Source lookup, freshness, scope, versioned evidence assembly, and fail-closed missing data passed.",
