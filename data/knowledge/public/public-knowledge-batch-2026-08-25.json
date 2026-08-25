@@ -286,6 +286,24 @@
     },
     {
       "contractVersion": "1.0",
+      "sourceId": "src-kapsarc-sama-pos-ecommerce-sa-20260825",
+      "publisher": "KAPSARC Data Portal / Saudi Central Bank (SAMA)",
+      "sourceUrl": "https://datasource.kapsarc.org/explore/assets/pos-transactions/",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "SAMA payment activity is market-context evidence and not proof of online-only demand for each sector.",
+        "Records are aggregate payment activity and do not identify customer, advertising source, or conversion attribution.",
+        "The public portal export is GET-only; source license status remains unknown until explicit terms are verified."
+      ],
+      "version": "2026-08-25",
+      "enabled": true,
+      "market": "SA"
+    },
+    {
+      "contractVersion": "1.0",
       "sourceId": "src-kapsarc-sama-pos-sector-city-sa-20260825",
       "publisher": "KAPSARC Data Portal / Saudi Central Bank (SAMA)",
       "sourceUrl": "https://datasource.kapsarc.org/explore/assets/point-of-sale-transactions-by-sector-and-city/",
@@ -1129,6 +1147,29 @@
       ]
     },
     {
+      "path": "data/knowledge/public/kapsarc/2026-08-25/normalized-observations.json",
+      "sha256": "ac78f9b7387e205d02439ae024bc2cfbcf95a063f4d9a7ad26ec6cea08c0a03e",
+      "generatedAt": "2026-08-25T19:28:13.000Z",
+      "artifactType": "public_saudi_ecommerce_payment_context_snapshot",
+      "artifactId": "kapsarc-sama-pos-ecommerce-sa-20260825",
+      "sourceIds": [
+        "src-kapsarc-sama-pos-ecommerce-sa-20260825"
+      ],
+      "observationCount": 109,
+      "rawInputs": [
+        {
+          "path": ".local/public-research/kapsarc/pos-transactions.json",
+          "sha256": "0938957e57707cf454d8233b7203e4fe374550088da289c8ae34157fec602f83",
+          "capturedAt": "2026-08-25T19:28:13.000Z"
+        }
+      ],
+      "limitations": [
+        "Source describes Saudi payment activity and is relevant to ecommerce market context, not proof of demand for every ecommerce category.",
+        "License status was not presumed; it remains unknown until explicit terms are verified.",
+        "No causal relationship between payment activity and advertising outcomes is inferred."
+      ]
+    },
+    {
       "path": "data/knowledge/public/kapsarc/2026-08-25/sector-normalized-observations.json",
       "sha256": "09514209c42e62d2ade41ae8d8f76cebaedc7c00f3d7ddd59403db279219b99f",
       "generatedAt": "2026-08-25T19:55:00.000Z",
@@ -1499,6 +1540,29 @@
         "GASTAT foreign-trade context is not a marketing benchmark.",
         "License status remains unknown until explicit terms are verified.",
         "No total-market or category-specific ecommerce inference is made."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/kapsarc/2026-08-25/normalized-observations.json",
+      "sha256": "ac78f9b7387e205d02439ae024bc2cfbcf95a063f4d9a7ad26ec6cea08c0a03e",
+      "generatedAt": "2026-08-25T19:28:13.000Z",
+      "artifactType": "public_saudi_ecommerce_payment_context_snapshot",
+      "artifactId": "kapsarc-sama-pos-ecommerce-sa-20260825",
+      "sourceIds": [
+        "src-kapsarc-sama-pos-ecommerce-sa-20260825"
+      ],
+      "observationCount": 109,
+      "rawInputs": [
+        {
+          "path": ".local/public-research/kapsarc/pos-transactions.json",
+          "sha256": "0938957e57707cf454d8233b7203e4fe374550088da289c8ae34157fec602f83",
+          "capturedAt": "2026-08-25T19:28:13.000Z"
+        }
+      ],
+      "limitations": [
+        "Source describes Saudi payment activity and is relevant to ecommerce market context, not proof of demand for every ecommerce category.",
+        "License status was not presumed; it remains unknown until explicit terms are verified.",
+        "No causal relationship between payment activity and advertising outcomes is inferred."
       ]
     },
     {
@@ -2098,7 +2162,7 @@
     "marketValidated": false,
     "readyEvidencePackages": 0,
     "limitedEvidencePackagesPlanned": 3,
-    "additionalPublicArtifactCount": 13,
+    "additionalPublicArtifactCount": 14,
     "discoveryOnlySourceIds": [
       "src-capmas-central-data-catalog-20260825",
       "src-gastat-open-data-20260825",

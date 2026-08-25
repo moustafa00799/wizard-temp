@@ -92,6 +92,7 @@ def main() -> None:
             ],
         ))
     kapsarc = [
+        ('src-kapsarc-sama-pos-ecommerce-sa-20260825', 'https://datasource.kapsarc.org/explore/assets/pos-transactions/'),
         ('src-kapsarc-sama-pos-sector-sa-20260825', 'https://datasource.kapsarc.org/explore/assets/points-of-sale-transactions-and-sales-by-sector/'),
         ('src-kapsarc-sama-pos-sector-city-sa-20260825', 'https://datasource.kapsarc.org/explore/assets/point-of-sale-transactions-by-sector-and-city/'),
         ('src-kapsarc-sama-pos-detailed-sector-city-sa-20260825', 'https://datasource.kapsarc.org/explore/assets/detailed-point-of-sale-transactions-by-sector-and-city/'),

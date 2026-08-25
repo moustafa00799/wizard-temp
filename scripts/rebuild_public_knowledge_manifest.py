@@ -23,6 +23,7 @@ ADDITIONAL_ARTIFACT_PATHS = [
     PUBLIC_ROOT / "datasaudi/2026-08-25/datasaudi-education-expenditure-sa-20260825.json",
     PUBLIC_ROOT / "datasaudi/2026-08-25/exports-egypt-normalized-observations.json",
     PUBLIC_ROOT / "datasaudi/2026-08-25/imports-egypt-normalized-observations.json",
+    PUBLIC_ROOT / "kapsarc/2026-08-25/normalized-observations.json",
     PUBLIC_ROOT / "kapsarc/2026-08-25/sector-normalized-observations.json",
     PUBLIC_ROOT / "kapsarc/2026-08-25/sector-city-latest-observations.json",
     PUBLIC_ROOT / "kapsarc/2026-08-25/detailed-sector-city-latest-observations.json",

@@ -4,12 +4,12 @@
   "status": "PASS",
   "globalMarketValidated": false,
   "sourceRegistry": {
-    "registeredSources": 34,
+    "registeredSources": 35,
     "discoveryOnlySources": 3,
-    "rawArtifactsHashChecked": 46,
+    "rawArtifactsHashChecked": 47,
     "rawArtifactsMissingLocally": [],
-    "derivedArtifactsHashChecked": 16,
-    "publicContextRawArtifactsHashChecked": 24
+    "derivedArtifactsHashChecked": 17,
+    "publicContextRawArtifactsHashChecked": 25
   },
   "evidence": {
     "worldBankSelectedObservations": 10,
@@ -105,6 +105,14 @@
         "observationCount": 64,
         "sourceIds": [
           "src-gastat-datasaudi-foreign-trade-imports-20260825"
+        ]
+      },
+      {
+        "artifactId": "kapsarc-sama-pos-ecommerce-sa-20260825",
+        "artifactType": "public_saudi_ecommerce_payment_context_snapshot",
+        "observationCount": 109,
+        "sourceIds": [
+          "src-kapsarc-sama-pos-ecommerce-sa-20260825"
         ]
       },
       {

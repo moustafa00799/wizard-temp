@@ -265,6 +265,24 @@
     },
     {
       "contractVersion": "1.0",
+      "sourceId": "src-kapsarc-sama-pos-ecommerce-sa-20260825",
+      "publisher": "KAPSARC Data Portal / Saudi Central Bank (SAMA)",
+      "sourceUrl": "https://datasource.kapsarc.org/explore/assets/pos-transactions/",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "SAMA payment activity is market-context evidence and not proof of online-only demand for each sector.",
+        "Records are aggregate payment activity and do not identify customer, advertising source, or conversion attribution.",
+        "The public portal export is GET-only; source license status remains unknown until explicit terms are verified."
+      ],
+      "version": "2026-08-25",
+      "enabled": true,
+      "market": "SA"
+    },
+    {
+      "contractVersion": "1.0",
       "sourceId": "src-kapsarc-sama-pos-sector-city-sa-20260825",
       "publisher": "KAPSARC Data Portal / Saudi Central Bank (SAMA)",
       "sourceUrl": "https://datasource.kapsarc.org/explore/assets/point-of-sale-transactions-by-sector-and-city/",
