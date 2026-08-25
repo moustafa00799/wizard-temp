@@ -1,0 +1,1742 @@
+{
+  "contractVersion": "1.0",
+  "artifactType": "scoped_public_evidence_packages",
+  "generatedAt": "2026-08-25T00:26:31.000Z",
+  "marketValidated": false,
+  "packages": [
+    {
+      "contractVersion": "1.0",
+      "packageId": "pkg-eg-education-public-20260825",
+      "generatedAt": "2026-08-25T00:26:31.000Z",
+      "market": "EG",
+      "industry": "education_general",
+      "locale": "ar",
+      "currency": "EGP",
+      "sourceRecords": [
+        {
+          "contractVersion": "1.0",
+          "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+          "publisher": "World Bank",
+          "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
+          "sourceType": "official_api",
+          "jurisdiction": "global",
+          "market": "EG",
+          "language": "en",
+          "licenseStatus": "approved",
+          "observedAt": "2026-08-25T00:16:31.000Z",
+          "freshnessPolicy": "monthly",
+          "limitations": [
+            "Context indicators only; not campaign performance or competitor benchmark.",
+            "Indicator-specific period, unit, and methodology must be retained."
+          ],
+          "version": "v2-20260825",
+          "enabled": true
+        },
+        {
+          "contractVersion": "1.0",
+          "sourceId": "src-capmas-education-bulletin-2019-2020",
+          "publisher": "CAPMAS",
+          "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/777/download/2298",
+          "sourceType": "official_document",
+          "jurisdiction": "EG",
+          "market": "EG",
+          "industry": "education_general",
+          "language": "en",
+          "licenseStatus": "unknown",
+          "observedAt": "2026-08-25T00:26:31.000Z",
+          "freshnessPolicy": "on_demand",
+          "limitations": [
+            "Official education and training bulletin for academic year 2019/2020.",
+            "Dataset-level reuse license and currentness require verification before a ready package.",
+            "Does not establish online education demand or advertising performance."
+          ],
+          "version": "education-2019-2020",
+          "enabled": true
+        },
+        {
+          "contractVersion": "1.0",
+          "sourceId": "src-google-trends-eg-explore-20260825",
+          "publisher": "Google Trends",
+          "sourceUrl": "https://trends.google.com/trends/",
+          "sourceType": "public_library",
+          "jurisdiction": "global",
+          "market": "EG",
+          "licenseStatus": "approved",
+          "observedAt": "2026-08-25T00:26:31.000Z",
+          "freshnessPolicy": "on_demand",
+          "limitations": [
+            "Public relative search-interest tool; values are normalized 0-100 and not absolute volume.",
+            "Directional discovery only; not audience size, CPC, CPA, CVR, ROAS, sales, or saturation.",
+            "Each query keeps its own terms, search type, category, time range, and URL."
+          ],
+          "version": "explore-20260825",
+          "enabled": true
+        }
+      ],
+      "evidenceReferences": [
+        {
+          "evidenceId": "evidence-src-world-bank-egy-indicators-v2-20260825",
+          "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+          "observedAt": "2026-08-25T00:26:31.000Z",
+          "excerpt": "World Bank indicator observation selected deterministically as the latest non-null value for the country and indicator.",
+          "limitations": [
+            "Context indicators only; not campaign performance or competitor benchmark.",
+            "Indicator-specific period, unit, and methodology must be retained."
+          ]
+        },
+        {
+          "evidenceId": "evidence-src-capmas-education-bulletin-2019-2020",
+          "sourceId": "src-capmas-education-bulletin-2019-2020",
+          "observedAt": "2026-08-25T00:26:31.000Z",
+          "excerpt": "CAPMAS education and training bulletin, academic year 2019/2020; selected official table facts are retained with historical limitations.",
+          "limitations": [
+            "Official education and training bulletin for academic year 2019/2020.",
+            "Dataset-level reuse license and currentness require verification before a ready package.",
+            "Does not establish online education demand or advertising performance."
+          ]
+        },
+        {
+          "evidenceId": "evidence-gt-eg-ar-20260825",
+          "sourceId": "src-google-trends-eg-explore-20260825",
+          "observedAt": "2026-08-25T00:26:31.000Z",
+          "excerpt": "Public Google Trends comparison for تسوق اونلاين, دورات اونلاين, خدمات محلية in EG; relative average interest is retained exactly as captured.",
+          "limitations": [
+            "Relative index only; the first two terms had sparse non-zero points.",
+            "The local-services term had an explicit insufficient-data message.",
+            "Arabic phrase variants are not a complete keyword universe."
+          ]
+        }
+      ],
+      "snapshots": [
+        {
+          "contractVersion": "1.0",
+          "snapshotId": "snapshot-pkg-eg-education-public-20260825",
+          "market": "EG",
+          "industry": "education_general",
+          "locale": "ar",
+          "currency": "EGP",
+          "capturedAt": "2026-08-25T00:26:31.000Z",
+          "freshnessStatus": "fresh",
+          "facts": [
+            {
+              "factId": "eg-education_general-it.net.user.zs-2024",
+              "name": "internet users percent of population (context)",
+              "value": 74.64839935,
+              "unit": "percent_of_population",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-world-bank-egy-indicators-v2-20260825"
+              ],
+              "observedAt": "2026-08-25T00:26:31.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-education_general-sp.pop.totl-2025",
+              "name": "population total (context)",
+              "value": 118365995,
+              "unit": "people",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-world-bank-egy-indicators-v2-20260825"
+              ],
+              "observedAt": "2026-08-25T00:26:31.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-education_general-sp.urb.totl.in.zs-2025",
+              "name": "urban population percent (context)",
+              "value": 42.9043204925248,
+              "unit": "percent_of_population",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-world-bank-egy-indicators-v2-20260825"
+              ],
+              "observedAt": "2026-08-25T00:26:31.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-education_general-se.adt.litr.zs-2022",
+              "name": "adult literacy percent (context)",
+              "value": 79.4531619498685,
+              "unit": "percent_of_population",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-world-bank-egy-indicators-v2-20260825"
+              ],
+              "observedAt": "2026-08-25T00:26:31.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "capmas-education-gov-training-institutions-total-2019-2020",
+              "name": "government_training_institutions_total",
+              "value": 487,
+              "unit": "institutions",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-capmas-education-bulletin-2019-2020"
+              ],
+              "observedAt": "2026-08-25T00:26:31.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "capmas-education-gov-students-total-2019-2020",
+              "name": "government_students_total",
+              "value": 344398,
+              "unit": "students",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-capmas-education-bulletin-2019-2020"
+              ],
+              "observedAt": "2026-08-25T00:26:31.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "capmas-education-gov-graduates-total-2019-2020",
+              "name": "government_graduates_total",
+              "value": 282163,
+              "unit": "graduates",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-capmas-education-bulletin-2019-2020"
+              ],
+              "observedAt": "2026-08-25T00:26:31.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "capmas-education-gov-private-training-institutions-total-2019-2020",
+              "name": "government_and_ministry_social_solidarity_training_institutions_total",
+              "value": 609,
+              "unit": "institutions",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-capmas-education-bulletin-2019-2020"
+              ],
+              "observedAt": "2026-08-25T00:26:31.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "capmas-education-response-rate-government-2019-2020",
+              "name": "government_data_source_response_rate",
+              "value": 96.2,
+              "unit": "percent",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-capmas-education-bulletin-2019-2020"
+              ],
+              "observedAt": "2026-08-25T00:26:31.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "capmas-education-response-rate-private-2019-2020",
+              "name": "private_data_source_response_rate",
+              "value": 98.4,
+              "unit": "percent",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-capmas-education-bulletin-2019-2020"
+              ],
+              "observedAt": "2026-08-25T00:26:31.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-education_general-audience-size",
+              "name": "audience size",
+              "value": null,
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "No verified source is registered for this metric and exact market/industry/locale/currency scope in the public batch.",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-education_general-absolute-search-volume",
+              "name": "absolute search volume",
+              "value": null,
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "No verified source is registered for this metric and exact market/industry/locale/currency scope in the public batch.",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-education_general-cpc",
+              "name": "CPC",
+              "value": null,
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "No verified source is registered for this metric and exact market/industry/locale/currency scope in the public batch.",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-education_general-cpa",
+              "name": "CPA",
+              "value": null,
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "No verified source is registered for this metric and exact market/industry/locale/currency scope in the public batch.",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-education_general-cvr",
+              "name": "CVR",
+              "value": null,
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "No verified source is registered for this metric and exact market/industry/locale/currency scope in the public batch.",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-education_general-roas",
+              "name": "ROAS",
+              "value": null,
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "No verified source is registered for this metric and exact market/industry/locale/currency scope in the public batch.",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-education_general-reach",
+              "name": "reach",
+              "value": null,
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "No verified source is registered for this metric and exact market/industry/locale/currency scope in the public batch.",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-education_general-frequency",
+              "name": "frequency",
+              "value": null,
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "No verified source is registered for this metric and exact market/industry/locale/currency scope in the public batch.",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-education_general-saturation",
+              "name": "saturation",
+              "value": null,
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "No verified source is registered for this metric and exact market/industry/locale/currency scope in the public batch.",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-education_general-competitor-performance",
+              "name": "competitor performance",
+              "value": null,
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "No verified source is registered for this metric and exact market/industry/locale/currency scope in the public batch.",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-education_general-client-funnel-performance",
+              "name": "client funnel performance",
+              "value": null,
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "No verified source is registered for this metric and exact market/industry/locale/currency scope in the public batch.",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            }
+          ],
+          "competitorObservations": [
+            {
+              "observationId": "eg-education_general-competitor-observation-unavailable",
+              "subject": "public competitor observation",
+              "observationType": "channel_presence",
+              "observation": "No verified creative observation set has been captured for this exact scope in the public batch.",
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "Meta is intentionally deferred and TikTok Creative Center observations have not yet been collected; no competitor performance is inferred.",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            }
+          ],
+          "keywordSignals": [
+            {
+              "signalId": "gt-eg-ar-20260825--",
+              "theme": "دورات اونلاين",
+              "direction": "unknown",
+              "value": 0,
+              "unit": "relative_index_0_100",
+              "status": "directional",
+              "sourceIds": [
+                "src-google-trends-eg-explore-20260825"
+              ],
+              "observedAt": "2026-08-25T00:26:31.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            }
+          ],
+          "seasonalitySignals": [
+            {
+              "signalId": "eg-education_general-seasonality-unavailable",
+              "period": "exact industry seasonality",
+              "direction": "unknown",
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "The public batch has time series pages but no validated industry-specific seasonal classification for this scope.",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            }
+          ],
+          "unknowns": [
+            "audience size",
+            "absolute search volume",
+            "CPC",
+            "CPA",
+            "CVR",
+            "ROAS",
+            "reach",
+            "frequency",
+            "saturation",
+            "competitor performance",
+            "client funnel performance",
+            "validated industry-specific audience and demand coverage",
+            "validated creative/offer pattern coverage"
+          ],
+          "contradictions": [],
+          "sourceIds": [
+            "src-world-bank-egy-indicators-v2-20260825",
+            "src-capmas-education-bulletin-2019-2020",
+            "src-google-trends-eg-explore-20260825"
+          ],
+          "confidence": 0.62,
+          "limitations": [
+            "Coverage incomplete: industry-specific evidence is unavailable.",
+            "Context indicators and directional search interest are not audience-size or advertising-performance benchmarks.",
+            "CAPMAS facts are historical education-supply context for academic year 2019/2020 only.",
+            "Market Validation remains false until the approved source-metric-scope matrix is complete."
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "contractVersion": "1.0",
+          "claimId": "EG-education_general-capmas-training-institutions-2019-2020",
+          "text": "CAPMAS reported 487 governmental training institutions for academic year 2019/2020 in the selected education bulletin.",
+          "type": "fact",
+          "evidenceIds": [
+            "evidence-src-capmas-education-bulletin-2019-2020"
+          ],
+          "market": "EG",
+          "industry": "education_general",
+          "confidence": 0.96,
+          "status": "evidence_backed",
+          "createdAt": "2026-08-25T00:26:31.000Z",
+          "limitations": [
+            "Historical official supply statistic; not current demand, audience size, or advertising performance."
+          ]
+        }
+      ],
+      "industryProfile": {
+        "contractVersion": "1.0",
+        "profileId": "industry-profile-education-general-v1",
+        "version": "1.0",
+        "industryKey": "education_general",
+        "displayName": "General Education and Training",
+        "branch": "education",
+        "markets": [
+          "EG",
+          "SA",
+          "AE",
+          "GCC"
+        ],
+        "locales": [
+          "ar",
+          "en"
+        ],
+        "purchaseCycle": {
+          "stages": [
+            "need_awareness",
+            "consideration",
+            "enrollment",
+            "attendance",
+            "completion",
+            "referral"
+          ],
+          "typicalDuration": "Must be measured from the client's admission, enrollment, attendance, and completion data; it varies by course and learner segment.",
+          "sourceIds": [],
+          "status": "directional"
+        },
+        "commonOfferTypes": [
+          "course",
+          "cohort",
+          "workshop",
+          "exam_prep",
+          "tutoring",
+          "subscription"
+        ],
+        "audienceSegments": [
+          "students",
+          "parents",
+          "professionals",
+          "career_switchers",
+          "skill_upgraders"
+        ],
+        "objections": [
+          "trust",
+          "time",
+          "price",
+          "accreditation",
+          "outcomes",
+          "fit"
+        ],
+        "kpis": [
+          {
+            "key": "qualified_lead",
+            "definition": "Lead meeting the agreed learner, programme, and eligibility criteria.",
+            "measurementEvent": "lead_qualified",
+            "sourceIds": []
+          },
+          {
+            "key": "application",
+            "definition": "Completed application or admission request recorded by the provider.",
+            "measurementEvent": "application_submitted",
+            "sourceIds": []
+          },
+          {
+            "key": "enrollment",
+            "definition": "Confirmed enrollment or paid registration under the provider's definition.",
+            "measurementEvent": "course_signup",
+            "sourceIds": []
+          }
+        ],
+        "complianceConstraints": [
+          "Verify accreditation, licensing, instructor and outcome claims before launch in the target jurisdiction.",
+          "Do not promise guaranteed grades, employment, admission, income, or learning outcomes unless the claim is legally approved and directly substantiated.",
+          "Review age, parent or guardian consent, learner data, privacy, testimonials, and any sensitive-category restrictions before launch."
+        ],
+        "likelyChannels": [
+          "google_ads",
+          "meta",
+          "youtube",
+          "tiktok_ads",
+          "linkedin"
+        ],
+        "trackingNeeds": [
+          "lead_form_event",
+          "application_event",
+          "course_signup_event",
+          "qualified_lead_definition",
+          "admission_or_crm_stage_mapping",
+          "consent_and_privacy_review"
+        ],
+        "marketTerms": [
+          "course",
+          "program",
+          "certificate",
+          "skills",
+          "enrollment",
+          "training"
+        ],
+        "seasonality": [],
+        "sourceIds": [],
+        "limitations": [
+          "Draft heuristic profile for deterministic planning only; it is not industry-validated or market-validated until reviewed against approved, dated sources.",
+          "Formal-education market evidence does not validate demand for a specific private, tutoring, test-preparation, or online offer.",
+          "No CPC, CPA, CVR, ROAS, saturation, lead-quality, or completion benchmark is included."
+        ],
+        "status": "draft"
+      },
+      "status": "limited",
+      "freshnessStatus": "fresh",
+      "limitations": [
+        "Coverage incomplete: industry-specific evidence is unavailable.",
+        "Context indicators and directional search interest are not audience-size or advertising-performance benchmarks.",
+        "CAPMAS facts are historical education-supply context for academic year 2019/2020 only.",
+        "Market Validation remains false until the approved source-metric-scope matrix is complete.",
+        "Context indicators only; not campaign performance or competitor benchmark.",
+        "Indicator-specific period, unit, and methodology must be retained.",
+        "Official education and training bulletin for academic year 2019/2020.",
+        "Dataset-level reuse license and currentness require verification before a ready package.",
+        "Does not establish online education demand or advertising performance.",
+        "Public relative search-interest tool; values are normalized 0-100 and not absolute volume.",
+        "Directional discovery only; not audience size, CPC, CPA, CVR, ROAS, sales, or saturation.",
+        "Each query keeps its own terms, search type, category, time range, and URL."
+      ],
+      "retrieval": {
+        "strategy": "registry_lookup",
+        "queryHash": "public-batch-20260825-EG-education_general-ar-EGP",
+        "selectedEvidenceIds": [
+          "evidence-src-world-bank-egy-indicators-v2-20260825",
+          "evidence-src-capmas-education-bulletin-2019-2020",
+          "evidence-gt-eg-ar-20260825"
+        ]
+      }
+    },
+    {
+      "contractVersion": "1.0",
+      "packageId": "pkg-sa-ecommerce-public-20260825",
+      "generatedAt": "2026-08-25T00:26:31.000Z",
+      "market": "SA",
+      "industry": "ecommerce_general",
+      "locale": "ar",
+      "currency": "SAR",
+      "sourceRecords": [
+        {
+          "contractVersion": "1.0",
+          "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+          "publisher": "World Bank",
+          "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
+          "sourceType": "official_api",
+          "jurisdiction": "global",
+          "market": "EG",
+          "language": "en",
+          "licenseStatus": "approved",
+          "observedAt": "2026-08-25T00:16:31.000Z",
+          "freshnessPolicy": "monthly",
+          "limitations": [
+            "Context indicators only; not campaign performance or competitor benchmark.",
+            "Indicator-specific period, unit, and methodology must be retained."
+          ],
+          "version": "v2-20260825",
+          "enabled": true
+        },
+        {
+          "contractVersion": "1.0",
+          "sourceId": "src-google-trends-sa-explore-20260825",
+          "publisher": "Google Trends",
+          "sourceUrl": "https://trends.google.com/trends/",
+          "sourceType": "public_library",
+          "jurisdiction": "global",
+          "market": "SA",
+          "licenseStatus": "approved",
+          "observedAt": "2026-08-25T00:26:31.000Z",
+          "freshnessPolicy": "on_demand",
+          "limitations": [
+            "Public relative search-interest tool; values are normalized 0-100 and not absolute volume.",
+            "Directional discovery only; not audience size, CPC, CPA, CVR, ROAS, sales, or saturation.",
+            "Each query keeps its own terms, search type, category, time range, and URL."
+          ],
+          "version": "explore-20260825",
+          "enabled": true
+        }
+      ],
+      "evidenceReferences": [
+        {
+          "evidenceId": "evidence-src-world-bank-egy-indicators-v2-20260825",
+          "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+          "observedAt": "2026-08-25T00:26:31.000Z",
+          "excerpt": "World Bank indicator observation selected deterministically as the latest non-null value for the country and indicator.",
+          "limitations": [
+            "Context indicators only; not campaign performance or competitor benchmark.",
+            "Indicator-specific period, unit, and methodology must be retained."
+          ]
+        },
+        {
+          "evidenceId": "evidence-gt-sa-ar-20260825",
+          "sourceId": "src-google-trends-sa-explore-20260825",
+          "observedAt": "2026-08-25T00:26:31.000Z",
+          "excerpt": "Public Google Trends comparison for تسوق اونلاين, دورات اونلاين, خدمات محلية in SA; relative average interest is retained exactly as captured.",
+          "limitations": [
+            "Relative index only; the first two terms had sparse non-zero points.",
+            "The local-services term had an explicit insufficient-data message.",
+            "Arabic phrase variants are not a complete keyword universe."
+          ]
+        }
+      ],
+      "snapshots": [
+        {
+          "contractVersion": "1.0",
+          "snapshotId": "snapshot-pkg-sa-ecommerce-public-20260825",
+          "market": "SA",
+          "industry": "ecommerce_general",
+          "locale": "ar",
+          "currency": "SAR",
+          "capturedAt": "2026-08-25T00:26:31.000Z",
+          "freshnessStatus": "fresh",
+          "facts": [
+            {
+              "factId": "sa-ecommerce_general-it.net.user.zs-2024",
+              "name": "internet users percent of population (context)",
+              "value": 100,
+              "unit": "percent_of_population",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-world-bank-egy-indicators-v2-20260825"
+              ],
+              "observedAt": "2026-08-25T00:26:31.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ecommerce_general-sp.pop.totl-2025",
+              "name": "population total (context)",
+              "value": 36973555,
+              "unit": "people",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-world-bank-egy-indicators-v2-20260825"
+              ],
+              "observedAt": "2026-08-25T00:26:31.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ecommerce_general-sp.urb.totl.in.zs-2025",
+              "name": "urban population percent (context)",
+              "value": 84.6123121062185,
+              "unit": "percent_of_population",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-world-bank-egy-indicators-v2-20260825"
+              ],
+              "observedAt": "2026-08-25T00:26:31.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ecommerce_general-ny.gdp.pcap.pp.cd-2025",
+              "name": "GDP per capita PPP (context)",
+              "value": 73783.5613906833,
+              "unit": "current_international_dollars_per_person",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-world-bank-egy-indicators-v2-20260825"
+              ],
+              "observedAt": "2026-08-25T00:26:31.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ecommerce_general-audience-size",
+              "name": "audience size",
+              "value": null,
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "No verified source is registered for this metric and exact market/industry/locale/currency scope in the public batch.",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ecommerce_general-absolute-search-volume",
+              "name": "absolute search volume",
+              "value": null,
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "No verified source is registered for this metric and exact market/industry/locale/currency scope in the public batch.",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ecommerce_general-cpc",
+              "name": "CPC",
+              "value": null,
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "No verified source is registered for this metric and exact market/industry/locale/currency scope in the public batch.",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ecommerce_general-cpa",
+              "name": "CPA",
+              "value": null,
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "No verified source is registered for this metric and exact market/industry/locale/currency scope in the public batch.",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ecommerce_general-cvr",
+              "name": "CVR",
+              "value": null,
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "No verified source is registered for this metric and exact market/industry/locale/currency scope in the public batch.",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ecommerce_general-roas",
+              "name": "ROAS",
+              "value": null,
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "No verified source is registered for this metric and exact market/industry/locale/currency scope in the public batch.",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ecommerce_general-reach",
+              "name": "reach",
+              "value": null,
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "No verified source is registered for this metric and exact market/industry/locale/currency scope in the public batch.",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ecommerce_general-frequency",
+              "name": "frequency",
+              "value": null,
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "No verified source is registered for this metric and exact market/industry/locale/currency scope in the public batch.",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ecommerce_general-saturation",
+              "name": "saturation",
+              "value": null,
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "No verified source is registered for this metric and exact market/industry/locale/currency scope in the public batch.",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ecommerce_general-competitor-performance",
+              "name": "competitor performance",
+              "value": null,
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "No verified source is registered for this metric and exact market/industry/locale/currency scope in the public batch.",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ecommerce_general-client-funnel-performance",
+              "name": "client funnel performance",
+              "value": null,
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "No verified source is registered for this metric and exact market/industry/locale/currency scope in the public batch.",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            }
+          ],
+          "competitorObservations": [
+            {
+              "observationId": "sa-ecommerce_general-competitor-observation-unavailable",
+              "subject": "public competitor observation",
+              "observationType": "channel_presence",
+              "observation": "No verified creative observation set has been captured for this exact scope in the public batch.",
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "Meta is intentionally deferred and TikTok Creative Center observations have not yet been collected; no competitor performance is inferred.",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            }
+          ],
+          "keywordSignals": [
+            {
+              "signalId": "gt-sa-ar-20260825--",
+              "theme": "تسوق اونلاين",
+              "direction": "unknown",
+              "value": 1,
+              "unit": "relative_index_0_100",
+              "status": "directional",
+              "sourceIds": [
+                "src-google-trends-sa-explore-20260825"
+              ],
+              "observedAt": "2026-08-25T00:26:31.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            }
+          ],
+          "seasonalitySignals": [
+            {
+              "signalId": "sa-ecommerce_general-seasonality-unavailable",
+              "period": "exact industry seasonality",
+              "direction": "unknown",
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "The public batch has time series pages but no validated industry-specific seasonal classification for this scope.",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            }
+          ],
+          "unknowns": [
+            "audience size",
+            "absolute search volume",
+            "CPC",
+            "CPA",
+            "CVR",
+            "ROAS",
+            "reach",
+            "frequency",
+            "saturation",
+            "competitor performance",
+            "client funnel performance",
+            "validated industry-specific audience and demand coverage",
+            "validated creative/offer pattern coverage"
+          ],
+          "contradictions": [],
+          "sourceIds": [
+            "src-world-bank-egy-indicators-v2-20260825",
+            "src-google-trends-sa-explore-20260825"
+          ],
+          "confidence": 0.52,
+          "limitations": [
+            "Coverage incomplete: industry-specific evidence is unavailable.",
+            "Context indicators and directional search interest are not audience-size or advertising-performance benchmarks.",
+            "Market Validation remains false until the approved source-metric-scope matrix is complete."
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "contractVersion": "1.0",
+          "claimId": "SA-ecommerce_general-trends-directional-20260825",
+          "text": "The captured public Google Trends page provides relative search-interest observations for the selected industry phrase; it does not provide absolute volume or advertising performance.",
+          "type": "fact",
+          "evidenceIds": [
+            "evidence-gt-sa-ar-20260825"
+          ],
+          "market": "SA",
+          "industry": "ecommerce_general",
+          "confidence": 0.9,
+          "status": "evidence_backed",
+          "createdAt": "2026-08-25T00:26:31.000Z",
+          "limitations": [
+            "Relative 0-100 index only; exact term coverage is incomplete."
+          ]
+        }
+      ],
+      "industryProfile": {
+        "contractVersion": "1.0",
+        "profileId": "industry-profile-ecommerce-general-v1",
+        "version": "1.0",
+        "industryKey": "ecommerce_general",
+        "displayName": "General E-commerce",
+        "branch": "ecommerce",
+        "markets": [
+          "EG",
+          "SA",
+          "AE",
+          "GCC"
+        ],
+        "locales": [
+          "ar",
+          "en"
+        ],
+        "purchaseCycle": {
+          "stages": [
+            "discovery",
+            "consideration",
+            "checkout",
+            "repeat_purchase"
+          ],
+          "typicalDuration": "Variable; must be measured from the client's own funnel data.",
+          "sourceIds": [],
+          "status": "directional"
+        },
+        "commonOfferTypes": [
+          "product_bundle",
+          "limited_offer",
+          "free_shipping",
+          "first_purchase_offer"
+        ],
+        "audienceSegments": [
+          "high_intent_shoppers",
+          "category_explorers",
+          "repeat_customers",
+          "cart_abandoners"
+        ],
+        "objections": [
+          "price",
+          "delivery",
+          "returns",
+          "trust",
+          "product_fit"
+        ],
+        "kpis": [
+          {
+            "key": "purchase",
+            "definition": "Completed order attributed to the agreed conversion model.",
+            "measurementEvent": "purchase",
+            "sourceIds": []
+          },
+          {
+            "key": "add_to_cart",
+            "definition": "Product added to cart before checkout.",
+            "measurementEvent": "add_to_cart",
+            "sourceIds": []
+          },
+          {
+            "key": "checkout_rate",
+            "definition": "Checkout progression measured from client-owned event data.",
+            "measurementEvent": "begin_checkout",
+            "sourceIds": []
+          }
+        ],
+        "complianceConstraints": [
+          "Confirm product, pricing, promotion, privacy, and consumer-protection requirements for the target jurisdiction before launch."
+        ],
+        "likelyChannels": [
+          "meta",
+          "google_ads",
+          "tiktok_ads"
+        ],
+        "trackingNeeds": [
+          "pixel_or_tag",
+          "server_side_events_when_available",
+          "purchase_value_and_currency",
+          "catalog_or_product_feed",
+          "consent_and_privacy_review"
+        ],
+        "marketTerms": [
+          "shopping",
+          "delivery",
+          "returns",
+          "bundle",
+          "discount"
+        ],
+        "seasonality": [],
+        "sourceIds": [],
+        "limitations": [
+          "Draft heuristic profile for deterministic planning only; it is not industry-validated or market-validated until reviewed against approved, dated sources.",
+          "No CPC, CVR, saturation, demand, or competitor-performance benchmark is included."
+        ],
+        "status": "draft"
+      },
+      "status": "limited",
+      "freshnessStatus": "fresh",
+      "limitations": [
+        "Coverage incomplete: industry-specific evidence is unavailable.",
+        "Context indicators and directional search interest are not audience-size or advertising-performance benchmarks.",
+        "Market Validation remains false until the approved source-metric-scope matrix is complete.",
+        "Context indicators only; not campaign performance or competitor benchmark.",
+        "Indicator-specific period, unit, and methodology must be retained.",
+        "Public relative search-interest tool; values are normalized 0-100 and not absolute volume.",
+        "Directional discovery only; not audience size, CPC, CPA, CVR, ROAS, sales, or saturation.",
+        "Each query keeps its own terms, search type, category, time range, and URL."
+      ],
+      "retrieval": {
+        "strategy": "registry_lookup",
+        "queryHash": "public-batch-20260825-SA-ecommerce_general-ar-SAR",
+        "selectedEvidenceIds": [
+          "evidence-src-world-bank-egy-indicators-v2-20260825",
+          "evidence-gt-sa-ar-20260825"
+        ]
+      }
+    },
+    {
+      "contractVersion": "1.0",
+      "packageId": "pkg-eg-local-service-public-20260825",
+      "generatedAt": "2026-08-25T00:26:31.000Z",
+      "market": "EG",
+      "industry": "local_service_general",
+      "locale": "ar",
+      "currency": "EGP",
+      "sourceRecords": [
+        {
+          "contractVersion": "1.0",
+          "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+          "publisher": "World Bank",
+          "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
+          "sourceType": "official_api",
+          "jurisdiction": "global",
+          "market": "EG",
+          "language": "en",
+          "licenseStatus": "approved",
+          "observedAt": "2026-08-25T00:16:31.000Z",
+          "freshnessPolicy": "monthly",
+          "limitations": [
+            "Context indicators only; not campaign performance or competitor benchmark.",
+            "Indicator-specific period, unit, and methodology must be retained."
+          ],
+          "version": "v2-20260825",
+          "enabled": true
+        },
+        {
+          "contractVersion": "1.0",
+          "sourceId": "src-google-trends-eg-explore-20260825",
+          "publisher": "Google Trends",
+          "sourceUrl": "https://trends.google.com/trends/",
+          "sourceType": "public_library",
+          "jurisdiction": "global",
+          "market": "EG",
+          "licenseStatus": "approved",
+          "observedAt": "2026-08-25T00:26:31.000Z",
+          "freshnessPolicy": "on_demand",
+          "limitations": [
+            "Public relative search-interest tool; values are normalized 0-100 and not absolute volume.",
+            "Directional discovery only; not audience size, CPC, CPA, CVR, ROAS, sales, or saturation.",
+            "Each query keeps its own terms, search type, category, time range, and URL."
+          ],
+          "version": "explore-20260825",
+          "enabled": true
+        }
+      ],
+      "evidenceReferences": [
+        {
+          "evidenceId": "evidence-src-world-bank-egy-indicators-v2-20260825",
+          "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+          "observedAt": "2026-08-25T00:26:31.000Z",
+          "excerpt": "World Bank indicator observation selected deterministically as the latest non-null value for the country and indicator.",
+          "limitations": [
+            "Context indicators only; not campaign performance or competitor benchmark.",
+            "Indicator-specific period, unit, and methodology must be retained."
+          ]
+        },
+        {
+          "evidenceId": "evidence-gt-eg-ar-20260825",
+          "sourceId": "src-google-trends-eg-explore-20260825",
+          "observedAt": "2026-08-25T00:26:31.000Z",
+          "excerpt": "Public Google Trends comparison for تسوق اونلاين, دورات اونلاين, خدمات محلية in EG; relative average interest is retained exactly as captured.",
+          "limitations": [
+            "Relative index only; the first two terms had sparse non-zero points.",
+            "The local-services term had an explicit insufficient-data message.",
+            "Arabic phrase variants are not a complete keyword universe."
+          ]
+        }
+      ],
+      "snapshots": [
+        {
+          "contractVersion": "1.0",
+          "snapshotId": "snapshot-pkg-eg-local-service-public-20260825",
+          "market": "EG",
+          "industry": "local_service_general",
+          "locale": "ar",
+          "currency": "EGP",
+          "capturedAt": "2026-08-25T00:26:31.000Z",
+          "freshnessStatus": "fresh",
+          "facts": [
+            {
+              "factId": "eg-local_service_general-it.net.user.zs-2024",
+              "name": "internet users percent of population (context)",
+              "value": 74.64839935,
+              "unit": "percent_of_population",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-world-bank-egy-indicators-v2-20260825"
+              ],
+              "observedAt": "2026-08-25T00:26:31.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "local_service_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-local_service_general-sp.pop.totl-2025",
+              "name": "population total (context)",
+              "value": 118365995,
+              "unit": "people",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-world-bank-egy-indicators-v2-20260825"
+              ],
+              "observedAt": "2026-08-25T00:26:31.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "local_service_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-local_service_general-sp.urb.totl.in.zs-2025",
+              "name": "urban population percent (context)",
+              "value": 42.9043204925248,
+              "unit": "percent_of_population",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-world-bank-egy-indicators-v2-20260825"
+              ],
+              "observedAt": "2026-08-25T00:26:31.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "local_service_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-local_service_general-audience-size",
+              "name": "audience size",
+              "value": null,
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "No verified source is registered for this metric and exact market/industry/locale/currency scope in the public batch.",
+              "scope": {
+                "market": "EG",
+                "industry": "local_service_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-local_service_general-absolute-search-volume",
+              "name": "absolute search volume",
+              "value": null,
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "No verified source is registered for this metric and exact market/industry/locale/currency scope in the public batch.",
+              "scope": {
+                "market": "EG",
+                "industry": "local_service_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-local_service_general-cpc",
+              "name": "CPC",
+              "value": null,
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "No verified source is registered for this metric and exact market/industry/locale/currency scope in the public batch.",
+              "scope": {
+                "market": "EG",
+                "industry": "local_service_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-local_service_general-cpa",
+              "name": "CPA",
+              "value": null,
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "No verified source is registered for this metric and exact market/industry/locale/currency scope in the public batch.",
+              "scope": {
+                "market": "EG",
+                "industry": "local_service_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-local_service_general-cvr",
+              "name": "CVR",
+              "value": null,
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "No verified source is registered for this metric and exact market/industry/locale/currency scope in the public batch.",
+              "scope": {
+                "market": "EG",
+                "industry": "local_service_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-local_service_general-roas",
+              "name": "ROAS",
+              "value": null,
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "No verified source is registered for this metric and exact market/industry/locale/currency scope in the public batch.",
+              "scope": {
+                "market": "EG",
+                "industry": "local_service_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-local_service_general-reach",
+              "name": "reach",
+              "value": null,
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "No verified source is registered for this metric and exact market/industry/locale/currency scope in the public batch.",
+              "scope": {
+                "market": "EG",
+                "industry": "local_service_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-local_service_general-frequency",
+              "name": "frequency",
+              "value": null,
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "No verified source is registered for this metric and exact market/industry/locale/currency scope in the public batch.",
+              "scope": {
+                "market": "EG",
+                "industry": "local_service_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-local_service_general-saturation",
+              "name": "saturation",
+              "value": null,
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "No verified source is registered for this metric and exact market/industry/locale/currency scope in the public batch.",
+              "scope": {
+                "market": "EG",
+                "industry": "local_service_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-local_service_general-competitor-performance",
+              "name": "competitor performance",
+              "value": null,
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "No verified source is registered for this metric and exact market/industry/locale/currency scope in the public batch.",
+              "scope": {
+                "market": "EG",
+                "industry": "local_service_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-local_service_general-client-funnel-performance",
+              "name": "client funnel performance",
+              "value": null,
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "No verified source is registered for this metric and exact market/industry/locale/currency scope in the public batch.",
+              "scope": {
+                "market": "EG",
+                "industry": "local_service_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            }
+          ],
+          "competitorObservations": [
+            {
+              "observationId": "eg-local_service_general-competitor-observation-unavailable",
+              "subject": "public competitor observation",
+              "observationType": "channel_presence",
+              "observation": "No verified creative observation set has been captured for this exact scope in the public batch.",
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "Meta is intentionally deferred and TikTok Creative Center observations have not yet been collected; no competitor performance is inferred.",
+              "scope": {
+                "market": "EG",
+                "industry": "local_service_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            }
+          ],
+          "keywordSignals": [
+            {
+              "signalId": "gt-eg-ar-20260825--",
+              "theme": "خدمات محلية",
+              "direction": "unknown",
+              "value": null,
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "Google Trends explicitly reported insufficient data for this phrase in the captured public comparison.",
+              "scope": {
+                "market": "EG",
+                "industry": "local_service_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            }
+          ],
+          "seasonalitySignals": [
+            {
+              "signalId": "eg-local_service_general-seasonality-unavailable",
+              "period": "exact industry seasonality",
+              "direction": "unknown",
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "The public batch has time series pages but no validated industry-specific seasonal classification for this scope.",
+              "scope": {
+                "market": "EG",
+                "industry": "local_service_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            }
+          ],
+          "unknowns": [
+            "audience size",
+            "absolute search volume",
+            "CPC",
+            "CPA",
+            "CVR",
+            "ROAS",
+            "reach",
+            "frequency",
+            "saturation",
+            "competitor performance",
+            "client funnel performance",
+            "validated industry-specific audience and demand coverage",
+            "validated creative/offer pattern coverage"
+          ],
+          "contradictions": [],
+          "sourceIds": [
+            "src-world-bank-egy-indicators-v2-20260825"
+          ],
+          "confidence": 0.52,
+          "limitations": [
+            "Coverage incomplete: industry-specific evidence is unavailable.",
+            "Context indicators and directional search interest are not audience-size or advertising-performance benchmarks.",
+            "Market Validation remains false until the approved source-metric-scope matrix is complete."
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "contractVersion": "1.0",
+          "claimId": "EG-local_service_general-trends-directional-20260825",
+          "text": "The captured public Google Trends page provides relative search-interest observations for the selected industry phrase; it does not provide absolute volume or advertising performance.",
+          "type": "fact",
+          "evidenceIds": [
+            "evidence-gt-eg-ar-20260825"
+          ],
+          "market": "EG",
+          "industry": "local_service_general",
+          "confidence": 0.9,
+          "status": "evidence_backed",
+          "createdAt": "2026-08-25T00:26:31.000Z",
+          "limitations": [
+            "Relative 0-100 index only; exact term coverage is incomplete."
+          ]
+        }
+      ],
+      "industryProfile": {
+        "contractVersion": "1.0",
+        "profileId": "industry-profile-local-service-general-v1",
+        "version": "1.0",
+        "industryKey": "local_service_general",
+        "displayName": "General Local Service",
+        "branch": "local_service",
+        "markets": [
+          "EG",
+          "SA",
+          "AE",
+          "GCC"
+        ],
+        "locales": [
+          "ar",
+          "en"
+        ],
+        "purchaseCycle": {
+          "stages": [
+            "need_recognition",
+            "local_search",
+            "qualification",
+            "booking",
+            "service_delivery",
+            "referral"
+          ],
+          "typicalDuration": "Usually measured from lead response to booked appointment using client-owned CRM or call records.",
+          "sourceIds": [],
+          "status": "directional"
+        },
+        "commonOfferTypes": [
+          "consultation",
+          "inspection",
+          "appointment",
+          "service_package",
+          "introductory_offer"
+        ],
+        "audienceSegments": [
+          "nearby_intent",
+          "urgent_need",
+          "repeat_clients",
+          "referral_audience"
+        ],
+        "objections": [
+          "trust",
+          "response_speed",
+          "price",
+          "availability",
+          "service_quality"
+        ],
+        "kpis": [
+          {
+            "key": "qualified_lead",
+            "definition": "Lead that meets the agreed service and location criteria.",
+            "measurementEvent": "lead_qualified",
+            "sourceIds": []
+          },
+          {
+            "key": "booked_appointment",
+            "definition": "Confirmed appointment recorded by the client.",
+            "measurementEvent": "appointment_booked",
+            "sourceIds": []
+          },
+          {
+            "key": "response_time",
+            "definition": "Elapsed time from lead receipt to first qualified response.",
+            "measurementEvent": "lead_contacted",
+            "sourceIds": []
+          }
+        ],
+        "complianceConstraints": [
+          "Confirm licensing, service claims, privacy, call recording, and jurisdiction-specific advertising restrictions before launch."
+        ],
+        "likelyChannels": [
+          "google_ads",
+          "meta",
+          "tiktok_ads"
+        ],
+        "trackingNeeds": [
+          "call_tracking_or_manual_call_log",
+          "lead_form_event",
+          "messaging_event",
+          "location_and_service_area_validation",
+          "crm_status_sync_when_available"
+        ],
+        "marketTerms": [
+          "nearby",
+          "appointment",
+          "quote",
+          "emergency",
+          "service area"
+        ],
+        "seasonality": [],
+        "sourceIds": [],
+        "limitations": [
+          "Draft heuristic profile for deterministic planning only; it is not industry-validated or market-validated until reviewed against approved, dated sources.",
+          "Local demand, CPC, response-rate, and saturation values remain unavailable without approved local evidence."
+        ],
+        "status": "draft"
+      },
+      "status": "limited",
+      "freshnessStatus": "fresh",
+      "limitations": [
+        "Coverage incomplete: industry-specific evidence is unavailable.",
+        "Context indicators and directional search interest are not audience-size or advertising-performance benchmarks.",
+        "Market Validation remains false until the approved source-metric-scope matrix is complete.",
+        "Context indicators only; not campaign performance or competitor benchmark.",
+        "Indicator-specific period, unit, and methodology must be retained.",
+        "Public relative search-interest tool; values are normalized 0-100 and not absolute volume.",
+        "Directional discovery only; not audience size, CPC, CPA, CVR, ROAS, sales, or saturation.",
+        "Each query keeps its own terms, search type, category, time range, and URL."
+      ],
+      "retrieval": {
+        "strategy": "registry_lookup",
+        "queryHash": "public-batch-20260825-EG-local_service_general-ar-EGP",
+        "selectedEvidenceIds": [
+          "evidence-src-world-bank-egy-indicators-v2-20260825",
+          "evidence-gt-eg-ar-20260825"
+        ]
+      }
+    }
+  ],
+  "packageSummary": [
+    {
+      "packageId": "pkg-eg-education-public-20260825",
+      "scope": "EG/education_general/ar/EGP",
+      "status": "limited",
+      "freshnessStatus": "fresh",
+      "sourceCount": 3,
+      "factCount": 21,
+      "unknownCount": 13
+    },
+    {
+      "packageId": "pkg-sa-ecommerce-public-20260825",
+      "scope": "SA/ecommerce_general/ar/SAR",
+      "status": "limited",
+      "freshnessStatus": "fresh",
+      "sourceCount": 2,
+      "factCount": 15,
+      "unknownCount": 13
+    },
+    {
+      "packageId": "pkg-eg-local-service-public-20260825",
+      "scope": "EG/local_service_general/ar/EGP",
+      "status": "limited",
+      "freshnessStatus": "fresh",
+      "sourceCount": 2,
+      "factCount": 14,
+      "unknownCount": 13
+    }
+  ]
+}

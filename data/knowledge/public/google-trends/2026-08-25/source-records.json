@@ -1,0 +1,44 @@
+{
+  "contractVersion": "1.0",
+  "generatedAt": "2026-08-25T00:26:31.000Z",
+  "sources": [
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-google-trends-eg-explore-20260825",
+      "publisher": "Google Trends",
+      "sourceUrl": "https://trends.google.com/trends/",
+      "sourceType": "public_library",
+      "jurisdiction": "global",
+      "market": "EG",
+      "licenseStatus": "approved",
+      "observedAt": "2026-08-25T00:26:31.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Public relative search-interest tool; values are normalized 0-100 and not absolute volume.",
+        "Directional discovery only; not audience size, CPC, CPA, CVR, ROAS, sales, or saturation.",
+        "Each query keeps its own terms, search type, category, time range, and URL."
+      ],
+      "version": "explore-20260825",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-google-trends-sa-explore-20260825",
+      "publisher": "Google Trends",
+      "sourceUrl": "https://trends.google.com/trends/",
+      "sourceType": "public_library",
+      "jurisdiction": "global",
+      "market": "SA",
+      "licenseStatus": "approved",
+      "observedAt": "2026-08-25T00:26:31.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Public relative search-interest tool; values are normalized 0-100 and not absolute volume.",
+        "Directional discovery only; not audience size, CPC, CPA, CVR, ROAS, sales, or saturation.",
+        "Each query keeps its own terms, search type, category, time range, and URL."
+      ],
+      "version": "explore-20260825",
+      "enabled": true
+    }
+  ]
+}

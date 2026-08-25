@@ -1,0 +1,270 @@
+{
+  "contractVersion": "1.0",
+  "artifactType": "public_market_context_snapshot",
+  "artifactId": "world-bank-latest-observations-20260825",
+  "generatedAt": "2026-08-25T00:26:31.000Z",
+  "selection": {
+    "method": "latest_non_null_observation_per_country_indicator",
+    "markets": [
+      "EG",
+      "SA"
+    ],
+    "indicators": [
+      "IT.NET.USER.ZS",
+      "NY.GDP.PCAP.PP.CD",
+      "SE.ADT.LITR.ZS",
+      "SP.POP.TOTL",
+      "SP.URB.TOTL.IN.ZS"
+    ],
+    "observationCount": 10
+  },
+  "sourceIds": [
+    "src-world-bank-egy-indicators-v2-20260825"
+  ],
+  "rawSnapshots": [
+    {
+      "path": "data/knowledge/public/world-bank/2026-08-25/IT.NET.USER.ZS.json",
+      "sha256": "83410b6d8e012037e95b7ae9964bec108cd8503e7899d63227c132c0f60c9a9d",
+      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+      "queryUrl": "https://api.worldbank.org/v2/country/EGY",
+      "indicator": "IT.NET.USER.ZS"
+    },
+    {
+      "path": "data/knowledge/public/world-bank/2026-08-25/NY.GDP.PCAP.PP.CD.json",
+      "sha256": "fc3ed3136e4cd0d6e13b19d1b8f808de834cb0c9b2fd32700442224c8c9d1798",
+      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+      "queryUrl": "https://api.worldbank.org/v2/country/EGY",
+      "indicator": "NY.GDP.PCAP.PP.CD"
+    },
+    {
+      "path": "data/knowledge/public/world-bank/2026-08-25/SE.ADT.LITR.ZS.json",
+      "sha256": "8e96c13122c8018fddd7cd8c9d7c3592c33909e70de1387cec1469ac94805928",
+      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+      "queryUrl": "https://api.worldbank.org/v2/country/EGY",
+      "indicator": "SE.ADT.LITR.ZS"
+    },
+    {
+      "path": "data/knowledge/public/world-bank/2026-08-25/SP.POP.TOTL.json",
+      "sha256": "5bd4589f3a9894a2ac4daa10e862fea01dd92296000a2fa5f57bd2862a1e0a37",
+      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+      "queryUrl": "https://api.worldbank.org/v2/country/EGY",
+      "indicator": "SP.POP.TOTL"
+    },
+    {
+      "path": "data/knowledge/public/world-bank/2026-08-25/SP.URB.TOTL.IN.ZS.json",
+      "sha256": "b4d46e29995d12f2a6d6176ce421727cc67e735d752ceb0d2bd1e76e9effee83",
+      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+      "queryUrl": "https://api.worldbank.org/v2/country/EGY",
+      "indicator": "SP.URB.TOTL.IN.ZS"
+    }
+  ],
+  "observations": [
+    {
+      "observationId": "wb-eg-IT.NET.USER.ZS-2024",
+      "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+      "indicator": "IT.NET.USER.ZS",
+      "indicatorName": "Individuals using the Internet (% of population)",
+      "market": "EG",
+      "countryIso3": "EGY",
+      "period": "2024",
+      "value": 74.64839935,
+      "unit": "percent_of_population",
+      "status": "observed",
+      "observedAt": "2026-08-25T00:26:31.000Z",
+      "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
+      "queryUrl": "https://api.worldbank.org/v2/country/EGY/indicator/IT.NET.USER.ZS?format=json&per_page=100",
+      "limitations": [
+        "Global contextual indicator; not a targetable audience size or campaign benchmark.",
+        "Use only with the recorded country, period, indicator definition, and source."
+      ]
+    },
+    {
+      "observationId": "wb-eg-NY.GDP.PCAP.PP.CD-2025",
+      "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+      "indicator": "NY.GDP.PCAP.PP.CD",
+      "indicatorName": "GDP per capita, PPP (current international $)",
+      "market": "EG",
+      "countryIso3": "EGY",
+      "period": "2025",
+      "value": 20204.0130500153,
+      "unit": "current_international_dollars_per_person",
+      "status": "observed",
+      "observedAt": "2026-08-25T00:26:31.000Z",
+      "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
+      "queryUrl": "https://api.worldbank.org/v2/country/EGY/indicator/NY.GDP.PCAP.PP.CD?format=json&per_page=100",
+      "limitations": [
+        "Global contextual indicator; not a targetable audience size or campaign benchmark.",
+        "Use only with the recorded country, period, indicator definition, and source."
+      ]
+    },
+    {
+      "observationId": "wb-eg-SE.ADT.LITR.ZS-2022",
+      "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+      "indicator": "SE.ADT.LITR.ZS",
+      "indicatorName": "Adult literacy rate, population 15+ years, total (%)",
+      "market": "EG",
+      "countryIso3": "EGY",
+      "period": "2022",
+      "value": 79.4531619498685,
+      "unit": "percent_of_population",
+      "status": "observed",
+      "observedAt": "2026-08-25T00:26:31.000Z",
+      "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
+      "queryUrl": "https://api.worldbank.org/v2/country/EGY/indicator/SE.ADT.LITR.ZS?format=json&per_page=100",
+      "limitations": [
+        "Global contextual indicator; not a targetable audience size or campaign benchmark.",
+        "Use only with the recorded country, period, indicator definition, and source."
+      ]
+    },
+    {
+      "observationId": "wb-eg-SP.POP.TOTL-2025",
+      "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+      "indicator": "SP.POP.TOTL",
+      "indicatorName": "Population, total",
+      "market": "EG",
+      "countryIso3": "EGY",
+      "period": "2025",
+      "value": 118365995,
+      "unit": "people",
+      "status": "observed",
+      "observedAt": "2026-08-25T00:26:31.000Z",
+      "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
+      "queryUrl": "https://api.worldbank.org/v2/country/EGY/indicator/SP.POP.TOTL?format=json&per_page=100",
+      "limitations": [
+        "Global contextual indicator; not a targetable audience size or campaign benchmark.",
+        "Use only with the recorded country, period, indicator definition, and source."
+      ]
+    },
+    {
+      "observationId": "wb-eg-SP.URB.TOTL.IN.ZS-2025",
+      "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+      "indicator": "SP.URB.TOTL.IN.ZS",
+      "indicatorName": "Urban population (% of total population)",
+      "market": "EG",
+      "countryIso3": "EGY",
+      "period": "2025",
+      "value": 42.9043204925248,
+      "unit": "percent_of_population",
+      "status": "observed",
+      "observedAt": "2026-08-25T00:26:31.000Z",
+      "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
+      "queryUrl": "https://api.worldbank.org/v2/country/EGY/indicator/SP.URB.TOTL.IN.ZS?format=json&per_page=100",
+      "limitations": [
+        "Global contextual indicator; not a targetable audience size or campaign benchmark.",
+        "Use only with the recorded country, period, indicator definition, and source."
+      ]
+    },
+    {
+      "observationId": "wb-sa-IT.NET.USER.ZS-2024",
+      "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+      "indicator": "IT.NET.USER.ZS",
+      "indicatorName": "Individuals using the Internet (% of population)",
+      "market": "SA",
+      "countryIso3": "SAU",
+      "period": "2024",
+      "value": 100,
+      "unit": "percent_of_population",
+      "status": "observed",
+      "observedAt": "2026-08-25T00:26:31.000Z",
+      "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
+      "queryUrl": "https://api.worldbank.org/v2/country/EGY/indicator/IT.NET.USER.ZS?format=json&per_page=100",
+      "limitations": [
+        "Global contextual indicator; not a targetable audience size or campaign benchmark.",
+        "Use only with the recorded country, period, indicator definition, and source."
+      ]
+    },
+    {
+      "observationId": "wb-sa-NY.GDP.PCAP.PP.CD-2025",
+      "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+      "indicator": "NY.GDP.PCAP.PP.CD",
+      "indicatorName": "GDP per capita, PPP (current international $)",
+      "market": "SA",
+      "countryIso3": "SAU",
+      "period": "2025",
+      "value": 73783.5613906833,
+      "unit": "current_international_dollars_per_person",
+      "status": "observed",
+      "observedAt": "2026-08-25T00:26:31.000Z",
+      "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
+      "queryUrl": "https://api.worldbank.org/v2/country/EGY/indicator/NY.GDP.PCAP.PP.CD?format=json&per_page=100",
+      "limitations": [
+        "Global contextual indicator; not a targetable audience size or campaign benchmark.",
+        "Use only with the recorded country, period, indicator definition, and source."
+      ]
+    },
+    {
+      "observationId": "wb-sa-SE.ADT.LITR.ZS-2024",
+      "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+      "indicator": "SE.ADT.LITR.ZS",
+      "indicatorName": "Adult literacy rate, population 15+ years, total (%)",
+      "market": "SA",
+      "countryIso3": "SAU",
+      "period": "2024",
+      "value": 97.9300003051758,
+      "unit": "percent_of_population",
+      "status": "observed",
+      "observedAt": "2026-08-25T00:26:31.000Z",
+      "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
+      "queryUrl": "https://api.worldbank.org/v2/country/EGY/indicator/SE.ADT.LITR.ZS?format=json&per_page=100",
+      "limitations": [
+        "Global contextual indicator; not a targetable audience size or campaign benchmark.",
+        "Use only with the recorded country, period, indicator definition, and source."
+      ]
+    },
+    {
+      "observationId": "wb-sa-SP.POP.TOTL-2025",
+      "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+      "indicator": "SP.POP.TOTL",
+      "indicatorName": "Population, total",
+      "market": "SA",
+      "countryIso3": "SAU",
+      "period": "2025",
+      "value": 36973555,
+      "unit": "people",
+      "status": "observed",
+      "observedAt": "2026-08-25T00:26:31.000Z",
+      "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
+      "queryUrl": "https://api.worldbank.org/v2/country/EGY/indicator/SP.POP.TOTL?format=json&per_page=100",
+      "limitations": [
+        "Global contextual indicator; not a targetable audience size or campaign benchmark.",
+        "Use only with the recorded country, period, indicator definition, and source."
+      ]
+    },
+    {
+      "observationId": "wb-sa-SP.URB.TOTL.IN.ZS-2025",
+      "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+      "indicator": "SP.URB.TOTL.IN.ZS",
+      "indicatorName": "Urban population (% of total population)",
+      "market": "SA",
+      "countryIso3": "SAU",
+      "period": "2025",
+      "value": 84.6123121062185,
+      "unit": "percent_of_population",
+      "status": "observed",
+      "observedAt": "2026-08-25T00:26:31.000Z",
+      "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
+      "queryUrl": "https://api.worldbank.org/v2/country/EGY/indicator/SP.URB.TOTL.IN.ZS?format=json&per_page=100",
+      "limitations": [
+        "Global contextual indicator; not a targetable audience size or campaign benchmark.",
+        "Use only with the recorded country, period, indicator definition, and source."
+      ]
+    }
+  ],
+  "notProvidedByThisArtifact": [
+    "audience size",
+    "search volume",
+    "CPC",
+    "CPA",
+    "CVR",
+    "ROAS",
+    "reach",
+    "frequency",
+    "saturation",
+    "competitor performance"
+  ]
+}

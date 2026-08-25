@@ -1,0 +1,136 @@
+{
+  "contractVersion": "1.0",
+  "artifactType": "public_directional_search_interest_snapshot",
+  "artifactId": "google-trends-eg-sa-priority-industries-20260825",
+  "generatedAt": "2026-08-25T00:26:31.000Z",
+  "method": "manual_browser_capture_from_public_explore_pages",
+  "queryDefaults": {
+    "period": "2021-08-22 through 2026-08-23",
+    "category": "all categories",
+    "searchType": "web search",
+    "valueDefinition": "Google Trends relative interest normalized to 0-100 within each query comparison"
+  },
+  "snapshots": [
+    {
+      "snapshotId": "gt-eg-en-20260825",
+      "sourceId": "src-google-trends-eg-explore-20260825",
+      "market": "EG",
+      "locale": "en",
+      "queryUrl": "https://trends.google.com/trends/explore?date=today%205-y&geo=EG&q=online%20shopping%2Conline%20courses%2Clocal%20services",
+      "terms": ["online shopping", "online courses", "local services"],
+      "averageRelativeInterest": {
+        "online shopping": 47,
+        "online courses": 31,
+        "local services": 2
+      },
+      "relatedQueries": {
+        "online shopping": ["shopping online", "amazon usa online shopping app", "shein uk online shopping"],
+        "online courses": ["ai courses online free", "courses on online marketing 2025/2026", "cs50 harvard"],
+        "local services": ["google local services ads", "lidl near me", "cloud computing services"]
+      },
+      "subregionHighlights": {
+        "online shopping": ["Matrouh", "South Sinai", "New Valley", "Cairo", "Giza"]
+      },
+      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "limitations": [
+        "Relative index only; values cannot be compared across separate query pages as absolute demand.",
+        "English terms are broad proxies and do not establish a specific product, course, service, or audience size.",
+        "Related queries and subregions are discovery signals requiring human interpretation."
+      ]
+    },
+    {
+      "snapshotId": "gt-eg-ar-20260825",
+      "sourceId": "src-google-trends-eg-explore-20260825",
+      "market": "EG",
+      "locale": "ar",
+      "queryUrl": "https://trends.google.com/trends/explore?date=today%205-y&geo=EG&q=%D8%AA%D8%B3%D9%88%D9%82%20%D8%A7%D9%88%D9%86%D9%84%D8%A7%D9%8A%D9%86%2C%D8%AF%D9%88%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%88%D9%86%D9%84%D8%A7%D9%8A%D9%86%2C%D8%AE%D8%AF%D9%85%D8%A7%D8%AA%20%D9%85%D8%AD%D9%84%D9%8A%D8%A9",
+      "terms": ["تسوق اونلاين", "دورات اونلاين", "خدمات محلية"],
+      "averageRelativeInterest": {
+        "تسوق اونلاين": 1,
+        "دورات اونلاين": 0,
+        "خدمات محلية": 0
+      },
+      "insufficientDataTerms": ["خدمات محلية"],
+      "relatedQueries": {
+        "تسوق اونلاين": ["تسوق اون لاين"],
+        "دورات اونلاين": ["دورات اونلاين مجانية"],
+        "خدمات محلية": []
+      },
+      "subregionHighlights": {
+        "تسوق اونلاين": ["Beni Suef", "Damietta", "Red Sea", "Kafr El Sheikh", "Gharbia"]
+      },
+      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "limitations": [
+        "Relative index only; the first two terms had sparse non-zero points.",
+        "The local-services term had an explicit insufficient-data message.",
+        "Arabic phrase variants are not a complete keyword universe."
+      ]
+    },
+    {
+      "snapshotId": "gt-sa-en-20260825",
+      "sourceId": "src-google-trends-sa-explore-20260825",
+      "market": "SA",
+      "locale": "en",
+      "queryUrl": "https://trends.google.com/trends/explore?date=today%205-y&geo=SA&q=online%20shopping%2Conline%20courses%2Clocal%20services",
+      "terms": ["online shopping", "online courses", "local services"],
+      "averageRelativeInterest": {
+        "online shopping": 55,
+        "online courses": 21,
+        "local services": 2
+      },
+      "relatedQueries": {
+        "online shopping": ["temu", "temu online shopping", "what are the advantages of shopping online"],
+        "online courses": ["harvard university free online courses with certificates", "free certificate courses by google", "free online accounting courses with certificates"],
+        "local services": ["maps", "google maps", "cloud computing services", "local handyman services"]
+      },
+      "subregionHighlights": {
+        "online shopping": ["Al Bahah", "Najran", "Al Jawf", "Northern Borders", "Jazan"]
+      },
+      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "limitations": [
+        "Relative index only; values cannot be compared across separate query pages as absolute demand.",
+        "English terms are broad proxies and do not establish a specific product, course, service, or audience size.",
+        "Related queries and subregions are discovery signals requiring human interpretation."
+      ]
+    },
+    {
+      "snapshotId": "gt-sa-ar-20260825",
+      "sourceId": "src-google-trends-sa-explore-20260825",
+      "market": "SA",
+      "locale": "ar",
+      "queryUrl": "https://trends.google.com/trends/explore?date=today%205-y&geo=SA&q=%D8%AA%D8%B3%D9%88%D9%82%20%D8%A7%D9%88%D9%86%D9%84%D8%A7%D9%8A%D9%86%2C%D8%AF%D9%88%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%88%D9%86%D9%84%D8%A7%D9%8A%D9%86%2C%D8%AE%D8%AF%D9%85%D8%A7%D8%AA%20%D9%85%D8%AD%D9%84%D9%8A%D8%A9",
+      "terms": ["تسوق اونلاين", "دورات اونلاين", "خدمات محلية"],
+      "averageRelativeInterest": {
+        "تسوق اونلاين": 1,
+        "دورات اونلاين": 3,
+        "خدمات محلية": 0
+      },
+      "insufficientDataTerms": ["خدمات محلية"],
+      "relatedQueries": {
+        "تسوق اونلاين": ["تونتي فور تسوق اونلاين", "الماجد للعود تسوق اونلاين"],
+        "دورات اونلاين": ["دورات اونلاين معتمدة في السعودية", "دورات مجانية بشهادات معتمدة"],
+        "خدمات محلية": []
+      },
+      "subregionHighlights": {
+        "تسوق اونلاين": ["Najran", "Jazan", "Qassim", "Riyadh", "Eastern Province"]
+      },
+      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "limitations": [
+        "Relative index only; the first two terms had sparse non-zero points.",
+        "The local-services term had an explicit insufficient-data message.",
+        "Arabic phrase variants are not a complete keyword universe."
+      ]
+    }
+  ],
+  "notProvided": [
+    "absolute search volume",
+    "audience size",
+    "CPC",
+    "CPA",
+    "CVR",
+    "ROAS",
+    "sales",
+    "competitor performance",
+    "saturation"
+  ]
+}

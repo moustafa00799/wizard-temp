@@ -1,0 +1,131 @@
+{
+  "contractVersion": "1.0",
+  "generatedAt": "2026-08-25T00:26:31.000Z",
+  "facts": [
+    {
+      "factId": "capmas-education-gov-training-institutions-total-2019-2020",
+      "sourceId": "src-capmas-education-bulletin-2019-2020",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/777/download/2298",
+      "market": "EG",
+      "industry": "education_general",
+      "locale": "ar",
+      "period": "2019/2020 academic year",
+      "name": "government_training_institutions_total",
+      "value": 487,
+      "unit": "institutions",
+      "status": "observed",
+      "tableReference": "General indicators, government sector",
+      "definition": "Total training institutions in the governmental sector, systematic and unsystematic education.",
+      "limitations": [
+        "Official education and training supply statistic; not demand for a specific private or online offer.",
+        "Historical period; do not use as current market size or advertising benchmark."
+      ]
+    },
+    {
+      "factId": "capmas-education-gov-students-total-2019-2020",
+      "sourceId": "src-capmas-education-bulletin-2019-2020",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/777/download/2298",
+      "market": "EG",
+      "industry": "education_general",
+      "locale": "ar",
+      "period": "2019/2020 academic year",
+      "name": "government_students_total",
+      "value": 344398,
+      "unit": "students",
+      "status": "observed",
+      "tableReference": "General indicators, government sector",
+      "definition": "Total students in governmental-sector training institutions, systematic and unsystematic education.",
+      "limitations": [
+        "Official participation statistic; not addressable audience size or demand signal for advertising.",
+        "Historical period; retain the source period and definition."
+      ]
+    },
+    {
+      "factId": "capmas-education-gov-graduates-total-2019-2020",
+      "sourceId": "src-capmas-education-bulletin-2019-2020",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/777/download/2298",
+      "market": "EG",
+      "industry": "education_general",
+      "locale": "ar",
+      "period": "2019/2020 academic year",
+      "name": "government_graduates_total",
+      "value": 282163,
+      "unit": "graduates",
+      "status": "observed",
+      "tableReference": "General indicators, government sector",
+      "definition": "Total graduates in governmental-sector training institutions, systematic and unsystematic education.",
+      "limitations": [
+        "Official graduate count; not enrollment conversion, lead quality, or outcome benchmark.",
+        "Historical period; not a current market forecast."
+      ]
+    },
+    {
+      "factId": "capmas-education-gov-private-training-institutions-total-2019-2020",
+      "sourceId": "src-capmas-education-bulletin-2019-2020",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/777/download/2298",
+      "market": "EG",
+      "industry": "education_general",
+      "locale": "ar",
+      "period": "2019/2020 academic year",
+      "name": "government_and_ministry_social_solidarity_training_institutions_total",
+      "value": 609,
+      "unit": "institutions",
+      "status": "observed",
+      "tableReference": "Government and Ministry of Social Solidarity private-sector table",
+      "definition": "Combined total shown in the bulletin for governmental and Ministry of Social Solidarity private-sector training institutions.",
+      "limitations": [
+        "The combined table has a specific institutional scope; it is not the total Egyptian education market.",
+        "Historical period and source-specific definition must remain attached."
+      ]
+    },
+    {
+      "factId": "capmas-education-response-rate-government-2019-2020",
+      "sourceId": "src-capmas-education-bulletin-2019-2020",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/777/download/2298",
+      "market": "EG",
+      "industry": "education_general",
+      "locale": "ar",
+      "period": "2019/2020 academic year",
+      "name": "government_data_source_response_rate",
+      "value": 96.2,
+      "unit": "percent",
+      "status": "observed",
+      "tableReference": "Statistical methodology",
+      "definition": "Response rate reported for governmental sources in the bulletin methodology.",
+      "limitations": [
+        "Quality metadata for the bulletin, not an education demand or advertising metric.",
+        "Do not generalize the response rate to other sectors or current periods."
+      ]
+    },
+    {
+      "factId": "capmas-education-response-rate-private-2019-2020",
+      "sourceId": "src-capmas-education-bulletin-2019-2020",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/777/download/2298",
+      "market": "EG",
+      "industry": "education_general",
+      "locale": "ar",
+      "period": "2019/2020 academic year",
+      "name": "private_data_source_response_rate",
+      "value": 98.4,
+      "unit": "percent",
+      "status": "observed",
+      "tableReference": "Statistical methodology",
+      "definition": "Response rate reported for the private-sector sources affiliated with the Ministry of Social Solidarity.",
+      "limitations": [
+        "Quality metadata for the bulletin, not an education demand or advertising metric.",
+        "Do not generalize the response rate to all private education providers."
+      ]
+    }
+  ],
+  "unavailableForThisSource": [
+    "Current education market size",
+    "Online education demand",
+    "CPC",
+    "CPA",
+    "CVR",
+    "ROAS",
+    "lead quality",
+    "competitor performance",
+    "saturation"
+  ]
+}

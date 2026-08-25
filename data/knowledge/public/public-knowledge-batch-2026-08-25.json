@@ -1,0 +1,950 @@
+{
+  "contractVersion": "1.0",
+  "manifestId": "public-knowledge-batch-20260825-002",
+  "generatedAt": "2026-08-25T00:26:31.000Z",
+  "scope": {
+    "markets": [
+      "EG",
+      "SA"
+    ],
+    "industries": [
+      "ecommerce_general",
+      "education_general",
+      "local_service_general"
+    ],
+    "locales": [
+      "ar",
+      "en"
+    ],
+    "currencies": [
+      "EGP",
+      "SAR",
+      "USD"
+    ]
+  },
+  "sources": [
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-capmas-central-data-catalog-20260825",
+      "publisher": "CAPMAS",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/",
+      "sourceType": "official_document",
+      "jurisdiction": "EG",
+      "market": "EG",
+      "language": "en",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T00:16:31.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Catalog metadata was captured; no specific sector dataset is asserted by this registry row.",
+        "Dataset-level license and release metadata must be verified before evidence-backed claims."
+      ],
+      "version": "catalog-20260825",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-capmas-education-bulletin-2019-2020",
+      "publisher": "CAPMAS",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/777/download/2298",
+      "sourceType": "official_document",
+      "jurisdiction": "EG",
+      "market": "EG",
+      "industry": "education_general",
+      "language": "en",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T00:26:31.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Official education and training bulletin for academic year 2019/2020.",
+        "Dataset-level reuse license and currentness require verification before a ready package.",
+        "Does not establish online education demand or advertising performance."
+      ],
+      "version": "education-2019-2020",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-capmas-telecommunications-bulletin-2016-2017",
+      "publisher": "CAPMAS",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/343/download/677",
+      "sourceType": "official_document",
+      "jurisdiction": "EG",
+      "market": "EG",
+      "industry": "ecommerce_general",
+      "language": "en",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T00:26:31.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Historical telecommunications bulletin for 2016-2017; it is context only.",
+        "Dataset-level reuse license and currentness require verification before a ready package.",
+        "Does not establish current digital demand, CPC, CPA, CVR, ROAS, or saturation."
+      ],
+      "version": "telecommunications-2016-2017",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-gastat-open-data-20260825",
+      "publisher": "General Authority for Statistics (GASTAT)",
+      "sourceUrl": "https://dp.stats.gov.sa/opendata",
+      "sourceType": "official_document",
+      "jurisdiction": "SA",
+      "market": "SA",
+      "language": "en",
+      "licenseStatus": "approved",
+      "observedAt": "2026-08-25T00:16:31.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Portal/API availability was recorded; each selected dataset needs its own definition, period, unit, and license metadata.",
+        "Portal categories do not establish demand, CPC, CPA, ROAS, or competitor performance."
+      ],
+      "version": "opendata-20260825",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-gastat-statistics-categories-20260825",
+      "publisher": "General Authority for Statistics (GASTAT)",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics",
+      "sourceType": "official_document",
+      "jurisdiction": "SA",
+      "market": "SA",
+      "language": "en",
+      "licenseStatus": "approved",
+      "observedAt": "2026-08-25T00:16:31.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Statistics categories are discovery metadata; no metric value is asserted by this row.",
+        "Selected statistics require dataset-level period, unit, release, and methodology metadata."
+      ],
+      "version": "categories-20260825",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-google-trends-eg-explore-20260825",
+      "publisher": "Google Trends",
+      "sourceUrl": "https://trends.google.com/trends/",
+      "sourceType": "public_library",
+      "jurisdiction": "global",
+      "market": "EG",
+      "licenseStatus": "approved",
+      "observedAt": "2026-08-25T00:26:31.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Public relative search-interest tool; values are normalized 0-100 and not absolute volume.",
+        "Directional discovery only; not audience size, CPC, CPA, CVR, ROAS, sales, or saturation.",
+        "Each query keeps its own terms, search type, category, time range, and URL."
+      ],
+      "version": "explore-20260825",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-google-trends-sa-explore-20260825",
+      "publisher": "Google Trends",
+      "sourceUrl": "https://trends.google.com/trends/",
+      "sourceType": "public_library",
+      "jurisdiction": "global",
+      "market": "SA",
+      "licenseStatus": "approved",
+      "observedAt": "2026-08-25T00:26:31.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Public relative search-interest tool; values are normalized 0-100 and not absolute volume.",
+        "Directional discovery only; not audience size, CPC, CPA, CVR, ROAS, sales, or saturation.",
+        "Each query keeps its own terms, search type, category, time range, and URL."
+      ],
+      "version": "explore-20260825",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+      "publisher": "World Bank",
+      "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
+      "sourceType": "official_api",
+      "jurisdiction": "global",
+      "market": "EG",
+      "language": "en",
+      "licenseStatus": "approved",
+      "observedAt": "2026-08-25T00:16:31.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "Context indicators only; not campaign performance or competitor benchmark.",
+        "Indicator-specific period, unit, and methodology must be retained."
+      ],
+      "version": "v2-20260825",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-world-bank-sau-indicators-v2-20260825",
+      "publisher": "World Bank",
+      "sourceUrl": "https://api.worldbank.org/v2/country/SAU",
+      "sourceType": "official_api",
+      "jurisdiction": "global",
+      "market": "SA",
+      "language": "en",
+      "licenseStatus": "approved",
+      "observedAt": "2026-08-25T00:16:31.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "Context indicators only; not campaign performance or competitor benchmark.",
+        "Indicator-specific period, unit, and methodology must be retained."
+      ],
+      "version": "v2-20260825",
+      "enabled": true
+    }
+  ],
+  "rawSnapshots": [
+    {
+      "path": "data/knowledge/public/world-bank/2026-08-25/IT.NET.USER.ZS.json",
+      "sha256": "83410b6d8e012037e95b7ae9964bec108cd8503e7899d63227c132c0f60c9a9d",
+      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+      "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
+      "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
+    },
+    {
+      "path": "data/knowledge/public/world-bank/2026-08-25/NY.GDP.PCAP.PP.CD.json",
+      "sha256": "fc3ed3136e4cd0d6e13b19d1b8f808de834cb0c9b2fd32700442224c8c9d1798",
+      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+      "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
+      "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
+    },
+    {
+      "path": "data/knowledge/public/world-bank/2026-08-25/SE.ADT.LITR.ZS.json",
+      "sha256": "8e96c13122c8018fddd7cd8c9d7c3592c33909e70de1387cec1469ac94805928",
+      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+      "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
+      "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
+    },
+    {
+      "path": "data/knowledge/public/world-bank/2026-08-25/SP.POP.TOTL.json",
+      "sha256": "5bd4589f3a9894a2ac4daa10e862fea01dd92296000a2fa5f57bd2862a1e0a37",
+      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+      "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
+      "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
+    },
+    {
+      "path": "data/knowledge/public/world-bank/2026-08-25/SP.URB.TOTL.IN.ZS.json",
+      "sha256": "b4d46e29995d12f2a6d6176ce421727cc67e735d752ceb0d2bd1e76e9effee83",
+      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+      "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
+      "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
+    },
+    {
+      "path": "data/knowledge/public/world-bank/2026-08-25/normalized-observations.json",
+      "sha256": "4055bfc4137298a102d44c239b6b0444126e88fdbe142fbc7e6e911f151ef164",
+      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+      "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
+      "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
+    },
+    {
+      "path": "data/knowledge/public/capmas/2026-08-25/catalog.html",
+      "sha256": "2d7408b16d96ce4cabc7328f1046e75042384cc3662a8b7eb096857875a4513f",
+      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "sourceId": "src-capmas-central-data-catalog-20260825",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/",
+      "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
+    },
+    {
+      "path": "data/knowledge/public/capmas/2026-08-25/searches/commerce.html",
+      "sha256": "bfaeec93236ca744609275a1e94d1073ed2440fcdee49a74cb7b038d1b5d01f5",
+      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "sourceId": "src-capmas-central-data-catalog-20260825",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/",
+      "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
+    },
+    {
+      "path": "data/knowledge/public/capmas/2026-08-25/searches/ecommerce.html",
+      "sha256": "e0c946193d0b2b4a0dfe883b14b1a4cedc86536dfe6d8bce34b5f0bc0c4ecc7e",
+      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "sourceId": "src-capmas-central-data-catalog-20260825",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/",
+      "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
+    },
+    {
+      "path": "data/knowledge/public/capmas/2026-08-25/searches/education.html",
+      "sha256": "8de74d0d1db25a78031ee4faef8787b11121eb861a3d3d3db2fe8e43576769f6",
+      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "sourceId": "src-capmas-central-data-catalog-20260825",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/",
+      "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
+    },
+    {
+      "path": "data/knowledge/public/capmas/2026-08-25/searches/electronic.html",
+      "sha256": "286a3ec95fff1b939b8762950c711992d07c6783a4df0ae0de0d05958a71772a",
+      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "sourceId": "src-capmas-central-data-catalog-20260825",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/",
+      "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
+    },
+    {
+      "path": "data/knowledge/public/capmas/2026-08-25/searches/internet.html",
+      "sha256": "6cfca245754e4dbfa9efe4a215fadb4fcf5c31043b11cf1f9d18dd87cde9e3eb",
+      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "sourceId": "src-capmas-central-data-catalog-20260825",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/",
+      "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
+    },
+    {
+      "path": "data/knowledge/public/capmas/2026-08-25/searches/retail.html",
+      "sha256": "cac50b7f403d5d8d306f5200f6920708e56b5a78c417df63b745744b6105bd7f",
+      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "sourceId": "src-capmas-central-data-catalog-20260825",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/",
+      "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
+    },
+    {
+      "path": "data/knowledge/public/capmas/2026-08-25/searches/services.html",
+      "sha256": "73d10625859e105ed315853f2e8156cf21db938ae5178b201df51456c09e52a0",
+      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "sourceId": "src-capmas-central-data-catalog-20260825",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/",
+      "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
+    },
+    {
+      "path": "data/knowledge/public/capmas/2026-08-25/searches/telecommunications.html",
+      "sha256": "b5bb73698aed4ed0c64e36cfa11e72ff884f081e26d4054b706350b5d06e555e",
+      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "sourceId": "src-capmas-central-data-catalog-20260825",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/",
+      "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
+    },
+    {
+      "path": "data/knowledge/public/capmas/2026-08-25/searches/trade.html",
+      "sha256": "b4b9b82cefcbf9d9fa215bb4015bd2f6833709b4f18a84e9785f5c5894cc9085",
+      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "sourceId": "src-capmas-central-data-catalog-20260825",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/",
+      "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
+    },
+    {
+      "path": "data/knowledge/public/capmas/2026-08-25/pdfs/education-foundation-2019-2020.pdf",
+      "sha256": "7fae4b6c14da5f0b3d0950c797bb75b4674d5c19233ad71de7f235004a1fe6cd",
+      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "sourceId": "src-capmas-education-bulletin-2019-2020",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/777/download/2298",
+      "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
+    },
+    {
+      "path": "data/knowledge/public/capmas/2026-08-25/pdfs/telecommunications-2016-2017.pdf",
+      "sha256": "61c0eb5f228e91b4806a82e8fa1e2d2f423cfd23705f392e81b7e1dd22164ae8",
+      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "sourceId": "src-capmas-telecommunications-bulletin-2016-2017",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/343/download/677",
+      "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
+    },
+    {
+      "path": "data/knowledge/public/google-trends/2026-08-25/eg-arabic-explore.html",
+      "sha256": "85115d23123fc369ae9f611bcc0b222e5f7091702fb5ddb338b7122bdf0abe79",
+      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "sourceId": "src-google-trends-eg-explore-20260825",
+      "sourceUrl": "https://trends.google.com/trends/",
+      "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
+    },
+    {
+      "path": "data/knowledge/public/google-trends/2026-08-25/eg-english-explore.html",
+      "sha256": "6df35e591b5924e8e68b6e129fc4391acd1318b2b0ab8494b9490231ba3dcada",
+      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "sourceId": "src-google-trends-eg-explore-20260825",
+      "sourceUrl": "https://trends.google.com/trends/",
+      "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
+    },
+    {
+      "path": "data/knowledge/public/google-trends/2026-08-25/sa-arabic-explore.html",
+      "sha256": "5e4a0a37309e28846c50df8461f958c4f54d924823712ec9c6d19b60eebdc0cb",
+      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "sourceId": "src-google-trends-sa-explore-20260825",
+      "sourceUrl": "https://trends.google.com/trends/",
+      "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
+    },
+    {
+      "path": "data/knowledge/public/google-trends/2026-08-25/sa-english-explore.html",
+      "sha256": "939c86a68c8481f407f2ce011c99f411a833370139c242835212b2b9249dc0b9",
+      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "sourceId": "src-google-trends-sa-explore-20260825",
+      "sourceUrl": "https://trends.google.com/trends/",
+      "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
+    }
+  ],
+  "derivedArtifacts": [
+    {
+      "path": "data/knowledge/public/world-bank/2026-08-25/latest-observations.json",
+      "sha256": "7dfb47cc5e08b5779fbe529bb388d1f5a0eb64672e51b53c491a3288308d71d7",
+      "generatedAt": "2026-08-25T00:26:31.000Z",
+      "artifactType": "latest-observations"
+    },
+    {
+      "path": "data/knowledge/public/google-trends/2026-08-25/normalized-observations.json",
+      "sha256": "c575910692536b540e0bb1a73085962d9aeecbfdc183dc9adbfd9f1c46c81831",
+      "generatedAt": "2026-08-25T00:26:31.000Z",
+      "artifactType": "normalized-observations"
+    },
+    {
+      "path": "data/knowledge/public/capmas/2026-08-25/normalized-facts.json",
+      "sha256": "917bd4254792f9c796c57ced581b47bc6cbadfd6325c8b5a6e393a385dcc0329",
+      "generatedAt": "2026-08-25T00:26:31.000Z",
+      "artifactType": "normalized-facts"
+    }
+  ],
+  "worldBankSelection": {
+    "method": "latest_non_null_observation_per_country_indicator",
+    "markets": [
+      "EG",
+      "SA"
+    ],
+    "indicators": [
+      "IT.NET.USER.ZS",
+      "NY.GDP.PCAP.PP.CD",
+      "SE.ADT.LITR.ZS",
+      "SP.POP.TOTL",
+      "SP.URB.TOTL.IN.ZS"
+    ],
+    "observationCount": 10
+  },
+  "observations": [
+    {
+      "observationId": "wb-eg-IT.NET.USER.ZS-2024",
+      "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+      "indicator": "IT.NET.USER.ZS",
+      "indicatorName": "Individuals using the Internet (% of population)",
+      "market": "EG",
+      "countryIso3": "EGY",
+      "period": "2024",
+      "value": 74.64839935,
+      "unit": "percent_of_population",
+      "status": "observed",
+      "observedAt": "2026-08-25T00:26:31.000Z",
+      "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
+      "queryUrl": "https://api.worldbank.org/v2/country/EGY/indicator/IT.NET.USER.ZS?format=json&per_page=100",
+      "limitations": [
+        "Global contextual indicator; not a targetable audience size or campaign benchmark.",
+        "Use only with the recorded country, period, indicator definition, and source."
+      ]
+    },
+    {
+      "observationId": "wb-eg-NY.GDP.PCAP.PP.CD-2025",
+      "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+      "indicator": "NY.GDP.PCAP.PP.CD",
+      "indicatorName": "GDP per capita, PPP (current international $)",
+      "market": "EG",
+      "countryIso3": "EGY",
+      "period": "2025",
+      "value": 20204.0130500153,
+      "unit": "current_international_dollars_per_person",
+      "status": "observed",
+      "observedAt": "2026-08-25T00:26:31.000Z",
+      "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
+      "queryUrl": "https://api.worldbank.org/v2/country/EGY/indicator/NY.GDP.PCAP.PP.CD?format=json&per_page=100",
+      "limitations": [
+        "Global contextual indicator; not a targetable audience size or campaign benchmark.",
+        "Use only with the recorded country, period, indicator definition, and source."
+      ]
+    },
+    {
+      "observationId": "wb-eg-SE.ADT.LITR.ZS-2022",
+      "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+      "indicator": "SE.ADT.LITR.ZS",
+      "indicatorName": "Adult literacy rate, population 15+ years, total (%)",
+      "market": "EG",
+      "countryIso3": "EGY",
+      "period": "2022",
+      "value": 79.4531619498685,
+      "unit": "percent_of_population",
+      "status": "observed",
+      "observedAt": "2026-08-25T00:26:31.000Z",
+      "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
+      "queryUrl": "https://api.worldbank.org/v2/country/EGY/indicator/SE.ADT.LITR.ZS?format=json&per_page=100",
+      "limitations": [
+        "Global contextual indicator; not a targetable audience size or campaign benchmark.",
+        "Use only with the recorded country, period, indicator definition, and source."
+      ]
+    },
+    {
+      "observationId": "wb-eg-SP.POP.TOTL-2025",
+      "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+      "indicator": "SP.POP.TOTL",
+      "indicatorName": "Population, total",
+      "market": "EG",
+      "countryIso3": "EGY",
+      "period": "2025",
+      "value": 118365995,
+      "unit": "people",
+      "status": "observed",
+      "observedAt": "2026-08-25T00:26:31.000Z",
+      "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
+      "queryUrl": "https://api.worldbank.org/v2/country/EGY/indicator/SP.POP.TOTL?format=json&per_page=100",
+      "limitations": [
+        "Global contextual indicator; not a targetable audience size or campaign benchmark.",
+        "Use only with the recorded country, period, indicator definition, and source."
+      ]
+    },
+    {
+      "observationId": "wb-eg-SP.URB.TOTL.IN.ZS-2025",
+      "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+      "indicator": "SP.URB.TOTL.IN.ZS",
+      "indicatorName": "Urban population (% of total population)",
+      "market": "EG",
+      "countryIso3": "EGY",
+      "period": "2025",
+      "value": 42.9043204925248,
+      "unit": "percent_of_population",
+      "status": "observed",
+      "observedAt": "2026-08-25T00:26:31.000Z",
+      "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
+      "queryUrl": "https://api.worldbank.org/v2/country/EGY/indicator/SP.URB.TOTL.IN.ZS?format=json&per_page=100",
+      "limitations": [
+        "Global contextual indicator; not a targetable audience size or campaign benchmark.",
+        "Use only with the recorded country, period, indicator definition, and source."
+      ]
+    },
+    {
+      "observationId": "wb-sa-IT.NET.USER.ZS-2024",
+      "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+      "indicator": "IT.NET.USER.ZS",
+      "indicatorName": "Individuals using the Internet (% of population)",
+      "market": "SA",
+      "countryIso3": "SAU",
+      "period": "2024",
+      "value": 100,
+      "unit": "percent_of_population",
+      "status": "observed",
+      "observedAt": "2026-08-25T00:26:31.000Z",
+      "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
+      "queryUrl": "https://api.worldbank.org/v2/country/EGY/indicator/IT.NET.USER.ZS?format=json&per_page=100",
+      "limitations": [
+        "Global contextual indicator; not a targetable audience size or campaign benchmark.",
+        "Use only with the recorded country, period, indicator definition, and source."
+      ]
+    },
+    {
+      "observationId": "wb-sa-NY.GDP.PCAP.PP.CD-2025",
+      "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+      "indicator": "NY.GDP.PCAP.PP.CD",
+      "indicatorName": "GDP per capita, PPP (current international $)",
+      "market": "SA",
+      "countryIso3": "SAU",
+      "period": "2025",
+      "value": 73783.5613906833,
+      "unit": "current_international_dollars_per_person",
+      "status": "observed",
+      "observedAt": "2026-08-25T00:26:31.000Z",
+      "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
+      "queryUrl": "https://api.worldbank.org/v2/country/EGY/indicator/NY.GDP.PCAP.PP.CD?format=json&per_page=100",
+      "limitations": [
+        "Global contextual indicator; not a targetable audience size or campaign benchmark.",
+        "Use only with the recorded country, period, indicator definition, and source."
+      ]
+    },
+    {
+      "observationId": "wb-sa-SE.ADT.LITR.ZS-2024",
+      "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+      "indicator": "SE.ADT.LITR.ZS",
+      "indicatorName": "Adult literacy rate, population 15+ years, total (%)",
+      "market": "SA",
+      "countryIso3": "SAU",
+      "period": "2024",
+      "value": 97.9300003051758,
+      "unit": "percent_of_population",
+      "status": "observed",
+      "observedAt": "2026-08-25T00:26:31.000Z",
+      "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
+      "queryUrl": "https://api.worldbank.org/v2/country/EGY/indicator/SE.ADT.LITR.ZS?format=json&per_page=100",
+      "limitations": [
+        "Global contextual indicator; not a targetable audience size or campaign benchmark.",
+        "Use only with the recorded country, period, indicator definition, and source."
+      ]
+    },
+    {
+      "observationId": "wb-sa-SP.POP.TOTL-2025",
+      "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+      "indicator": "SP.POP.TOTL",
+      "indicatorName": "Population, total",
+      "market": "SA",
+      "countryIso3": "SAU",
+      "period": "2025",
+      "value": 36973555,
+      "unit": "people",
+      "status": "observed",
+      "observedAt": "2026-08-25T00:26:31.000Z",
+      "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
+      "queryUrl": "https://api.worldbank.org/v2/country/EGY/indicator/SP.POP.TOTL?format=json&per_page=100",
+      "limitations": [
+        "Global contextual indicator; not a targetable audience size or campaign benchmark.",
+        "Use only with the recorded country, period, indicator definition, and source."
+      ]
+    },
+    {
+      "observationId": "wb-sa-SP.URB.TOTL.IN.ZS-2025",
+      "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+      "indicator": "SP.URB.TOTL.IN.ZS",
+      "indicatorName": "Urban population (% of total population)",
+      "market": "SA",
+      "countryIso3": "SAU",
+      "period": "2025",
+      "value": 84.6123121062185,
+      "unit": "percent_of_population",
+      "status": "observed",
+      "observedAt": "2026-08-25T00:26:31.000Z",
+      "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
+      "queryUrl": "https://api.worldbank.org/v2/country/EGY/indicator/SP.URB.TOTL.IN.ZS?format=json&per_page=100",
+      "limitations": [
+        "Global contextual indicator; not a targetable audience size or campaign benchmark.",
+        "Use only with the recorded country, period, indicator definition, and source."
+      ]
+    }
+  ],
+  "directionalSearchInterest": [
+    {
+      "snapshotId": "gt-eg-en-20260825",
+      "sourceId": "src-google-trends-eg-explore-20260825",
+      "market": "EG",
+      "locale": "en",
+      "queryUrl": "https://trends.google.com/trends/explore?date=today%205-y&geo=EG&q=online%20shopping%2Conline%20courses%2Clocal%20services",
+      "terms": [
+        "online shopping",
+        "online courses",
+        "local services"
+      ],
+      "averageRelativeInterest": {
+        "online shopping": 47,
+        "online courses": 31,
+        "local services": 2
+      },
+      "relatedQueries": {
+        "online shopping": [
+          "shopping online",
+          "amazon usa online shopping app",
+          "shein uk online shopping"
+        ],
+        "online courses": [
+          "ai courses online free",
+          "courses on online marketing 2025/2026",
+          "cs50 harvard"
+        ],
+        "local services": [
+          "google local services ads",
+          "lidl near me",
+          "cloud computing services"
+        ]
+      },
+      "subregionHighlights": {
+        "online shopping": [
+          "Matrouh",
+          "South Sinai",
+          "New Valley",
+          "Cairo",
+          "Giza"
+        ]
+      },
+      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "limitations": [
+        "Relative index only; values cannot be compared across separate query pages as absolute demand.",
+        "English terms are broad proxies and do not establish a specific product, course, service, or audience size.",
+        "Related queries and subregions are discovery signals requiring human interpretation."
+      ]
+    },
+    {
+      "snapshotId": "gt-eg-ar-20260825",
+      "sourceId": "src-google-trends-eg-explore-20260825",
+      "market": "EG",
+      "locale": "ar",
+      "queryUrl": "https://trends.google.com/trends/explore?date=today%205-y&geo=EG&q=%D8%AA%D8%B3%D9%88%D9%82%20%D8%A7%D9%88%D9%86%D9%84%D8%A7%D9%8A%D9%86%2C%D8%AF%D9%88%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%88%D9%86%D9%84%D8%A7%D9%8A%D9%86%2C%D8%AE%D8%AF%D9%85%D8%A7%D8%AA%20%D9%85%D8%AD%D9%84%D9%8A%D8%A9",
+      "terms": [
+        "تسوق اونلاين",
+        "دورات اونلاين",
+        "خدمات محلية"
+      ],
+      "averageRelativeInterest": {
+        "تسوق اونلاين": 1,
+        "دورات اونلاين": 0,
+        "خدمات محلية": 0
+      },
+      "insufficientDataTerms": [
+        "خدمات محلية"
+      ],
+      "relatedQueries": {
+        "تسوق اونلاين": [
+          "تسوق اون لاين"
+        ],
+        "دورات اونلاين": [
+          "دورات اونلاين مجانية"
+        ],
+        "خدمات محلية": []
+      },
+      "subregionHighlights": {
+        "تسوق اونلاين": [
+          "Beni Suef",
+          "Damietta",
+          "Red Sea",
+          "Kafr El Sheikh",
+          "Gharbia"
+        ]
+      },
+      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "limitations": [
+        "Relative index only; the first two terms had sparse non-zero points.",
+        "The local-services term had an explicit insufficient-data message.",
+        "Arabic phrase variants are not a complete keyword universe."
+      ]
+    },
+    {
+      "snapshotId": "gt-sa-en-20260825",
+      "sourceId": "src-google-trends-sa-explore-20260825",
+      "market": "SA",
+      "locale": "en",
+      "queryUrl": "https://trends.google.com/trends/explore?date=today%205-y&geo=SA&q=online%20shopping%2Conline%20courses%2Clocal%20services",
+      "terms": [
+        "online shopping",
+        "online courses",
+        "local services"
+      ],
+      "averageRelativeInterest": {
+        "online shopping": 55,
+        "online courses": 21,
+        "local services": 2
+      },
+      "relatedQueries": {
+        "online shopping": [
+          "temu",
+          "temu online shopping",
+          "what are the advantages of shopping online"
+        ],
+        "online courses": [
+          "harvard university free online courses with certificates",
+          "free certificate courses by google",
+          "free online accounting courses with certificates"
+        ],
+        "local services": [
+          "maps",
+          "google maps",
+          "cloud computing services",
+          "local handyman services"
+        ]
+      },
+      "subregionHighlights": {
+        "online shopping": [
+          "Al Bahah",
+          "Najran",
+          "Al Jawf",
+          "Northern Borders",
+          "Jazan"
+        ]
+      },
+      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "limitations": [
+        "Relative index only; values cannot be compared across separate query pages as absolute demand.",
+        "English terms are broad proxies and do not establish a specific product, course, service, or audience size.",
+        "Related queries and subregions are discovery signals requiring human interpretation."
+      ]
+    },
+    {
+      "snapshotId": "gt-sa-ar-20260825",
+      "sourceId": "src-google-trends-sa-explore-20260825",
+      "market": "SA",
+      "locale": "ar",
+      "queryUrl": "https://trends.google.com/trends/explore?date=today%205-y&geo=SA&q=%D8%AA%D8%B3%D9%88%D9%82%20%D8%A7%D9%88%D9%86%D9%84%D8%A7%D9%8A%D9%86%2C%D8%AF%D9%88%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%88%D9%86%D9%84%D8%A7%D9%8A%D9%86%2C%D8%AE%D8%AF%D9%85%D8%A7%D8%AA%20%D9%85%D8%AD%D9%84%D9%8A%D8%A9",
+      "terms": [
+        "تسوق اونلاين",
+        "دورات اونلاين",
+        "خدمات محلية"
+      ],
+      "averageRelativeInterest": {
+        "تسوق اونلاين": 1,
+        "دورات اونلاين": 3,
+        "خدمات محلية": 0
+      },
+      "insufficientDataTerms": [
+        "خدمات محلية"
+      ],
+      "relatedQueries": {
+        "تسوق اونلاين": [
+          "تونتي فور تسوق اونلاين",
+          "الماجد للعود تسوق اونلاين"
+        ],
+        "دورات اونلاين": [
+          "دورات اونلاين معتمدة في السعودية",
+          "دورات مجانية بشهادات معتمدة"
+        ],
+        "خدمات محلية": []
+      },
+      "subregionHighlights": {
+        "تسوق اونلاين": [
+          "Najran",
+          "Jazan",
+          "Qassim",
+          "Riyadh",
+          "Eastern Province"
+        ]
+      },
+      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "limitations": [
+        "Relative index only; the first two terms had sparse non-zero points.",
+        "The local-services term had an explicit insufficient-data message.",
+        "Arabic phrase variants are not a complete keyword universe."
+      ]
+    }
+  ],
+  "capmasEducationFacts": [
+    {
+      "factId": "capmas-education-gov-training-institutions-total-2019-2020",
+      "sourceId": "src-capmas-education-bulletin-2019-2020",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/777/download/2298",
+      "market": "EG",
+      "industry": "education_general",
+      "locale": "ar",
+      "period": "2019/2020 academic year",
+      "name": "government_training_institutions_total",
+      "value": 487,
+      "unit": "institutions",
+      "status": "observed",
+      "tableReference": "General indicators, government sector",
+      "definition": "Total training institutions in the governmental sector, systematic and unsystematic education.",
+      "limitations": [
+        "Official education and training supply statistic; not demand for a specific private or online offer.",
+        "Historical period; do not use as current market size or advertising benchmark."
+      ]
+    },
+    {
+      "factId": "capmas-education-gov-students-total-2019-2020",
+      "sourceId": "src-capmas-education-bulletin-2019-2020",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/777/download/2298",
+      "market": "EG",
+      "industry": "education_general",
+      "locale": "ar",
+      "period": "2019/2020 academic year",
+      "name": "government_students_total",
+      "value": 344398,
+      "unit": "students",
+      "status": "observed",
+      "tableReference": "General indicators, government sector",
+      "definition": "Total students in governmental-sector training institutions, systematic and unsystematic education.",
+      "limitations": [
+        "Official participation statistic; not addressable audience size or demand signal for advertising.",
+        "Historical period; retain the source period and definition."
+      ]
+    },
+    {
+      "factId": "capmas-education-gov-graduates-total-2019-2020",
+      "sourceId": "src-capmas-education-bulletin-2019-2020",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/777/download/2298",
+      "market": "EG",
+      "industry": "education_general",
+      "locale": "ar",
+      "period": "2019/2020 academic year",
+      "name": "government_graduates_total",
+      "value": 282163,
+      "unit": "graduates",
+      "status": "observed",
+      "tableReference": "General indicators, government sector",
+      "definition": "Total graduates in governmental-sector training institutions, systematic and unsystematic education.",
+      "limitations": [
+        "Official graduate count; not enrollment conversion, lead quality, or outcome benchmark.",
+        "Historical period; not a current market forecast."
+      ]
+    },
+    {
+      "factId": "capmas-education-gov-private-training-institutions-total-2019-2020",
+      "sourceId": "src-capmas-education-bulletin-2019-2020",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/777/download/2298",
+      "market": "EG",
+      "industry": "education_general",
+      "locale": "ar",
+      "period": "2019/2020 academic year",
+      "name": "government_and_ministry_social_solidarity_training_institutions_total",
+      "value": 609,
+      "unit": "institutions",
+      "status": "observed",
+      "tableReference": "Government and Ministry of Social Solidarity private-sector table",
+      "definition": "Combined total shown in the bulletin for governmental and Ministry of Social Solidarity private-sector training institutions.",
+      "limitations": [
+        "The combined table has a specific institutional scope; it is not the total Egyptian education market.",
+        "Historical period and source-specific definition must remain attached."
+      ]
+    },
+    {
+      "factId": "capmas-education-response-rate-government-2019-2020",
+      "sourceId": "src-capmas-education-bulletin-2019-2020",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/777/download/2298",
+      "market": "EG",
+      "industry": "education_general",
+      "locale": "ar",
+      "period": "2019/2020 academic year",
+      "name": "government_data_source_response_rate",
+      "value": 96.2,
+      "unit": "percent",
+      "status": "observed",
+      "tableReference": "Statistical methodology",
+      "definition": "Response rate reported for governmental sources in the bulletin methodology.",
+      "limitations": [
+        "Quality metadata for the bulletin, not an education demand or advertising metric.",
+        "Do not generalize the response rate to other sectors or current periods."
+      ]
+    },
+    {
+      "factId": "capmas-education-response-rate-private-2019-2020",
+      "sourceId": "src-capmas-education-bulletin-2019-2020",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/777/download/2298",
+      "market": "EG",
+      "industry": "education_general",
+      "locale": "ar",
+      "period": "2019/2020 academic year",
+      "name": "private_data_source_response_rate",
+      "value": 98.4,
+      "unit": "percent",
+      "status": "observed",
+      "tableReference": "Statistical methodology",
+      "definition": "Response rate reported for the private-sector sources affiliated with the Ministry of Social Solidarity.",
+      "limitations": [
+        "Quality metadata for the bulletin, not an education demand or advertising metric.",
+        "Do not generalize the response rate to all private education providers."
+      ]
+    }
+  ],
+  "rawArtifactPolicy": {
+    "curatedArtifactsCommitted": true,
+    "largeRawArtifactsMayRemainLocal": true,
+    "rebuildFromOfficialUrls": true,
+    "missingRawOnCloneIsExplicitGap": true
+  },
+  "quality": {
+    "marketValidated": false,
+    "readyEvidencePackages": 0,
+    "limitedEvidencePackagesPlanned": 3,
+    "discoveryOnlySourceIds": [
+      "src-capmas-central-data-catalog-20260825",
+      "src-gastat-open-data-20260825",
+      "src-gastat-statistics-categories-20260825"
+    ],
+    "unavailableMetrics": [
+      "audience size",
+      "absolute search volume",
+      "CPC",
+      "CPA",
+      "CVR",
+      "ROAS",
+      "reach",
+      "frequency",
+      "saturation",
+      "competitor performance",
+      "client funnel performance"
+    ],
+    "limitations": [
+      "World Bank observations are broad contextual indicators and are not industry-specific.",
+      "CAPMAS education facts are historical 2019/2020 education-supply context only.",
+      "Google Trends observations are relative directional search-interest signals captured from public pages.",
+      "GASTAT rows are portal/discovery metadata until an official dataset export or authorized API response is available.",
+      "TikTok first-party reporting is kept outside this public manifest because it is account-owned and must not become a public benchmark."
+    ]
+  }
+}

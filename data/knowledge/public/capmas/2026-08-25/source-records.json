@@ -1,0 +1,48 @@
+{
+  "contractVersion": "1.0",
+  "generatedAt": "2026-08-25T00:26:31.000Z",
+  "sources": [
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-capmas-education-bulletin-2019-2020",
+      "publisher": "CAPMAS",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/777/download/2298",
+      "sourceType": "official_document",
+      "jurisdiction": "EG",
+      "market": "EG",
+      "industry": "education_general",
+      "language": "en",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T00:26:31.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Official education and training bulletin for academic year 2019/2020.",
+        "Dataset-level reuse license and currentness require verification before a ready package.",
+        "Does not establish online education demand or advertising performance."
+      ],
+      "version": "education-2019-2020",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-capmas-telecommunications-bulletin-2016-2017",
+      "publisher": "CAPMAS",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/343/download/677",
+      "sourceType": "official_document",
+      "jurisdiction": "EG",
+      "market": "EG",
+      "industry": "ecommerce_general",
+      "language": "en",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T00:26:31.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Historical telecommunications bulletin for 2016-2017; it is context only.",
+        "Dataset-level reuse license and currentness require verification before a ready package.",
+        "Does not establish current digital demand, CPC, CPA, CVR, ROAS, or saturation."
+      ],
+      "version": "telecommunications-2016-2017",
+      "enabled": true
+    }
+  ]
+}

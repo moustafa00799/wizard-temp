@@ -1,0 +1,86 @@
+{
+  "reportId": "public-knowledge-quality-20260825-002",
+  "generatedAt": "2026-08-25T00:26:31.000Z",
+  "status": "PASS",
+  "globalMarketValidated": false,
+  "sourceRegistry": {
+    "registeredSources": 9,
+    "discoveryOnlySources": 3,
+    "rawArtifactsHashChecked": 22,
+    "rawArtifactsMissingLocally": [],
+    "derivedArtifactsHashChecked": 3
+  },
+  "evidence": {
+    "worldBankSelectedObservations": 10,
+    "googleTrendsSnapshots": 4,
+    "capmasEducationFacts": 6,
+    "limitedPackages": [
+      {
+        "packageId": "pkg-eg-education-public-20260825",
+        "scope": "EG/education_general/ar/EGP",
+        "status": "limited",
+        "freshnessStatus": "fresh",
+        "sourceCount": 3,
+        "factCount": 21,
+        "unknownCount": 13
+      },
+      {
+        "packageId": "pkg-sa-ecommerce-public-20260825",
+        "scope": "SA/ecommerce_general/ar/SAR",
+        "status": "limited",
+        "freshnessStatus": "fresh",
+        "sourceCount": 2,
+        "factCount": 15,
+        "unknownCount": 13
+      },
+      {
+        "packageId": "pkg-eg-local-service-public-20260825",
+        "scope": "EG/local_service_general/ar/EGP",
+        "status": "limited",
+        "freshnessStatus": "fresh",
+        "sourceCount": 2,
+        "factCount": 14,
+        "unknownCount": 13
+      }
+    ],
+    "readyPackages": 0
+  },
+  "coverage": {
+    "marketIndustryScopesTargeted": 6,
+    "marketIndustryScopesWithLimitedPackages": 3,
+    "marketIndustryScopesMissing": [
+      "EG/ecommerce_general",
+      "SA/education_general",
+      "SA/local_service_general"
+    ],
+    "exactArabicPackageScopes": 3,
+    "exactEnglishPackageScopes": 0
+  },
+  "unavailableMetrics": [
+    "audience size",
+    "absolute search volume",
+    "CPC",
+    "CPA",
+    "CVR",
+    "ROAS",
+    "reach",
+    "frequency",
+    "saturation",
+    "competitor performance",
+    "client funnel performance"
+  ],
+  "gaps": [
+    "No current Saudi dataset-level metric has been ingested; GASTAT remains discovery/API-access gated.",
+    "No current Egypt industry-specific public demand dataset has been ingested beyond contextual indicators and directional Trends observations.",
+    "No Google Ads Keyword Planner, GA4, or Search Console first-party/client export is available in this public batch.",
+    "TikTok Creative Center public creative observations are not yet collected; TikTok Business account reporting is private first-party and excluded from the public manifest.",
+    "Meta remains intentionally deferred to the final platform-collection step."
+  ],
+  "gates": {
+    "sourceContracts": "PASS",
+    "rawHashReproducibility": "PASS",
+    "exactScopePackageContracts": "PASS",
+    "noInventedMarketingBenchmarks": "PASS",
+    "marketValidationGate": "BLOCKED_BY_INCOMPLETE_COVERAGE"
+  }
+}
