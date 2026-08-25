@@ -60,6 +60,7 @@ const datasaudiDigital = loadArtifact("datasaudi/2026-08-25/datasaudi-digital-es
 const datasaudiEducation = loadArtifact("datasaudi/2026-08-25/datasaudi-higher-education-students-sa-20260825.json");
 const kapsarcSector = loadArtifact("kapsarc/2026-08-25/sector-normalized-observations.json");
 const kapsarcSectorCity = loadArtifact("kapsarc/2026-08-25/sector-city-latest-observations.json");
+const samaPayment = loadArtifact("sama/2026-08-25/normalized-payment-context.json");
 
 const registry = new SourceRegistry(registryData.sources.map((source: unknown) => SourceRecordSchema.parse(source)));
 type WorldBankObservation = {
@@ -131,6 +132,7 @@ function publicContextFacts(config: Config): MarketFact[] {
     push(undata.observations, (observation) => observation.market === config.market && ["internet_usage", "population_and_density", "gdp_and_gdp_per_capita"].includes(observation.dataset ?? ""), (observation) => `${observation.dataset}:${observation.metric}`, 6);
     if (config.market === "SA") {
       push(kapsarcSector.observations, (observation) => observation.market === "SA" && ["Electronic & Electric Devices", "Clothing and Footwear", "Furniture", "Jewelry"].includes(observation.sector ?? "") && ["sector_sales", "sector_transactions"].includes(observation.metric ?? ""), (observation) => `${observation.sector}:${observation.metric}`, 12);
+      push(samaPayment.observations, (observation) => observation.market === "SA" && ["electronic_retail_payment_share", "electronic_transaction_count"].includes(observation.metric ?? "") && typeof observation.value === "number", (observation) => observation.metric ?? "sama-payment-context", 4);
     }
   }
 
@@ -301,7 +303,7 @@ function buildPackage(config: Config) {
   const snapshotId = `snapshot-${config.packageId}`;
   const limitations = [
     "Coverage incomplete: industry-specific evidence is limited to public contextual indicators and selected payment/education signals.",
-    "Context indicators, payment activity, and directional search interest are not audience-size or advertising-performance benchmarks.",
+    "Context indicators, SAMA payment activity, and directional search interest are not audience-size or advertising-performance benchmarks.",
     ...(config.industry === "education_general" ? ["CAPMAS facts are historical education-supply context for academic year 2019/2020 only."] : []),
     "Market Validation remains false until the approved source-metric-scope matrix is complete.",
   ];

@@ -26,6 +26,14 @@ const contextArtifactPaths = [
   "kapsarc/2026-08-25/sector-normalized-observations.json",
   "kapsarc/2026-08-25/sector-city-latest-observations.json",
   "kapsarc/2026-08-25/detailed-sector-city-latest-observations.json",
+  "cbe/2026-08-25/normalized-payment-system-observation.json",
+  "sama/2026-08-25/normalized-payment-context.json",
+  "sama/2026-08-25/normalized-ecommerce-interface-observation.json",
+  "sama/2026-08-25/normalized-weekly-pos-page-observation.json",
+  "egypt-public/2026-08-25/normalized-national-accounts-discovery.json",
+  "egypt-public/2026-08-25/normalized-customs-fx-context.json",
+  "marketplaces/2026-08-25/normalized-storefront-observations.json",
+  "app-stores/2026-08-25/normalized-app-store-observations.json",
 ];
 
 function readJson(filePath: string): any {
@@ -41,9 +49,9 @@ const manifest = readJson(manifestPath);
 
 const parsedSources = registry.sources.map((source: unknown) => SourceRecordSchema.parse(source));
 const sourceIds = new Set(parsedSources.map((source: ReturnType<typeof SourceRecordSchema.parse>) => source.sourceId));
-assert.equal(parsedSources.length, 35);
-assert.equal(additions.sources.length, 26);
-assert.equal(manifest.publicContextArtifacts.length, 14);
+assert.equal(parsedSources.length, 53);
+assert.equal(additions.sources.length, 44);
+assert.equal(manifest.publicContextArtifacts.length, 22);
 assert.equal(sourceIds.has("src-world-bank-egy-indicators-v2-20260825"), true);
 assert.equal(sourceIds.has("src-world-bank-sau-indicators-v2-20260825"), true);
 assert.equal(sourceIds.has("src-capmas-education-bulletin-2019-2020"), true);
@@ -57,6 +65,19 @@ for (const sourceId of [
   "src-gastat-datasaudi-digital-economy-gdp-sa-20260825",
   "src-kapsarc-sama-pos-ecommerce-sa-20260825",
   "src-kapsarc-sama-pos-sector-sa-20260825",
+  "src-cbe-payment-system-eg-20260825",
+  "src-sama-national-payment-news1139-sa-20260825",
+  "src-sama-ecommerce-interface-news1095-sa-20260825",
+  "src-sama-weekly-pos-page-sa-20260825",
+  "src-mped-national-accounts-eg-20260825",
+  "src-nafeza-customs-fx-eg-20260825",
+  "src-noon-eg-galaxy-a17-product-20260825",
+  "src-noon-sa-galaxy-s25-product-20260825",
+  "src-amazon-sa-anker-product-20260825",
+  "src-google-play-noon-en-us-20260825",
+  "src-google-play-amazon-en-us-20260825",
+  "src-apple-store-noon-us-20260825",
+  "src-apple-store-amazon-us-20260825",
 ]) assert.equal(sourceIds.has(sourceId), true);
 
 assert.equal(worldBank.artifactType, "public_market_context_snapshot");
@@ -132,10 +153,30 @@ assert.equal(trends.snapshots.every((snapshot: any) => snapshot.queryDefaults ==
 assert.equal(trends.notProvided.includes("absolute search volume"), true);
 assert.equal(trends.notProvided.includes("CPC"), true);
 
+const cbe = readJson(path.join(publicRoot, "cbe/2026-08-25/normalized-payment-system-observation.json"));
+assert.equal(cbe.observations.length, 2);
+assert.equal(cbe.observations.every((observation: any) => typeof observation.value === "string" && observation.sourceId === "src-cbe-payment-system-eg-20260825"), true);
+const samaPayment = readJson(path.join(publicRoot, "sama/2026-08-25/normalized-payment-context.json"));
+assert.deepEqual(
+  samaPayment.observations.filter((observation: any) => ["electronic_retail_payment_share", "electronic_transaction_count"].includes(observation.metric)).map((observation: any) => [observation.metric, observation.period, observation.value]),
+  [["electronic_retail_payment_share", "2025", 85], ["electronic_retail_payment_share", "2024", 79], ["electronic_transaction_count", "2025", 14.6], ["electronic_transaction_count", "2024", 12.6]],
+);
+
+const marketplace = readJson(path.join(publicRoot, "marketplaces/2026-08-25/normalized-storefront-observations.json"));
+assert.equal(marketplace.observations.some((observation: any) => observation.observationId === "amazon-sa-anker-usb-cable-offer-20260825" && observation.price.current === 38.9 && observation.price.currency === "SAR" && observation.rating.reviewCount === 106328), true);
+assert.equal(marketplace.observations.some((observation: any) => observation.observationId === "amazon-eg-product-captcha-unavailable-20260825" && observation.status === "unavailable" && observation.value === null), true);
+assert.equal(JSON.stringify(marketplace).toLowerCase().includes("competitor performance"), true);
+assert.equal(JSON.stringify(marketplace).toLowerCase().includes("cpc"), true);
+const appStores = readJson(path.join(publicRoot, "app-stores/2026-08-25/normalized-app-store-observations.json"));
+assert.equal(appStores.observations.length, 4);
+assert.equal(appStores.observations.every((observation: any) => observation.marketScope === "global_or_store_locale" && observation.market === undefined), true);
+assert.equal(appStores.observations.some((observation: any) => observation.observationId === "google-play-noon-en-us-metadata-20260825" && observation.rating.headerReviewCountText === "1.16M" && observation.rating.ratingsSectionReviewCountText === "1.14M"), true);
+assert.equal(JSON.stringify(appStores).toLowerCase().includes("country-specific"), true);
+
 console.log(JSON.stringify({
   test: "public-knowledge-ingestion-regression",
   status: "PASS",
-  assertions: 89,
+  assertions: 112,
   worldBankSelectedObservations: worldBank.observations.length,
   contextArtifacts: contextArtifactPaths.length,
   capmasEducationFacts: capmasFacts.facts.length,

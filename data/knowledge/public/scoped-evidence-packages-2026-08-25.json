@@ -834,7 +834,7 @@
           "confidence": 0.62,
           "limitations": [
             "Coverage incomplete: industry-specific evidence is limited to public contextual indicators and selected payment/education signals.",
-            "Context indicators, payment activity, and directional search interest are not audience-size or advertising-performance benchmarks.",
+            "Context indicators, SAMA payment activity, and directional search interest are not audience-size or advertising-performance benchmarks.",
             "CAPMAS facts are historical education-supply context for academic year 2019/2020 only.",
             "Market Validation remains false until the approved source-metric-scope matrix is complete."
           ]
@@ -973,7 +973,7 @@
       "freshnessStatus": "fresh",
       "limitations": [
         "Coverage incomplete: industry-specific evidence is limited to public contextual indicators and selected payment/education signals.",
-        "Context indicators, payment activity, and directional search interest are not audience-size or advertising-performance benchmarks.",
+        "Context indicators, SAMA payment activity, and directional search interest are not audience-size or advertising-performance benchmarks.",
         "CAPMAS facts are historical education-supply context for academic year 2019/2020 only.",
         "Market Validation remains false until the approved source-metric-scope matrix is complete.",
         "Context indicators only; not campaign performance or competitor benchmark.",
@@ -1085,6 +1085,24 @@
         },
         {
           "contractVersion": "1.0",
+          "sourceId": "src-sama-national-payment-news1139-sa-20260825",
+          "publisher": "Saudi Central Bank (SAMA)",
+          "sourceUrl": "https://www.sama.gov.sa/en-US/MediaCenter/News/pages/news-1139.aspx",
+          "sourceType": "official_document",
+          "market": "SA",
+          "language": "en",
+          "licenseStatus": "unknown",
+          "observedAt": "2026-08-25T20:30:00.000Z",
+          "freshnessPolicy": "on_demand",
+          "limitations": [
+            "Official national payment-ecosystem facts for 2024 and 2025; not ecommerce-only sales, demand, audience, or advertising performance.",
+            "The source does not provide product, industry, city, customer, or ad-attribution breakdowns."
+          ],
+          "version": "news-1139-2026-04-12",
+          "enabled": true
+        },
+        {
+          "contractVersion": "1.0",
           "sourceId": "src-google-trends-sa-explore-20260825",
           "publisher": "Google Trends",
           "sourceUrl": "https://trends.google.com/trends/",
@@ -1145,6 +1163,16 @@
             "SAMA payment activity is market-context evidence and not proof of online-only demand for each sector.",
             "Records are aggregate payment activity and do not identify customer, advertising source, or conversion attribution.",
             "The public portal export is GET-only; source license status remains unknown until explicit terms are verified."
+          ]
+        },
+        {
+          "evidenceId": "evidence-src-sama-national-payment-news1139-sa-20260825",
+          "sourceId": "src-sama-national-payment-news1139-sa-20260825",
+          "observedAt": "2026-08-25T20:30:00.000Z",
+          "excerpt": "Public source record referenced by the scoped snapshot.",
+          "limitations": [
+            "Official national payment-ecosystem facts for 2024 and 2025; not ecommerce-only sales, demand, audience, or advertising performance.",
+            "The source does not provide product, industry, city, customer, or ad-attribution breakdowns."
           ]
         },
         {
@@ -1545,6 +1573,40 @@
               }
             },
             {
+              "factId": "sa-ecommerce_general-electronic-retail-payment-share-context--sama-sa-electronic-retail-payment-share-2025",
+              "name": "electronic_retail_payment_share (context)",
+              "value": 85,
+              "unit": "percent_of_total_retail_payments",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-sama-national-payment-news1139-sa-20260825"
+              ],
+              "observedAt": "2026-08-25T20:30:00.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ecommerce_general-electronic-transaction-count-context--sama-sa-electronic-transaction-count-2025",
+              "name": "electronic_transaction_count (context)",
+              "value": 14.6,
+              "unit": "billion_transactions",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-sama-national-payment-news1139-sa-20260825"
+              ],
+              "observedAt": "2026-08-25T20:30:00.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
               "factId": "sa-ecommerce_general-audience-size",
               "name": "audience size",
               "value": null,
@@ -1774,12 +1836,13 @@
             "src-unctad-digital-economy-egy-sau-20260825",
             "src-undata-population_and_density-egy-sau-20260825",
             "src-kapsarc-sama-pos-sector-sa-20260825",
+            "src-sama-national-payment-news1139-sa-20260825",
             "src-google-trends-sa-explore-20260825"
           ],
           "confidence": 0.52,
           "limitations": [
             "Coverage incomplete: industry-specific evidence is limited to public contextual indicators and selected payment/education signals.",
-            "Context indicators, payment activity, and directional search interest are not audience-size or advertising-performance benchmarks.",
+            "Context indicators, SAMA payment activity, and directional search interest are not audience-size or advertising-performance benchmarks.",
             "Market Validation remains false until the approved source-metric-scope matrix is complete."
           ]
         }
@@ -1904,7 +1967,7 @@
       "freshnessStatus": "fresh",
       "limitations": [
         "Coverage incomplete: industry-specific evidence is limited to public contextual indicators and selected payment/education signals.",
-        "Context indicators, payment activity, and directional search interest are not audience-size or advertising-performance benchmarks.",
+        "Context indicators, SAMA payment activity, and directional search interest are not audience-size or advertising-performance benchmarks.",
         "Market Validation remains false until the approved source-metric-scope matrix is complete.",
         "Context indicators only; not campaign performance or competitor benchmark.",
         "Indicator-specific period, unit, and methodology must be retained.",
@@ -1917,6 +1980,8 @@
         "SAMA payment activity is market-context evidence and not proof of online-only demand for each sector.",
         "Records are aggregate payment activity and do not identify customer, advertising source, or conversion attribution.",
         "The public portal export is GET-only; source license status remains unknown until explicit terms are verified.",
+        "Official national payment-ecosystem facts for 2024 and 2025; not ecommerce-only sales, demand, audience, or advertising performance.",
+        "The source does not provide product, industry, city, customer, or ad-attribution breakdowns.",
         "Public relative search-interest tool; values are normalized 0-100 and not absolute volume.",
         "Directional discovery only; not audience size, CPC, CPA, CVR, ROAS, sales, or saturation.",
         "Each query keeps its own terms, search type, category, time range, and URL."
@@ -1929,6 +1994,7 @@
           "evidence-src-unctad-digital-economy-egy-sau-20260825",
           "evidence-src-undata-population_and_density-egy-sau-20260825",
           "evidence-src-kapsarc-sama-pos-sector-sa-20260825",
+          "evidence-src-sama-national-payment-news1139-sa-20260825",
           "evidence-gt-sa-ar-20260825"
         ]
       }
@@ -2466,7 +2532,7 @@
           "confidence": 0.52,
           "limitations": [
             "Coverage incomplete: industry-specific evidence is limited to public contextual indicators and selected payment/education signals.",
-            "Context indicators, payment activity, and directional search interest are not audience-size or advertising-performance benchmarks.",
+            "Context indicators, SAMA payment activity, and directional search interest are not audience-size or advertising-performance benchmarks.",
             "Market Validation remains false until the approved source-metric-scope matrix is complete."
           ]
         }
@@ -2594,7 +2660,7 @@
       "freshnessStatus": "fresh",
       "limitations": [
         "Coverage incomplete: industry-specific evidence is limited to public contextual indicators and selected payment/education signals.",
-        "Context indicators, payment activity, and directional search interest are not audience-size or advertising-performance benchmarks.",
+        "Context indicators, SAMA payment activity, and directional search interest are not audience-size or advertising-performance benchmarks.",
         "Market Validation remains false until the approved source-metric-scope matrix is complete.",
         "Context indicators only; not campaign performance or competitor benchmark.",
         "Indicator-specific period, unit, and methodology must be retained.",
@@ -2633,8 +2699,8 @@
       "scope": "SA/ecommerce_general/ar/SAR",
       "status": "limited",
       "freshnessStatus": "fresh",
-      "sourceCount": 5,
-      "factCount": 33,
+      "sourceCount": 6,
+      "factCount": 35,
       "unknownCount": 14
     },
     {

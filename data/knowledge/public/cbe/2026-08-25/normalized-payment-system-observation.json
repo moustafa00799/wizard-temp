@@ -1,0 +1,59 @@
+{
+  "contractVersion": "1.0",
+  "artifactType": "public_egypt_payment_system_context",
+  "artifactId": "cbe-payment-system-eg-20260825",
+  "generatedAt": "2026-08-25T20:30:00.000Z",
+  "sourceId": "src-cbe-payment-system-eg-20260825",
+  "sourceUrl": "https://www.cbe.org.eg/en/payment-systems-and-services",
+  "licenseStatus": "unknown",
+  "rawInput": {
+    "path": "data/knowledge/public/cbe/2026-08-25/browser-capture.md",
+    "sha256": "bcbf2e937b126f6b6c88fd1a8b875a229b7918faf264c3fdae6f1fcf4b1d4b6a",
+    "capturedAt": "2026-08-25T20:30:00.000Z"
+  },
+  "observations": [
+    {
+      "observationId": "cbe-eg-national-payment-system-components-2026",
+      "sourceId": "src-cbe-payment-system-eg-20260825",
+      "metric": "national_payment_system_components",
+      "value": "RTGS, government-securities book-entry, Cheques Clearing House, National Switch/ATM, Automated Clearing House, central securities depository, internet/mobile/phone banking, government payments and bill payments",
+      "status": "observed",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
+      "sourceUrl": "https://www.cbe.org.eg/en/payment-systems-and-services",
+      "limitations": [
+        "Qualitative CBE institutional and payment-system context; no numerical payment series was visible on the captured page.",
+        "The browser-rendered page was accessible, while the text extractor returned an official server rejection; reproducibility is therefore limited.",
+        "This observation is not ecommerce sales, audience, demand, conversion, advertising, or competitor-performance evidence."
+      ],
+      "market": "EG",
+      "industryRelevance": "ecommerce_general",
+      "unit": "qualitative_system_description",
+      "sourceDate": "2026-07-08"
+    },
+    {
+      "observationId": "cbe-eg-electronic-payment-policy-objectives-2026",
+      "sourceId": "src-cbe-payment-system-eg-20260825",
+      "metric": "electronic_payment_policy_objectives",
+      "value": "Develop payment systems, promote electronic payments, interoperability, standards, consumer protection, controlled risk, and competitive market conditions",
+      "status": "observed",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
+      "sourceUrl": "https://www.cbe.org.eg/en/payment-systems-and-services",
+      "limitations": [
+        "Institutional policy context only; it does not establish adoption rate, ecommerce GMV, market share, or advertising outcomes.",
+        "The browser-rendered page was accessible, while the text extractor returned an official server rejection."
+      ],
+      "market": "EG",
+      "industryRelevance": "ecommerce_general",
+      "unit": "qualitative_policy_context",
+      "sourceDate": "2026-07-08"
+    }
+  ],
+  "unknowns": [
+    "No current CBE numerical ecommerce/payment series was captured from this page.",
+    "No industry-specific demand, audience, conversion, or advertising-performance metric is supplied."
+  ],
+  "limitations": [
+    "CBE page is a qualitative institutional/payment-system source in this batch.",
+    "No protected endpoint or server rejection was bypassed."
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "contractVersion": "1.0",
+  "artifactType": "public_saudi_ecommerce_payment_interface_context",
+  "artifactId": "sama-ecommerce-interface-sa-20260825",
+  "generatedAt": "2026-08-25T20:30:00.000Z",
+  "sourceId": "src-sama-ecommerce-interface-news1095-sa-20260825",
+  "sourceUrl": "https://sama.gov.sa/en-US/MediaCenter/News/pages/news-1095.aspx",
+  "licenseStatus": "unknown",
+  "rawInput": {
+    "path": "data/knowledge/public/sama/2026-08-25/payment-interface-and-pos-browser-capture.md",
+    "sha256": "3dd400d27793ff7d76876f959607f454974b96b76d920961e57c77acec09cb39",
+    "capturedAt": "2026-08-25T20:30:00.000Z"
+  },
+  "observations": [
+    {
+      "observationId": "sama-sa-ecommerce-payment-interface-2025",
+      "sourceId": "src-sama-ecommerce-interface-news1095-sa-20260825",
+      "metric": "ecommerce_payment_interface_features",
+      "value": "mada integration with global payment networks, unified technical specifications, centralized registration, financing solutions, and card tokenization",
+      "status": "observed",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
+      "sourceUrl": "https://sama.gov.sa/en-US/MediaCenter/News/pages/news-1095.aspx",
+      "limitations": [
+        "Official payment-infrastructure description; not ecommerce sales, demand, audience, conversion, or advertising-performance evidence.",
+        "No adoption count or channel-level outcome is inferred from the interface description."
+      ],
+      "market": "SA",
+      "industryRelevance": "ecommerce_general",
+      "unit": "qualitative_infrastructure_context",
+      "period": "2025",
+      "sourceDate": "2025-07-07"
+    }
+  ],
+  "unknowns": [
+    "No numeric adoption or ecommerce sales series was exposed by this page."
+  ],
+  "limitations": [
+    "Payment infrastructure context only; license terms were not explicit on the captured page."
+  ]
+}

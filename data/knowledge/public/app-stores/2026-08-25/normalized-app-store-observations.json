@@ -1,0 +1,138 @@
+{
+  "contractVersion": "1.0",
+  "artifactType": "public_app_store_observations",
+  "artifactId": "public-app-store-observations-global-locale-20260825",
+  "generatedAt": "2026-08-25T20:30:00.000Z",
+  "sourceId": "src-google-play-noon-en-us-20260825",
+  "sourceUrl": "https://play.google.com/store/apps/details?id=com.noon.buyerapp&hl=en_US",
+  "licenseStatus": "unknown",
+  "rawInput": {
+    "path": "data/knowledge/public/app-stores/2026-08-25/app-store-capture.md",
+    "sha256": "a5dc4f531d3d3306116b4b464fbd4b27c7b172a78c29258b89d0e90db663716c",
+    "capturedAt": "2026-08-25T20:30:00.000Z"
+  },
+  "observations": [
+    {
+      "observationId": "google-play-noon-en-us-metadata-20260825",
+      "sourceId": "src-google-play-noon-en-us-20260825",
+      "platform": "Google Play",
+      "storeLocale": "en_US",
+      "marketScope": "global_or_store_locale",
+      "industryRelevance": "ecommerce_general",
+      "observationType": "app_store_metadata",
+      "status": "observed",
+      "pageUrl": "https://play.google.com/store/apps/details?id=com.noon.buyerapp&hl=en_US",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
+      "app": {
+        "name": "noon Online Shopping & Grocery",
+        "packageId": "com.noon.buyerapp"
+      },
+      "rating": {
+        "value": 4.6,
+        "headerReviewCountText": "1.16M",
+        "ratingsSectionReviewCountText": "1.14M"
+      },
+      "downloadCountText": "50M+",
+      "lastUpdateDisplayed": "2026-08-24",
+      "descriptionScope": "The description mentioned UAE, KSA, and Egypt and shopping, food, grocery, payment, and delivery features.",
+      "limitations": [
+        "Google Play en_US page observation; not country-specific active users, installs, market share, or performance.",
+        "Header and rating-section review counts are preserved separately and are not reconciled into a new metric."
+      ]
+    },
+    {
+      "observationId": "google-play-amazon-en-us-metadata-20260825",
+      "sourceId": "src-google-play-amazon-en-us-20260825",
+      "platform": "Google Play",
+      "storeLocale": "en_US",
+      "marketScope": "global_or_store_locale",
+      "industryRelevance": "ecommerce_general",
+      "observationType": "app_store_metadata",
+      "status": "observed",
+      "pageUrl": "https://play.google.com/store/apps/details?id=com.amazon.mShop.android.shopping&hl=en_US",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
+      "app": {
+        "name": "Amazon Shopping",
+        "packageId": "com.amazon.mShop.android.shopping"
+      },
+      "rating": {
+        "value": 4.3,
+        "headerReviewCountText": "4.67M",
+        "ratingsSectionReviewCountText": "4.54M"
+      },
+      "downloadCountText": "1B+",
+      "lastUpdateDisplayed": "2026-07-16",
+      "descriptionScope": "The description covered browsing, search, review reading, shipment tracking, price-drop notifications, and visual search.",
+      "limitations": [
+        "Google Play en_US page observation; not country-specific active users, installs, market share, or performance.",
+        "Header and rating-section review counts are preserved separately and are not reconciled into a new metric."
+      ]
+    },
+    {
+      "observationId": "apple-store-noon-us-metadata-20260825",
+      "sourceId": "src-apple-store-noon-us-20260825",
+      "platform": "Apple App Store",
+      "storeLocale": "US",
+      "marketScope": "global_or_store_locale",
+      "industryRelevance": "ecommerce_general",
+      "observationType": "app_store_metadata",
+      "status": "observed",
+      "pageUrl": "https://apps.apple.com/us/app/noon-shopping-food-grocery/id1269038866",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
+      "app": {
+        "name": "noon Shopping, Food, Grocery",
+        "appId": "1269038866"
+      },
+      "rating": {
+        "value": 4.5,
+        "ratingsCountText": "326K"
+      },
+      "category": "Shopping",
+      "sizeMB": 299.6,
+      "ageRating": "4+",
+      "languagesDisplayed": "English plus one additional language",
+      "versionDisplayed": "4.260824",
+      "limitations": [
+        "Apple App Store US page observation; not country-specific active users, installs, market share, or performance.",
+        "Ratings are preserved as displayed and are not converted to a country-specific metric."
+      ]
+    },
+    {
+      "observationId": "apple-store-amazon-us-metadata-20260825",
+      "sourceId": "src-apple-store-amazon-us-20260825",
+      "platform": "Apple App Store",
+      "storeLocale": "US",
+      "marketScope": "global_or_store_locale",
+      "industryRelevance": "ecommerce_general",
+      "observationType": "app_store_metadata",
+      "status": "observed",
+      "pageUrl": "https://apps.apple.com/us/app/amazon-shopping/id297606951",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
+      "app": {
+        "name": "Amazon Shopping",
+        "appId": "297606951"
+      },
+      "rating": {
+        "value": 4.8,
+        "ratingsCountText": "8.4M"
+      },
+      "category": "Shopping",
+      "sizeMB": 248.6,
+      "ageRating": "13+",
+      "languagesDisplayed": "English plus 24 languages",
+      "versionDisplayed": "27.13.0; 7 August",
+      "limitations": [
+        "Apple App Store US page observation; not country-specific active users, installs, market share, or performance.",
+        "Ratings are preserved as displayed and are not converted to a country-specific metric."
+      ]
+    }
+  ],
+  "unknowns": [
+    "Country-specific active users, installs, revenue, retention, conversion, and market share are unavailable from these store pages.",
+    "Review text was not used as statistical evidence and no issue percentage was computed."
+  ],
+  "limitations": [
+    "Google Play and Apple App Store values are global or store-locale observations, not EG/SA market facts.",
+    "Header/detail review-count differences are retained exactly as displayed."
+  ]
+}

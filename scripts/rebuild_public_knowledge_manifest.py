@@ -27,6 +27,14 @@ ADDITIONAL_ARTIFACT_PATHS = [
     PUBLIC_ROOT / "kapsarc/2026-08-25/sector-normalized-observations.json",
     PUBLIC_ROOT / "kapsarc/2026-08-25/sector-city-latest-observations.json",
     PUBLIC_ROOT / "kapsarc/2026-08-25/detailed-sector-city-latest-observations.json",
+    PUBLIC_ROOT / "cbe/2026-08-25/normalized-payment-system-observation.json",
+    PUBLIC_ROOT / "sama/2026-08-25/normalized-payment-context.json",
+    PUBLIC_ROOT / "sama/2026-08-25/normalized-ecommerce-interface-observation.json",
+    PUBLIC_ROOT / "sama/2026-08-25/normalized-weekly-pos-page-observation.json",
+    PUBLIC_ROOT / "egypt-public/2026-08-25/normalized-national-accounts-discovery.json",
+    PUBLIC_ROOT / "egypt-public/2026-08-25/normalized-customs-fx-context.json",
+    PUBLIC_ROOT / "marketplaces/2026-08-25/normalized-storefront-observations.json",
+    PUBLIC_ROOT / "app-stores/2026-08-25/normalized-app-store-observations.json",
 ]
 CAPTURED_AT = "2026-08-25T20:30:00.000Z"
 
@@ -112,7 +120,7 @@ def main() -> None:
 
     output = {
         "contractVersion": "1.0",
-        "manifestId": "public-knowledge-batch-20260825-003",
+        "manifestId": "public-knowledge-batch-20260825-004",
         "generatedAt": CAPTURED_AT,
         "scope": {
             "markets": ["EG", "SA"],
@@ -163,6 +171,10 @@ def main() -> None:
                 "Google Trends observations are relative directional search-interest signals captured from public pages.",
                 "Selected DataSaudi/GASTAT and KAPSARC artifacts are aggregate market or education-system context, not advertising benchmarks; license status remains unknown where terms were not explicit.",
                 "UNESCO, UNCTAD, UNdata, and ITU observations preserve their own periods, upstream sources, and regional/country coverage limitations.",
+                "CBE and SAMA payment sources are retained as institutional/payment-ecosystem context and do not close ecommerce demand or advertising-performance gaps.",
+                "Marketplace observations are page-level snapshots with unknown reuse license; they are not representative samples or competitor-performance evidence.",
+                "App-store observations retain Google Play en_US and Apple App Store US scope and cannot be mapped to Egypt or Saudi country metrics.",
+                "Egypt data.gov.eg and Egypt Data Portal remained discovery/unavailable routes in this batch; no values were inferred from them.",
                 "TikTok first-party reporting is kept outside this public manifest because it is account-owned and must not become a public benchmark.",
             ],
         },

@@ -1,0 +1,56 @@
+{
+  "contractVersion": "1.0",
+  "artifactType": "public_egypt_customs_fx_context",
+  "artifactId": "nafeza-customs-fx-eg-20260825",
+  "generatedAt": "2026-08-25T20:30:00.000Z",
+  "sourceId": "src-nafeza-customs-fx-eg-20260825",
+  "sourceUrl": "https://sandbox.nafeza.gov.eg/ar/currencies",
+  "licenseStatus": "unknown",
+  "rawInput": {
+    "path": "data/knowledge/public/egypt-public/2026-08-25/ministry-and-nafeza-browser-capture.md",
+    "sha256": "5ec26239047b050d5c6f71f5ac82c820dc8b77427fbd0520ec52e42c9040ee2c",
+    "capturedAt": "2026-08-25T20:30:00.000Z"
+  },
+  "observations": [
+    {
+      "observationId": "nafeza-eg-usd-egp-customs-rate-2026-02-24",
+      "sourceId": "src-nafeza-customs-fx-eg-20260825",
+      "metric": "customs_conversion_rate_usd_egp",
+      "value": 47.88,
+      "status": "observed",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
+      "sourceUrl": "https://sandbox.nafeza.gov.eg/ar/currencies",
+      "limitations": [
+        "Egyptian Customs conversion rate displayed by Nafeza for the stated date; not a consumer market-price or advertising benchmark.",
+        "Use only for explicit currency normalization while preserving the source date and source label."
+      ],
+      "market": "EG",
+      "unit": "EGP_per_USD",
+      "period": "2026-02-24",
+      "sourceDate": "2026-02-24"
+    },
+    {
+      "observationId": "nafeza-eg-sar-egp-customs-rate-2026-02-24",
+      "sourceId": "src-nafeza-customs-fx-eg-20260825",
+      "metric": "customs_conversion_rate_sar_egp",
+      "value": 12.7646,
+      "status": "observed",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
+      "sourceUrl": "https://sandbox.nafeza.gov.eg/ar/currencies",
+      "limitations": [
+        "Egyptian Customs conversion rate displayed by Nafeza for the stated date; not a consumer market-price or advertising benchmark.",
+        "Use only for explicit currency normalization while preserving the source date and source label."
+      ],
+      "market": "EG",
+      "unit": "EGP_per_SAR",
+      "period": "2026-02-24",
+      "sourceDate": "2026-02-24"
+    }
+  ],
+  "unknowns": [
+    "No product pricing, sales, demand, or market-share metric is provided."
+  ],
+  "limitations": [
+    "Customs FX context only; do not use as a current consumer exchange-rate forecast."
+  ]
+}

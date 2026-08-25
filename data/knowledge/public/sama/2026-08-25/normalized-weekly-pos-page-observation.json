@@ -1,0 +1,38 @@
+{
+  "contractVersion": "1.0",
+  "artifactType": "public_saudi_weekly_pos_reporting_context",
+  "artifactId": "sama-weekly-pos-page-sa-20260825",
+  "generatedAt": "2026-08-25T20:30:00.000Z",
+  "sourceId": "src-sama-weekly-pos-page-sa-20260825",
+  "sourceUrl": "https://www.sama.gov.sa/en-US/Statistics/Indices/Pages/POS.aspx",
+  "licenseStatus": "unknown",
+  "rawInput": {
+    "path": "data/knowledge/public/sama/2026-08-25/payment-interface-and-pos-browser-capture.md",
+    "sha256": "3dd400d27793ff7d76876f959607f454974b96b76d920961e57c77acec09cb39",
+    "capturedAt": "2026-08-25T20:30:00.000Z"
+  },
+  "observations": [
+    {
+      "observationId": "sama-sa-weekly-pos-report-availability",
+      "sourceId": "src-sama-weekly-pos-page-sa-20260825",
+      "metric": "weekly_pos_reporting_dimensions",
+      "value": "transaction count, transaction value, and weekly percentage changes by business activity and city",
+      "status": "observed",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
+      "sourceUrl": "https://www.sama.gov.sa/en-US/Statistics/Indices/Pages/POS.aspx",
+      "limitations": [
+        "The public page describes the report dimensions but the captured text did not expose a downloadable numerical table.",
+        "No numerical row was inferred; this is not ecommerce-only demand or advertising performance."
+      ],
+      "market": "SA",
+      "industryRelevance": "ecommerce_general",
+      "unit": "qualitative_reporting_scope"
+    }
+  ],
+  "unknowns": [
+    "No numeric POS row was captured from this page in this batch."
+  ],
+  "limitations": [
+    "Report-availability context only; existing KAPSARC/SAMA public exports remain the numeric POS artifacts."
+  ]
+}

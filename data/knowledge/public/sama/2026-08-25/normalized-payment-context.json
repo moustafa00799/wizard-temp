@@ -1,0 +1,114 @@
+{
+  "contractVersion": "1.0",
+  "artifactType": "public_saudi_payment_context",
+  "artifactId": "sama-national-payment-context-sa-20260825",
+  "generatedAt": "2026-08-25T20:30:00.000Z",
+  "sourceId": "src-sama-national-payment-news1139-sa-20260825",
+  "sourceUrl": "https://www.sama.gov.sa/en-US/MediaCenter/News/pages/news-1139.aspx",
+  "licenseStatus": "unknown",
+  "rawInput": {
+    "path": "data/knowledge/public/sama/2026-08-25/news-1139-browser-capture.md",
+    "sha256": "8b6cbcde57ff46ed5f10302b3e73cb329ed738c8e2689b6ae55e8550d583b984",
+    "capturedAt": "2026-08-25T20:30:00.000Z"
+  },
+  "observations": [
+    {
+      "observationId": "sama-sa-electronic-retail-payment-share-2025",
+      "sourceId": "src-sama-national-payment-news1139-sa-20260825",
+      "metric": "electronic_retail_payment_share",
+      "value": 85,
+      "status": "observed",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
+      "sourceUrl": "https://www.sama.gov.sa/en-US/MediaCenter/News/pages/news-1139.aspx",
+      "limitations": [
+        "Official national total-retail payment context, not ecommerce-only GMV or product demand.",
+        "The page does not provide audience size, attribution, CPC, CPA, CVR, ROAS, reach, frequency, saturation, or competitor performance."
+      ],
+      "market": "SA",
+      "industryRelevance": "ecommerce_general",
+      "unit": "percent_of_total_retail_payments",
+      "period": "2025",
+      "sourceDate": "2026-04-12"
+    },
+    {
+      "observationId": "sama-sa-electronic-retail-payment-share-2024",
+      "sourceId": "src-sama-national-payment-news1139-sa-20260825",
+      "metric": "electronic_retail_payment_share",
+      "value": 79,
+      "status": "observed",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
+      "sourceUrl": "https://www.sama.gov.sa/en-US/MediaCenter/News/pages/news-1139.aspx",
+      "limitations": [
+        "Official national total-retail payment context, not ecommerce-only GMV or product demand.",
+        "The page does not provide advertising performance or customer-level attribution."
+      ],
+      "market": "SA",
+      "industryRelevance": "ecommerce_general",
+      "unit": "percent_of_total_retail_payments",
+      "period": "2024",
+      "sourceDate": "2026-04-12"
+    },
+    {
+      "observationId": "sama-sa-electronic-transaction-count-2025",
+      "sourceId": "src-sama-national-payment-news1139-sa-20260825",
+      "metric": "electronic_transaction_count",
+      "value": 14.6,
+      "status": "observed",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
+      "sourceUrl": "https://www.sama.gov.sa/en-US/MediaCenter/News/pages/news-1139.aspx",
+      "limitations": [
+        "National electronic transaction count across the payment ecosystem; not online retail orders or ad-attributed conversions.",
+        "The page does not provide industry, product, audience, or campaign breakdowns."
+      ],
+      "market": "SA",
+      "industryRelevance": "ecommerce_general",
+      "unit": "billion_transactions",
+      "period": "2025",
+      "sourceDate": "2026-04-12"
+    },
+    {
+      "observationId": "sama-sa-electronic-transaction-count-2024",
+      "sourceId": "src-sama-national-payment-news1139-sa-20260825",
+      "metric": "electronic_transaction_count",
+      "value": 12.6,
+      "status": "observed",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
+      "sourceUrl": "https://www.sama.gov.sa/en-US/MediaCenter/News/pages/news-1139.aspx",
+      "limitations": [
+        "National electronic transaction count across the payment ecosystem; not online retail orders or ad-attributed conversions.",
+        "The page does not provide industry, product, audience, or campaign breakdowns."
+      ],
+      "market": "SA",
+      "industryRelevance": "ecommerce_general",
+      "unit": "billion_transactions",
+      "period": "2024",
+      "sourceDate": "2026-04-12"
+    },
+    {
+      "observationId": "sama-sa-payment-systems-mada-pos-ecommerce-context-2025",
+      "sourceId": "src-sama-national-payment-news1139-sa-20260825",
+      "metric": "payment_system_scope",
+      "value": "mada, POS and ecommerce payments were cited as parts of growth in national payment systems",
+      "status": "observed",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
+      "sourceUrl": "https://www.sama.gov.sa/en-US/MediaCenter/News/pages/news-1139.aspx",
+      "limitations": [
+        "Qualitative scope statement; no channel-level share or ecommerce-only value is supplied.",
+        "Not a marketing or competitor-performance benchmark."
+      ],
+      "market": "SA",
+      "industryRelevance": "ecommerce_general",
+      "unit": "qualitative_payment_context",
+      "period": "2025",
+      "sourceDate": "2026-04-12"
+    }
+  ],
+  "unknowns": [
+    "The source does not disaggregate the national figures into ecommerce-only payments.",
+    "No product category, city, audience, customer, or advertising attribution is supplied."
+  ],
+  "limitations": [
+    "SAMA national payment facts are retained as limited external market context only.",
+    "Values are copied as stated by SAMA; no forecast or derived rate was added."
+  ]
+}

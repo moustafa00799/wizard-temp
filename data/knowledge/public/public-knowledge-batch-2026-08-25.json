@@ -1,6 +1,6 @@
 {
   "contractVersion": "1.0",
-  "manifestId": "public-knowledge-batch-20260825-003",
+  "manifestId": "public-knowledge-batch-20260825-004",
   "generatedAt": "2026-08-25T20:30:00.000Z",
   "scope": {
     "markets": [
@@ -23,6 +23,101 @@
     ]
   },
   "sources": [
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-amazon-eg-homepage-20260825",
+      "publisher": "Amazon Egypt",
+      "sourceUrl": "https://www.amazon.eg/-/en/",
+      "sourceType": "public_library",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Public storefront observation at a point in time; not a representative sample, demand estimate, sales volume, or market share.",
+        "Visible price, rating, review count, seller, stock, fulfillment, rank, and merchandising claims can change over time.",
+        "No CPC, CPA, CVR, ROAS, reach, frequency, saturation, or competitor campaign performance is inferred."
+      ],
+      "version": "storefront-capture-2026-08-25",
+      "enabled": true,
+      "market": "EG",
+      "industry": "ecommerce_general",
+      "language": "en"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-amazon-eg-product-captcha-20260825",
+      "publisher": "Amazon Egypt",
+      "sourceUrl": "https://www.amazon.eg/-/en/Silver-Crest-Performance-Convection-DR-8803S/dp/B0C1ZJJ1XG",
+      "sourceType": "public_library",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "The public product request returned a CAPTCHA/interstitial and was not bypassed.",
+        "No product value was inferred and no further automated retries were made."
+      ],
+      "version": "storefront-capture-2026-08-25",
+      "enabled": false,
+      "market": "EG",
+      "industry": "ecommerce_general",
+      "language": "en"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-amazon-sa-anker-product-20260825",
+      "publisher": "Amazon Saudi Arabia",
+      "sourceUrl": "https://www.amazon.sa/-/en/Anker-2-Pack-Premium-Charger-Samsung/dp/B07DC5PPFV/",
+      "sourceType": "public_library",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Public storefront observation at a point in time; not a representative sample, demand estimate, sales volume, or market share.",
+        "Visible price, rating, review count, seller, stock, fulfillment, rank, and merchandising claims can change over time.",
+        "No CPC, CPA, CVR, ROAS, reach, frequency, saturation, or competitor campaign performance is inferred."
+      ],
+      "version": "storefront-capture-2026-08-25",
+      "enabled": true,
+      "market": "SA",
+      "industry": "ecommerce_general",
+      "language": "en"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-apple-store-amazon-us-20260825",
+      "publisher": "Amazon Shopping",
+      "sourceUrl": "https://apps.apple.com/us/app/amazon-shopping/id297606951",
+      "sourceType": "public_library",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Global or store-locale app-page observation; not country-specific active users, installs, market share, or performance.",
+        "Header/detail review-count differences are retained as displayed and are not reconciled into a new metric.",
+        "Ratings and downloads do not establish sales, retention, conversion, CPC, CPA, CVR, ROAS, or campaign success."
+      ],
+      "version": "app-store-capture-2026-08-25",
+      "enabled": true,
+      "language": "en"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-apple-store-noon-us-20260825",
+      "publisher": "Noon Shopping, Food, Grocery",
+      "sourceUrl": "https://apps.apple.com/us/app/noon-shopping-food-grocery/id1269038866",
+      "sourceType": "public_library",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Global or store-locale app-page observation; not country-specific active users, installs, market share, or performance.",
+        "Header/detail review-count differences are retained as displayed and are not reconciled into a new metric.",
+        "Ratings and downloads do not establish sales, retention, conversion, CPC, CPA, CVR, ROAS, or campaign success."
+      ],
+      "version": "app-store-capture-2026-08-25",
+      "enabled": true,
+      "language": "en"
+    },
     {
       "contractVersion": "1.0",
       "sourceId": "src-capmas-central-data-catalog-20260825",
@@ -83,6 +178,43 @@
       ],
       "version": "telecommunications-2016-2017",
       "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-cbe-payment-system-eg-20260825",
+      "publisher": "Central Bank of Egypt (CBE)",
+      "sourceUrl": "https://www.cbe.org.eg/en/payment-systems-and-services",
+      "sourceType": "official_document",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Qualitative CBE national payment-system and institutional context; no numerical ecommerce series was captured from this page.",
+        "The public browser rendered the page while the text extraction endpoint returned an official server rejection; reproducibility is limited.",
+        "Not audience size, ecommerce demand, CPC, CPA, CVR, ROAS, reach, frequency, saturation, market share, or competitor performance."
+      ],
+      "version": "payment-systems-2026-07-08",
+      "enabled": true,
+      "market": "EG",
+      "language": "en"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-egypt-national-open-data-portal-20260825",
+      "publisher": "Government of Egypt",
+      "sourceUrl": "https://data.gov.eg/",
+      "sourceType": "official_document",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Discovery-only record: the public portal did not resolve in the permitted retrieval attempt and no dataset was asserted.",
+        "Disabled until an official endpoint and dataset metadata can be read without bypassing protection."
+      ],
+      "version": "unavailable-discovery-2026-08-25",
+      "enabled": false,
+      "market": "EG",
+      "language": "ar"
     },
     {
       "contractVersion": "1.0",
@@ -214,6 +346,42 @@
     },
     {
       "contractVersion": "1.0",
+      "sourceId": "src-google-play-amazon-en-us-20260825",
+      "publisher": "Amazon Shopping",
+      "sourceUrl": "https://play.google.com/store/apps/details?id=com.amazon.mShop.android.shopping&hl=en_US",
+      "sourceType": "public_library",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Global or store-locale app-page observation; not country-specific active users, installs, market share, or performance.",
+        "Header/detail review-count differences are retained as displayed and are not reconciled into a new metric.",
+        "Ratings and downloads do not establish sales, retention, conversion, CPC, CPA, CVR, ROAS, or campaign success."
+      ],
+      "version": "app-store-capture-2026-08-25",
+      "enabled": true,
+      "language": "en"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-google-play-noon-en-us-20260825",
+      "publisher": "Noon Online Shopping & Grocery",
+      "sourceUrl": "https://play.google.com/store/apps/details?id=com.noon.buyerapp&hl=en_US",
+      "sourceType": "public_library",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Global or store-locale app-page observation; not country-specific active users, installs, market share, or performance.",
+        "Header/detail review-count differences are retained as displayed and are not reconciled into a new metric.",
+        "Ratings and downloads do not establish sales, retention, conversion, CPC, CPA, CVR, ROAS, or campaign success."
+      ],
+      "version": "app-store-capture-2026-08-25",
+      "enabled": true,
+      "language": "en"
+    },
+    {
+      "contractVersion": "1.0",
       "sourceId": "src-google-trends-eg-explore-20260825",
       "publisher": "Google Trends",
       "sourceUrl": "https://trends.google.com/trends/",
@@ -340,6 +508,122 @@
     },
     {
       "contractVersion": "1.0",
+      "sourceId": "src-mped-national-accounts-eg-20260825",
+      "publisher": "Egypt Ministry of Planning and Economic Development",
+      "sourceUrl": "https://mped.gov.eg/Analytics?lang=en",
+      "sourceType": "official_document",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "The page confirms interactive GDP and regional-account dataset scope; linked numerical tables were not copied into this batch.",
+        "Macroeconomic and regional context only; not ecommerce demand, audience, market share, or advertising performance."
+      ],
+      "version": "national-accounts-discovery-2026-08-25",
+      "enabled": true,
+      "market": "EG",
+      "language": "en"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-nafeza-customs-fx-eg-20260825",
+      "publisher": "Egyptian Customs Authority via Nafeza",
+      "sourceUrl": "https://sandbox.nafeza.gov.eg/ar/currencies",
+      "sourceType": "official_document",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "daily",
+      "limitations": [
+        "Customs conversion rates for the displayed date; not consumer market prices or advertising benchmarks.",
+        "Use only for explicit currency normalization while retaining the displayed date and source label."
+      ],
+      "version": "customs-fx-2026-02-24",
+      "enabled": true,
+      "market": "EG",
+      "language": "ar"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-noon-eg-galaxy-a17-product-20260825",
+      "publisher": "Noon Egypt",
+      "sourceUrl": "https://www.noon.com/egypt-en/galaxy-a17-dual-sim-4g-black-4gb-ram-128gb-middle-east-version/N70214276V/p/?o=b93223709b1aab3c",
+      "sourceType": "public_library",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Public storefront observation at a point in time; not a representative sample, demand estimate, sales volume, or market share.",
+        "Visible price, rating, review count, seller, stock, fulfillment, rank, and merchandising claims can change over time.",
+        "No CPC, CPA, CVR, ROAS, reach, frequency, saturation, or competitor campaign performance is inferred."
+      ],
+      "version": "storefront-capture-2026-08-25",
+      "enabled": true,
+      "market": "EG",
+      "industry": "ecommerce_general",
+      "language": "en"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-noon-eg-mobile-category-20260825",
+      "publisher": "Noon Egypt",
+      "sourceUrl": "https://www.noon.com/egypt-en/electronics-and-mobiles/mobiles-and-accessories/mobiles-20905/",
+      "sourceType": "public_library",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Public storefront observation at a point in time; not a representative sample, demand estimate, sales volume, or market share.",
+        "Visible price, rating, review count, seller, stock, fulfillment, rank, and merchandising claims can change over time.",
+        "No CPC, CPA, CVR, ROAS, reach, frequency, saturation, or competitor campaign performance is inferred."
+      ],
+      "version": "storefront-capture-2026-08-25",
+      "enabled": true,
+      "market": "EG",
+      "industry": "ecommerce_general",
+      "language": "en"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-noon-sa-galaxy-s25-product-20260825",
+      "publisher": "Noon Saudi Arabia",
+      "sourceUrl": "https://www.noon.com/saudi-en/galaxy-s25-ultra-dual-sim-titanium-black-12gb-ram-256gb-5g-international-version/N70142933V/p/",
+      "sourceType": "public_library",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Public storefront observation at a point in time; not a representative sample, demand estimate, sales volume, or market share.",
+        "Visible price, rating, review count, seller, stock, fulfillment, rank, and merchandising claims can change over time.",
+        "No CPC, CPA, CVR, ROAS, reach, frequency, saturation, or competitor campaign performance is inferred."
+      ],
+      "version": "storefront-capture-2026-08-25",
+      "enabled": true,
+      "market": "SA",
+      "industry": "ecommerce_general",
+      "language": "en"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-noon-sa-mobile-category-20260825",
+      "publisher": "Noon Saudi Arabia",
+      "sourceUrl": "https://www.noon.com/saudi-en/electronics-and-mobiles/mobiles-and-accessories/mobiles-20905/",
+      "sourceType": "public_library",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Public storefront observation at a point in time; not a representative sample, demand estimate, sales volume, or market share.",
+        "Visible price, rating, review count, seller, stock, fulfillment, rank, and merchandising claims can change over time.",
+        "No CPC, CPA, CVR, ROAS, reach, frequency, saturation, or competitor campaign performance is inferred."
+      ],
+      "version": "storefront-capture-2026-08-25",
+      "enabled": true,
+      "market": "SA",
+      "industry": "ecommerce_general",
+      "language": "en"
+    },
+    {
+      "contractVersion": "1.0",
       "sourceId": "src-sama-datasaudi-higher-education-students-sa-20260825",
       "publisher": "Saudi Central Bank (SAMA) / DataSaudi",
       "sourceUrl": "https://www.sama.gov.sa/en-US/Publications/EconomicReports/Pages/report.aspx?cid=127",
@@ -373,6 +657,60 @@
       "version": "2026-08-25",
       "enabled": true,
       "market": "SA"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-sama-ecommerce-interface-news1095-sa-20260825",
+      "publisher": "Saudi Central Bank (SAMA)",
+      "sourceUrl": "https://sama.gov.sa/en-US/MediaCenter/News/pages/news-1095.aspx",
+      "sourceType": "official_document",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Payment-infrastructure description for ecommerce; not ecommerce sales, demand, audience, market share, or ad performance.",
+        "No adoption count or channel-level outcome is inferred from the interface description."
+      ],
+      "version": "news-1095-2025-07-07",
+      "enabled": true,
+      "market": "SA",
+      "language": "en"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-sama-national-payment-news1139-sa-20260825",
+      "publisher": "Saudi Central Bank (SAMA)",
+      "sourceUrl": "https://www.sama.gov.sa/en-US/MediaCenter/News/pages/news-1139.aspx",
+      "sourceType": "official_document",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Official national payment-ecosystem facts for 2024 and 2025; not ecommerce-only sales, demand, audience, or advertising performance.",
+        "The source does not provide product, industry, city, customer, or ad-attribution breakdowns."
+      ],
+      "version": "news-1139-2026-04-12",
+      "enabled": true,
+      "market": "SA",
+      "language": "en"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-sama-weekly-pos-page-sa-20260825",
+      "publisher": "Saudi Central Bank (SAMA)",
+      "sourceUrl": "https://www.sama.gov.sa/en-US/Statistics/Indices/Pages/POS.aspx",
+      "sourceType": "official_document",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "weekly",
+      "limitations": [
+        "Public report-availability and dimension context; the captured page did not expose a downloadable numerical row.",
+        "Existing KAPSARC/SAMA exports remain the numeric POS artifacts; no ecommerce-only demand or advertising performance is inferred."
+      ],
+      "version": "weekly-pos-page-2026-08-25",
+      "enabled": true,
+      "market": "SA",
+      "language": "en"
     },
     {
       "contractVersion": "1.0",
@@ -1240,6 +1578,188 @@
         "Source license status was not presumed and remains unknown pending explicit terms verification.",
         "Change-percent rows are retained as source-reported changes and are not treated as advertising performance."
       ]
+    },
+    {
+      "path": "data/knowledge/public/cbe/2026-08-25/normalized-payment-system-observation.json",
+      "sha256": "5aa74d384e788b915eeae9da53b8cdff8f40343bf9b2568d6f2ca57353746701",
+      "generatedAt": "2026-08-25T20:30:00.000Z",
+      "artifactType": "public_egypt_payment_system_context",
+      "artifactId": "cbe-payment-system-eg-20260825",
+      "sourceIds": [
+        "src-cbe-payment-system-eg-20260825"
+      ],
+      "observationCount": 2,
+      "rawInputs": [
+        {
+          "path": "data/knowledge/public/cbe/2026-08-25/browser-capture.md",
+          "sha256": "bcbf2e937b126f6b6c88fd1a8b875a229b7918faf264c3fdae6f1fcf4b1d4b6a",
+          "capturedAt": "2026-08-25T20:30:00.000Z"
+        }
+      ],
+      "limitations": [
+        "CBE page is a qualitative institutional/payment-system source in this batch.",
+        "No protected endpoint or server rejection was bypassed."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/sama/2026-08-25/normalized-payment-context.json",
+      "sha256": "0ba9091fcb9d78c517f88ef78fe1b6f4c7fe4a64912fe14a751088a968b13726",
+      "generatedAt": "2026-08-25T20:30:00.000Z",
+      "artifactType": "public_saudi_payment_context",
+      "artifactId": "sama-national-payment-context-sa-20260825",
+      "sourceIds": [
+        "src-sama-national-payment-news1139-sa-20260825"
+      ],
+      "observationCount": 5,
+      "rawInputs": [
+        {
+          "path": "data/knowledge/public/sama/2026-08-25/news-1139-browser-capture.md",
+          "sha256": "8b6cbcde57ff46ed5f10302b3e73cb329ed738c8e2689b6ae55e8550d583b984",
+          "capturedAt": "2026-08-25T20:30:00.000Z"
+        }
+      ],
+      "limitations": [
+        "SAMA national payment facts are retained as limited external market context only.",
+        "Values are copied as stated by SAMA; no forecast or derived rate was added."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/sama/2026-08-25/normalized-ecommerce-interface-observation.json",
+      "sha256": "541585e04b9e0ae4e08339f515eb20bb50a27a7dd9a539c976b5fad2014794a4",
+      "generatedAt": "2026-08-25T20:30:00.000Z",
+      "artifactType": "public_saudi_ecommerce_payment_interface_context",
+      "artifactId": "sama-ecommerce-interface-sa-20260825",
+      "sourceIds": [
+        "src-sama-ecommerce-interface-news1095-sa-20260825"
+      ],
+      "observationCount": 1,
+      "rawInputs": [
+        {
+          "path": "data/knowledge/public/sama/2026-08-25/payment-interface-and-pos-browser-capture.md",
+          "sha256": "3dd400d27793ff7d76876f959607f454974b96b76d920961e57c77acec09cb39",
+          "capturedAt": "2026-08-25T20:30:00.000Z"
+        }
+      ],
+      "limitations": [
+        "Payment infrastructure context only; license terms were not explicit on the captured page."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/sama/2026-08-25/normalized-weekly-pos-page-observation.json",
+      "sha256": "7036df0b72188f3c0646eeb5b1075cab83f9cdc95f9b3460d1ade6c3ec28e70c",
+      "generatedAt": "2026-08-25T20:30:00.000Z",
+      "artifactType": "public_saudi_weekly_pos_reporting_context",
+      "artifactId": "sama-weekly-pos-page-sa-20260825",
+      "sourceIds": [
+        "src-sama-weekly-pos-page-sa-20260825"
+      ],
+      "observationCount": 1,
+      "rawInputs": [
+        {
+          "path": "data/knowledge/public/sama/2026-08-25/payment-interface-and-pos-browser-capture.md",
+          "sha256": "3dd400d27793ff7d76876f959607f454974b96b76d920961e57c77acec09cb39",
+          "capturedAt": "2026-08-25T20:30:00.000Z"
+        }
+      ],
+      "limitations": [
+        "Report-availability context only; existing KAPSARC/SAMA public exports remain the numeric POS artifacts."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/egypt-public/2026-08-25/normalized-national-accounts-discovery.json",
+      "sha256": "75a69b05874badee2da107da35d48ee7b230c5d7811dd1ba8443c1a15caf2e02",
+      "generatedAt": "2026-08-25T20:30:00.000Z",
+      "artifactType": "public_egypt_national_accounts_discovery",
+      "artifactId": "mped-national-accounts-discovery-eg-20260825",
+      "sourceIds": [
+        "src-mped-national-accounts-eg-20260825"
+      ],
+      "observationCount": 1,
+      "rawInputs": [
+        {
+          "path": "data/knowledge/public/egypt-public/2026-08-25/ministry-and-nafeza-browser-capture.md",
+          "sha256": "5ec26239047b050d5c6f71f5ac82c820dc8b77427fbd0520ec52e42c9040ee2c",
+          "capturedAt": "2026-08-25T20:30:00.000Z"
+        }
+      ],
+      "limitations": [
+        "Dataset discovery/context only; no substitution from third-party portals."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/egypt-public/2026-08-25/normalized-customs-fx-context.json",
+      "sha256": "9fe418d35d638f222c6956825f0591d11560d59dfb90e8ac3c112aaf2db72e42",
+      "generatedAt": "2026-08-25T20:30:00.000Z",
+      "artifactType": "public_egypt_customs_fx_context",
+      "artifactId": "nafeza-customs-fx-eg-20260825",
+      "sourceIds": [
+        "src-nafeza-customs-fx-eg-20260825"
+      ],
+      "observationCount": 2,
+      "rawInputs": [
+        {
+          "path": "data/knowledge/public/egypt-public/2026-08-25/ministry-and-nafeza-browser-capture.md",
+          "sha256": "5ec26239047b050d5c6f71f5ac82c820dc8b77427fbd0520ec52e42c9040ee2c",
+          "capturedAt": "2026-08-25T20:30:00.000Z"
+        }
+      ],
+      "limitations": [
+        "Customs FX context only; do not use as a current consumer exchange-rate forecast."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/marketplaces/2026-08-25/normalized-storefront-observations.json",
+      "sha256": "edd493a220bcdc8e114036d847a7c16a4a43a97498bd4f2e06cde29c47449cac",
+      "generatedAt": "2026-08-25T20:30:00.000Z",
+      "artifactType": "public_marketplace_storefront_observations",
+      "artifactId": "public-marketplace-storefront-observations-eg-sa-20260825",
+      "sourceIds": [
+        "src-amazon-eg-homepage-20260825",
+        "src-amazon-eg-product-captcha-20260825",
+        "src-amazon-sa-anker-product-20260825",
+        "src-noon-eg-galaxy-a17-product-20260825",
+        "src-noon-eg-mobile-category-20260825",
+        "src-noon-sa-galaxy-s25-product-20260825",
+        "src-noon-sa-mobile-category-20260825"
+      ],
+      "observationCount": 11,
+      "rawInputs": [
+        {
+          "path": "data/knowledge/public/marketplaces/2026-08-25/storefront-capture.md",
+          "sha256": "853acb5ac39e9f5c2dbd4253e57f5d2bbcd810e17e52487d3b9368560498b382",
+          "capturedAt": "2026-08-25T20:30:00.000Z"
+        }
+      ],
+      "limitations": [
+        "Marketplace pages are public library observations with unknown reuse license and on-demand freshness.",
+        "Observed prices, ratings, reviews, stock, rankings, sellers, and merchandising cards are time-sensitive page values.",
+        "No competitor performance or advertising benchmark is inferred from product pages."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/app-stores/2026-08-25/normalized-app-store-observations.json",
+      "sha256": "bc3da9626e14392a980160422103821ed3623e64fd6826badc4830fbb7fce936",
+      "generatedAt": "2026-08-25T20:30:00.000Z",
+      "artifactType": "public_app_store_observations",
+      "artifactId": "public-app-store-observations-global-locale-20260825",
+      "sourceIds": [
+        "src-apple-store-amazon-us-20260825",
+        "src-apple-store-noon-us-20260825",
+        "src-google-play-amazon-en-us-20260825",
+        "src-google-play-noon-en-us-20260825"
+      ],
+      "observationCount": 4,
+      "rawInputs": [
+        {
+          "path": "data/knowledge/public/app-stores/2026-08-25/app-store-capture.md",
+          "sha256": "a5dc4f531d3d3306116b4b464fbd4b27c7b172a78c29258b89d0e90db663716c",
+          "capturedAt": "2026-08-25T20:30:00.000Z"
+        }
+      ],
+      "limitations": [
+        "Google Play and Apple App Store values are global or store-locale observations, not EG/SA market facts.",
+        "Header/detail review-count differences are retained exactly as displayed."
+      ]
     }
   ],
   "publicContextArtifacts": [
@@ -1635,6 +2155,188 @@
         "Sector and city payment records are not customer-level data and do not identify advertising source or attribution.",
         "Source license status was not presumed and remains unknown pending explicit terms verification.",
         "Change-percent rows are retained as source-reported changes and are not treated as advertising performance."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/cbe/2026-08-25/normalized-payment-system-observation.json",
+      "sha256": "5aa74d384e788b915eeae9da53b8cdff8f40343bf9b2568d6f2ca57353746701",
+      "generatedAt": "2026-08-25T20:30:00.000Z",
+      "artifactType": "public_egypt_payment_system_context",
+      "artifactId": "cbe-payment-system-eg-20260825",
+      "sourceIds": [
+        "src-cbe-payment-system-eg-20260825"
+      ],
+      "observationCount": 2,
+      "rawInputs": [
+        {
+          "path": "data/knowledge/public/cbe/2026-08-25/browser-capture.md",
+          "sha256": "bcbf2e937b126f6b6c88fd1a8b875a229b7918faf264c3fdae6f1fcf4b1d4b6a",
+          "capturedAt": "2026-08-25T20:30:00.000Z"
+        }
+      ],
+      "limitations": [
+        "CBE page is a qualitative institutional/payment-system source in this batch.",
+        "No protected endpoint or server rejection was bypassed."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/sama/2026-08-25/normalized-payment-context.json",
+      "sha256": "0ba9091fcb9d78c517f88ef78fe1b6f4c7fe4a64912fe14a751088a968b13726",
+      "generatedAt": "2026-08-25T20:30:00.000Z",
+      "artifactType": "public_saudi_payment_context",
+      "artifactId": "sama-national-payment-context-sa-20260825",
+      "sourceIds": [
+        "src-sama-national-payment-news1139-sa-20260825"
+      ],
+      "observationCount": 5,
+      "rawInputs": [
+        {
+          "path": "data/knowledge/public/sama/2026-08-25/news-1139-browser-capture.md",
+          "sha256": "8b6cbcde57ff46ed5f10302b3e73cb329ed738c8e2689b6ae55e8550d583b984",
+          "capturedAt": "2026-08-25T20:30:00.000Z"
+        }
+      ],
+      "limitations": [
+        "SAMA national payment facts are retained as limited external market context only.",
+        "Values are copied as stated by SAMA; no forecast or derived rate was added."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/sama/2026-08-25/normalized-ecommerce-interface-observation.json",
+      "sha256": "541585e04b9e0ae4e08339f515eb20bb50a27a7dd9a539c976b5fad2014794a4",
+      "generatedAt": "2026-08-25T20:30:00.000Z",
+      "artifactType": "public_saudi_ecommerce_payment_interface_context",
+      "artifactId": "sama-ecommerce-interface-sa-20260825",
+      "sourceIds": [
+        "src-sama-ecommerce-interface-news1095-sa-20260825"
+      ],
+      "observationCount": 1,
+      "rawInputs": [
+        {
+          "path": "data/knowledge/public/sama/2026-08-25/payment-interface-and-pos-browser-capture.md",
+          "sha256": "3dd400d27793ff7d76876f959607f454974b96b76d920961e57c77acec09cb39",
+          "capturedAt": "2026-08-25T20:30:00.000Z"
+        }
+      ],
+      "limitations": [
+        "Payment infrastructure context only; license terms were not explicit on the captured page."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/sama/2026-08-25/normalized-weekly-pos-page-observation.json",
+      "sha256": "7036df0b72188f3c0646eeb5b1075cab83f9cdc95f9b3460d1ade6c3ec28e70c",
+      "generatedAt": "2026-08-25T20:30:00.000Z",
+      "artifactType": "public_saudi_weekly_pos_reporting_context",
+      "artifactId": "sama-weekly-pos-page-sa-20260825",
+      "sourceIds": [
+        "src-sama-weekly-pos-page-sa-20260825"
+      ],
+      "observationCount": 1,
+      "rawInputs": [
+        {
+          "path": "data/knowledge/public/sama/2026-08-25/payment-interface-and-pos-browser-capture.md",
+          "sha256": "3dd400d27793ff7d76876f959607f454974b96b76d920961e57c77acec09cb39",
+          "capturedAt": "2026-08-25T20:30:00.000Z"
+        }
+      ],
+      "limitations": [
+        "Report-availability context only; existing KAPSARC/SAMA public exports remain the numeric POS artifacts."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/egypt-public/2026-08-25/normalized-national-accounts-discovery.json",
+      "sha256": "75a69b05874badee2da107da35d48ee7b230c5d7811dd1ba8443c1a15caf2e02",
+      "generatedAt": "2026-08-25T20:30:00.000Z",
+      "artifactType": "public_egypt_national_accounts_discovery",
+      "artifactId": "mped-national-accounts-discovery-eg-20260825",
+      "sourceIds": [
+        "src-mped-national-accounts-eg-20260825"
+      ],
+      "observationCount": 1,
+      "rawInputs": [
+        {
+          "path": "data/knowledge/public/egypt-public/2026-08-25/ministry-and-nafeza-browser-capture.md",
+          "sha256": "5ec26239047b050d5c6f71f5ac82c820dc8b77427fbd0520ec52e42c9040ee2c",
+          "capturedAt": "2026-08-25T20:30:00.000Z"
+        }
+      ],
+      "limitations": [
+        "Dataset discovery/context only; no substitution from third-party portals."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/egypt-public/2026-08-25/normalized-customs-fx-context.json",
+      "sha256": "9fe418d35d638f222c6956825f0591d11560d59dfb90e8ac3c112aaf2db72e42",
+      "generatedAt": "2026-08-25T20:30:00.000Z",
+      "artifactType": "public_egypt_customs_fx_context",
+      "artifactId": "nafeza-customs-fx-eg-20260825",
+      "sourceIds": [
+        "src-nafeza-customs-fx-eg-20260825"
+      ],
+      "observationCount": 2,
+      "rawInputs": [
+        {
+          "path": "data/knowledge/public/egypt-public/2026-08-25/ministry-and-nafeza-browser-capture.md",
+          "sha256": "5ec26239047b050d5c6f71f5ac82c820dc8b77427fbd0520ec52e42c9040ee2c",
+          "capturedAt": "2026-08-25T20:30:00.000Z"
+        }
+      ],
+      "limitations": [
+        "Customs FX context only; do not use as a current consumer exchange-rate forecast."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/marketplaces/2026-08-25/normalized-storefront-observations.json",
+      "sha256": "edd493a220bcdc8e114036d847a7c16a4a43a97498bd4f2e06cde29c47449cac",
+      "generatedAt": "2026-08-25T20:30:00.000Z",
+      "artifactType": "public_marketplace_storefront_observations",
+      "artifactId": "public-marketplace-storefront-observations-eg-sa-20260825",
+      "sourceIds": [
+        "src-amazon-eg-homepage-20260825",
+        "src-amazon-eg-product-captcha-20260825",
+        "src-amazon-sa-anker-product-20260825",
+        "src-noon-eg-galaxy-a17-product-20260825",
+        "src-noon-eg-mobile-category-20260825",
+        "src-noon-sa-galaxy-s25-product-20260825",
+        "src-noon-sa-mobile-category-20260825"
+      ],
+      "observationCount": 11,
+      "rawInputs": [
+        {
+          "path": "data/knowledge/public/marketplaces/2026-08-25/storefront-capture.md",
+          "sha256": "853acb5ac39e9f5c2dbd4253e57f5d2bbcd810e17e52487d3b9368560498b382",
+          "capturedAt": "2026-08-25T20:30:00.000Z"
+        }
+      ],
+      "limitations": [
+        "Marketplace pages are public library observations with unknown reuse license and on-demand freshness.",
+        "Observed prices, ratings, reviews, stock, rankings, sellers, and merchandising cards are time-sensitive page values.",
+        "No competitor performance or advertising benchmark is inferred from product pages."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/app-stores/2026-08-25/normalized-app-store-observations.json",
+      "sha256": "bc3da9626e14392a980160422103821ed3623e64fd6826badc4830fbb7fce936",
+      "generatedAt": "2026-08-25T20:30:00.000Z",
+      "artifactType": "public_app_store_observations",
+      "artifactId": "public-app-store-observations-global-locale-20260825",
+      "sourceIds": [
+        "src-apple-store-amazon-us-20260825",
+        "src-apple-store-noon-us-20260825",
+        "src-google-play-amazon-en-us-20260825",
+        "src-google-play-noon-en-us-20260825"
+      ],
+      "observationCount": 4,
+      "rawInputs": [
+        {
+          "path": "data/knowledge/public/app-stores/2026-08-25/app-store-capture.md",
+          "sha256": "a5dc4f531d3d3306116b4b464fbd4b27c7b172a78c29258b89d0e90db663716c",
+          "capturedAt": "2026-08-25T20:30:00.000Z"
+        }
+      ],
+      "limitations": [
+        "Google Play and Apple App Store values are global or store-locale observations, not EG/SA market facts.",
+        "Header/detail review-count differences are retained exactly as displayed."
       ]
     }
   ],
@@ -2162,7 +2864,7 @@
     "marketValidated": false,
     "readyEvidencePackages": 0,
     "limitedEvidencePackagesPlanned": 3,
-    "additionalPublicArtifactCount": 14,
+    "additionalPublicArtifactCount": 22,
     "discoveryOnlySourceIds": [
       "src-capmas-central-data-catalog-20260825",
       "src-gastat-open-data-20260825",
@@ -2187,6 +2889,10 @@
       "Google Trends observations are relative directional search-interest signals captured from public pages.",
       "Selected DataSaudi/GASTAT and KAPSARC artifacts are aggregate market or education-system context, not advertising benchmarks; license status remains unknown where terms were not explicit.",
       "UNESCO, UNCTAD, UNdata, and ITU observations preserve their own periods, upstream sources, and regional/country coverage limitations.",
+      "CBE and SAMA payment sources are retained as institutional/payment-ecosystem context and do not close ecommerce demand or advertising-performance gaps.",
+      "Marketplace observations are page-level snapshots with unknown reuse license; they are not representative samples or competitor-performance evidence.",
+      "App-store observations retain Google Play en_US and Apple App Store US scope and cannot be mapped to Egypt or Saudi country metrics.",
+      "Egypt data.gov.eg and Egypt Data Portal remained discovery/unavailable routes in this batch; no values were inferred from them.",
       "TikTok first-party reporting is kept outside this public manifest because it is account-owned and must not become a public benchmark."
     ]
   }

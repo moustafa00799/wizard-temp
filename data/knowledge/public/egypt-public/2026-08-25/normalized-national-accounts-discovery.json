@@ -1,0 +1,37 @@
+{
+  "contractVersion": "1.0",
+  "artifactType": "public_egypt_national_accounts_discovery",
+  "artifactId": "mped-national-accounts-discovery-eg-20260825",
+  "generatedAt": "2026-08-25T20:30:00.000Z",
+  "sourceId": "src-mped-national-accounts-eg-20260825",
+  "sourceUrl": "https://mped.gov.eg/Analytics?lang=en",
+  "licenseStatus": "unknown",
+  "rawInput": {
+    "path": "data/knowledge/public/egypt-public/2026-08-25/ministry-and-nafeza-browser-capture.md",
+    "sha256": "5ec26239047b050d5c6f71f5ac82c820dc8b77427fbd0520ec52e42c9040ee2c",
+    "capturedAt": "2026-08-25T20:30:00.000Z"
+  },
+  "observations": [
+    {
+      "observationId": "mped-eg-national-accounts-dataset-availability",
+      "sourceId": "src-mped-national-accounts-eg-20260825",
+      "metric": "national_accounts_dataset_scope",
+      "value": "annual and quarterly GDP by expenditure elements and economic activities, GDP and investment growth rates, and regional accounts by economic region and governorate",
+      "status": "observed",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
+      "sourceUrl": "https://mped.gov.eg/Analytics?lang=en",
+      "limitations": [
+        "The public discovery page was read successfully, but linked interactive tables were not copied into this batch.",
+        "This supports macroeconomic and regional context only, not ecommerce demand, audience, or campaign performance."
+      ],
+      "market": "EG",
+      "unit": "qualitative_dataset_discovery"
+    }
+  ],
+  "unknowns": [
+    "No numeric national-accounts row was captured from the interactive linked tables in this batch."
+  ],
+  "limitations": [
+    "Dataset discovery/context only; no substitution from third-party portals."
+  ]
+}

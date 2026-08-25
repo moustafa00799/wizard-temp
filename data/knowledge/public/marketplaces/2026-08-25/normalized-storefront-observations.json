@@ -1,0 +1,407 @@
+{
+  "contractVersion": "1.0",
+  "artifactType": "public_marketplace_storefront_observations",
+  "artifactId": "public-marketplace-storefront-observations-eg-sa-20260825",
+  "generatedAt": "2026-08-25T20:30:00.000Z",
+  "sourceId": "src-noon-eg-mobile-category-20260825",
+  "sourceUrl": "https://www.noon.com/egypt-en/electronics-and-mobiles/mobiles-and-accessories/mobiles-20905/",
+  "licenseStatus": "unknown",
+  "rawInput": {
+    "path": "data/knowledge/public/marketplaces/2026-08-25/storefront-capture.md",
+    "sha256": "853acb5ac39e9f5c2dbd4253e57f5d2bbcd810e17e52487d3b9368560498b382",
+    "capturedAt": "2026-08-25T20:30:00.000Z"
+  },
+  "observations": [
+    {
+      "observationId": "noon-eg-mobile-category-structure-20260825",
+      "sourceId": "src-noon-eg-mobile-category-20260825",
+      "market": "EG",
+      "marketScope": "market_page_observation",
+      "platform": "Noon",
+      "industryRelevance": "ecommerce_general",
+      "observationType": "category_structure",
+      "status": "observed",
+      "pageUrl": "https://www.noon.com/egypt-en/electronics-and-mobiles/mobiles-and-accessories/mobiles-20905/",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
+      "categories": [
+        "mobile phones",
+        "electronics and mobiles"
+      ],
+      "visibleBrands": [
+        "Samsung",
+        "Apple",
+        "Xiaomi",
+        "HUAWEI",
+        "Motorola",
+        "OnePlus",
+        "Google",
+        "Lenovo"
+      ],
+      "visibleSellerExamples": [
+        "noon",
+        "Yalla Tager",
+        "Dr.Mobile",
+        "almustaqbal for trade",
+        "Radio Talaat",
+        "Arab Crown for Mobile Phone Trading",
+        "Ehab Group",
+        "iQ"
+      ],
+      "visibleFilters": [
+        "brand",
+        "price",
+        "rating",
+        "product status",
+        "network",
+        "memory",
+        "RAM",
+        "display",
+        "battery",
+        "camera",
+        "operating system",
+        "seller"
+      ],
+      "limitations": [
+        "Category-page structure and visible examples only; stable product cards with prices and ratings were not exposed in the captured text.",
+        "Not a representative assortment, demand, market-share, or competitor-performance sample."
+      ]
+    },
+    {
+      "observationId": "noon-eg-galaxy-a17-offer-20260825",
+      "sourceId": "src-noon-eg-galaxy-a17-product-20260825",
+      "market": "EG",
+      "marketScope": "market_page_observation",
+      "platform": "Noon",
+      "industryRelevance": "ecommerce_general",
+      "observationType": "product_offer",
+      "status": "observed",
+      "pageUrl": "https://www.noon.com/egypt-en/galaxy-a17-dual-sim-4g-black-4gb-ram-128gb-middle-east-version/N70214276V/p/?o=b93223709b1aab3c",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
+      "product": {
+        "name": "Galaxy A17 Dual SIM 4G Black 4GB RAM 128GB - Middle East Version"
+      },
+      "limitations": [
+        "Single public product-page snapshot; not a representative market sample or average price.",
+        "Visible price, rating, review count, seller, fulfillment, stock, and merchandising claims can change over time.",
+        "No sales volume, market share, demand, conversion, CPC, CPA, CVR, ROAS, reach, frequency, saturation, or competitor campaign performance is inferred."
+      ],
+      "price": {
+        "current": 10315.0,
+        "currency": "EGP"
+      },
+      "rating": {
+        "value": 4.5,
+        "reviewCount": 2652
+      },
+      "seller": "iQ",
+      "fulfillment": "noon-express",
+      "availability": "only 1 left in stock",
+      "deliveryContext": "page displayed expected delivery 27 Aug",
+      "rank": "#44 in Smartphones",
+      "badge": "Best Seller in Smartphones",
+      "sellerRating": 4.6,
+      "sellerPositivePercent": 82,
+      "sellerItemAsShownPercent": 90
+    },
+    {
+      "observationId": "noon-sa-mobile-category-structure-20260825",
+      "sourceId": "src-noon-sa-mobile-category-20260825",
+      "market": "SA",
+      "marketScope": "market_page_observation",
+      "platform": "Noon",
+      "industryRelevance": "ecommerce_general",
+      "observationType": "category_structure",
+      "status": "observed",
+      "pageUrl": "https://www.noon.com/saudi-en/electronics-and-mobiles/mobiles-and-accessories/mobiles-20905/",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
+      "categories": [
+        "mobile phones",
+        "electronics and mobiles"
+      ],
+      "visibleHomepageTaxonomy": [
+        "mobiles",
+        "laptops/desktops",
+        "beauty",
+        "fashion",
+        "appliances",
+        "health & nutrition",
+        "headphones",
+        "wearables",
+        "grocery",
+        "sports",
+        "gaming",
+        "baby",
+        "toys",
+        "stationery",
+        "home & kitchen",
+        "furniture"
+      ],
+      "visibleMerchandisingSections": [
+        "deals",
+        "bestsellers",
+        "highly-rated"
+      ],
+      "limitations": [
+        "The category extraction returned only a footer and no stable product cards; the taxonomy observation is retained from the public Saudi navigation/homepage context.",
+        "Not a representative assortment, demand, market-share, or competitor-performance sample."
+      ]
+    },
+    {
+      "observationId": "noon-sa-galaxy-s25-ultra-offer-20260825",
+      "sourceId": "src-noon-sa-galaxy-s25-product-20260825",
+      "market": "SA",
+      "marketScope": "market_page_observation",
+      "platform": "Noon",
+      "industryRelevance": "ecommerce_general",
+      "observationType": "product_offer",
+      "status": "observed",
+      "pageUrl": "https://www.noon.com/saudi-en/galaxy-s25-ultra-dual-sim-titanium-black-12gb-ram-256gb-5g-international-version/N70142933V/p/",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
+      "product": {
+        "name": "Samsung Galaxy S25 Ultra Dual SIM Titanium Black 12GB RAM 256GB 5G - International Version"
+      },
+      "limitations": [
+        "Single public product-page snapshot; not a representative market sample or average price.",
+        "Visible price, rating, review count, seller, fulfillment, stock, and merchandising claims can change over time.",
+        "No sales volume, market share, demand, conversion, CPC, CPA, CVR, ROAS, reach, frequency, saturation, or competitor campaign performance is inferred."
+      ],
+      "price": {
+        "current": 3298.95,
+        "currency": "SAR",
+        "list": 3559.0,
+        "discountPercent": 7
+      },
+      "rating": {
+        "value": 4.5,
+        "reviewCount": 6830
+      },
+      "seller": "H Store",
+      "fulfillment": "noon-express",
+      "availability": "only 2 left in stock",
+      "deliveryContext": "Riyadh context; page displayed expected delivery 3 Dec",
+      "freeDelivery": true,
+      "sellerRating": 4.3,
+      "sellerPositivePercent": 88,
+      "sellerItemAsShownPercent": 90,
+      "sellerPartnerSince": "3+ years",
+      "visibleOffers": [
+        "15% cashback",
+        "extra 25% off coupon",
+        "extra 20% off coupon"
+      ]
+    },
+    {
+      "observationId": "amazon-eg-homepage-price-bands-20260825",
+      "sourceId": "src-amazon-eg-homepage-20260825",
+      "market": "EG",
+      "marketScope": "market_page_observation",
+      "platform": "Amazon",
+      "industryRelevance": "ecommerce_general",
+      "observationType": "merchandising_price_bands",
+      "status": "observed",
+      "pageUrl": "https://www.amazon.eg/-/en/",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
+      "visibleCategories": [
+        "Electronics",
+        "Fashion",
+        "Computers",
+        "Home & Garden",
+        "Grocery",
+        "Health/Household/Baby Care",
+        "Books",
+        "Toys & Games",
+        "Sports",
+        "Automotive",
+        "Office Products"
+      ],
+      "priceBands": [
+        "below EGP 199",
+        "below EGP 499",
+        "from EGP 500",
+        "from EGP 999"
+      ],
+      "merchandisingExample": "mattresses from EGP 935",
+      "limitations": [
+        "Displayed homepage merchandising bands only; not average prices, product-level market prices, demand, sales, or market share.",
+        "Bands can change with page personalization and time."
+      ]
+    },
+    {
+      "observationId": "amazon-eg-product-captcha-unavailable-20260825",
+      "sourceId": "src-amazon-eg-product-captcha-20260825",
+      "market": "EG",
+      "metric": "product_offer_snapshot",
+      "value": null,
+      "status": "unavailable",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
+      "sourceUrl": "https://www.amazon.eg/-/en/Silver-Crest-Performance-Convection-DR-8803S/dp/B0C1ZJJ1XG",
+      "unavailableReason": "The public product request returned a CAPTCHA/interstitial. The interstitial was not bypassed and no further automated retries were made.",
+      "limitations": [
+        "The public product request returned a CAPTCHA/interstitial and was not bypassed.",
+        "No price, rating, seller, stock, or product-performance value was inferred."
+      ]
+    },
+    {
+      "observationId": "amazon-sa-anker-usb-cable-offer-20260825",
+      "sourceId": "src-amazon-sa-anker-product-20260825",
+      "market": "SA",
+      "marketScope": "market_page_observation",
+      "platform": "Amazon",
+      "industryRelevance": "ecommerce_general",
+      "observationType": "product_offer",
+      "status": "observed",
+      "pageUrl": "https://www.amazon.sa/-/en/Anker-2-Pack-Premium-Charger-Samsung/dp/B07DC5PPFV/",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
+      "product": {
+        "name": "Anker USB C Cable, 2-pack, 6ft, USB-A to USB-C, Black"
+      },
+      "limitations": [
+        "Single public product-page snapshot; not a representative market sample or average price.",
+        "Visible price, rating, review count, seller, fulfillment, stock, and merchandising claims can change over time.",
+        "No sales volume, market share, demand, conversion, CPC, CPA, CVR, ROAS, reach, frequency, saturation, or competitor campaign performance is inferred."
+      ],
+      "price": {
+        "current": 38.9,
+        "currency": "SAR",
+        "list": 59.0,
+        "discountPercent": 34
+      },
+      "rating": {
+        "value": 4.5,
+        "reviewCount": 106328
+      },
+      "seller": "AnkerDirect SA",
+      "fulfillment": "Fulfilled by Amazon",
+      "availability": "In Stock",
+      "deliveryContext": "Riyadh context; page displayed Thursday, 27 August",
+      "visibleBadges": [
+        "Back to School Deal",
+        "Amazon's Choice"
+      ],
+      "pageClaim": "300+ bought in past month",
+      "pageClaimStatus": "unverified_page_claim"
+    },
+    {
+      "observationId": "amazon-sa-recommendation-ugreen-1m-24",
+      "sourceId": "src-amazon-sa-anker-product-20260825",
+      "market": "SA",
+      "marketScope": "market_page_observation",
+      "platform": "Amazon",
+      "industryRelevance": "ecommerce_general",
+      "observationType": "recommendation_card",
+      "status": "observed",
+      "pageUrl": "https://www.amazon.sa/-/en/Anker-2-Pack-Premium-Charger-Samsung/dp/B07DC5PPFV/",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
+      "product": {
+        "name": "UGREEN Type C Cable 1M 2-pack"
+      },
+      "price": {
+        "current": 24.0,
+        "currency": "SAR",
+        "discountPercent": 38
+      },
+      "rating": {
+        "value": 4.6,
+        "reviewCount": 3869
+      },
+      "limitations": [
+        "Recommendation-card observation from one Amazon Saudi product page; not a representative market sample.",
+        "No recommendation click, sale, conversion, market share, or competitor performance is inferred."
+      ]
+    },
+    {
+      "observationId": "amazon-sa-recommendation-anker-zolo-2890",
+      "sourceId": "src-amazon-sa-anker-product-20260825",
+      "market": "SA",
+      "marketScope": "market_page_observation",
+      "platform": "Amazon",
+      "industryRelevance": "ecommerce_general",
+      "observationType": "recommendation_card",
+      "status": "observed",
+      "pageUrl": "https://www.amazon.sa/-/en/Anker-2-Pack-Premium-Charger-Samsung/dp/B07DC5PPFV/",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
+      "product": {
+        "name": "Anker Zolo USB-to-USB-C Cable"
+      },
+      "price": {
+        "current": 28.9,
+        "currency": "SAR",
+        "discountPercent": 41
+      },
+      "rating": {
+        "value": 4.6,
+        "reviewCount": 1587
+      },
+      "limitations": [
+        "Recommendation-card observation from one Amazon Saudi product page; not a representative market sample.",
+        "No recommendation click, sale, conversion, market share, or competitor performance is inferred."
+      ]
+    },
+    {
+      "observationId": "amazon-sa-recommendation-anker-c-to-c-3890",
+      "sourceId": "src-amazon-sa-anker-product-20260825",
+      "market": "SA",
+      "marketScope": "market_page_observation",
+      "platform": "Amazon",
+      "industryRelevance": "ecommerce_general",
+      "observationType": "recommendation_card",
+      "status": "observed",
+      "pageUrl": "https://www.amazon.sa/-/en/Anker-2-Pack-Premium-Charger-Samsung/dp/B07DC5PPFV/",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
+      "product": {
+        "name": "Anker USB C to USB C Cable 1.8m 2-pack"
+      },
+      "price": {
+        "current": 38.9,
+        "currency": "SAR",
+        "discountPercent": 34
+      },
+      "rating": {
+        "value": 4.6,
+        "reviewCount": 68503
+      },
+      "limitations": [
+        "Recommendation-card observation from one Amazon Saudi product page; not a representative market sample.",
+        "No recommendation click, sale, conversion, market share, or competitor performance is inferred."
+      ]
+    },
+    {
+      "observationId": "amazon-sa-recommendation-ugreen-1m-2700",
+      "sourceId": "src-amazon-sa-anker-product-20260825",
+      "market": "SA",
+      "marketScope": "market_page_observation",
+      "platform": "Amazon",
+      "industryRelevance": "ecommerce_general",
+      "observationType": "recommendation_card",
+      "status": "observed",
+      "pageUrl": "https://www.amazon.sa/-/en/Anker-2-Pack-Premium-Charger-Samsung/dp/B07DC5PPFV/",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
+      "product": {
+        "name": "UGREEN Type C Cable 1M 2-pack"
+      },
+      "price": {
+        "current": 27.0,
+        "currency": "SAR",
+        "discountPercent": 51
+      },
+      "rating": {
+        "value": 4.4,
+        "reviewCount": 7783
+      },
+      "limitations": [
+        "Recommendation-card observation from one Amazon Saudi product page; not a representative market sample.",
+        "No recommendation click, sale, conversion, market share, or competitor performance is inferred."
+      ]
+    }
+  ],
+  "unknowns": [
+    "No representative product sample or total marketplace demand series was collected.",
+    "Amazon Egypt product-level data remained unavailable after CAPTCHA and was not bypassed.",
+    "No sales volume, market share, customer-level demand, or advertising outcome is supplied."
+  ],
+  "limitations": [
+    "Marketplace pages are public library observations with unknown reuse license and on-demand freshness.",
+    "Observed prices, ratings, reviews, stock, rankings, sellers, and merchandising cards are time-sensitive page values.",
+    "No competitor performance or advertising benchmark is inferred from product pages."
+  ]
+}

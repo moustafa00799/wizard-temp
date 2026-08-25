@@ -4,12 +4,12 @@
   "status": "PASS",
   "globalMarketValidated": false,
   "sourceRegistry": {
-    "registeredSources": 35,
+    "registeredSources": 53,
     "discoveryOnlySources": 3,
-    "rawArtifactsHashChecked": 47,
+    "rawArtifactsHashChecked": 55,
     "rawArtifactsMissingLocally": [],
-    "derivedArtifactsHashChecked": 17,
-    "publicContextRawArtifactsHashChecked": 25
+    "derivedArtifactsHashChecked": 25,
+    "publicContextRawArtifactsHashChecked": 33
   },
   "evidence": {
     "worldBankSelectedObservations": 10,
@@ -138,6 +138,79 @@
         "sourceIds": [
           "src-kapsarc-sama-pos-detailed-sector-city-sa-20260825"
         ]
+      },
+      {
+        "artifactId": "cbe-payment-system-eg-20260825",
+        "artifactType": "public_egypt_payment_system_context",
+        "observationCount": 2,
+        "sourceIds": [
+          "src-cbe-payment-system-eg-20260825"
+        ]
+      },
+      {
+        "artifactId": "sama-national-payment-context-sa-20260825",
+        "artifactType": "public_saudi_payment_context",
+        "observationCount": 5,
+        "sourceIds": [
+          "src-sama-national-payment-news1139-sa-20260825"
+        ]
+      },
+      {
+        "artifactId": "sama-ecommerce-interface-sa-20260825",
+        "artifactType": "public_saudi_ecommerce_payment_interface_context",
+        "observationCount": 1,
+        "sourceIds": [
+          "src-sama-ecommerce-interface-news1095-sa-20260825"
+        ]
+      },
+      {
+        "artifactId": "sama-weekly-pos-page-sa-20260825",
+        "artifactType": "public_saudi_weekly_pos_reporting_context",
+        "observationCount": 1,
+        "sourceIds": [
+          "src-sama-weekly-pos-page-sa-20260825"
+        ]
+      },
+      {
+        "artifactId": "mped-national-accounts-discovery-eg-20260825",
+        "artifactType": "public_egypt_national_accounts_discovery",
+        "observationCount": 1,
+        "sourceIds": [
+          "src-mped-national-accounts-eg-20260825"
+        ]
+      },
+      {
+        "artifactId": "nafeza-customs-fx-eg-20260825",
+        "artifactType": "public_egypt_customs_fx_context",
+        "observationCount": 2,
+        "sourceIds": [
+          "src-nafeza-customs-fx-eg-20260825"
+        ]
+      },
+      {
+        "artifactId": "public-marketplace-storefront-observations-eg-sa-20260825",
+        "artifactType": "public_marketplace_storefront_observations",
+        "observationCount": 11,
+        "sourceIds": [
+          "src-amazon-eg-homepage-20260825",
+          "src-amazon-eg-product-captcha-20260825",
+          "src-amazon-sa-anker-product-20260825",
+          "src-noon-eg-galaxy-a17-product-20260825",
+          "src-noon-eg-mobile-category-20260825",
+          "src-noon-sa-galaxy-s25-product-20260825",
+          "src-noon-sa-mobile-category-20260825"
+        ]
+      },
+      {
+        "artifactId": "public-app-store-observations-global-locale-20260825",
+        "artifactType": "public_app_store_observations",
+        "observationCount": 4,
+        "sourceIds": [
+          "src-apple-store-amazon-us-20260825",
+          "src-apple-store-noon-us-20260825",
+          "src-google-play-amazon-en-us-20260825",
+          "src-google-play-noon-en-us-20260825"
+        ]
       }
     ],
     "limitedPackages": [
@@ -155,8 +228,8 @@
         "scope": "SA/ecommerce_general/ar/SAR",
         "status": "limited",
         "freshnessStatus": "fresh",
-        "sourceCount": 5,
-        "factCount": 33,
+        "sourceCount": 6,
+        "factCount": 35,
         "unknownCount": 14
       },
       {

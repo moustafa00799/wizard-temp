@@ -12,7 +12,7 @@ BASE_LIMITATIONS = [
 ]
 
 
-def record(source_id: str, publisher: str, url: str, source_type: str, *, market: str | None = None, language: str | None = None, license_status: str = 'unknown', freshness: str = 'monthly', limitations: list[str] | None = None, version: str = '2026-08-25') -> dict[str, object]:
+def record(source_id: str, publisher: str, url: str, source_type: str, *, market: str | None = None, industry: str | None = None, language: str | None = None, license_status: str = 'unknown', freshness: str = 'monthly', limitations: list[str] | None = None, version: str = '2026-08-25') -> dict[str, object]:
     item: dict[str, object] = {
         'contractVersion': '1.0',
         'sourceId': source_id,
@@ -28,6 +28,8 @@ def record(source_id: str, publisher: str, url: str, source_type: str, *, market
     }
     if market is not None:
         item['market'] = market
+    if industry is not None:
+        item['industry'] = industry
     if language is not None:
         item['language'] = language
     return item
@@ -164,6 +166,171 @@ def main() -> None:
             'Regional aggregates are not substituted for country values and are not advertising benchmarks.',
         ],
     ))
+    sources.append(record(
+        'src-cbe-payment-system-eg-20260825',
+        'Central Bank of Egypt (CBE)',
+        'https://www.cbe.org.eg/en/payment-systems-and-services',
+        'official_document',
+        market='EG',
+        language='en',
+        license_status='unknown',
+        freshness='on_demand',
+        limitations=[
+            'Qualitative CBE national payment-system and institutional context; no numerical ecommerce series was captured from this page.',
+            'The public browser rendered the page while the text extraction endpoint returned an official server rejection; reproducibility is limited.',
+            'Not audience size, ecommerce demand, CPC, CPA, CVR, ROAS, reach, frequency, saturation, market share, or competitor performance.',
+        ],
+        version='payment-systems-2026-07-08',
+    ))
+    sources.append(record(
+        'src-sama-national-payment-news1139-sa-20260825',
+        'Saudi Central Bank (SAMA)',
+        'https://www.sama.gov.sa/en-US/MediaCenter/News/pages/news-1139.aspx',
+        'official_document',
+        market='SA',
+        language='en',
+        license_status='unknown',
+        freshness='on_demand',
+        limitations=[
+            'Official national payment-ecosystem facts for 2024 and 2025; not ecommerce-only sales, demand, audience, or advertising performance.',
+            'The source does not provide product, industry, city, customer, or ad-attribution breakdowns.',
+        ],
+        version='news-1139-2026-04-12',
+    ))
+    sources.append(record(
+        'src-sama-ecommerce-interface-news1095-sa-20260825',
+        'Saudi Central Bank (SAMA)',
+        'https://sama.gov.sa/en-US/MediaCenter/News/pages/news-1095.aspx',
+        'official_document',
+        market='SA',
+        language='en',
+        license_status='unknown',
+        freshness='on_demand',
+        limitations=[
+            'Payment-infrastructure description for ecommerce; not ecommerce sales, demand, audience, market share, or ad performance.',
+            'No adoption count or channel-level outcome is inferred from the interface description.',
+        ],
+        version='news-1095-2025-07-07',
+    ))
+    sources.append(record(
+        'src-sama-weekly-pos-page-sa-20260825',
+        'Saudi Central Bank (SAMA)',
+        'https://www.sama.gov.sa/en-US/Statistics/Indices/Pages/POS.aspx',
+        'official_document',
+        market='SA',
+        language='en',
+        license_status='unknown',
+        freshness='weekly',
+        limitations=[
+            'Public report-availability and dimension context; the captured page did not expose a downloadable numerical row.',
+            'Existing KAPSARC/SAMA exports remain the numeric POS artifacts; no ecommerce-only demand or advertising performance is inferred.',
+        ],
+        version='weekly-pos-page-2026-08-25',
+    ))
+    egypt_portal = record(
+        'src-egypt-national-open-data-portal-20260825',
+        'Government of Egypt',
+        'https://data.gov.eg/',
+        'official_document',
+        market='EG',
+        language='ar',
+        license_status='unknown',
+        freshness='on_demand',
+        limitations=[
+            'Discovery-only record: the public portal did not resolve in the permitted retrieval attempt and no dataset was asserted.',
+            'Disabled until an official endpoint and dataset metadata can be read without bypassing protection.',
+        ],
+        version='unavailable-discovery-2026-08-25',
+    )
+    egypt_portal['enabled'] = False
+    sources.append(egypt_portal)
+    sources.append(record(
+        'src-mped-national-accounts-eg-20260825',
+        'Egypt Ministry of Planning and Economic Development',
+        'https://mped.gov.eg/Analytics?lang=en',
+        'official_document',
+        market='EG',
+        language='en',
+        license_status='unknown',
+        freshness='monthly',
+        limitations=[
+            'The page confirms interactive GDP and regional-account dataset scope; linked numerical tables were not copied into this batch.',
+            'Macroeconomic and regional context only; not ecommerce demand, audience, market share, or advertising performance.',
+        ],
+        version='national-accounts-discovery-2026-08-25',
+    ))
+    sources.append(record(
+        'src-nafeza-customs-fx-eg-20260825',
+        'Egyptian Customs Authority via Nafeza',
+        'https://sandbox.nafeza.gov.eg/ar/currencies',
+        'official_document',
+        market='EG',
+        language='ar',
+        license_status='unknown',
+        freshness='daily',
+        limitations=[
+            'Customs conversion rates for the displayed date; not consumer market prices or advertising benchmarks.',
+            'Use only for explicit currency normalization while retaining the displayed date and source label.',
+        ],
+        version='customs-fx-2026-02-24',
+    ))
+    marketplace_records = [
+        ('src-noon-eg-mobile-category-20260825', 'Noon Egypt', 'https://www.noon.com/egypt-en/electronics-and-mobiles/mobiles-and-accessories/mobiles-20905/', 'EG'),
+        ('src-noon-eg-galaxy-a17-product-20260825', 'Noon Egypt', 'https://www.noon.com/egypt-en/galaxy-a17-dual-sim-4g-black-4gb-ram-128gb-middle-east-version/N70214276V/p/?o=b93223709b1aab3c', 'EG'),
+        ('src-noon-sa-mobile-category-20260825', 'Noon Saudi Arabia', 'https://www.noon.com/saudi-en/electronics-and-mobiles/mobiles-and-accessories/mobiles-20905/', 'SA'),
+        ('src-noon-sa-galaxy-s25-product-20260825', 'Noon Saudi Arabia', 'https://www.noon.com/saudi-en/galaxy-s25-ultra-dual-sim-titanium-black-12gb-ram-256gb-5g-international-version/N70142933V/p/', 'SA'),
+        ('src-amazon-eg-homepage-20260825', 'Amazon Egypt', 'https://www.amazon.eg/-/en/', 'EG'),
+        ('src-amazon-eg-product-captcha-20260825', 'Amazon Egypt', 'https://www.amazon.eg/-/en/Silver-Crest-Performance-Convection-DR-8803S/dp/B0C1ZJJ1XG', 'EG'),
+        ('src-amazon-sa-anker-product-20260825', 'Amazon Saudi Arabia', 'https://www.amazon.sa/-/en/Anker-2-Pack-Premium-Charger-Samsung/dp/B07DC5PPFV/', 'SA'),
+    ]
+    for source_id, publisher, url, market in marketplace_records:
+        item = record(
+            source_id,
+            publisher,
+            url,
+            'public_library',
+            market=market,
+            industry='ecommerce_general',
+            language='en',
+            license_status='unknown',
+            freshness='on_demand',
+            limitations=[
+                'Public storefront observation at a point in time; not a representative sample, demand estimate, sales volume, or market share.',
+                'Visible price, rating, review count, seller, stock, fulfillment, rank, and merchandising claims can change over time.',
+                'No CPC, CPA, CVR, ROAS, reach, frequency, saturation, or competitor campaign performance is inferred.',
+            ],
+            version='storefront-capture-2026-08-25',
+        )
+        if source_id == 'src-amazon-eg-product-captcha-20260825':
+            item['enabled'] = False
+            item['limitations'] = [
+                'The public product request returned a CAPTCHA/interstitial and was not bypassed.',
+                'No product value was inferred and no further automated retries were made.',
+            ]
+        sources.append(item)
+    app_records = [
+        ('src-google-play-noon-en-us-20260825', 'Noon Online Shopping & Grocery', 'https://play.google.com/store/apps/details?id=com.noon.buyerapp&hl=en_US'),
+        ('src-google-play-amazon-en-us-20260825', 'Amazon Shopping', 'https://play.google.com/store/apps/details?id=com.amazon.mShop.android.shopping&hl=en_US'),
+        ('src-apple-store-noon-us-20260825', 'Noon Shopping, Food, Grocery', 'https://apps.apple.com/us/app/noon-shopping-food-grocery/id1269038866'),
+        ('src-apple-store-amazon-us-20260825', 'Amazon Shopping', 'https://apps.apple.com/us/app/amazon-shopping/id297606951'),
+    ]
+    for source_id, publisher, url in app_records:
+        sources.append(record(
+            source_id,
+            publisher,
+            url,
+            'public_library',
+            language='en',
+            license_status='unknown',
+            freshness='on_demand',
+            limitations=[
+                'Global or store-locale app-page observation; not country-specific active users, installs, market share, or performance.',
+                'Header/detail review-count differences are retained as displayed and are not reconciled into a new metric.',
+                'Ratings and downloads do not establish sales, retention, conversion, CPC, CPA, CVR, ROAS, or campaign success.',
+            ],
+            version='app-store-capture-2026-08-25',
+        ))
+
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps({'contractVersion': '1.0', 'generatedAt': OBSERVED_AT, 'sources': sorted(sources, key=lambda item: str(item['sourceId']))}, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     print(json.dumps({'status': 'PASS', 'output': OUT.relative_to(ROOT).as_posix(), 'sourceCount': len(sources)}, ensure_ascii=False))
