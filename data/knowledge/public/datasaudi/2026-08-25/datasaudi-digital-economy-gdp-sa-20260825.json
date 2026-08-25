@@ -1,0 +1,96 @@
+{
+  "contractVersion": "1.0",
+  "artifactType": "public_datasaudi_context_snapshot",
+  "artifactId": "datasaudi-digital-economy-gdp-sa-20260825",
+  "generatedAt": "2026-08-25T20:10:00.000Z",
+  "sourceId": "src-gastat-datasaudi-digital-economy-gdp-sa-20260825",
+  "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs/-/categories/122941?tab=436312&category=122941",
+  "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_contribution_of_digital_economy_to_gdp&drilldowns=Year&measures=Percentage&locale=en",
+  "licenseStatus": "unknown",
+  "rawInput": {
+    "path": ".local/public-research/datasaudi/digital-economy-gdp.json",
+    "sha256": "c52bcf9c57b1b709e1d6254c32c0985d1c9415143db6e4ca163de85e4e5ca371",
+    "capturedAt": "2026-08-25T20:10:00.000Z"
+  },
+  "selection": {
+    "method": "all_public_rows_from_selected_datasaudi_cube",
+    "rowCount": 3,
+    "observationCount": 3
+  },
+  "observations": [
+    {
+      "observationId": "datasaudi-digital-economy-gdp-sa-20260825-00000",
+      "sourceId": "src-gastat-datasaudi-digital-economy-gdp-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "digital_economy_share_of_gdp",
+      "period": "2022",
+      "year": 2022,
+      "value": 14.000000000000002,
+      "unit": "percent",
+      "dimensions": {},
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs/-/categories/122941?tab=436312&category=122941",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_contribution_of_digital_economy_to_gdp&drilldowns=Year&measures=Percentage&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-digital-economy-gdp-sa-20260825-00001",
+      "sourceId": "src-gastat-datasaudi-digital-economy-gdp-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "digital_economy_share_of_gdp",
+      "period": "2023",
+      "year": 2023,
+      "value": 15.6,
+      "unit": "percent",
+      "dimensions": {},
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs/-/categories/122941?tab=436312&category=122941",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_contribution_of_digital_economy_to_gdp&drilldowns=Year&measures=Percentage&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-digital-economy-gdp-sa-20260825-00002",
+      "sourceId": "src-gastat-datasaudi-digital-economy-gdp-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "digital_economy_share_of_gdp",
+      "period": "2024",
+      "year": 2024,
+      "value": 16.0,
+      "unit": "percent",
+      "dimensions": {},
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs/-/categories/122941?tab=436312&category=122941",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_contribution_of_digital_economy_to_gdp&drilldowns=Year&measures=Percentage&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    }
+  ],
+  "unknowns": [
+    "absolute search volume",
+    "audience size",
+    "CPC",
+    "CPA",
+    "CVR",
+    "ROAS",
+    "competitor performance",
+    "customer-level funnel performance"
+  ],
+  "limitations": [
+    "DataSaudi/GASTAT/SAMA portal data is market or education-system context; it is not a marketing benchmark.",
+    "License status remains unknown until explicit terms are verified."
+  ]
+}

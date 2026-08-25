@@ -1,0 +1,481 @@
+{
+  "contractVersion": "1.0",
+  "artifactType": "public_education_context_snapshot",
+  "artifactId": "unesco-uis-egy-sau-education-20260825",
+  "generatedAt": "2026-08-25T19:17:42.000Z",
+  "sourceId": "src-unesco-uis-egy-sau-education-20260825",
+  "sourceUrl": "https://api.uis.unesco.org/api/public/documentation/",
+  "dataUrl": "https://api.uis.unesco.org/api/public/data/indicators?indicator=20060&indicator=20062&indicator=20082&indicator=25053&indicator=CR.1&indicator=PRYA.12MO.AG15T64&indicator=LR.AG15T24&indicator=LR.AG15T99&geoUnit=EGY&geoUnit=SAU&start=2010&end=2025&footnotes=true&indicatorMetadata=true&version=20260507-91260335",
+  "version": "20260507-91260335",
+  "license": "CC BY-SA 4.0",
+  "rawInput": {
+    "path": ".local/public-research/unesco/egy-sau-education-data.json",
+    "sha256": "44492b57000073afdeb88317bbd6621e9ab912f221c28bd6eb5d02e8157f2ff5",
+    "capturedAt": "2026-08-25T19:17:42.000Z"
+  },
+  "selection": {
+    "method": "latest_non_null_record_per_country_indicator",
+    "requestedMarkets": [
+      "EG",
+      "SA"
+    ],
+    "requestedIndicatorCodes": [
+      "20060",
+      "20062",
+      "20082",
+      "25053",
+      "CR.1",
+      "LR.AG15T24",
+      "LR.AG15T99",
+      "PRYA.12MO.AG15T64"
+    ],
+    "observationCount": 14
+  },
+  "observations": [
+    {
+      "observationId": "unesco-uis-egy-20060-2024",
+      "sourceId": "src-unesco-uis-egy-sau-education-20260825",
+      "geoUnit": "EGY",
+      "market": "EG",
+      "indicatorCode": "20060",
+      "indicatorName": "Enrolment in pre-primary education, both sexes (number)",
+      "theme": "EDUCATION",
+      "year": 2024,
+      "value": 1477645,
+      "unit": "number",
+      "magnitude": null,
+      "qualifier": null,
+      "footnotes": [
+        {
+          "type": "Source",
+          "subtype": "Data sources",
+          "value": "Source: UIS Dynamic template based on UIS Education Survey"
+        }
+      ],
+      "observedAt": "2024-12-31T00:00:00.000Z",
+      "capturedAt": "2026-08-25T19:17:42.000Z",
+      "version": "20260507-91260335",
+      "queryUrl": "https://api.uis.unesco.org/api/public/data/indicators?indicator=20060&indicator=20062&indicator=20082&indicator=25053&indicator=CR.1&indicator=PRYA.12MO.AG15T64&indicator=LR.AG15T24&indicator=LR.AG15T99&geoUnit=EGY&geoUnit=SAU&start=2010&end=2025&footnotes=true&indicatorMetadata=true&version=20260507-91260335",
+      "limitations": [
+        "Education supply, participation, completion, literacy, or training-context indicator; not advertising demand or campaign performance.",
+        "Latest available year can differ by indicator and market; do not infer missing years.",
+        "Footnotes and magnitude/qualifier fields must be retained when present."
+      ]
+    },
+    {
+      "observationId": "unesco-uis-egy-20062-2024",
+      "sourceId": "src-unesco-uis-egy-sau-education-20260825",
+      "geoUnit": "EGY",
+      "market": "EG",
+      "indicatorCode": "20062",
+      "indicatorName": "Enrolment in primary education, both sexes (number)",
+      "theme": "EDUCATION",
+      "year": 2024,
+      "value": 15401834,
+      "unit": "number",
+      "magnitude": null,
+      "qualifier": null,
+      "footnotes": [
+        {
+          "type": "Source",
+          "subtype": "Data sources",
+          "value": "Source: UIS Dynamic template based on UIS Education Survey"
+        }
+      ],
+      "observedAt": "2024-12-31T00:00:00.000Z",
+      "capturedAt": "2026-08-25T19:17:42.000Z",
+      "version": "20260507-91260335",
+      "queryUrl": "https://api.uis.unesco.org/api/public/data/indicators?indicator=20060&indicator=20062&indicator=20082&indicator=25053&indicator=CR.1&indicator=PRYA.12MO.AG15T64&indicator=LR.AG15T24&indicator=LR.AG15T99&geoUnit=EGY&geoUnit=SAU&start=2010&end=2025&footnotes=true&indicatorMetadata=true&version=20260507-91260335",
+      "limitations": [
+        "Education supply, participation, completion, literacy, or training-context indicator; not advertising demand or campaign performance.",
+        "Latest available year can differ by indicator and market; do not infer missing years.",
+        "Footnotes and magnitude/qualifier fields must be retained when present."
+      ]
+    },
+    {
+      "observationId": "unesco-uis-egy-20082-2024",
+      "sourceId": "src-unesco-uis-egy-sau-education-20260825",
+      "geoUnit": "EGY",
+      "market": "EG",
+      "indicatorCode": "20082",
+      "indicatorName": "Enrolment in secondary education, both sexes (number)",
+      "theme": "EDUCATION",
+      "year": 2024,
+      "value": 11563305,
+      "unit": "number",
+      "magnitude": null,
+      "qualifier": null,
+      "footnotes": [
+        {
+          "type": "Source",
+          "subtype": "Data sources",
+          "value": "Source: UIS Dynamic template based on UIS Education Survey"
+        }
+      ],
+      "observedAt": "2024-12-31T00:00:00.000Z",
+      "capturedAt": "2026-08-25T19:17:42.000Z",
+      "version": "20260507-91260335",
+      "queryUrl": "https://api.uis.unesco.org/api/public/data/indicators?indicator=20060&indicator=20062&indicator=20082&indicator=25053&indicator=CR.1&indicator=PRYA.12MO.AG15T64&indicator=LR.AG15T24&indicator=LR.AG15T99&geoUnit=EGY&geoUnit=SAU&start=2010&end=2025&footnotes=true&indicatorMetadata=true&version=20260507-91260335",
+      "limitations": [
+        "Education supply, participation, completion, literacy, or training-context indicator; not advertising demand or campaign performance.",
+        "Latest available year can differ by indicator and market; do not infer missing years.",
+        "Footnotes and magnitude/qualifier fields must be retained when present."
+      ]
+    },
+    {
+      "observationId": "unesco-uis-egy-25053-2025",
+      "sourceId": "src-unesco-uis-egy-sau-education-20260825",
+      "geoUnit": "EGY",
+      "market": "EG",
+      "indicatorCode": "25053",
+      "indicatorName": "Enrolment in tertiary education, all programmes, both sexes (number)",
+      "theme": "EDUCATION",
+      "year": 2025,
+      "value": 3866260,
+      "unit": "number",
+      "magnitude": null,
+      "qualifier": null,
+      "footnotes": [
+        {
+          "type": "Source",
+          "subtype": "Data sources",
+          "value": "Source: UIS Dynamic template"
+        }
+      ],
+      "observedAt": "2025-12-31T00:00:00.000Z",
+      "capturedAt": "2026-08-25T19:17:42.000Z",
+      "version": "20260507-91260335",
+      "queryUrl": "https://api.uis.unesco.org/api/public/data/indicators?indicator=20060&indicator=20062&indicator=20082&indicator=25053&indicator=CR.1&indicator=PRYA.12MO.AG15T64&indicator=LR.AG15T24&indicator=LR.AG15T99&geoUnit=EGY&geoUnit=SAU&start=2010&end=2025&footnotes=true&indicatorMetadata=true&version=20260507-91260335",
+      "limitations": [
+        "Education supply, participation, completion, literacy, or training-context indicator; not advertising demand or campaign performance.",
+        "Latest available year can differ by indicator and market; do not infer missing years.",
+        "Footnotes and magnitude/qualifier fields must be retained when present."
+      ]
+    },
+    {
+      "observationId": "unesco-uis-egy-cr-1-2022",
+      "sourceId": "src-unesco-uis-egy-sau-education-20260825",
+      "geoUnit": "EGY",
+      "market": "EG",
+      "indicatorCode": "CR.1",
+      "indicatorName": "Completion rate, primary education, both sexes (%)",
+      "theme": "EDUCATION",
+      "year": 2022,
+      "value": 96.11,
+      "unit": "percent",
+      "magnitude": null,
+      "qualifier": null,
+      "footnotes": [
+        {
+          "type": "Source",
+          "subtype": "Data sources",
+          "value": "Egypt LFS 2022 (GEMR)."
+        }
+      ],
+      "observedAt": "2022-12-31T00:00:00.000Z",
+      "capturedAt": "2026-08-25T19:17:42.000Z",
+      "version": "20260507-91260335",
+      "queryUrl": "https://api.uis.unesco.org/api/public/data/indicators?indicator=20060&indicator=20062&indicator=20082&indicator=25053&indicator=CR.1&indicator=PRYA.12MO.AG15T64&indicator=LR.AG15T24&indicator=LR.AG15T99&geoUnit=EGY&geoUnit=SAU&start=2010&end=2025&footnotes=true&indicatorMetadata=true&version=20260507-91260335",
+      "limitations": [
+        "Education supply, participation, completion, literacy, or training-context indicator; not advertising demand or campaign performance.",
+        "Latest available year can differ by indicator and market; do not infer missing years.",
+        "Footnotes and magnitude/qualifier fields must be retained when present."
+      ]
+    },
+    {
+      "observationId": "unesco-uis-egy-lr-ag15t24-2022",
+      "sourceId": "src-unesco-uis-egy-sau-education-20260825",
+      "geoUnit": "EGY",
+      "market": "EG",
+      "indicatorCode": "LR.AG15T24",
+      "indicatorName": "Youth literacy rate, population 15-24 years, both sexes (%)",
+      "theme": "EDUCATION",
+      "year": 2022,
+      "value": 95.190867622614,
+      "unit": "percent",
+      "magnitude": null,
+      "qualifier": null,
+      "footnotes": [
+        {
+          "type": "Source",
+          "subtype": "Data sources",
+          "value": "UIS based on LFS - Labour Force Sample Survey: ILO Harmonized Microdata, https://ilostat.ilo.org/. Respondents aged 10 years and above were asked to self-assess their ability to read and write by responding yes or no."
+        }
+      ],
+      "observedAt": "2022-12-31T00:00:00.000Z",
+      "capturedAt": "2026-08-25T19:17:42.000Z",
+      "version": "20260507-91260335",
+      "queryUrl": "https://api.uis.unesco.org/api/public/data/indicators?indicator=20060&indicator=20062&indicator=20082&indicator=25053&indicator=CR.1&indicator=PRYA.12MO.AG15T64&indicator=LR.AG15T24&indicator=LR.AG15T99&geoUnit=EGY&geoUnit=SAU&start=2010&end=2025&footnotes=true&indicatorMetadata=true&version=20260507-91260335",
+      "limitations": [
+        "Education supply, participation, completion, literacy, or training-context indicator; not advertising demand or campaign performance.",
+        "Latest available year can differ by indicator and market; do not infer missing years.",
+        "Footnotes and magnitude/qualifier fields must be retained when present."
+      ]
+    },
+    {
+      "observationId": "unesco-uis-egy-lr-ag15t99-2022",
+      "sourceId": "src-unesco-uis-egy-sau-education-20260825",
+      "geoUnit": "EGY",
+      "market": "EG",
+      "indicatorCode": "LR.AG15T99",
+      "indicatorName": "Adult literacy rate, population 15+ years, both sexes (%)",
+      "theme": "EDUCATION",
+      "year": 2022,
+      "value": 79.4531619498685,
+      "unit": "percent",
+      "magnitude": null,
+      "qualifier": null,
+      "footnotes": [
+        {
+          "type": "Source",
+          "subtype": "Data sources",
+          "value": "UIS based on LFS - Labour Force Sample Survey: ILO Harmonized Microdata, https://ilostat.ilo.org/. Respondents aged 10 years and above were asked to self-assess their ability to read and write by responding yes or no."
+        }
+      ],
+      "observedAt": "2022-12-31T00:00:00.000Z",
+      "capturedAt": "2026-08-25T19:17:42.000Z",
+      "version": "20260507-91260335",
+      "queryUrl": "https://api.uis.unesco.org/api/public/data/indicators?indicator=20060&indicator=20062&indicator=20082&indicator=25053&indicator=CR.1&indicator=PRYA.12MO.AG15T64&indicator=LR.AG15T24&indicator=LR.AG15T99&geoUnit=EGY&geoUnit=SAU&start=2010&end=2025&footnotes=true&indicatorMetadata=true&version=20260507-91260335",
+      "limitations": [
+        "Education supply, participation, completion, literacy, or training-context indicator; not advertising demand or campaign performance.",
+        "Latest available year can differ by indicator and market; do not infer missing years.",
+        "Footnotes and magnitude/qualifier fields must be retained when present."
+      ]
+    },
+    {
+      "observationId": "unesco-uis-egy-prya-12mo-ag15t64-2023",
+      "sourceId": "src-unesco-uis-egy-sau-education-20260825",
+      "geoUnit": "EGY",
+      "market": "EG",
+      "indicatorCode": "PRYA.12MO.AG15T64",
+      "indicatorName": "Participation rate of youth and adults in formal and non-formal education and training in the previous 12 months, 15-64 years old, both sexes (%)",
+      "theme": "EDUCATION",
+      "year": 2023,
+      "value": 17.5486895541275,
+      "unit": "percent",
+      "magnitude": null,
+      "qualifier": "UIS_EST",
+      "footnotes": [
+        {
+          "type": "Source",
+          "subtype": "Data sources",
+          "value": "UIS based on EGY - LFS - Labour Force Sample Survey: ILO Harmonized Microdata, https://ilostat.ilo.org/| Age coverage - minimum age: 15 years old | Age coverage - maximum age: None"
+        }
+      ],
+      "observedAt": "2023-12-31T00:00:00.000Z",
+      "capturedAt": "2026-08-25T19:17:42.000Z",
+      "version": "20260507-91260335",
+      "queryUrl": "https://api.uis.unesco.org/api/public/data/indicators?indicator=20060&indicator=20062&indicator=20082&indicator=25053&indicator=CR.1&indicator=PRYA.12MO.AG15T64&indicator=LR.AG15T24&indicator=LR.AG15T99&geoUnit=EGY&geoUnit=SAU&start=2010&end=2025&footnotes=true&indicatorMetadata=true&version=20260507-91260335",
+      "limitations": [
+        "Education supply, participation, completion, literacy, or training-context indicator; not advertising demand or campaign performance.",
+        "Latest available year can differ by indicator and market; do not infer missing years.",
+        "Footnotes and magnitude/qualifier fields must be retained when present."
+      ]
+    },
+    {
+      "observationId": "unesco-uis-sau-20060-2024",
+      "sourceId": "src-unesco-uis-egy-sau-education-20260825",
+      "geoUnit": "SAU",
+      "market": "SA",
+      "indicatorCode": "20060",
+      "indicatorName": "Enrolment in pre-primary education, both sexes (number)",
+      "theme": "EDUCATION",
+      "year": 2024,
+      "value": 430399,
+      "unit": "number",
+      "magnitude": null,
+      "qualifier": null,
+      "footnotes": [
+        {
+          "type": "Source",
+          "subtype": "Data sources",
+          "value": "Source: UIS Dynamic template based on UIS Education Survey"
+        }
+      ],
+      "observedAt": "2024-12-31T00:00:00.000Z",
+      "capturedAt": "2026-08-25T19:17:42.000Z",
+      "version": "20260507-91260335",
+      "queryUrl": "https://api.uis.unesco.org/api/public/data/indicators?indicator=20060&indicator=20062&indicator=20082&indicator=25053&indicator=CR.1&indicator=PRYA.12MO.AG15T64&indicator=LR.AG15T24&indicator=LR.AG15T99&geoUnit=EGY&geoUnit=SAU&start=2010&end=2025&footnotes=true&indicatorMetadata=true&version=20260507-91260335",
+      "limitations": [
+        "Education supply, participation, completion, literacy, or training-context indicator; not advertising demand or campaign performance.",
+        "Latest available year can differ by indicator and market; do not infer missing years.",
+        "Footnotes and magnitude/qualifier fields must be retained when present."
+      ]
+    },
+    {
+      "observationId": "unesco-uis-sau-20062-2024",
+      "sourceId": "src-unesco-uis-egy-sau-education-20260825",
+      "geoUnit": "SAU",
+      "market": "SA",
+      "indicatorCode": "20062",
+      "indicatorName": "Enrolment in primary education, both sexes (number)",
+      "theme": "EDUCATION",
+      "year": 2024,
+      "value": 3446296,
+      "unit": "number",
+      "magnitude": null,
+      "qualifier": null,
+      "footnotes": [
+        {
+          "type": "Source",
+          "subtype": "Data sources",
+          "value": "Source: UIS Dynamic template based on UIS Education Survey"
+        }
+      ],
+      "observedAt": "2024-12-31T00:00:00.000Z",
+      "capturedAt": "2026-08-25T19:17:42.000Z",
+      "version": "20260507-91260335",
+      "queryUrl": "https://api.uis.unesco.org/api/public/data/indicators?indicator=20060&indicator=20062&indicator=20082&indicator=25053&indicator=CR.1&indicator=PRYA.12MO.AG15T64&indicator=LR.AG15T24&indicator=LR.AG15T99&geoUnit=EGY&geoUnit=SAU&start=2010&end=2025&footnotes=true&indicatorMetadata=true&version=20260507-91260335",
+      "limitations": [
+        "Education supply, participation, completion, literacy, or training-context indicator; not advertising demand or campaign performance.",
+        "Latest available year can differ by indicator and market; do not infer missing years.",
+        "Footnotes and magnitude/qualifier fields must be retained when present."
+      ]
+    },
+    {
+      "observationId": "unesco-uis-sau-20082-2024",
+      "sourceId": "src-unesco-uis-egy-sau-education-20260825",
+      "geoUnit": "SAU",
+      "market": "SA",
+      "indicatorCode": "20082",
+      "indicatorName": "Enrolment in secondary education, both sexes (number)",
+      "theme": "EDUCATION",
+      "year": 2024,
+      "value": 3363979,
+      "unit": "number",
+      "magnitude": null,
+      "qualifier": null,
+      "footnotes": [
+        {
+          "type": "Source",
+          "subtype": "Data sources",
+          "value": "Source: UIS Dynamic template based on UIS Education Survey"
+        }
+      ],
+      "observedAt": "2024-12-31T00:00:00.000Z",
+      "capturedAt": "2026-08-25T19:17:42.000Z",
+      "version": "20260507-91260335",
+      "queryUrl": "https://api.uis.unesco.org/api/public/data/indicators?indicator=20060&indicator=20062&indicator=20082&indicator=25053&indicator=CR.1&indicator=PRYA.12MO.AG15T64&indicator=LR.AG15T24&indicator=LR.AG15T99&geoUnit=EGY&geoUnit=SAU&start=2010&end=2025&footnotes=true&indicatorMetadata=true&version=20260507-91260335",
+      "limitations": [
+        "Education supply, participation, completion, literacy, or training-context indicator; not advertising demand or campaign performance.",
+        "Latest available year can differ by indicator and market; do not infer missing years.",
+        "Footnotes and magnitude/qualifier fields must be retained when present."
+      ]
+    },
+    {
+      "observationId": "unesco-uis-sau-25053-2024",
+      "sourceId": "src-unesco-uis-egy-sau-education-20260825",
+      "geoUnit": "SAU",
+      "market": "SA",
+      "indicatorCode": "25053",
+      "indicatorName": "Enrolment in tertiary education, all programmes, both sexes (number)",
+      "theme": "EDUCATION",
+      "year": 2024,
+      "value": 2010258,
+      "unit": "number",
+      "magnitude": null,
+      "qualifier": null,
+      "footnotes": [
+        {
+          "type": "Source",
+          "subtype": "Data sources",
+          "value": "Source: UIS Dynamic template based on UIS Education Survey"
+        }
+      ],
+      "observedAt": "2024-12-31T00:00:00.000Z",
+      "capturedAt": "2026-08-25T19:17:42.000Z",
+      "version": "20260507-91260335",
+      "queryUrl": "https://api.uis.unesco.org/api/public/data/indicators?indicator=20060&indicator=20062&indicator=20082&indicator=25053&indicator=CR.1&indicator=PRYA.12MO.AG15T64&indicator=LR.AG15T24&indicator=LR.AG15T99&geoUnit=EGY&geoUnit=SAU&start=2010&end=2025&footnotes=true&indicatorMetadata=true&version=20260507-91260335",
+      "limitations": [
+        "Education supply, participation, completion, literacy, or training-context indicator; not advertising demand or campaign performance.",
+        "Latest available year can differ by indicator and market; do not infer missing years.",
+        "Footnotes and magnitude/qualifier fields must be retained when present."
+      ]
+    },
+    {
+      "observationId": "unesco-uis-sau-lr-ag15t24-2024",
+      "sourceId": "src-unesco-uis-egy-sau-education-20260825",
+      "geoUnit": "SAU",
+      "market": "SA",
+      "indicatorCode": "LR.AG15T24",
+      "indicatorName": "Youth literacy rate, population 15-24 years, both sexes (%)",
+      "theme": "EDUCATION",
+      "year": 2024,
+      "value": 99.88999938964844,
+      "unit": "percent",
+      "magnitude": null,
+      "qualifier": null,
+      "footnotes": [
+        {
+          "type": "Data Status",
+          "subtype": "Data reporting",
+          "value": "Literacy definition: Can you read a short simple sentence (in any language)?\nCan you write a short simple sentence (in any language)?"
+        },
+        {
+          "type": "Source",
+          "subtype": "Data sources",
+          "value": "Source: Survey of Adults Skills and Learning"
+        }
+      ],
+      "observedAt": "2024-12-31T00:00:00.000Z",
+      "capturedAt": "2026-08-25T19:17:42.000Z",
+      "version": "20260507-91260335",
+      "queryUrl": "https://api.uis.unesco.org/api/public/data/indicators?indicator=20060&indicator=20062&indicator=20082&indicator=25053&indicator=CR.1&indicator=PRYA.12MO.AG15T64&indicator=LR.AG15T24&indicator=LR.AG15T99&geoUnit=EGY&geoUnit=SAU&start=2010&end=2025&footnotes=true&indicatorMetadata=true&version=20260507-91260335",
+      "limitations": [
+        "Education supply, participation, completion, literacy, or training-context indicator; not advertising demand or campaign performance.",
+        "Latest available year can differ by indicator and market; do not infer missing years.",
+        "Footnotes and magnitude/qualifier fields must be retained when present."
+      ]
+    },
+    {
+      "observationId": "unesco-uis-sau-lr-ag15t99-2024",
+      "sourceId": "src-unesco-uis-egy-sau-education-20260825",
+      "geoUnit": "SAU",
+      "market": "SA",
+      "indicatorCode": "LR.AG15T99",
+      "indicatorName": "Adult literacy rate, population 15+ years, both sexes (%)",
+      "theme": "EDUCATION",
+      "year": 2024,
+      "value": 97.93000030517578,
+      "unit": "percent",
+      "magnitude": null,
+      "qualifier": null,
+      "footnotes": [
+        {
+          "type": "Data Status",
+          "subtype": "Data reporting",
+          "value": "Literacy definition: Can you read a short simple sentence (in any language)?\nCan you write a short simple sentence (in any language)?"
+        },
+        {
+          "type": "Source",
+          "subtype": "Data sources",
+          "value": "Source: Survey of Adults Skills and Learning"
+        }
+      ],
+      "observedAt": "2024-12-31T00:00:00.000Z",
+      "capturedAt": "2026-08-25T19:17:42.000Z",
+      "version": "20260507-91260335",
+      "queryUrl": "https://api.uis.unesco.org/api/public/data/indicators?indicator=20060&indicator=20062&indicator=20082&indicator=25053&indicator=CR.1&indicator=PRYA.12MO.AG15T64&indicator=LR.AG15T24&indicator=LR.AG15T99&geoUnit=EGY&geoUnit=SAU&start=2010&end=2025&footnotes=true&indicatorMetadata=true&version=20260507-91260335",
+      "limitations": [
+        "Education supply, participation, completion, literacy, or training-context indicator; not advertising demand or campaign performance.",
+        "Latest available year can differ by indicator and market; do not infer missing years.",
+        "Footnotes and magnitude/qualifier fields must be retained when present."
+      ]
+    }
+  ],
+  "unknowns": [
+    "industry-specific education demand",
+    "absolute search volume",
+    "audience size",
+    "CPC",
+    "CPA",
+    "CVR",
+    "ROAS",
+    "competitor performance"
+  ],
+  "limitations": [
+    "UNESCO UIS is used for cross-national education context, not for current advertising demand or performance benchmarks.",
+    "A record is included only when UIS returned a non-null value; absence remains unavailable.",
+    "Estimates, survey definitions, and data-source footnotes are not interchangeable across years or indicators."
+  ]
+}

@@ -4,67 +4,6 @@
   "sources": [
     {
       "contractVersion": "1.0",
-      "sourceId": "src-capmas-central-data-catalog-20260825",
-      "publisher": "CAPMAS",
-      "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/",
-      "sourceType": "official_document",
-      "jurisdiction": "EG",
-      "market": "EG",
-      "language": "en",
-      "licenseStatus": "unknown",
-      "observedAt": "2026-08-25T00:16:31.000Z",
-      "freshnessPolicy": "on_demand",
-      "limitations": [
-        "Catalog metadata was captured; no specific sector dataset is asserted by this registry row.",
-        "Dataset-level license and release metadata must be verified before evidence-backed claims."
-      ],
-      "version": "catalog-20260825",
-      "enabled": true
-    },
-    {
-      "contractVersion": "1.0",
-      "sourceId": "src-capmas-education-bulletin-2019-2020",
-      "publisher": "CAPMAS",
-      "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/777/download/2298",
-      "sourceType": "official_document",
-      "jurisdiction": "EG",
-      "market": "EG",
-      "industry": "education_general",
-      "language": "en",
-      "licenseStatus": "unknown",
-      "observedAt": "2026-08-25T00:26:31.000Z",
-      "freshnessPolicy": "on_demand",
-      "limitations": [
-        "Official education and training bulletin for academic year 2019/2020.",
-        "Dataset-level reuse license and currentness require verification before a ready package.",
-        "Does not establish online education demand or advertising performance."
-      ],
-      "version": "education-2019-2020",
-      "enabled": true
-    },
-    {
-      "contractVersion": "1.0",
-      "sourceId": "src-capmas-telecommunications-bulletin-2016-2017",
-      "publisher": "CAPMAS",
-      "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/343/download/677",
-      "sourceType": "official_document",
-      "jurisdiction": "EG",
-      "market": "EG",
-      "industry": "ecommerce_general",
-      "language": "en",
-      "licenseStatus": "unknown",
-      "observedAt": "2026-08-25T00:26:31.000Z",
-      "freshnessPolicy": "on_demand",
-      "limitations": [
-        "Historical telecommunications bulletin for 2016-2017; it is context only.",
-        "Dataset-level reuse license and currentness require verification before a ready package.",
-        "Does not establish current digital demand, CPC, CPA, CVR, ROAS, or saturation."
-      ],
-      "version": "telecommunications-2016-2017",
-      "enabled": true
-    },
-    {
-      "contractVersion": "1.0",
       "sourceId": "src-gastat-datasaudi-digital-economy-gdp-sa-20260825",
       "publisher": "General Authority for Statistics (GASTAT) / DataSaudi",
       "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs/-/categories/122941?tab=436312&category=122941",
@@ -152,82 +91,6 @@
       "version": "2026-08-25",
       "enabled": true,
       "market": "SA"
-    },
-    {
-      "contractVersion": "1.0",
-      "sourceId": "src-gastat-open-data-20260825",
-      "publisher": "General Authority for Statistics (GASTAT)",
-      "sourceUrl": "https://dp.stats.gov.sa/opendata",
-      "sourceType": "official_document",
-      "jurisdiction": "SA",
-      "market": "SA",
-      "language": "en",
-      "licenseStatus": "approved",
-      "observedAt": "2026-08-25T00:16:31.000Z",
-      "freshnessPolicy": "on_demand",
-      "limitations": [
-        "Portal/API availability was recorded; each selected dataset needs its own definition, period, unit, and license metadata.",
-        "Portal categories do not establish demand, CPC, CPA, ROAS, or competitor performance."
-      ],
-      "version": "opendata-20260825",
-      "enabled": true
-    },
-    {
-      "contractVersion": "1.0",
-      "sourceId": "src-gastat-statistics-categories-20260825",
-      "publisher": "General Authority for Statistics (GASTAT)",
-      "sourceUrl": "https://www.stats.gov.sa/en/statistics",
-      "sourceType": "official_document",
-      "jurisdiction": "SA",
-      "market": "SA",
-      "language": "en",
-      "licenseStatus": "approved",
-      "observedAt": "2026-08-25T00:16:31.000Z",
-      "freshnessPolicy": "on_demand",
-      "limitations": [
-        "Statistics categories are discovery metadata; no metric value is asserted by this row.",
-        "Selected statistics require dataset-level period, unit, release, and methodology metadata."
-      ],
-      "version": "categories-20260825",
-      "enabled": true
-    },
-    {
-      "contractVersion": "1.0",
-      "sourceId": "src-google-trends-eg-explore-20260825",
-      "publisher": "Google Trends",
-      "sourceUrl": "https://trends.google.com/trends/",
-      "sourceType": "public_library",
-      "jurisdiction": "global",
-      "market": "EG",
-      "licenseStatus": "approved",
-      "observedAt": "2026-08-25T00:26:31.000Z",
-      "freshnessPolicy": "on_demand",
-      "limitations": [
-        "Public relative search-interest tool; values are normalized 0-100 and not absolute volume.",
-        "Directional discovery only; not audience size, CPC, CPA, CVR, ROAS, sales, or saturation.",
-        "Each query keeps its own terms, search type, category, time range, and URL."
-      ],
-      "version": "explore-20260825",
-      "enabled": true
-    },
-    {
-      "contractVersion": "1.0",
-      "sourceId": "src-google-trends-sa-explore-20260825",
-      "publisher": "Google Trends",
-      "sourceUrl": "https://trends.google.com/trends/",
-      "sourceType": "public_library",
-      "jurisdiction": "global",
-      "market": "SA",
-      "licenseStatus": "approved",
-      "observedAt": "2026-08-25T00:26:31.000Z",
-      "freshnessPolicy": "on_demand",
-      "limitations": [
-        "Public relative search-interest tool; values are normalized 0-100 and not absolute volume.",
-        "Directional discovery only; not audience size, CPC, CPA, CVR, ROAS, sales, or saturation.",
-        "Each query keeps its own terms, search type, category, time range, and URL."
-      ],
-      "version": "explore-20260825",
-      "enabled": true
     },
     {
       "contractVersion": "1.0",
@@ -571,45 +434,6 @@
       ],
       "version": "20260507-91260335",
       "enabled": true
-    },
-    {
-      "contractVersion": "1.0",
-      "sourceId": "src-world-bank-egy-indicators-v2-20260825",
-      "publisher": "World Bank",
-      "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
-      "sourceType": "official_api",
-      "jurisdiction": "global",
-      "market": "EG",
-      "language": "en",
-      "licenseStatus": "approved",
-      "observedAt": "2026-08-25T00:16:31.000Z",
-      "freshnessPolicy": "monthly",
-      "limitations": [
-        "Context indicators only; not campaign performance or competitor benchmark.",
-        "Indicator-specific period, unit, and methodology must be retained."
-      ],
-      "version": "v2-20260825",
-      "enabled": true
-    },
-    {
-      "contractVersion": "1.0",
-      "sourceId": "src-world-bank-sau-indicators-v2-20260825",
-      "publisher": "World Bank",
-      "sourceUrl": "https://api.worldbank.org/v2/country/SAU",
-      "sourceType": "official_api",
-      "jurisdiction": "global",
-      "market": "SA",
-      "language": "en",
-      "licenseStatus": "approved",
-      "observedAt": "2026-08-25T00:16:31.000Z",
-      "freshnessPolicy": "monthly",
-      "limitations": [
-        "Context indicators only; not campaign performance or competitor benchmark.",
-        "Indicator-specific period, unit, and methodology must be retained."
-      ],
-      "version": "v2-20260825",
-      "enabled": true
     }
-  ],
-  "registryId": "public-source-registry-20260825-extended"
+  ]
 }

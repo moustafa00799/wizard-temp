@@ -25,18 +25,23 @@ for (const pkgValue of artifact.packages) {
   assert.equal(pkg.snapshots[0]?.limitations.some((limitation) => limitation.startsWith("Coverage incomplete:")), true);
   assert.equal(pkg.snapshots[0]?.unknowns.length >= 10, true);
   assert.equal(pkg.snapshots[0]?.facts.some((fact) => fact.status === "unavailable"), true);
+  assert.equal(pkg.snapshots[0]?.facts.some((fact) => fact.status === "limited_external_evidence"), true);
+  assert.equal(pkg.snapshots[0]?.facts.filter((fact) => fact.status !== "unavailable").every((fact) => !["CPC", "CPA", "CVR", "ROAS", "saturation"].includes(fact.name)), true);
   assert.equal(pkg.snapshots[0]?.keywordSignals.some((signal) => signal.status === "directional" || signal.status === "unavailable"), true);
   assert.equal(pkg.snapshots[0]?.seasonalitySignals.every((signal) => signal.status === "unavailable"), true);
   assert.equal(pkg.snapshots[0]?.competitorObservations.every((observation) => observation.status === "unavailable"), true);
   assert.equal(pkg.claims.every((claim) => claim.status === "evidence_backed"), true);
   assert.equal(pkg.retrieval.strategy, "registry_lookup");
+  if (pkg.industry === "education_general") assert.equal(pkg.sourceRecords.some((source) => source.sourceId.includes("unesco") || source.sourceId.includes("capmas") || source.sourceId.includes("undata")), true);
+  if (pkg.industry === "ecommerce_general") assert.equal(pkg.sourceRecords.some((source) => source.sourceId.includes("unctad") || source.sourceId.includes("kapsarc") || source.sourceId.includes("undata")), true);
+  if (pkg.industry === "local_service_general") assert.equal(pkg.sourceRecords.some((source) => source.sourceId.includes("undata")), true);
 }
 
 console.log(JSON.stringify({
   test: "public-evidence-package-regression",
   status: "PASS",
-  assertions: 31,
+  assertions: 40,
   packages: artifact.packageSummary,
   marketValidated: artifact.marketValidated,
-  message: "All scoped public evidence packages parse, remain limited with explicit coverage gaps, and fail closed for unavailable performance metrics.",
+  message: "All scoped public evidence packages parse, consume applicable public context sources, remain limited with explicit coverage gaps, and fail closed for unavailable performance metrics.",
 }));

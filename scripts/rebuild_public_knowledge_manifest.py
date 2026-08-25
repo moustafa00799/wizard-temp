@@ -12,7 +12,22 @@ WORLD_BANK_LATEST = PUBLIC_ROOT / "world-bank/2026-08-25/latest-observations.jso
 TRENDS_NORMALIZED = PUBLIC_ROOT / "google-trends/2026-08-25/normalized-observations.json"
 CAPMAS_FACTS = PUBLIC_ROOT / "capmas/2026-08-25/normalized-facts.json"
 OUTPUT_PATH = PUBLIC_ROOT / "public-knowledge-batch-2026-08-25.json"
-CAPTURED_AT = "2026-08-25T00:26:31.000Z"
+ADDITIONAL_ARTIFACT_PATHS = [
+    PUBLIC_ROOT / "unesco/2026-08-25/normalized-observations.json",
+    PUBLIC_ROOT / "unctad/2026-08-25/normalized-observations.json",
+    PUBLIC_ROOT / "undata/2026-08-25/normalized-observations.json",
+    PUBLIC_ROOT / "datasaudi/2026-08-25/datasaudi-digital-economy-gdp-sa-20260825.json",
+    PUBLIC_ROOT / "datasaudi/2026-08-25/datasaudi-digital-establishment-usage-sa-20260825.json",
+    PUBLIC_ROOT / "datasaudi/2026-08-25/datasaudi-higher-education-students-sa-20260825.json",
+    PUBLIC_ROOT / "datasaudi/2026-08-25/datasaudi-students-schools-teachers-sa-20260825.json",
+    PUBLIC_ROOT / "datasaudi/2026-08-25/datasaudi-education-expenditure-sa-20260825.json",
+    PUBLIC_ROOT / "datasaudi/2026-08-25/exports-egypt-normalized-observations.json",
+    PUBLIC_ROOT / "datasaudi/2026-08-25/imports-egypt-normalized-observations.json",
+    PUBLIC_ROOT / "kapsarc/2026-08-25/sector-normalized-observations.json",
+    PUBLIC_ROOT / "kapsarc/2026-08-25/sector-city-latest-observations.json",
+    PUBLIC_ROOT / "kapsarc/2026-08-25/detailed-sector-city-latest-observations.json",
+]
+CAPTURED_AT = "2026-08-25T20:30:00.000Z"
 
 
 def read_json(path: Path) -> Any:
@@ -43,6 +58,7 @@ def main() -> None:
     world_bank = read_json(WORLD_BANK_LATEST)
     trends = read_json(TRENDS_NORMALIZED)
     capmas = read_json(CAPMAS_FACTS)
+    additional_artifacts = [(path, read_json(path)) for path in ADDITIONAL_ARTIFACT_PATHS if path.exists()]
     source_by_id = {source["sourceId"]: source for source in registry["sources"]}
 
     raw: list[dict[str, Any]] = []
@@ -77,10 +93,25 @@ def main() -> None:
             "generatedAt": CAPTURED_AT,
             "artifactType": path.stem,
         })
+    additional_derived = []
+    for path, artifact in additional_artifacts:
+        raw_inputs = artifact.get("rawInput", artifact.get("rawInputs", []))
+        if isinstance(raw_inputs, dict): raw_inputs = [raw_inputs]
+        additional_derived.append({
+            "path": path.relative_to(ROOT).as_posix(),
+            "sha256": sha256(path),
+            "generatedAt": artifact.get("generatedAt", CAPTURED_AT),
+            "artifactType": artifact.get("artifactType", path.stem),
+            "artifactId": artifact.get("artifactId", path.stem),
+            "sourceIds": sorted({str(artifact.get("sourceId"))} | {str(observation.get("sourceId")) for observation in artifact.get("observations", []) if observation.get("sourceId")}),
+            "observationCount": len(artifact.get("observations", [])),
+            "rawInputs": raw_inputs,
+            "limitations": artifact.get("limitations", []),
+        })
 
     output = {
         "contractVersion": "1.0",
-        "manifestId": "public-knowledge-batch-20260825-002",
+        "manifestId": "public-knowledge-batch-20260825-003",
         "generatedAt": CAPTURED_AT,
         "scope": {
             "markets": ["EG", "SA"],
@@ -90,7 +121,8 @@ def main() -> None:
         },
         "sources": registry["sources"],
         "rawSnapshots": raw,
-        "derivedArtifacts": derived,
+        "derivedArtifacts": derived + additional_derived,
+        "publicContextArtifacts": additional_derived,
         "worldBankSelection": world_bank["selection"],
         "observations": world_bank["observations"],
         "directionalSearchInterest": trends["snapshots"],
@@ -105,6 +137,7 @@ def main() -> None:
             "marketValidated": False,
             "readyEvidencePackages": 0,
             "limitedEvidencePackagesPlanned": 3,
+            "additionalPublicArtifactCount": len(additional_derived),
             "discoveryOnlySourceIds": [
                 "src-capmas-central-data-catalog-20260825",
                 "src-gastat-open-data-20260825",
@@ -127,7 +160,8 @@ def main() -> None:
                 "World Bank observations are broad contextual indicators and are not industry-specific.",
                 "CAPMAS education facts are historical 2019/2020 education-supply context only.",
                 "Google Trends observations are relative directional search-interest signals captured from public pages.",
-                "GASTAT rows are portal/discovery metadata until an official dataset export or authorized API response is available.",
+                "Selected DataSaudi/GASTAT and KAPSARC artifacts are aggregate market or education-system context, not advertising benchmarks; license status remains unknown where terms were not explicit.",
+                "UNESCO, UNCTAD, UNdata, and ITU observations preserve their own periods, upstream sources, and regional/country coverage limitations.",
                 "TikTok first-party reporting is kept outside this public manifest because it is account-owned and must not become a public benchmark.",
             ],
         },
@@ -141,6 +175,7 @@ def main() -> None:
         "worldBankObservationCount": len(output["observations"]),
         "trendSnapshotCount": len(output["directionalSearchInterest"]),
         "capmasFactCount": len(output["capmasEducationFacts"]),
+        "additionalPublicArtifactCount": len(output["publicContextArtifacts"]),
         "marketValidated": output["quality"]["marketValidated"],
     }, ensure_ascii=False))
 

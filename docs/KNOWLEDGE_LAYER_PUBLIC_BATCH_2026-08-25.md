@@ -1,4 +1,4 @@
-# تقرير الدفعة العامة الأولى من Knowledge Layer وMarket Intelligence
+# تقرير الدفعة العامة الموسعة من Knowledge Layer وMarket Intelligence
 
 **المشروع:** Campaign Builder AI / CDKS
 
@@ -6,80 +6,102 @@
 
 **النطاق:** مصر والسعودية؛ التجارة الإلكترونية، التعليم، والخدمات المحلية؛ العربية والإنجليزية بحسب المصدر.
 
-> **الحالة الرسمية:** هذه الدفعة حسّنت التغطية العامة القابلة للتدقيق، لكنها لا تجعل النظام Market-Validated. ما زالت `globalMarketValidated=false`، والحزم الثلاث المنشأة حالتها `limited` وليست `ready`.
+> **الحالة الرسمية:** اكتملت جولة موسعة من جمع وتنظيم المصادر العامة، لكنها لا تجعل النظام Market-Validated. ما زالت `globalMarketValidated=false`، والحزم الثلاث المنشأة حالتها `limited` وليست `ready`.
 
-## ما تم تنفيذه
+## الملخص التنفيذي
 
-تم فحص Git قبل التعديل، ثم إضافة إصلاح مستقل يسمح للمصادر الرسمية العامة ذات النطاق العام، مثل World Bank، بأن تطابق السوق والصناعة واللغة المطلوبة عندما لا يفرض المصدر قيدًا صريحًا على ذلك البعد. كما أضيفت بوابة تمنع الحزمة من أن تُصنَّف `ready` عندما تحتوي على فجوة تغطية موثقة.
+تم استنفاد مجموعة كبيرة من المصادر العامة القابلة للوصول دون صلاحيات خاصة، ثم تحويلها إلى snapshots وSource Records وEvidence Packages قابلة لإعادة البناء. توسعت Registry من 9 إلى **35 مصدرًا مسجلًا**، وأصبح الـmanifest يضم **14 artifact عامًا إضافيًا** فوق World Bank وCAPMAS وGoogle Trends. أُبقيت ملفات HTML وPDF وCSV/JSON الخام الكبيرة في التخزين المحلي مع hashes وروابط إعادة التنزيل، ولم تُضمّن عشوائيًا في Git.
 
-تم بناء ingestion حتمي لمؤشرات World Bank يختار أحدث ملاحظة غير فارغة لكل دولة ومؤشر، مع الاحتفاظ بالرابط، الفترة، الوحدة، وقت الالتقاط، hash الملف الخام، والقيود. واجهة World Bank Indicators API العامة لا تتطلب مفتاح API، وتوفر وصولًا برمجيًا إلى سلاسل زمنية متعددة؛ لذلك استُخدمت كسياق عام لا كبديل لبيانات الحملات أو الجمهور القابل للاستهداف [1].
+المصادر الجديدة حسّنت طبقات **السياق السكاني والاقتصادي والرقمي والتعليمي والتجاري ونشاط المدفوعات**. لكنها لا تعوّض البيانات الخاصة اللازمة لقياس الجمهور الإعلاني أو أداء الحملات أو funnel العميل. لذلك لم يتم تحويل أي مؤشر عام إلى CPC أو CPA أو CVR أو ROAS أو reach أو frequency أو saturation، ولم يتم اعتبار نشاط الدفع أو التجارة الدولية دليلًا مباشرًا على الطلب الإعلاني.
 
-تم تحويل نشرة CAPMAS التعليمية الرسمية للعام الأكاديمي 2019/2020 إلى حقائق منظمة ومقيدة الفترة. وتؤكد النشرة أنها تغطي المدارس والمعاهد ومراكز التدريب والقطاعين الحكومي والخاص، وأن أرقامها مخصصة للسياق التعليمي والتخطيط؛ لذلك لم تُستخدم لإثبات طلب إعلاني حالي أو أداء تجاري [2].
+## ما تم جمعه وتنفيذه
 
-تم التقاط أربع صفحات عامة من Google Trends، بالإنجليزية والعربية لمصر والسعودية، لنطاق آخر خمس سنوات وبحث الويب. حُفظت المصطلحات، الروابط، متوسطات المؤشر النسبي، بعض الاستعلامات ذات الصلة، والمناطق الفرعية الظاهرة. Google Trends يعطي مؤشرًا نسبيًا من 0 إلى 100 داخل المقارنة، وليس حجم بحث مطلقًا أو CPC أو تحويلات [3] [4] [5].
+تم تشغيل ingestion حتمي للبيانات الرسمية التي يمكن إعادة تنزيلها. كل artifact يحتفظ بـsource ID، رابط المصدر والـquery، فترة الملاحظة، الوحدة، وقت الالتقاط، hash للمدخل الخام، طريقة الاختيار، والقيود. تختار أدوات الإدخال أحدث القيم غير الفارغة عند الحاجة ولا تستنتج قيمًا للفترات المفقودة.
 
-تم فحص بوابة GASTAT وفئات الإحصاءات العامة السعودية، لكن الوصول إلى بيانات API التفصيلية يتطلب حسابًا وتطبيقًا ومفتاح مصادقة بحسب البوابة؛ لذلك بقيت سجلات GASTAT الحالية discovery metadata ولم تُستخدم كحقائق رقمية [6].
+### المصادر الرسمية العامة الجديدة
 
-تم استخدام TikTok Business للقراءة فقط لاكتشاف الحسابات المصرح بها وقراءة metadata والتقرير الأساسي. اكتُشفت أربعة حسابات، وكلها مصرية بعملة EGP وحالة مفعلة. التقرير المحدود للفترة 2026-07-26 إلى 2026-08-24 أعاد 40 صفًا على مستوى الحملات عبر أربع صفحات، وظهرت ثلاثة معرفات معلنين في الصفوف، وكانت مقاييس الإنفاق والانطباعات والنقرات والتحويلات في الصفوف المعادة صفرية. هذه بيانات first-party خاصة بقياس نافذة محددة وليست benchmark عامًا، ولذلك بقيت خارج public manifest. وثائق TikTok تفرق بين قدرات التقارير وقدرات الإدارة؛ ولم تُستخدم أي عملية إنشاء أو تعديل أو حذف أو ميزانية أو مزايدة أو جمهور أو كتالوج [7].
-
-## الحقائق المنظمة الحالية
-
-| المجموعة | العدد | الاستخدام المسموح | القيود الأساسية |
+| المصدر | ما تم جمعه | الاستخدام داخل Knowledge Layer | القيد الرئيسي |
 |---|---:|---|---|
-| World Bank latest observations | 10 | سياق سكاني ورقمي واقتصادي عام لمصر والسعودية | أحدث قيمة غير فارغة؛ ليست audience size أو demand أو performance benchmark |
-| CAPMAS education facts | 6 | سياق عرض ومشاركة قطاع التعليم في مصر | سنة 2019/2020 فقط؛ ليست طلبًا حاليًا أو أداءً إعلانيًا |
-| Google Trends snapshots | 4 | إشارة اكتشاف اتجاهية للمصطلحات العربية والإنجليزية | مؤشر نسبي؛ لا يُقارن كحجم مطلق بين صفحات مختلفة |
-| Registered public sources | 9 | Source Registry وprovenance | ثلاثة صفوف discovery-only أو عامة بلا قيمة metric مباشرة |
-| Raw artifacts hash-checked locally | 22 | تدقيق وإعادة فحص محلي | PDFs وHTML الخام الكبير بقيت خارج commit عمدًا |
+| UNESCO UIS | 14 ملاحظة تعليمية لمصر والسعودية | التسجيل، المشاركة، محو الأمية، وسياق العرض التعليمي | أحدث سنة تختلف حسب المؤشر؛ ليست طلبًا إعلانيًا |
+| UNCTAD Digital Economy عبر World Bank Data360 | 87 ملاحظة للفترة 2010–2023 | التجارة الرقمية دوليًا، استخدام ICT، ووجود الأعمال على الويب | التجارة الرقمية الدولية ليست GMV محليًا |
+| UNdata Statistical Yearbook | 479 ملاحظة عبر 11 جدولًا لمصر والسعودية | السكان، GDP، GVA، التعليم، المعلمون، العمل، CPI، التجارة، الإنترنت | سنوات السلاسل غير متساوية وبعض القيم estimates أو projections |
+| DataSaudi/GASTAT/SAMA | خمسة artifacts بإجمالي 1,630 ملاحظة تقريبًا | الاقتصاد الرقمي، استخدام المنشآت للتقنية، التعليم العالي، المدارس والمعلمون، والإنفاق التعليمي | بعض الجداول ذات فترة غير متجانسة؛ الترخيص بقي `unknown` |
+| DataSaudi/GASTAT للتجارة مع مصر | 53 صادرات و64 واردات | سياق تجارة السعودية مع مصر فقط | ليست تجارة إلكترونية محلية أو أداء حملات |
+| KAPSARC/SAMA | 2,992 ملاحظة قطاعية، و44 قطاع/مدينة، و32 ملاحظة تفصيلية حديثة | نشاط دفع إجمالي حسب القطاع والمدينة للسعودية | لا يثبت أن النشاط إلكتروني بالكامل ولا يربط إعلانًا بتحويل |
+| ITU workbook | فحص جميع الأوراق | تحقق من التغطية الإقليمية | الملف المتاح احتوى على مجاميع إقليمية ولم يحتوِ صفوفًا مباشرة لمصر أو السعودية |
 
-أحدث الملاحظات العامة المنظمة التي حُفظت لمصر تشمل: مستخدمو الإنترنت **74.64839935% في 2024**، السكان **118,365,995 في 2025**، السكان الحضريون **42.9043204925248% في 2025**، ومؤشر GDP per capita PPP **20,204.0130500153 دولارًا دوليًا حاليًا للفرد في 2025**. وتشمل السعودية: مستخدمو الإنترنت **100% في 2024**، السكان **36,973,555 في 2025**، السكان الحضريون **84.6123121062185% في 2025**، ومؤشر GDP per capita PPP **73,783.5613906833 دولارًا دوليًا حاليًا للفرد في 2025**. كما أُبقيت literacy ضمن سياقها الزمني: مصر **79.4531619498685% في 2022** والسعودية **97.9300003051758% في 2024**. هذه الأرقام مؤشرات سياق عامة ويجب ألا تدخل Blueprint كجمهور قابل للاستهداف أو كـbenchmark إعلاني [1].
+أرقام الأعداد أعلاه هي أعداد الملاحظات التي نتجت من الإدخال، وليست أحجام جمهور أو تقديرات سوق. مصدر UNESCO يذكر رخصة **CC BY-SA 4.0** في artifact الخاص به، بينما لم يتم افتراض الترخيص للمصادر الأخرى التي لم تعرض شروط استخدام صريحة [9] [10] [11] [12] [13] [14].
 
-ومن نشرة CAPMAS التعليمية، تم تثبيت: **487 مؤسسة تدريب حكومية**، **344,398 دارسًا حكوميًا**، و**282,163 خريجًا حكوميًا** للعام الأكاديمي 2019/2020. كما سُجلت نسب الاستجابة المنهجية الظاهرة في النشرة: **96.2% للمصادر الحكومية** و**98.4% للمصادر الخاصة التابعة للنطاق المذكور**. هذه facts تعليمية تاريخية موثقة، وليست توقعًا للطلب أو قياسًا لحجم الجمهور الإعلاني [2].
+### World Bank وCAPMAS وGoogle Trends
 
-في Google Trends، أظهرت صفحة مصر الإنجليزية متوسطات نسبية قدرها **47 للتسوق عبر الإنترنت، 31 للدورات عبر الإنترنت، و2 للخدمات المحلية**. وأظهرت صفحة السعودية الإنجليزية **55 و21 و2** بالترتيب نفسه. أما المقارنة العربية فأظهرت مصر **1 و0 و0** والسعودية **1 و3 و0**، مع رسالة صريحة بعدم كفاية البيانات لعبارة الخدمات المحلية في المقارنتين العربيتين. هذه إشارات اكتشاف منخفضة أو اتجاهية، ولا تُفسَّر على أنها حجم طلب [3] [4] [5].
+تم الإبقاء على **10 ملاحظات World Bank** الأحدث غير الفارغة لمؤشرات السكان والإنترنت والتحضر ومحو الأمية وGDP per capita PPP لمصر والسعودية. هذه مؤشرات سياق عام وليست audience size أو benchmark إعلاني [1].
+
+تم الإبقاء على **6 حقائق CAPMAS** التعليمية للعام الأكاديمي 2019/2020، ومنها 487 مؤسسة تدريب حكومية و344,398 دارسًا حكوميًا و282,163 خريجًا حكوميًا. هذه أرقام عرض تعليمي تاريخية مرتبطة بالنشرة نفسها، ولا تعني طلبًا حاليًا أو نتيجة تسويقية [2].
+
+تم الاحتفاظ بـ**4 لقطات Google Trends** بالعربية والإنجليزية لمصر والسعودية خلال آخر خمس سنوات. القيم السابقة التي التُقطت، مثل متوسطات المقارنة الإنجليزية 47/31/2 لمصر و55/21/2 للسعودية للمصطلحات المحددة، هي مؤشرات نسبية داخل كل مقارنة فقط. عند محاولة استعلام ضيق جديد ظهر رد 429 من الخدمة، فأُوقف الجمع ولم تُكرر الطلبات بسرعة. Google Trends لا يقدم حجم بحث مطلقًا أو تكلفة نقرة أو تحويلات [3] [4] [5].
+
+## أمثلة على البيانات المضافة
+
+أضافت KAPSARC/SAMA سياقًا قطاعيًا سعوديًا حديثًا. في أحدث السجلات المتاحة في artifact القطاع/المدينة بتاريخ 2025-07-06، ظهر صف إجمالي قطاع التعليم بقيمة **101 ألف معاملة** و**102,218 ألف ريال**، وصف المطاعم والمقاهي بقيمة **61,107 ألف معاملة** و**1,920,901 ألف ريال**، وصف الصحة بقيمة **7,637 ألف معاملة** و**805,092 ألف ريال**. هذه أرقام معاملات/قيم دفع مجمعة كما أبلغ عنها المصدر، ولا يجوز تفسيرها كمبيعات إلكترونية خالصة أو كتحويلات ناتجة عن إعلان [12] [13].
+
+أضاف UNdata سلاسل قابلة للمقارنة للسكان، التعليم والاتصال الرقمي. من أمثلتها أن جدول الوصول الأساسي إلى أجهزة الكمبيوتر يعرض لمصر **83.8% في التعليم الابتدائي عام 2023**، وللسعودية **99.2% في التعليم الابتدائي عام 2023**، مع بقاء هذه القيم في سياق الوصول التعليمي لا في سياق الجمهور الإعلاني. كما يضم جدول التعليم تسجيلات الطلبة ومعلمين ومؤشرات الالتحاق عبر سنوات غير متطابقة [11].
+
+أضاف UNCTAD مؤشرات مثل التجارة الدولية للخدمات القابلة للتسليم رقميًا، ونسب الأعمال ذات الوجود على الويب، ونسب الأعمال التي تضع طلبات عبر الإنترنت عندما تكون الملاحظة متاحة. هذه المؤشرات مفيدة لتكوين فرضية عن البيئة الرقمية، لكنها لا تثبت حجم الطلب المحلي أو أداء حملة بعينها [10].
 
 ## الحزم المحدودة المنشأة
 
-| الحزمة | النطاق الدقيق | الحالة | المصادر المرتبطة | أهم ما ينقصها |
-|---|---|---|---:|---|
-| `pkg-eg-education-public-20260825` | EG / education_general / ar / EGP | `limited`, freshness `fresh` | 3 | طلب التعليم الحالي، audience size، CPC/CPA/CVR/ROAS، creative observations، بيانات funnel |
-| `pkg-sa-ecommerce-public-20260825` | SA / ecommerce_general / ar / SAR | `limited`, freshness `fresh` | 2 | مصدر سعودي رقمي على مستوى dataset، حجم البحث المطلق، CPC/CPA/CVR/ROAS، creative observations، بيانات funnel |
-| `pkg-eg-local-service-public-20260825` | EG / local_service_general / ar / EGP | `limited`, freshness `fresh` | 2 | دليل طلب محلي كافٍ، حجم البحث، CPC/CPA/CVR/ROAS، creative observations، بيانات CRM/calls |
+| الحزمة | النطاق الدقيق | الحالة | عدد الحقائق | عدد المصادر | أهم ما ينقصها |
+|---|---|---|---:|---:|---|
+| `pkg-eg-education-public-20260825` | EG / education_general / ar / EGP | `limited`, freshness `fresh` | 36 | 5 | طلب التعليم الحالي، audience size، CPC/CPA/CVR/ROAS، creative observations، funnel |
+| `pkg-sa-ecommerce-public-20260825` | SA / ecommerce_general / ar / SAR | `limited`, freshness `fresh` | 33 | 5 | حجم البحث المطلق، audience size، CPC/CPA/CVR/ROAS، attribution، creative observations |
+| `pkg-eg-local-service-public-20260825` | EG / local_service_general / ar / EGP | `limited`, freshness `fresh` | 19 | 5 | إشارات طلب محلي كافية، calls/CRM، audience size، CPC/CPA/CVR/ROAS، creative observations |
 
-كل حزمة تحتوي على facts متاحة وfacts `unavailable` صريحة، وإشارات keyword اتجاهية أو غير متاحة، وseasonality غير متاحة، وcompetitor observations غير متاحة. هذا التصميم يمنع الاستدلال الصامت أو اختلاق benchmarks، ويحافظ على سلطة CDKS وBlueprint-only.
+تحتوي كل حزمة على facts متاحة من مصادر عامة وfacts `unavailable` معلنة صراحة، وإشارات keyword اتجاهية أو غير متاحة، وseasonality غير متاحة، وcompetitor observations غير متاحة. بعض artifacts العامة موجودة في manifest لكنها لا تنطبق على كل نطاق؛ لا يتم نسخ fact إلى نطاق صناعة إلا إذا مرّ باختبار السوق والصناعة واللغة والعملة في المولد.
 
-## الفجوات التي لم تُغلق
+## ما تم التحقق منه
 
-| الفجوة | الحالة الحالية | المسار الصحيح التالي |
+| بوابة التحقق | النتيجة |
+|---|---:|
+| Source Registry وSourceRecord parsing | PASS؛ 35 مصدرًا |
+| public ingestion regression | PASS؛ 89 assertion |
+| public evidence package regression | PASS؛ 40 assertion |
+| public quality report | PASS؛ hashes وsource IDs وقيود benchmark |
+| market validation gate | BLOCKED؛ `marketValidated=false` |
+| live AI calls | 0؛ لم يُستخدم AI كمصدر حقائق |
+| عمليات الكتابة على منصات الإعلانات | 0؛ كل جمع الحسابات كان قراءة فقط |
+
+نجح المسار القابل لإعادة التنفيذ `npm run knowledge:public:full` في إعادة بناء snapshots وRegistry وmanifest والحزم. كما مر TypeScript strict ومولّد الحزم بعد دمج artifacts الجديدة، مع إبقاء سلطة CDKS وCanonical Blueprint و`generation_mode=blueprint_only` دون تغيير.
+
+## الفجوات التي لا يمكن إغلاقها من المصادر العامة وحدها
+
+| الفجوة | الحالة بعد الجولة العامة | المطلوب الفعلي |
 |---|---|---|
-| GASTAT metric-level | غير متاح بلا account/application/auth key أو export رسمي | تفعيل وصول رسمي أو رفع export ناتج من البوابة؛ لا حاجة لطلب كلمة المرور في المحادثة |
-| Google Ads Keyword Planner | غير متصل | إضافة وصول read-only رسمي ثم تخزين keyword ideas/historical metrics مع وقت التحديث والحدود [8] |
-| GA4 وSearch Console وCRM/Store | غير متصل | رفع exports رسمية ينتجها صاحب الحساب إذا تعذر OAuth؛ تبقى first-party ولا تتحول إلى benchmark عام |
-| TikTok Creative Center | لم تُلتقط observations عامة بعد | جمع observations يدوية عامة للرسائل والعروض والوجود فقط، بلا performance claims |
-| Meta | مؤجل كما طُلب | تنفيذ آخرًا وبـread-only فقط بعد تثبيت بقية طبقة الأدلة |
-| English exact-scope packages | غير منشأة في هذه الدفعة | إعادة بناء الحزم بعد توافر مصدر إنجليزي أو اعتماد قرار تغطية locale صريح |
-| الثلاثة المقابلة للسعودية/التعليم والخدمات المحلية | غير منشأة | إضافة مصادر سعودية dataset-level ثم إعادة تشغيل الحزم والبوابات |
+| Google Ads Keyword Planner | غير متصل | وصول رسمي read-only أو Export من الحساب لبيانات الكلمات والمؤشرات التاريخية [8] |
+| GA4 وSearch Console | غير متصلان | OAuth رسمي أو exports من الحساب؛ لا تتحول البيانات إلى benchmark عام |
+| CRM والمتجر والطلبات والإيراد | غير متصل | Export أو connector رسمي من العميل؛ مطلوب لقياس funnel وROAS الحقيقي |
+| audience size وreach وfrequency | غير متاحين عامةً بالنطاق المطلوب | مصدر منصة رسمي أو first-party مصرح به |
+| CPC وCPA وCVR وROAS | غير متاحة عامةً كـbenchmark موثوق للنطاقات | تقارير حملات مرتبطة بإسناد واضح ونافذة زمنية محددة |
+| TikTok Creative Center | لم ينتج dataset ثابتًا في الحالة العامة الحالية | إعادة محاولة محافظة لاحقًا أو ملاحظات عامة مستقرة؛ دون claims عن الأداء |
+| Meta | مؤجل عمدًا إلى النهاية | جمع read-only بعد تثبيت بقية الطبقة؛ لا إنشاء أو تعديل أو إنفاق |
+| English exact-scope packages | لم تُنشأ كحزم مستقلة | مصدر إنجليزي مطابق للنطاق أو قرار صريح حول سياسة اللغة |
+| SA education وSA local service وEG ecommerce | لا توجد حزم exact مستقلة حاليًا | بناء حزم إضافية بعد اكتمال source-metric-scope matrix، وليس بمجرد توافر مؤشرات عامة |
 
-لم تُسجل أي قيمة لـ**CPC أو CPA أو CVR أو ROAS أو reach أو frequency أو saturation أو competitor performance أو client funnel performance** في public batch. عند غياب المصدر الموافق للنطاق، القيمة `unavailable` مع سبب صريح.
+لا يمكن إغلاق هذه الفجوات بمجرد إضافة تقارير عامة عن الاقتصاد أو السكان؛ لأن شرط المشروع هو مطابقة **السوق والصناعة واللغة والعملة والفترة والمنهجية**، مع provenance وإمكانية إعادة الإنتاج. لذلك لا تعلن هذه الدفعة Market-Validated.
 
 ## سياسة التخزين وإعادة التشغيل
 
-تم commit الآثار المنظمة الصغيرة وسكربتات إعادة البناء، بما في ذلك Source Registry وlatest observations وGoogle Trends normalized observations وCAPMAS facts وEvidence Packages وQuality Report. لم تُضف ملفات CAPMAS PDF أو HTML الخام الكبير إلى Git؛ بقيت محليًا في شجرة البيانات لأغراض التدقيق، وسُجلت hashes وروابطها في manifest. عند نقل التخزين إلى object storage، يُحافظ على نفس artifact IDs وhashes وsource URLs.
+تم اختيار سياسة متعمدة: تُحفظ artifacts المنظمة الصغيرة وسكربتات الإدخال والـhashes في Git، بينما تبقى الملفات الخام الكبيرة مثل CSV/JSON وPDF/HTML في المساحة المحلية أو تنتقل لاحقًا إلى Object Storage. لا تُستخدم ملفات `.local/` كمرجع وحيد لإثبات اكتمال clone؛ عند غياب الخام على clone جديد يظهر ذلك كفجوة معلنة قابلة لإعادة التنزيل من الرابط الرسمي.
 
-يمكن إعادة تنفيذ الدفعة من جذر المستودع بالأوامر التالية:
+يمكن إعادة تشغيل الدفعة من جذر المستودع بالأوامر التالية:
 
 ```bash
-npm run knowledge:public:ingest
-npm run knowledge:public:manifest
-npm run knowledge:public:packages
+npm run knowledge:public:full
 npm run test:knowledge:public-ingestion
 npm run test:knowledge:public-evidence
 npm run test:knowledge:public-quality
 ```
 
-## نتائج الاختبارات والـCI
-
-اجتازت regression الخاصة بالنطاق العام وEvidence Package **19 assertion**، واجتازت regression الخاصة بالإدخال العام **52 assertion**، واجتازت regression الخاصة بالحزم **31 assertion**. كما اجتازت اختبارات العقود والصناعات ومزودي الأدلة وstrategy context وقاعدة البيانات وrandomized wizard وautofill وreview consent، إضافة إلى TypeScript strict وNext production build. تم رفع commit إصلاح النطاق والحالة المحدودة `7c53c49` بنجاح، ثم commit الدفعة العامة `9158daf` بنجاح، ونجح CI للاثنين.
+وتظل هذه الأوامر قراءة/توليدًا محليًا فقط؛ لا تحتوي على عمليات نشر حملات أو تعديل ميزانيات أو مزايدات أو جماهير أو كتالوجات.
 
 ## المراجع
 
@@ -98,3 +120,23 @@ npm run test:knowledge:public-quality
 [7]: https://ads.tiktok.com/help/article/marketing-api?lang=en "TikTok for Business Marketing API overview"
 
 [8]: https://developers.google.com/google-ads/api/docs/keyword-planning/overview "Google Ads API Keyword Planning overview"
+
+[9]: https://api.uis.unesco.org/api/public/documentation/ "UNESCO UIS Public API documentation"
+
+[10]: https://data360.worldbank.org/en/dataset/UNCTAD_DE "UNCTAD Digital Economy dataset via World Bank Data360"
+
+[11]: https://data.un.org/ "United Nations Statistics Division — UNdata Statistical Yearbook"
+
+[12]: https://datasource.kapsarc.org/explore/assets/points-of-sale-transactions-and-sales-by-sector/ "KAPSARC/SAMA — Points of sale transactions and sales by sector"
+
+[13]: https://datasource.kapsarc.org/explore/assets/point-of-sale-transactions-by-sector-and-city/ "KAPSARC/SAMA — Point of sale transactions by sector and city"
+
+[14]: https://www.itu.int/en/ITU-D/Statistics/pages/stat/default.aspx "ITU ICT statistics and public downloads"
+
+[15]: https://www.stats.gov.sa/en/statistics-tabs/-/categories/122941?tab=436312&category=122941 "DataSaudi/GASTAT — digital economy statistics"
+
+[16]: https://www.stats.gov.sa/en/statistics-tabs/-/categories/123481?tab=436312&category=123481 "DataSaudi/GASTAT — exports and imports by country"
+
+[17]: https://www.oecd.org/en/data/insights/data-explainers/2024/09/api.html "OECD Data Explorer API documentation"
+
+[18]: https://data.imf.org/en/Resource-Pages/IMF-API "IMF Data API documentation"

@@ -1,13 +1,13 @@
 {
   "contractVersion": "1.0",
   "artifactType": "scoped_public_evidence_packages",
-  "generatedAt": "2026-08-25T00:26:31.000Z",
+  "generatedAt": "2026-08-25T20:30:00.000Z",
   "marketValidated": false,
   "packages": [
     {
       "contractVersion": "1.0",
       "packageId": "pkg-eg-education-public-20260825",
-      "generatedAt": "2026-08-25T00:26:31.000Z",
+      "generatedAt": "2026-08-25T20:30:00.000Z",
       "market": "EG",
       "industry": "education_general",
       "locale": "ar",
@@ -30,6 +30,40 @@
             "Indicator-specific period, unit, and methodology must be retained."
           ],
           "version": "v2-20260825",
+          "enabled": true
+        },
+        {
+          "contractVersion": "1.0",
+          "sourceId": "src-unesco-uis-egy-sau-education-20260825",
+          "publisher": "UNESCO Institute for Statistics (UIS)",
+          "sourceUrl": "https://api.uis.unesco.org/api/public/documentation/",
+          "sourceType": "official_api",
+          "licenseStatus": "approved",
+          "observedAt": "2026-08-25T20:30:00.000Z",
+          "freshnessPolicy": "monthly",
+          "limitations": [
+            "UIS education supply and participation indicators are not advertising demand or campaign performance.",
+            "The public API response states CC BY-SA 4.0; preserve attribution and share-alike requirements.",
+            "Latest available year varies by indicator and country; missing years are not interpolated."
+          ],
+          "version": "20260507-91260335",
+          "enabled": true
+        },
+        {
+          "contractVersion": "1.0",
+          "sourceId": "src-undata-education_enrollment-egy-sau-20260825",
+          "publisher": "United Nations Statistics Division (UNdata)",
+          "sourceUrl": "https://data.un.org/_Docs/SYB/CSV/SYB68_309_202511_Education.csv",
+          "sourceType": "official_api",
+          "licenseStatus": "unknown",
+          "observedAt": "2026-08-25T20:30:00.000Z",
+          "freshnessPolicy": "monthly",
+          "limitations": [
+            "UNdata statistical context; not advertising audience size, search demand, or campaign performance.",
+            "The table contains series from the named upstream agency; preserve series-level source and footnotes.",
+            "Coverage years differ by series and may be estimates or projections as indicated by footnotes."
+          ],
+          "version": "SYB68-202511",
           "enabled": true
         },
         {
@@ -77,7 +111,7 @@
         {
           "evidenceId": "evidence-src-world-bank-egy-indicators-v2-20260825",
           "sourceId": "src-world-bank-egy-indicators-v2-20260825",
-          "observedAt": "2026-08-25T00:26:31.000Z",
+          "observedAt": "2026-08-25T20:30:00.000Z",
           "excerpt": "World Bank indicator observation selected deterministically as the latest non-null value for the country and indicator.",
           "limitations": [
             "Context indicators only; not campaign performance or competitor benchmark.",
@@ -85,9 +119,31 @@
           ]
         },
         {
+          "evidenceId": "evidence-src-unesco-uis-egy-sau-education-20260825",
+          "sourceId": "src-unesco-uis-egy-sau-education-20260825",
+          "observedAt": "2026-08-25T20:30:00.000Z",
+          "excerpt": "Public source record referenced by the scoped snapshot.",
+          "limitations": [
+            "UIS education supply and participation indicators are not advertising demand or campaign performance.",
+            "The public API response states CC BY-SA 4.0; preserve attribution and share-alike requirements.",
+            "Latest available year varies by indicator and country; missing years are not interpolated."
+          ]
+        },
+        {
+          "evidenceId": "evidence-src-undata-education_enrollment-egy-sau-20260825",
+          "sourceId": "src-undata-education_enrollment-egy-sau-20260825",
+          "observedAt": "2026-08-25T20:30:00.000Z",
+          "excerpt": "Public source record referenced by the scoped snapshot.",
+          "limitations": [
+            "UNdata statistical context; not advertising audience size, search demand, or campaign performance.",
+            "The table contains series from the named upstream agency; preserve series-level source and footnotes.",
+            "Coverage years differ by series and may be estimates or projections as indicated by footnotes."
+          ]
+        },
+        {
           "evidenceId": "evidence-src-capmas-education-bulletin-2019-2020",
           "sourceId": "src-capmas-education-bulletin-2019-2020",
-          "observedAt": "2026-08-25T00:26:31.000Z",
+          "observedAt": "2026-08-25T20:30:00.000Z",
           "excerpt": "CAPMAS education and training bulletin, academic year 2019/2020; selected official table facts are retained with historical limitations.",
           "limitations": [
             "Official education and training bulletin for academic year 2019/2020.",
@@ -115,7 +171,7 @@
           "industry": "education_general",
           "locale": "ar",
           "currency": "EGP",
-          "capturedAt": "2026-08-25T00:26:31.000Z",
+          "capturedAt": "2026-08-25T20:30:00.000Z",
           "freshnessStatus": "fresh",
           "facts": [
             {
@@ -187,6 +243,261 @@
               }
             },
             {
+              "factId": "eg-education_general-enrolment-in-tertiary-education-all-programmes-both-sexes-number-context--unesco-uis-egy-25053-2025",
+              "name": "Enrolment in tertiary education, all programmes, both sexes (number) (context)",
+              "value": 3866260,
+              "unit": "number",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-unesco-uis-egy-sau-education-20260825"
+              ],
+              "observedAt": "2025-12-31T00:00:00.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-education_general-enrolment-in-pre-primary-education-both-sexes-number-context--unesco-uis-egy-20060-2024",
+              "name": "Enrolment in pre-primary education, both sexes (number) (context)",
+              "value": 1477645,
+              "unit": "number",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-unesco-uis-egy-sau-education-20260825"
+              ],
+              "observedAt": "2024-12-31T00:00:00.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-education_general-enrolment-in-primary-education-both-sexes-number-context--unesco-uis-egy-20062-2024",
+              "name": "Enrolment in primary education, both sexes (number) (context)",
+              "value": 15401834,
+              "unit": "number",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-unesco-uis-egy-sau-education-20260825"
+              ],
+              "observedAt": "2024-12-31T00:00:00.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-education_general-enrolment-in-secondary-education-both-sexes-number-context--unesco-uis-egy-20082-2024",
+              "name": "Enrolment in secondary education, both sexes (number) (context)",
+              "value": 11563305,
+              "unit": "number",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-unesco-uis-egy-sau-education-20260825"
+              ],
+              "observedAt": "2024-12-31T00:00:00.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-education_general-completion-rate-primary-education-both-sexes-context--unesco-uis-egy-cr-1-2022",
+              "name": "Completion rate, primary education, both sexes (%) (context)",
+              "value": 96.11,
+              "unit": "percent",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-unesco-uis-egy-sau-education-20260825"
+              ],
+              "observedAt": "2022-12-31T00:00:00.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-education_general-youth-literacy-rate-population-15-24-years-both-sexes-context--unesco-uis-egy-lr-ag15t24-2022",
+              "name": "Youth literacy rate, population 15-24 years, both sexes (%) (context)",
+              "value": 95.190867622614,
+              "unit": "percent",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-unesco-uis-egy-sau-education-20260825"
+              ],
+              "observedAt": "2022-12-31T00:00:00.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-education_general-adult-literacy-rate-population-15-years-both-sexes-context--unesco-uis-egy-lr-ag15t99-2022",
+              "name": "Adult literacy rate, population 15+ years, both sexes (%) (context)",
+              "value": 79.4531619498685,
+              "unit": "percent",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-unesco-uis-egy-sau-education-20260825"
+              ],
+              "observedAt": "2022-12-31T00:00:00.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-education_general-gross-enrollment-ratio-lower-secondary-level-female-context--undata-education_enrollment-egypt-2023-2705",
+              "name": "Gross enrollment ratio - Lower secondary level (female) (context)",
+              "value": 93.2,
+              "unit": "Gross enrollment ratio - Lower secondary level (female)",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-undata-education_enrollment-egy-sau-20260825"
+              ],
+              "observedAt": "2026-08-25T20:30:00.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-education_general-gross-enrollment-ratio-lower-secondary-level-male-context--undata-education_enrollment-egypt-2023-2704",
+              "name": "Gross enrollment ratio - Lower secondary level (male) (context)",
+              "value": 94.1,
+              "unit": "Gross enrollment ratio - Lower secondary level (male)",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-undata-education_enrollment-egy-sau-20260825"
+              ],
+              "observedAt": "2026-08-25T20:30:00.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-education_general-gross-enrollment-ratio-primary-female-context--undata-education_enrollment-egypt-2023-2702",
+              "name": "Gross enrollment ratio - Primary (female) (context)",
+              "value": 95.9,
+              "unit": "Gross enrollment ratio - Primary (female)",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-undata-education_enrollment-egy-sau-20260825"
+              ],
+              "observedAt": "2026-08-25T20:30:00.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-education_general-gross-enrollment-ratio-primary-male-context--undata-education_enrollment-egypt-2023-2701",
+              "name": "Gross enrollment ratio - Primary (male) (context)",
+              "value": 95.9,
+              "unit": "Gross enrollment ratio - Primary (male)",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-undata-education_enrollment-egy-sau-20260825"
+              ],
+              "observedAt": "2026-08-25T20:30:00.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-education_general-gross-enrollment-ratio-upper-secondary-level-female-context--undata-education_enrollment-egypt-2023-2708",
+              "name": "Gross enrollment ratio - Upper secondary level (female) (context)",
+              "value": 72.1,
+              "unit": "Gross enrollment ratio - Upper secondary level (female)",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-undata-education_enrollment-egy-sau-20260825"
+              ],
+              "observedAt": "2026-08-25T20:30:00.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-education_general-gross-enrollment-ratio-upper-secondary-level-male-context--undata-education_enrollment-egypt-2023-2707",
+              "name": "Gross enrollment ratio - Upper secondary level (male) (context)",
+              "value": 76.8,
+              "unit": "Gross enrollment ratio - Upper secondary level (male)",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-undata-education_enrollment-egy-sau-20260825"
+              ],
+              "observedAt": "2026-08-25T20:30:00.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-education_general-students-enrolled-in-lower-secondary-education-thousands-context--undata-education_enrollment-egypt-2023-2703",
+              "name": "Students enrolled in lower secondary education (thousands) (context)",
+              "value": 6467,
+              "unit": "Students enrolled in lower secondary education (thousands)",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-undata-education_enrollment-egy-sau-20260825"
+              ],
+              "observedAt": "2026-08-25T20:30:00.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-education_general-students-enrolled-in-primary-education-thousands-context--undata-education_enrollment-egypt-2023-2700",
+              "name": "Students enrolled in primary education (thousands) (context)",
+              "value": 15066,
+              "unit": "Students enrolled in primary education (thousands)",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-undata-education_enrollment-egy-sau-20260825"
+              ],
+              "observedAt": "2026-08-25T20:30:00.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "education_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
               "factId": "capmas-education-gov-training-institutions-total-2019-2020",
               "name": "government_training_institutions_total",
               "value": 487,
@@ -195,7 +506,7 @@
               "sourceIds": [
                 "src-capmas-education-bulletin-2019-2020"
               ],
-              "observedAt": "2026-08-25T00:26:31.000Z",
+              "observedAt": "2026-08-25T20:30:00.000Z",
               "scope": {
                 "market": "EG",
                 "industry": "education_general",
@@ -212,7 +523,7 @@
               "sourceIds": [
                 "src-capmas-education-bulletin-2019-2020"
               ],
-              "observedAt": "2026-08-25T00:26:31.000Z",
+              "observedAt": "2026-08-25T20:30:00.000Z",
               "scope": {
                 "market": "EG",
                 "industry": "education_general",
@@ -229,7 +540,7 @@
               "sourceIds": [
                 "src-capmas-education-bulletin-2019-2020"
               ],
-              "observedAt": "2026-08-25T00:26:31.000Z",
+              "observedAt": "2026-08-25T20:30:00.000Z",
               "scope": {
                 "market": "EG",
                 "industry": "education_general",
@@ -246,7 +557,7 @@
               "sourceIds": [
                 "src-capmas-education-bulletin-2019-2020"
               ],
-              "observedAt": "2026-08-25T00:26:31.000Z",
+              "observedAt": "2026-08-25T20:30:00.000Z",
               "scope": {
                 "market": "EG",
                 "industry": "education_general",
@@ -263,7 +574,7 @@
               "sourceIds": [
                 "src-capmas-education-bulletin-2019-2020"
               ],
-              "observedAt": "2026-08-25T00:26:31.000Z",
+              "observedAt": "2026-08-25T20:30:00.000Z",
               "scope": {
                 "market": "EG",
                 "industry": "education_general",
@@ -280,7 +591,7 @@
               "sourceIds": [
                 "src-capmas-education-bulletin-2019-2020"
               ],
-              "observedAt": "2026-08-25T00:26:31.000Z",
+              "observedAt": "2026-08-25T20:30:00.000Z",
               "scope": {
                 "market": "EG",
                 "industry": "education_general",
@@ -509,18 +820,21 @@
             "competitor performance",
             "client funnel performance",
             "validated industry-specific audience and demand coverage",
-            "validated creative/offer pattern coverage"
+            "validated creative/offer pattern coverage",
+            "license-approved sector-level benchmark coverage"
           ],
           "contradictions": [],
           "sourceIds": [
             "src-world-bank-egy-indicators-v2-20260825",
+            "src-unesco-uis-egy-sau-education-20260825",
+            "src-undata-education_enrollment-egy-sau-20260825",
             "src-capmas-education-bulletin-2019-2020",
             "src-google-trends-eg-explore-20260825"
           ],
           "confidence": 0.62,
           "limitations": [
-            "Coverage incomplete: industry-specific evidence is unavailable.",
-            "Context indicators and directional search interest are not audience-size or advertising-performance benchmarks.",
+            "Coverage incomplete: industry-specific evidence is limited to public contextual indicators and selected payment/education signals.",
+            "Context indicators, payment activity, and directional search interest are not audience-size or advertising-performance benchmarks.",
             "CAPMAS facts are historical education-supply context for academic year 2019/2020 only.",
             "Market Validation remains false until the approved source-metric-scope matrix is complete."
           ]
@@ -539,7 +853,7 @@
           "industry": "education_general",
           "confidence": 0.96,
           "status": "evidence_backed",
-          "createdAt": "2026-08-25T00:26:31.000Z",
+          "createdAt": "2026-08-25T20:30:00.000Z",
           "limitations": [
             "Historical official supply statistic; not current demand, audience size, or advertising performance."
           ]
@@ -658,12 +972,18 @@
       "status": "limited",
       "freshnessStatus": "fresh",
       "limitations": [
-        "Coverage incomplete: industry-specific evidence is unavailable.",
-        "Context indicators and directional search interest are not audience-size or advertising-performance benchmarks.",
+        "Coverage incomplete: industry-specific evidence is limited to public contextual indicators and selected payment/education signals.",
+        "Context indicators, payment activity, and directional search interest are not audience-size or advertising-performance benchmarks.",
         "CAPMAS facts are historical education-supply context for academic year 2019/2020 only.",
         "Market Validation remains false until the approved source-metric-scope matrix is complete.",
         "Context indicators only; not campaign performance or competitor benchmark.",
         "Indicator-specific period, unit, and methodology must be retained.",
+        "UIS education supply and participation indicators are not advertising demand or campaign performance.",
+        "The public API response states CC BY-SA 4.0; preserve attribution and share-alike requirements.",
+        "Latest available year varies by indicator and country; missing years are not interpolated.",
+        "UNdata statistical context; not advertising audience size, search demand, or campaign performance.",
+        "The table contains series from the named upstream agency; preserve series-level source and footnotes.",
+        "Coverage years differ by series and may be estimates or projections as indicated by footnotes.",
         "Official education and training bulletin for academic year 2019/2020.",
         "Dataset-level reuse license and currentness require verification before a ready package.",
         "Does not establish online education demand or advertising performance.",
@@ -676,6 +996,8 @@
         "queryHash": "public-batch-20260825-EG-education_general-ar-EGP",
         "selectedEvidenceIds": [
           "evidence-src-world-bank-egy-indicators-v2-20260825",
+          "evidence-src-unesco-uis-egy-sau-education-20260825",
+          "evidence-src-undata-education_enrollment-egy-sau-20260825",
           "evidence-src-capmas-education-bulletin-2019-2020",
           "evidence-gt-eg-ar-20260825"
         ]
@@ -684,7 +1006,7 @@
     {
       "contractVersion": "1.0",
       "packageId": "pkg-sa-ecommerce-public-20260825",
-      "generatedAt": "2026-08-25T00:26:31.000Z",
+      "generatedAt": "2026-08-25T20:30:00.000Z",
       "market": "SA",
       "industry": "ecommerce_general",
       "locale": "ar",
@@ -711,6 +1033,58 @@
         },
         {
           "contractVersion": "1.0",
+          "sourceId": "src-unctad-digital-economy-egy-sau-20260825",
+          "publisher": "UNCTAD via World Bank Data360",
+          "sourceUrl": "https://data360.worldbank.org/en/dataset/UNCTAD_DE",
+          "sourceType": "official_api",
+          "licenseStatus": "unknown",
+          "observedAt": "2026-08-25T20:30:00.000Z",
+          "freshnessPolicy": "monthly",
+          "limitations": [
+            "Digital economy, ICT, and digitally-deliverable-services context; not advertising demand or campaign performance.",
+            "International digitally-deliverable services trade is not domestic ecommerce GMV.",
+            "Data availability varies by indicator and year; blank cells are not interpolated."
+          ],
+          "version": "2026-08-25",
+          "enabled": true
+        },
+        {
+          "contractVersion": "1.0",
+          "sourceId": "src-undata-population_and_density-egy-sau-20260825",
+          "publisher": "United Nations Statistics Division (UNdata)",
+          "sourceUrl": "https://data.un.org/_Docs/SYB/CSV/SYB68_1_202511_Population%2C%20Surface%20Area%20and%20Density.csv",
+          "sourceType": "official_api",
+          "licenseStatus": "unknown",
+          "observedAt": "2026-08-25T20:30:00.000Z",
+          "freshnessPolicy": "monthly",
+          "limitations": [
+            "UNdata statistical context; not advertising audience size, search demand, or campaign performance.",
+            "The table contains series from the named upstream agency; preserve series-level source and footnotes.",
+            "Coverage years differ by series and may be estimates or projections as indicated by footnotes."
+          ],
+          "version": "SYB68-202511",
+          "enabled": true
+        },
+        {
+          "contractVersion": "1.0",
+          "sourceId": "src-kapsarc-sama-pos-sector-sa-20260825",
+          "publisher": "KAPSARC Data Portal / Saudi Central Bank (SAMA)",
+          "sourceUrl": "https://datasource.kapsarc.org/explore/assets/points-of-sale-transactions-and-sales-by-sector/",
+          "sourceType": "official_api",
+          "market": "SA",
+          "licenseStatus": "unknown",
+          "observedAt": "2026-08-25T20:30:00.000Z",
+          "freshnessPolicy": "monthly",
+          "limitations": [
+            "SAMA payment activity is market-context evidence and not proof of online-only demand for each sector.",
+            "Records are aggregate payment activity and do not identify customer, advertising source, or conversion attribution.",
+            "The public portal export is GET-only; source license status remains unknown until explicit terms are verified."
+          ],
+          "version": "2026-08-25",
+          "enabled": true
+        },
+        {
+          "contractVersion": "1.0",
           "sourceId": "src-google-trends-sa-explore-20260825",
           "publisher": "Google Trends",
           "sourceUrl": "https://trends.google.com/trends/",
@@ -733,11 +1107,44 @@
         {
           "evidenceId": "evidence-src-world-bank-egy-indicators-v2-20260825",
           "sourceId": "src-world-bank-egy-indicators-v2-20260825",
-          "observedAt": "2026-08-25T00:26:31.000Z",
+          "observedAt": "2026-08-25T20:30:00.000Z",
           "excerpt": "World Bank indicator observation selected deterministically as the latest non-null value for the country and indicator.",
           "limitations": [
             "Context indicators only; not campaign performance or competitor benchmark.",
             "Indicator-specific period, unit, and methodology must be retained."
+          ]
+        },
+        {
+          "evidenceId": "evidence-src-unctad-digital-economy-egy-sau-20260825",
+          "sourceId": "src-unctad-digital-economy-egy-sau-20260825",
+          "observedAt": "2026-08-25T20:30:00.000Z",
+          "excerpt": "Public source record referenced by the scoped snapshot.",
+          "limitations": [
+            "Digital economy, ICT, and digitally-deliverable-services context; not advertising demand or campaign performance.",
+            "International digitally-deliverable services trade is not domestic ecommerce GMV.",
+            "Data availability varies by indicator and year; blank cells are not interpolated."
+          ]
+        },
+        {
+          "evidenceId": "evidence-src-undata-population_and_density-egy-sau-20260825",
+          "sourceId": "src-undata-population_and_density-egy-sau-20260825",
+          "observedAt": "2026-08-25T20:30:00.000Z",
+          "excerpt": "Public source record referenced by the scoped snapshot.",
+          "limitations": [
+            "UNdata statistical context; not advertising audience size, search demand, or campaign performance.",
+            "The table contains series from the named upstream agency; preserve series-level source and footnotes.",
+            "Coverage years differ by series and may be estimates or projections as indicated by footnotes."
+          ]
+        },
+        {
+          "evidenceId": "evidence-src-kapsarc-sama-pos-sector-sa-20260825",
+          "sourceId": "src-kapsarc-sama-pos-sector-sa-20260825",
+          "observedAt": "2026-08-25T20:30:00.000Z",
+          "excerpt": "Public source record referenced by the scoped snapshot.",
+          "limitations": [
+            "SAMA payment activity is market-context evidence and not proof of online-only demand for each sector.",
+            "Records are aggregate payment activity and do not identify customer, advertising source, or conversion attribution.",
+            "The public portal export is GET-only; source license status remains unknown until explicit terms are verified."
           ]
         },
         {
@@ -760,7 +1167,7 @@
           "industry": "ecommerce_general",
           "locale": "ar",
           "currency": "SAR",
-          "capturedAt": "2026-08-25T00:26:31.000Z",
+          "capturedAt": "2026-08-25T20:30:00.000Z",
           "freshnessStatus": "fresh",
           "facts": [
             {
@@ -824,6 +1231,312 @@
                 "src-world-bank-egy-indicators-v2-20260825"
               ],
               "observedAt": "2026-08-25T00:26:31.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ecommerce_general-international-exports-in-digitally-deliverable-services-context--unctad-de-sau-unctad_de_dig_servtrade_ann_exp-2023",
+              "name": "International exports in digitally-deliverable services (context)",
+              "value": 3877,
+              "unit": "USD_x10^6",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-unctad-digital-economy-egy-sau-20260825"
+              ],
+              "observedAt": "2026-08-25T19:40:00.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ecommerce_general-international-imports-in-digitally-deliverable-services-context--unctad-de-sau-unctad_de_dig_servtrade_ann_imp-2023",
+              "name": "International imports in digitally-deliverable services (context)",
+              "value": 32820,
+              "unit": "USD_x10^6",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-unctad-digital-economy-egy-sau-20260825"
+              ],
+              "observedAt": "2026-08-25T19:40:00.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ecommerce_general-proportion-of-businesses-with-a-web-presence-context--unctad-de-sau-unctad_de_ict_core_uisic4_ann_00_b5-2016",
+              "name": "Proportion of businesses with a web presence (context)",
+              "value": 14.26,
+              "unit": "percent",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-unctad-digital-economy-egy-sau-20260825"
+              ],
+              "observedAt": "2026-08-25T19:40:00.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ecommerce_general-proportion-of-businesses-placing-orders-over-the-internet-context--unctad-de-sau-unctad_de_ict_core_uisic4_ann_00_b8-2016",
+              "name": "Proportion of businesses placing orders over the Internet (context)",
+              "value": 9.57,
+              "unit": "percent",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-unctad-digital-economy-egy-sau-20260825"
+              ],
+              "observedAt": "2026-08-25T19:40:00.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ecommerce_general-population-aged-0-to-14-years-old-percentage-context--undata-population_and_density-saudi-arabia-2025-6263",
+              "name": "Population aged 0 to 14 years old (percentage) (context)",
+              "value": 23.6,
+              "unit": "Population aged 0 to 14 years old (percentage)",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-undata-population_and_density-egy-sau-20260825"
+              ],
+              "observedAt": "2026-08-25T20:30:00.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ecommerce_general-population-aged-60-years-old-percentage-context--undata-population_and_density-saudi-arabia-2025-6264",
+              "name": "Population aged 60+ years old (percentage) (context)",
+              "value": 5.4,
+              "unit": "Population aged 60+ years old (percentage)",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-undata-population_and_density-egy-sau-20260825"
+              ],
+              "observedAt": "2026-08-25T20:30:00.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ecommerce_general-population-density-context--undata-population_and_density-saudi-arabia-2025-6265",
+              "name": "Population density (context)",
+              "value": 16.1,
+              "unit": "Population density",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-undata-population_and_density-egy-sau-20260825"
+              ],
+              "observedAt": "2026-08-25T20:30:00.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ecommerce_general-population-mid-year-estimates-millions-context--undata-population_and_density-saudi-arabia-2025-6259",
+              "name": "Population mid-year estimates (millions) (context)",
+              "value": 34.57,
+              "unit": "Population mid-year estimates (millions)",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-undata-population_and_density-egy-sau-20260825"
+              ],
+              "observedAt": "2026-08-25T20:30:00.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ecommerce_general-population-mid-year-estimates-for-females-millions-context--undata-population_and_density-saudi-arabia-2025-6261",
+              "name": "Population mid-year estimates for females (millions) (context)",
+              "value": 13.68,
+              "unit": "Population mid-year estimates for females (millions)",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-undata-population_and_density-egy-sau-20260825"
+              ],
+              "observedAt": "2026-08-25T20:30:00.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ecommerce_general-population-mid-year-estimates-for-males-millions-context--undata-population_and_density-saudi-arabia-2025-6260",
+              "name": "Population mid-year estimates for males (millions) (context)",
+              "value": 20.89,
+              "unit": "Population mid-year estimates for males (millions)",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-undata-population_and_density-egy-sau-20260825"
+              ],
+              "observedAt": "2026-08-25T20:30:00.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ecommerce_general-clothing-and-footwear-sector-sales-context--kapsarc-sector-Clothing and Footwear-sector_sales-SEP 2023",
+              "name": "Clothing and Footwear — sector_sales (context)",
+              "value": 2838370.99549026,
+              "unit": "thousand_SAR",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-kapsarc-sama-pos-sector-sa-20260825"
+              ],
+              "observedAt": "2026-08-25T19:55:00.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ecommerce_general-clothing-and-footwear-sector-transactions-context--kapsarc-sector-Clothing and Footwear-sector_transactions-SEP 2023",
+              "name": "Clothing and Footwear — sector_transactions (context)",
+              "value": 23271.2,
+              "unit": "thousand_transactions",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-kapsarc-sama-pos-sector-sa-20260825"
+              ],
+              "observedAt": "2026-08-25T19:55:00.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ecommerce_general-electronic-electric-devices-sector-sales-context--kapsarc-sector-Electronic & Electric Devices-sector_sales-SEP 2023",
+              "name": "Electronic & Electric Devices — sector_sales (context)",
+              "value": 1093733.85478,
+              "unit": "thousand_SAR",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-kapsarc-sama-pos-sector-sa-20260825"
+              ],
+              "observedAt": "2026-08-25T19:55:00.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ecommerce_general-electronic-electric-devices-sector-transactions-context--kapsarc-sector-Electronic & Electric Devices-sector_transactions-SEP 2023",
+              "name": "Electronic & Electric Devices — sector_transactions (context)",
+              "value": 5394.846,
+              "unit": "thousand_transactions",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-kapsarc-sama-pos-sector-sa-20260825"
+              ],
+              "observedAt": "2026-08-25T19:55:00.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ecommerce_general-furniture-sector-sales-context--kapsarc-sector-Furniture-sector_sales-SEP 2023",
+              "name": "Furniture — sector_sales (context)",
+              "value": 1403051.55930996,
+              "unit": "thousand_SAR",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-kapsarc-sama-pos-sector-sa-20260825"
+              ],
+              "observedAt": "2026-08-25T19:55:00.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ecommerce_general-furniture-sector-transactions-context--kapsarc-sector-Furniture-sector_transactions-SEP 2023",
+              "name": "Furniture — sector_transactions (context)",
+              "value": 4797.162,
+              "unit": "thousand_transactions",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-kapsarc-sama-pos-sector-sa-20260825"
+              ],
+              "observedAt": "2026-08-25T19:55:00.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ecommerce_general-jewelry-sector-sales-context--kapsarc-sector-Jewelry-sector_sales-SEP 2023",
+              "name": "Jewelry — sector_sales (context)",
+              "value": 866063.277609989,
+              "unit": "thousand_SAR",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-kapsarc-sama-pos-sector-sa-20260825"
+              ],
+              "observedAt": "2026-08-25T19:55:00.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ecommerce_general-jewelry-sector-transactions-context--kapsarc-sector-Jewelry-sector_transactions-SEP 2023",
+              "name": "Jewelry — sector_transactions (context)",
+              "value": 923.112,
+              "unit": "thousand_transactions",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-kapsarc-sama-pos-sector-sa-20260825"
+              ],
+              "observedAt": "2026-08-25T19:55:00.000Z",
               "scope": {
                 "market": "SA",
                 "industry": "ecommerce_general",
@@ -1052,17 +1765,21 @@
             "competitor performance",
             "client funnel performance",
             "validated industry-specific audience and demand coverage",
-            "validated creative/offer pattern coverage"
+            "validated creative/offer pattern coverage",
+            "license-approved sector-level benchmark coverage"
           ],
           "contradictions": [],
           "sourceIds": [
             "src-world-bank-egy-indicators-v2-20260825",
+            "src-unctad-digital-economy-egy-sau-20260825",
+            "src-undata-population_and_density-egy-sau-20260825",
+            "src-kapsarc-sama-pos-sector-sa-20260825",
             "src-google-trends-sa-explore-20260825"
           ],
           "confidence": 0.52,
           "limitations": [
-            "Coverage incomplete: industry-specific evidence is unavailable.",
-            "Context indicators and directional search interest are not audience-size or advertising-performance benchmarks.",
+            "Coverage incomplete: industry-specific evidence is limited to public contextual indicators and selected payment/education signals.",
+            "Context indicators, payment activity, and directional search interest are not audience-size or advertising-performance benchmarks.",
             "Market Validation remains false until the approved source-metric-scope matrix is complete."
           ]
         }
@@ -1080,7 +1797,7 @@
           "industry": "ecommerce_general",
           "confidence": 0.9,
           "status": "evidence_backed",
-          "createdAt": "2026-08-25T00:26:31.000Z",
+          "createdAt": "2026-08-25T20:30:00.000Z",
           "limitations": [
             "Relative 0-100 index only; exact term coverage is incomplete."
           ]
@@ -1186,11 +1903,20 @@
       "status": "limited",
       "freshnessStatus": "fresh",
       "limitations": [
-        "Coverage incomplete: industry-specific evidence is unavailable.",
-        "Context indicators and directional search interest are not audience-size or advertising-performance benchmarks.",
+        "Coverage incomplete: industry-specific evidence is limited to public contextual indicators and selected payment/education signals.",
+        "Context indicators, payment activity, and directional search interest are not audience-size or advertising-performance benchmarks.",
         "Market Validation remains false until the approved source-metric-scope matrix is complete.",
         "Context indicators only; not campaign performance or competitor benchmark.",
         "Indicator-specific period, unit, and methodology must be retained.",
+        "Digital economy, ICT, and digitally-deliverable-services context; not advertising demand or campaign performance.",
+        "International digitally-deliverable services trade is not domestic ecommerce GMV.",
+        "Data availability varies by indicator and year; blank cells are not interpolated.",
+        "UNdata statistical context; not advertising audience size, search demand, or campaign performance.",
+        "The table contains series from the named upstream agency; preserve series-level source and footnotes.",
+        "Coverage years differ by series and may be estimates or projections as indicated by footnotes.",
+        "SAMA payment activity is market-context evidence and not proof of online-only demand for each sector.",
+        "Records are aggregate payment activity and do not identify customer, advertising source, or conversion attribution.",
+        "The public portal export is GET-only; source license status remains unknown until explicit terms are verified.",
         "Public relative search-interest tool; values are normalized 0-100 and not absolute volume.",
         "Directional discovery only; not audience size, CPC, CPA, CVR, ROAS, sales, or saturation.",
         "Each query keeps its own terms, search type, category, time range, and URL."
@@ -1200,6 +1926,9 @@
         "queryHash": "public-batch-20260825-SA-ecommerce_general-ar-SAR",
         "selectedEvidenceIds": [
           "evidence-src-world-bank-egy-indicators-v2-20260825",
+          "evidence-src-unctad-digital-economy-egy-sau-20260825",
+          "evidence-src-undata-population_and_density-egy-sau-20260825",
+          "evidence-src-kapsarc-sama-pos-sector-sa-20260825",
           "evidence-gt-sa-ar-20260825"
         ]
       }
@@ -1207,7 +1936,7 @@
     {
       "contractVersion": "1.0",
       "packageId": "pkg-eg-local-service-public-20260825",
-      "generatedAt": "2026-08-25T00:26:31.000Z",
+      "generatedAt": "2026-08-25T20:30:00.000Z",
       "market": "EG",
       "industry": "local_service_general",
       "locale": "ar",
@@ -1234,6 +1963,57 @@
         },
         {
           "contractVersion": "1.0",
+          "sourceId": "src-undata-employment_by_activity-egy-sau-20260825",
+          "publisher": "United Nations Statistics Division (UNdata)",
+          "sourceUrl": "https://data.un.org/_Docs/SYB/CSV/SYB68_200_202511_Employment.csv",
+          "sourceType": "official_api",
+          "licenseStatus": "unknown",
+          "observedAt": "2026-08-25T20:30:00.000Z",
+          "freshnessPolicy": "monthly",
+          "limitations": [
+            "UNdata statistical context; not advertising audience size, search demand, or campaign performance.",
+            "The table contains series from the named upstream agency; preserve series-level source and footnotes.",
+            "Coverage years differ by series and may be estimates or projections as indicated by footnotes."
+          ],
+          "version": "SYB68-202511",
+          "enabled": true
+        },
+        {
+          "contractVersion": "1.0",
+          "sourceId": "src-undata-gva_by_activity-egy-sau-20260825",
+          "publisher": "United Nations Statistics Division (UNdata)",
+          "sourceUrl": "https://data.un.org/_Docs/SYB/CSV/SYB68_153_202511_Gross%20Value%20Added%20by%20Economic%20Activity.csv",
+          "sourceType": "official_api",
+          "licenseStatus": "unknown",
+          "observedAt": "2026-08-25T20:30:00.000Z",
+          "freshnessPolicy": "monthly",
+          "limitations": [
+            "UNdata statistical context; not advertising audience size, search demand, or campaign performance.",
+            "The table contains series from the named upstream agency; preserve series-level source and footnotes.",
+            "Coverage years differ by series and may be estimates or projections as indicated by footnotes."
+          ],
+          "version": "SYB68-202511",
+          "enabled": true
+        },
+        {
+          "contractVersion": "1.0",
+          "sourceId": "src-undata-internet_usage-egy-sau-20260825",
+          "publisher": "United Nations Statistics Division (UNdata)",
+          "sourceUrl": "https://data.un.org/_Docs/SYB/CSV/SYB68_314_202511_Internet%20Usage.csv",
+          "sourceType": "official_api",
+          "licenseStatus": "unknown",
+          "observedAt": "2026-08-25T20:30:00.000Z",
+          "freshnessPolicy": "monthly",
+          "limitations": [
+            "UNdata statistical context; not advertising audience size, search demand, or campaign performance.",
+            "The table contains series from the named upstream agency; preserve series-level source and footnotes.",
+            "Coverage years differ by series and may be estimates or projections as indicated by footnotes."
+          ],
+          "version": "SYB68-202511",
+          "enabled": true
+        },
+        {
+          "contractVersion": "1.0",
           "sourceId": "src-google-trends-eg-explore-20260825",
           "publisher": "Google Trends",
           "sourceUrl": "https://trends.google.com/trends/",
@@ -1256,11 +2036,44 @@
         {
           "evidenceId": "evidence-src-world-bank-egy-indicators-v2-20260825",
           "sourceId": "src-world-bank-egy-indicators-v2-20260825",
-          "observedAt": "2026-08-25T00:26:31.000Z",
+          "observedAt": "2026-08-25T20:30:00.000Z",
           "excerpt": "World Bank indicator observation selected deterministically as the latest non-null value for the country and indicator.",
           "limitations": [
             "Context indicators only; not campaign performance or competitor benchmark.",
             "Indicator-specific period, unit, and methodology must be retained."
+          ]
+        },
+        {
+          "evidenceId": "evidence-src-undata-employment_by_activity-egy-sau-20260825",
+          "sourceId": "src-undata-employment_by_activity-egy-sau-20260825",
+          "observedAt": "2026-08-25T20:30:00.000Z",
+          "excerpt": "Public source record referenced by the scoped snapshot.",
+          "limitations": [
+            "UNdata statistical context; not advertising audience size, search demand, or campaign performance.",
+            "The table contains series from the named upstream agency; preserve series-level source and footnotes.",
+            "Coverage years differ by series and may be estimates or projections as indicated by footnotes."
+          ]
+        },
+        {
+          "evidenceId": "evidence-src-undata-gva_by_activity-egy-sau-20260825",
+          "sourceId": "src-undata-gva_by_activity-egy-sau-20260825",
+          "observedAt": "2026-08-25T20:30:00.000Z",
+          "excerpt": "Public source record referenced by the scoped snapshot.",
+          "limitations": [
+            "UNdata statistical context; not advertising audience size, search demand, or campaign performance.",
+            "The table contains series from the named upstream agency; preserve series-level source and footnotes.",
+            "Coverage years differ by series and may be estimates or projections as indicated by footnotes."
+          ]
+        },
+        {
+          "evidenceId": "evidence-src-undata-internet_usage-egy-sau-20260825",
+          "sourceId": "src-undata-internet_usage-egy-sau-20260825",
+          "observedAt": "2026-08-25T20:30:00.000Z",
+          "excerpt": "Public source record referenced by the scoped snapshot.",
+          "limitations": [
+            "UNdata statistical context; not advertising audience size, search demand, or campaign performance.",
+            "The table contains series from the named upstream agency; preserve series-level source and footnotes.",
+            "Coverage years differ by series and may be estimates or projections as indicated by footnotes."
           ]
         },
         {
@@ -1283,7 +2096,7 @@
           "industry": "local_service_general",
           "locale": "ar",
           "currency": "EGP",
-          "capturedAt": "2026-08-25T00:26:31.000Z",
+          "capturedAt": "2026-08-25T20:30:00.000Z",
           "freshnessStatus": "fresh",
           "facts": [
             {
@@ -1330,6 +2143,91 @@
                 "src-world-bank-egy-indicators-v2-20260825"
               ],
               "observedAt": "2026-08-25T00:26:31.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "local_service_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-local_service_general-employment-by-industry-services-female-context--undata-employment_by_activity-egypt-2023-2963",
+              "name": "Employment by industry: Services (%) Female (context)",
+              "value": 74.8,
+              "unit": "Employment by industry: Services (%) Female",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-undata-employment_by_activity-egy-sau-20260825"
+              ],
+              "observedAt": "2026-08-25T20:30:00.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "local_service_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-local_service_general-employment-by-industry-services-male-context--undata-employment_by_activity-egypt-2023-2960",
+              "name": "Employment by industry: Services (%) Male (context)",
+              "value": 48.6,
+              "unit": "Employment by industry: Services (%) Male",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-undata-employment_by_activity-egy-sau-20260825"
+              ],
+              "observedAt": "2026-08-25T20:30:00.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "local_service_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-local_service_general-employment-by-industry-services-male-and-female-context--undata-employment_by_activity-egypt-2023-2957",
+              "name": "Employment by industry: Services (%) Male and Female (context)",
+              "value": 52.7,
+              "unit": "Employment by industry: Services (%) Male and Female",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-undata-employment_by_activity-egy-sau-20260825"
+              ],
+              "observedAt": "2026-08-25T20:30:00.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "local_service_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-local_service_general-services-of-gross-value-added-context--undata-gva_by_activity-egypt-2023-1294",
+              "name": "Services (% of gross value added) (context)",
+              "value": 54.4,
+              "unit": "Services (% of gross value added)",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-undata-gva_by_activity-egy-sau-20260825"
+              ],
+              "observedAt": "2026-08-25T20:30:00.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "local_service_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-local_service_general-percentage-of-individuals-using-the-internet-context--undata-internet_usage-egypt-2023-531",
+              "name": "Percentage of individuals using the internet (context)",
+              "value": 72.7,
+              "unit": "Percentage of individuals using the internet",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-undata-internet_usage-egy-sau-20260825"
+              ],
+              "observedAt": "2026-08-25T20:30:00.000Z",
               "scope": {
                 "market": "EG",
                 "industry": "local_service_general",
@@ -1555,16 +2453,20 @@
             "competitor performance",
             "client funnel performance",
             "validated industry-specific audience and demand coverage",
-            "validated creative/offer pattern coverage"
+            "validated creative/offer pattern coverage",
+            "license-approved sector-level benchmark coverage"
           ],
           "contradictions": [],
           "sourceIds": [
-            "src-world-bank-egy-indicators-v2-20260825"
+            "src-world-bank-egy-indicators-v2-20260825",
+            "src-undata-employment_by_activity-egy-sau-20260825",
+            "src-undata-gva_by_activity-egy-sau-20260825",
+            "src-undata-internet_usage-egy-sau-20260825"
           ],
           "confidence": 0.52,
           "limitations": [
-            "Coverage incomplete: industry-specific evidence is unavailable.",
-            "Context indicators and directional search interest are not audience-size or advertising-performance benchmarks.",
+            "Coverage incomplete: industry-specific evidence is limited to public contextual indicators and selected payment/education signals.",
+            "Context indicators, payment activity, and directional search interest are not audience-size or advertising-performance benchmarks.",
             "Market Validation remains false until the approved source-metric-scope matrix is complete."
           ]
         }
@@ -1582,7 +2484,7 @@
           "industry": "local_service_general",
           "confidence": 0.9,
           "status": "evidence_backed",
-          "createdAt": "2026-08-25T00:26:31.000Z",
+          "createdAt": "2026-08-25T20:30:00.000Z",
           "limitations": [
             "Relative 0-100 index only; exact term coverage is incomplete."
           ]
@@ -1691,11 +2593,14 @@
       "status": "limited",
       "freshnessStatus": "fresh",
       "limitations": [
-        "Coverage incomplete: industry-specific evidence is unavailable.",
-        "Context indicators and directional search interest are not audience-size or advertising-performance benchmarks.",
+        "Coverage incomplete: industry-specific evidence is limited to public contextual indicators and selected payment/education signals.",
+        "Context indicators, payment activity, and directional search interest are not audience-size or advertising-performance benchmarks.",
         "Market Validation remains false until the approved source-metric-scope matrix is complete.",
         "Context indicators only; not campaign performance or competitor benchmark.",
         "Indicator-specific period, unit, and methodology must be retained.",
+        "UNdata statistical context; not advertising audience size, search demand, or campaign performance.",
+        "The table contains series from the named upstream agency; preserve series-level source and footnotes.",
+        "Coverage years differ by series and may be estimates or projections as indicated by footnotes.",
         "Public relative search-interest tool; values are normalized 0-100 and not absolute volume.",
         "Directional discovery only; not audience size, CPC, CPA, CVR, ROAS, sales, or saturation.",
         "Each query keeps its own terms, search type, category, time range, and URL."
@@ -1705,6 +2610,9 @@
         "queryHash": "public-batch-20260825-EG-local_service_general-ar-EGP",
         "selectedEvidenceIds": [
           "evidence-src-world-bank-egy-indicators-v2-20260825",
+          "evidence-src-undata-employment_by_activity-egy-sau-20260825",
+          "evidence-src-undata-gva_by_activity-egy-sau-20260825",
+          "evidence-src-undata-internet_usage-egy-sau-20260825",
           "evidence-gt-eg-ar-20260825"
         ]
       }
@@ -1716,27 +2624,27 @@
       "scope": "EG/education_general/ar/EGP",
       "status": "limited",
       "freshnessStatus": "fresh",
-      "sourceCount": 3,
-      "factCount": 21,
-      "unknownCount": 13
+      "sourceCount": 5,
+      "factCount": 36,
+      "unknownCount": 14
     },
     {
       "packageId": "pkg-sa-ecommerce-public-20260825",
       "scope": "SA/ecommerce_general/ar/SAR",
       "status": "limited",
       "freshnessStatus": "fresh",
-      "sourceCount": 2,
-      "factCount": 15,
-      "unknownCount": 13
+      "sourceCount": 5,
+      "factCount": 33,
+      "unknownCount": 14
     },
     {
       "packageId": "pkg-eg-local-service-public-20260825",
       "scope": "EG/local_service_general/ar/EGP",
       "status": "limited",
       "freshnessStatus": "fresh",
-      "sourceCount": 2,
-      "factCount": 14,
-      "unknownCount": 13
+      "sourceCount": 5,
+      "factCount": 19,
+      "unknownCount": 14
     }
   ]
 }

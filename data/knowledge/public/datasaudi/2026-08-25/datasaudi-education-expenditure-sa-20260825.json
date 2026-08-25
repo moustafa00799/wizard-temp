@@ -1,0 +1,1531 @@
+{
+  "contractVersion": "1.0",
+  "artifactType": "public_datasaudi_context_snapshot",
+  "artifactId": "datasaudi-education-expenditure-sa-20260825",
+  "generatedAt": "2026-08-25T20:10:00.000Z",
+  "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+  "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+  "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+  "licenseStatus": "unknown",
+  "rawInput": {
+    "path": ".local/public-research/datasaudi/education-training-expenditure.json",
+    "sha256": "919e47777f7aa7f6ebc8b8b9759ec0485693a12eac20115ab53cf0fe85b1ad12",
+    "capturedAt": "2026-08-25T20:10:00.000Z"
+  },
+  "selection": {
+    "method": "all_public_rows_from_selected_datasaudi_cube",
+    "rowCount": 65,
+    "observationCount": 65
+  },
+  "observations": [
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00000",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_tuition-fees",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 3195.3,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Al-Riyadh",
+        "expenditureType": "Tuition Fees"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00001",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_tuition-fees",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 1966.4,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Makkah Al-Mokarramah",
+        "expenditureType": "Tuition Fees"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00002",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_tuition-fees",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 280.3,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Al-Madinah Al-Monawarah",
+        "expenditureType": "Tuition Fees"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00003",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_tuition-fees",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 132.4,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Al-Qaseem",
+        "expenditureType": "Tuition Fees"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00004",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_tuition-fees",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 1409.3,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Eastern Region",
+        "expenditureType": "Tuition Fees"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00005",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_tuition-fees",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 159.5,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Aseer",
+        "expenditureType": "Tuition Fees"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00006",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_tuition-fees",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 157.0,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Tabouk",
+        "expenditureType": "Tuition Fees"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00007",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_tuition-fees",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 23.7,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Hail",
+        "expenditureType": "Tuition Fees"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00008",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_tuition-fees",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 27.7,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Northern Borders",
+        "expenditureType": "Tuition Fees"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00009",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_tuition-fees",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 244.9,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Jazan",
+        "expenditureType": "Tuition Fees"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00010",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_tuition-fees",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 37.2,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Najran",
+        "expenditureType": "Tuition Fees"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00011",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_tuition-fees",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 39.5,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Al-Baha",
+        "expenditureType": "Tuition Fees"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00012",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_tuition-fees",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 43.6,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Al-Jouf",
+        "expenditureType": "Tuition Fees"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00013",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_private-tuition",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 259.6,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Al-Riyadh",
+        "expenditureType": "Private Tuition"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00014",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_private-tuition",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 155.7,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Makkah Al-Mokarramah",
+        "expenditureType": "Private Tuition"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00015",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_private-tuition",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 60.0,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Al-Madinah Al-Monawarah",
+        "expenditureType": "Private Tuition"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00016",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_private-tuition",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 34.5,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Al-Qaseem",
+        "expenditureType": "Private Tuition"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00017",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_private-tuition",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 107.9,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Eastern Region",
+        "expenditureType": "Private Tuition"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00018",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_private-tuition",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 30.7,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Aseer",
+        "expenditureType": "Private Tuition"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00019",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_private-tuition",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 22.8,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Tabouk",
+        "expenditureType": "Private Tuition"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00020",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_private-tuition",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 8.8,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Hail",
+        "expenditureType": "Private Tuition"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00021",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_private-tuition",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 17.0,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Northern Borders",
+        "expenditureType": "Private Tuition"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00022",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_private-tuition",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 36.5,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Jazan",
+        "expenditureType": "Private Tuition"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00023",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_private-tuition",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 7.0,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Najran",
+        "expenditureType": "Private Tuition"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00024",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_private-tuition",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 2.6,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Al-Baha",
+        "expenditureType": "Private Tuition"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00025",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_private-tuition",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 11.8,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Al-Jouf",
+        "expenditureType": "Private Tuition"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00026",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_school-transfer",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 408.5,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Al-Riyadh",
+        "expenditureType": "School Transfer"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00027",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_school-transfer",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 393.2,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Makkah Al-Mokarramah",
+        "expenditureType": "School Transfer"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00028",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_school-transfer",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 173.9,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Al-Madinah Al-Monawarah",
+        "expenditureType": "School Transfer"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00029",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_school-transfer",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 77.0,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Al-Qaseem",
+        "expenditureType": "School Transfer"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00030",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_school-transfer",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 356.3,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Eastern Region",
+        "expenditureType": "School Transfer"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00031",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_school-transfer",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 175.6,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Aseer",
+        "expenditureType": "School Transfer"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00032",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_school-transfer",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 35.7,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Tabouk",
+        "expenditureType": "School Transfer"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00033",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_school-transfer",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 16.9,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Hail",
+        "expenditureType": "School Transfer"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00034",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_school-transfer",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 10.5,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Northern Borders",
+        "expenditureType": "School Transfer"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00035",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_school-transfer",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 134.0,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Jazan",
+        "expenditureType": "School Transfer"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00036",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_school-transfer",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 62.0,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Najran",
+        "expenditureType": "School Transfer"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00037",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_school-transfer",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 23.9,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Al-Baha",
+        "expenditureType": "School Transfer"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00038",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_school-transfer",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 12.1,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Al-Jouf",
+        "expenditureType": "School Transfer"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00039",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_school-supplies",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 1102.9,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Al-Riyadh",
+        "expenditureType": "School Supplies"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00040",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_school-supplies",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 1068.3,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Makkah Al-Mokarramah",
+        "expenditureType": "School Supplies"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00041",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_school-supplies",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 544.6,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Al-Madinah Al-Monawarah",
+        "expenditureType": "School Supplies"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00042",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_school-supplies",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 282.6,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Al-Qaseem",
+        "expenditureType": "School Supplies"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00043",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_school-supplies",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 673.8,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Eastern Region",
+        "expenditureType": "School Supplies"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00044",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_school-supplies",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 439.3,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Aseer",
+        "expenditureType": "School Supplies"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00045",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_school-supplies",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 143.6,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Tabouk",
+        "expenditureType": "School Supplies"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00046",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_school-supplies",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 94.7,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Hail",
+        "expenditureType": "School Supplies"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00047",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_school-supplies",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 58.4,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Northern Borders",
+        "expenditureType": "School Supplies"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00048",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_school-supplies",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 245.4,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Jazan",
+        "expenditureType": "School Supplies"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00049",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_school-supplies",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 89.8,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Najran",
+        "expenditureType": "School Supplies"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00050",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_school-supplies",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 127.6,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Al-Baha",
+        "expenditureType": "School Supplies"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00051",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_school-supplies",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 60.3,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Al-Jouf",
+        "expenditureType": "School Supplies"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00052",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_other",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 1295.1,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Al-Riyadh",
+        "expenditureType": "Other"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00053",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_other",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 1457.2,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Makkah Al-Mokarramah",
+        "expenditureType": "Other"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00054",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_other",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 458.5,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Al-Madinah Al-Monawarah",
+        "expenditureType": "Other"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00055",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_other",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 468.9,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Al-Qaseem",
+        "expenditureType": "Other"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00056",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_other",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 1323.7,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Eastern Region",
+        "expenditureType": "Other"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00057",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_other",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 473.5,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Aseer",
+        "expenditureType": "Other"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00058",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_other",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 206.1,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Tabouk",
+        "expenditureType": "Other"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00059",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_other",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 141.5,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Hail",
+        "expenditureType": "Other"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00060",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_other",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 59.4,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Northern Borders",
+        "expenditureType": "Other"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00061",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_other",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 458.3,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Jazan",
+        "expenditureType": "Other"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00062",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_other",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 99.5,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Najran",
+        "expenditureType": "Other"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00063",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_other",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 174.8,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Al-Baha",
+        "expenditureType": "Other"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-education-expenditure-sa-20260825-00064",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "education_expenditure_by_region_other",
+      "period": "portal_current_snapshot",
+      "year": null,
+      "value": 75.8,
+      "unit": "million_SAR",
+      "dimensions": {
+        "province": "Al-Jouf",
+        "expenditureType": "Other"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?cube=gastat_education_training_survey&drilldowns=Province,Expenditure%20Type&measures=Expenditure&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    }
+  ],
+  "unknowns": [
+    "absolute search volume",
+    "audience size",
+    "CPC",
+    "CPA",
+    "CVR",
+    "ROAS",
+    "competitor performance",
+    "customer-level funnel performance"
+  ],
+  "limitations": [
+    "DataSaudi/GASTAT/SAMA portal data is market or education-system context; it is not a marketing benchmark.",
+    "License status remains unknown until explicit terms are verified."
+  ]
+}

@@ -9,6 +9,24 @@ const registryPath = path.join(publicRoot, "public-source-registry-2026-08-25.js
 const worldBankPath = path.join(publicRoot, "world-bank/2026-08-25/latest-observations.json");
 const capmasSourcesPath = path.join(publicRoot, "capmas/2026-08-25/source-records.json");
 const capmasFactsPath = path.join(publicRoot, "capmas/2026-08-25/normalized-facts.json");
+const additionsPath = path.join(publicRoot, "public-source-record-additions-2026-08-25.json");
+const manifestPath = path.join(publicRoot, "public-knowledge-batch-2026-08-25.json");
+const contextArtifactPaths = [
+  "unesco/2026-08-25/normalized-observations.json",
+  "unctad/2026-08-25/normalized-observations.json",
+  "undata/2026-08-25/normalized-observations.json",
+  "datasaudi/2026-08-25/datasaudi-digital-economy-gdp-sa-20260825.json",
+  "datasaudi/2026-08-25/datasaudi-digital-establishment-usage-sa-20260825.json",
+  "datasaudi/2026-08-25/datasaudi-higher-education-students-sa-20260825.json",
+  "datasaudi/2026-08-25/datasaudi-students-schools-teachers-sa-20260825.json",
+  "datasaudi/2026-08-25/datasaudi-education-expenditure-sa-20260825.json",
+  "datasaudi/2026-08-25/exports-egypt-normalized-observations.json",
+  "datasaudi/2026-08-25/imports-egypt-normalized-observations.json",
+  "kapsarc/2026-08-25/normalized-observations.json",
+  "kapsarc/2026-08-25/sector-normalized-observations.json",
+  "kapsarc/2026-08-25/sector-city-latest-observations.json",
+  "kapsarc/2026-08-25/detailed-sector-city-latest-observations.json",
+];
 
 function readJson(filePath: string): any {
   return JSON.parse(fs.readFileSync(filePath, "utf8"));
@@ -18,16 +36,28 @@ const registry = readJson(registryPath);
 const worldBank = readJson(worldBankPath);
 const capmasSources = readJson(capmasSourcesPath);
 const capmasFacts = readJson(capmasFactsPath);
+const additions = readJson(additionsPath);
+const manifest = readJson(manifestPath);
 
 const parsedSources = registry.sources.map((source: unknown) => SourceRecordSchema.parse(source));
 const sourceIds = new Set(parsedSources.map((source: ReturnType<typeof SourceRecordSchema.parse>) => source.sourceId));
-assert.equal(parsedSources.length, 9);
+assert.equal(parsedSources.length, 35);
+assert.equal(additions.sources.length, 26);
+assert.equal(manifest.publicContextArtifacts.length, 14);
 assert.equal(sourceIds.has("src-world-bank-egy-indicators-v2-20260825"), true);
 assert.equal(sourceIds.has("src-world-bank-sau-indicators-v2-20260825"), true);
 assert.equal(sourceIds.has("src-capmas-education-bulletin-2019-2020"), true);
 assert.equal(sourceIds.has("src-capmas-telecommunications-bulletin-2016-2017"), true);
 assert.equal(sourceIds.has("src-google-trends-eg-explore-20260825"), true);
 assert.equal(sourceIds.has("src-google-trends-sa-explore-20260825"), true);
+for (const sourceId of [
+  "src-unesco-uis-egy-sau-education-20260825",
+  "src-unctad-digital-economy-egy-sau-20260825",
+  "src-undata-statistical-yearbook-egy-sau-20260825",
+  "src-gastat-datasaudi-digital-economy-gdp-sa-20260825",
+  "src-kapsarc-sama-pos-ecommerce-sa-20260825",
+  "src-kapsarc-sama-pos-sector-sa-20260825",
+]) assert.equal(sourceIds.has(sourceId), true);
 
 assert.equal(worldBank.artifactType, "public_market_context_snapshot");
 assert.equal(worldBank.selection.method, "latest_non_null_observation_per_country_indicator");
@@ -84,6 +114,17 @@ assert.equal(capmasFacts.facts.every((fact: any) => fact.sourceId === "src-capma
 assert.equal(capmasFacts.unavailableForThisSource.includes("CPC"), true);
 assert.equal(capmasFacts.unavailableForThisSource.includes("ROAS"), true);
 
+for (const relativePath of contextArtifactPaths) {
+  const artifact = readJson(path.join(publicRoot, relativePath));
+  assert.equal(artifact.observations.length > 0, true, `Expected observations in ${relativePath}`);
+  assert.equal(typeof artifact.rawInput === "object" || Array.isArray(artifact.rawInputs), true, `Expected raw provenance in ${relativePath}`);
+  assert.equal(sourceIds.has(artifact.sourceId), true, `Unregistered artifact source ${artifact.sourceId}`);
+  for (const observation of artifact.observations) {
+    assert.equal(sourceIds.has(observation.sourceId), true, `Unregistered observation source ${observation.sourceId}`);
+    assert.equal(["CPC", "CPA", "CVR", "ROAS", "saturation"].includes(observation.metric), false);
+  }
+}
+
 const trends = readJson(path.join(publicRoot, "google-trends/2026-08-25/normalized-observations.json"));
 assert.equal(trends.snapshots.length, 4);
 assert.equal(trends.snapshots.every((snapshot: any) => sourceIds.has(snapshot.sourceId)), true);
@@ -94,11 +135,12 @@ assert.equal(trends.notProvided.includes("CPC"), true);
 console.log(JSON.stringify({
   test: "public-knowledge-ingestion-regression",
   status: "PASS",
-  assertions: 52,
+  assertions: 89,
   worldBankSelectedObservations: worldBank.observations.length,
+  contextArtifacts: contextArtifactPaths.length,
   capmasEducationFacts: capmasFacts.facts.length,
   googleTrendsSnapshots: trends.snapshots.length,
   registeredSources: parsedSources.length,
   marketValidated: false,
-  message: "Latest non-null selection, raw hashes, official source parsing, historical CAPMAS facts, and no-invented-benchmark gates passed.",
+  message: "Latest non-null selection, raw hashes, official source parsing, extended public artifacts, exact source registration, and no-invented-benchmark gates passed.",
 }));

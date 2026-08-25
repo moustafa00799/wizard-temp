@@ -1,0 +1,473 @@
+{
+  "contractVersion": "1.0",
+  "artifactType": "public_datasaudi_context_snapshot",
+  "artifactId": "datasaudi-digital-establishment-usage-sa-20260825",
+  "generatedAt": "2026-08-25T20:10:00.000Z",
+  "sourceId": "src-gastat-datasaudi-digital-establishment-usage-sa-20260825",
+  "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs/-/categories/122941?tab=436312&category=122941",
+  "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?Establishment%20Usage%20Name=1&cube=gastat_digital_economy_establishment_usage_by_economic_activity&drilldowns=Economic%20Sectors,Year&measures=Percentage&locale=en",
+  "licenseStatus": "unknown",
+  "rawInput": {
+    "path": ".local/public-research/datasaudi/digital-establishment-usage.json",
+    "sha256": "7cf0753bb10c3a90eebdce590047327697a03569516cfd1ffb3c73e7ca0e776b",
+    "capturedAt": "2026-08-25T20:10:00.000Z"
+  },
+  "selection": {
+    "method": "all_public_rows_from_selected_datasaudi_cube",
+    "rowCount": 19,
+    "observationCount": 19
+  },
+  "observations": [
+    {
+      "observationId": "datasaudi-digital-establishment-usage-sa-20260825-00000",
+      "sourceId": "src-gastat-datasaudi-digital-establishment-usage-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "establishment_digital_technology_usage_agriculture,-forestry-and-fishing",
+      "period": "2022",
+      "year": 2022,
+      "value": 0.10011194028406357,
+      "unit": "proportion",
+      "dimensions": {
+        "economicSectorId": "A",
+        "economicSector": "Agriculture, forestry and fishing"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs/-/categories/122941?tab=436312&category=122941",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?Establishment%20Usage%20Name=1&cube=gastat_digital_economy_establishment_usage_by_economic_activity&drilldowns=Economic%20Sectors,Year&measures=Percentage&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-digital-establishment-usage-sa-20260825-00001",
+      "sourceId": "src-gastat-datasaudi-digital-establishment-usage-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "establishment_digital_technology_usage_mining-and-quarrying",
+      "period": "2022",
+      "year": 2022,
+      "value": 0.23612202563962512,
+      "unit": "proportion",
+      "dimensions": {
+        "economicSectorId": "B",
+        "economicSector": "Mining and quarrying"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs/-/categories/122941?tab=436312&category=122941",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?Establishment%20Usage%20Name=1&cube=gastat_digital_economy_establishment_usage_by_economic_activity&drilldowns=Economic%20Sectors,Year&measures=Percentage&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-digital-establishment-usage-sa-20260825-00002",
+      "sourceId": "src-gastat-datasaudi-digital-establishment-usage-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "establishment_digital_technology_usage_manufacturing",
+      "period": "2022",
+      "year": 2022,
+      "value": 0.14539789879976897,
+      "unit": "proportion",
+      "dimensions": {
+        "economicSectorId": "C",
+        "economicSector": "Manufacturing"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs/-/categories/122941?tab=436312&category=122941",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?Establishment%20Usage%20Name=1&cube=gastat_digital_economy_establishment_usage_by_economic_activity&drilldowns=Economic%20Sectors,Year&measures=Percentage&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-digital-establishment-usage-sa-20260825-00003",
+      "sourceId": "src-gastat-datasaudi-digital-establishment-usage-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "establishment_digital_technology_usage_electricity,-gas,-steam-and-air-conditioning-supply",
+      "period": "2022",
+      "year": 2022,
+      "value": 0.15298519612446365,
+      "unit": "proportion",
+      "dimensions": {
+        "economicSectorId": "D",
+        "economicSector": "Electricity, gas, steam and air conditioning supply"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs/-/categories/122941?tab=436312&category=122941",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?Establishment%20Usage%20Name=1&cube=gastat_digital_economy_establishment_usage_by_economic_activity&drilldowns=Economic%20Sectors,Year&measures=Percentage&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-digital-establishment-usage-sa-20260825-00004",
+      "sourceId": "src-gastat-datasaudi-digital-establishment-usage-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "establishment_digital_technology_usage_water-supply-sewerage,-waste-management-and-remediation-activities",
+      "period": "2022",
+      "year": 2022,
+      "value": 0.12612683729435328,
+      "unit": "proportion",
+      "dimensions": {
+        "economicSectorId": "E",
+        "economicSector": "Water supply sewerage, waste management and remediation activities"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs/-/categories/122941?tab=436312&category=122941",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?Establishment%20Usage%20Name=1&cube=gastat_digital_economy_establishment_usage_by_economic_activity&drilldowns=Economic%20Sectors,Year&measures=Percentage&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-digital-establishment-usage-sa-20260825-00005",
+      "sourceId": "src-gastat-datasaudi-digital-establishment-usage-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "establishment_digital_technology_usage_construction",
+      "period": "2022",
+      "year": 2022,
+      "value": 0.12555065033777144,
+      "unit": "proportion",
+      "dimensions": {
+        "economicSectorId": "F",
+        "economicSector": "Construction"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs/-/categories/122941?tab=436312&category=122941",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?Establishment%20Usage%20Name=1&cube=gastat_digital_economy_establishment_usage_by_economic_activity&drilldowns=Economic%20Sectors,Year&measures=Percentage&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-digital-establishment-usage-sa-20260825-00006",
+      "sourceId": "src-gastat-datasaudi-digital-establishment-usage-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "establishment_digital_technology_usage_wholesale-and-retail-trade;-repair-of-motor-vehicles-and-motorcycles",
+      "period": "2022",
+      "year": 2022,
+      "value": 0.19604829708925253,
+      "unit": "proportion",
+      "dimensions": {
+        "economicSectorId": "G",
+        "economicSector": "Wholesale and retail trade; repair of motor vehicles and motorcycles"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs/-/categories/122941?tab=436312&category=122941",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?Establishment%20Usage%20Name=1&cube=gastat_digital_economy_establishment_usage_by_economic_activity&drilldowns=Economic%20Sectors,Year&measures=Percentage&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-digital-establishment-usage-sa-20260825-00007",
+      "sourceId": "src-gastat-datasaudi-digital-establishment-usage-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "establishment_digital_technology_usage_transportation-and-storage",
+      "period": "2022",
+      "year": 2022,
+      "value": 0.17493197792191742,
+      "unit": "proportion",
+      "dimensions": {
+        "economicSectorId": "H",
+        "economicSector": "Transportation and storage"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs/-/categories/122941?tab=436312&category=122941",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?Establishment%20Usage%20Name=1&cube=gastat_digital_economy_establishment_usage_by_economic_activity&drilldowns=Economic%20Sectors,Year&measures=Percentage&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-digital-establishment-usage-sa-20260825-00008",
+      "sourceId": "src-gastat-datasaudi-digital-establishment-usage-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "establishment_digital_technology_usage_accommodation-and-food-service-activities",
+      "period": "2022",
+      "year": 2022,
+      "value": 0.3987427861331595,
+      "unit": "proportion",
+      "dimensions": {
+        "economicSectorId": "I",
+        "economicSector": "Accommodation and food service activities"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs/-/categories/122941?tab=436312&category=122941",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?Establishment%20Usage%20Name=1&cube=gastat_digital_economy_establishment_usage_by_economic_activity&drilldowns=Economic%20Sectors,Year&measures=Percentage&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-digital-establishment-usage-sa-20260825-00009",
+      "sourceId": "src-gastat-datasaudi-digital-establishment-usage-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "establishment_digital_technology_usage_information-and-communication",
+      "period": "2022",
+      "year": 2022,
+      "value": 0.2562155867629066,
+      "unit": "proportion",
+      "dimensions": {
+        "economicSectorId": "J",
+        "economicSector": "Information and communication"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs/-/categories/122941?tab=436312&category=122941",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?Establishment%20Usage%20Name=1&cube=gastat_digital_economy_establishment_usage_by_economic_activity&drilldowns=Economic%20Sectors,Year&measures=Percentage&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-digital-establishment-usage-sa-20260825-00010",
+      "sourceId": "src-gastat-datasaudi-digital-establishment-usage-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "establishment_digital_technology_usage_financial-and-insurance-activities",
+      "period": "2022",
+      "year": 2022,
+      "value": 0.22007835939673925,
+      "unit": "proportion",
+      "dimensions": {
+        "economicSectorId": "K",
+        "economicSector": "Financial and insurance activities"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs/-/categories/122941?tab=436312&category=122941",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?Establishment%20Usage%20Name=1&cube=gastat_digital_economy_establishment_usage_by_economic_activity&drilldowns=Economic%20Sectors,Year&measures=Percentage&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-digital-establishment-usage-sa-20260825-00011",
+      "sourceId": "src-gastat-datasaudi-digital-establishment-usage-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "establishment_digital_technology_usage_real-estate-activities",
+      "period": "2022",
+      "year": 2022,
+      "value": 0.1912720211411538,
+      "unit": "proportion",
+      "dimensions": {
+        "economicSectorId": "L",
+        "economicSector": "Real estate activities"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs/-/categories/122941?tab=436312&category=122941",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?Establishment%20Usage%20Name=1&cube=gastat_digital_economy_establishment_usage_by_economic_activity&drilldowns=Economic%20Sectors,Year&measures=Percentage&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-digital-establishment-usage-sa-20260825-00012",
+      "sourceId": "src-gastat-datasaudi-digital-establishment-usage-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "establishment_digital_technology_usage_professional,-scientific-and-technical-activities",
+      "period": "2022",
+      "year": 2022,
+      "value": 0.20290099231645634,
+      "unit": "proportion",
+      "dimensions": {
+        "economicSectorId": "M",
+        "economicSector": "Professional, scientific and technical activities"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs/-/categories/122941?tab=436312&category=122941",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?Establishment%20Usage%20Name=1&cube=gastat_digital_economy_establishment_usage_by_economic_activity&drilldowns=Economic%20Sectors,Year&measures=Percentage&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-digital-establishment-usage-sa-20260825-00013",
+      "sourceId": "src-gastat-datasaudi-digital-establishment-usage-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "establishment_digital_technology_usage_administrative-and-support-service-activities",
+      "period": "2022",
+      "year": 2022,
+      "value": 0.22079164283258756,
+      "unit": "proportion",
+      "dimensions": {
+        "economicSectorId": "N",
+        "economicSector": "Administrative and support service activities"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs/-/categories/122941?tab=436312&category=122941",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?Establishment%20Usage%20Name=1&cube=gastat_digital_economy_establishment_usage_by_economic_activity&drilldowns=Economic%20Sectors,Year&measures=Percentage&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-digital-establishment-usage-sa-20260825-00014",
+      "sourceId": "src-gastat-datasaudi-digital-establishment-usage-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "establishment_digital_technology_usage_education",
+      "period": "2022",
+      "year": 2022,
+      "value": 0.44484668287786744,
+      "unit": "proportion",
+      "dimensions": {
+        "economicSectorId": "P",
+        "economicSector": "Education"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs/-/categories/122941?tab=436312&category=122941",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?Establishment%20Usage%20Name=1&cube=gastat_digital_economy_establishment_usage_by_economic_activity&drilldowns=Economic%20Sectors,Year&measures=Percentage&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-digital-establishment-usage-sa-20260825-00015",
+      "sourceId": "src-gastat-datasaudi-digital-establishment-usage-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "establishment_digital_technology_usage_human-health-and-social-work",
+      "period": "2022",
+      "year": 2022,
+      "value": 0.30743256927725193,
+      "unit": "proportion",
+      "dimensions": {
+        "economicSectorId": "Q",
+        "economicSector": "Human health and social work"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs/-/categories/122941?tab=436312&category=122941",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?Establishment%20Usage%20Name=1&cube=gastat_digital_economy_establishment_usage_by_economic_activity&drilldowns=Economic%20Sectors,Year&measures=Percentage&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-digital-establishment-usage-sa-20260825-00016",
+      "sourceId": "src-gastat-datasaudi-digital-establishment-usage-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "establishment_digital_technology_usage_arts,-entertainment-and-recreation",
+      "period": "2022",
+      "year": 2022,
+      "value": 0.31853206359281955,
+      "unit": "proportion",
+      "dimensions": {
+        "economicSectorId": "R",
+        "economicSector": "Arts, entertainment and recreation"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs/-/categories/122941?tab=436312&category=122941",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?Establishment%20Usage%20Name=1&cube=gastat_digital_economy_establishment_usage_by_economic_activity&drilldowns=Economic%20Sectors,Year&measures=Percentage&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-digital-establishment-usage-sa-20260825-00017",
+      "sourceId": "src-gastat-datasaudi-digital-establishment-usage-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "establishment_digital_technology_usage_other-service-activities",
+      "period": "2022",
+      "year": 2022,
+      "value": 0.1398100242016459,
+      "unit": "proportion",
+      "dimensions": {
+        "economicSectorId": "S",
+        "economicSector": "Other service activities"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs/-/categories/122941?tab=436312&category=122941",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?Establishment%20Usage%20Name=1&cube=gastat_digital_economy_establishment_usage_by_economic_activity&drilldowns=Economic%20Sectors,Year&measures=Percentage&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    },
+    {
+      "observationId": "datasaudi-digital-establishment-usage-sa-20260825-00018",
+      "sourceId": "src-gastat-datasaudi-digital-establishment-usage-sa-20260825",
+      "market": "SA",
+      "country": "Saudi Arabia",
+      "metric": "establishment_digital_technology_usage_total",
+      "period": "2022",
+      "year": 2022,
+      "value": 0.20290180377068215,
+      "unit": "proportion",
+      "dimensions": {
+        "economicSectorId": "TO",
+        "economicSector": "Total"
+      },
+      "capturedAt": "2026-08-25T20:10:00.000Z",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs/-/categories/122941?tab=436312&category=122941",
+      "dataUrl": "https://api.datasaudi.datawheel.us/tesseract/data.jsonrecords?Establishment%20Usage%20Name=1&cube=gastat_digital_economy_establishment_usage_by_economic_activity&drilldowns=Economic%20Sectors,Year&measures=Percentage&locale=en",
+      "limitations": [
+        "Official public context data, not advertising audience size or campaign-performance evidence.",
+        "Missing period in the education expenditure table is represented as portal_current_snapshot and not treated as a time-series fact.",
+        "No causal relationship to demand, conversion, CPC, CPA, CVR, or ROAS is inferred."
+      ]
+    }
+  ],
+  "unknowns": [
+    "absolute search volume",
+    "audience size",
+    "CPC",
+    "CPA",
+    "CVR",
+    "ROAS",
+    "competitor performance",
+    "customer-level funnel performance"
+  ],
+  "limitations": [
+    "DataSaudi/GASTAT/SAMA portal data is market or education-system context; it is not a marketing benchmark.",
+    "License status remains unknown until explicit terms are verified."
+  ]
+}

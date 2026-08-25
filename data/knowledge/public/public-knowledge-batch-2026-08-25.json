@@ -1,7 +1,7 @@
 {
   "contractVersion": "1.0",
-  "manifestId": "public-knowledge-batch-20260825-002",
-  "generatedAt": "2026-08-25T00:26:31.000Z",
+  "manifestId": "public-knowledge-batch-20260825-003",
+  "generatedAt": "2026-08-25T20:30:00.000Z",
   "scope": {
     "markets": [
       "EG",
@@ -86,6 +86,96 @@
     },
     {
       "contractVersion": "1.0",
+      "sourceId": "src-gastat-datasaudi-digital-economy-gdp-sa-20260825",
+      "publisher": "General Authority for Statistics (GASTAT) / DataSaudi",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs/-/categories/122941?tab=436312&category=122941",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "DataSaudi portal data is official market or education-system context, not an advertising benchmark.",
+        "The selected cube can have uneven periods and dimensions; no missing period is inferred.",
+        "License status is not presumed from the portal and remains unknown pending explicit terms verification."
+      ],
+      "version": "2026-08-25",
+      "enabled": true,
+      "market": "SA"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-gastat-datasaudi-digital-establishment-usage-sa-20260825",
+      "publisher": "General Authority for Statistics (GASTAT) / DataSaudi",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs/-/categories/122941?tab=436312&category=122941",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "DataSaudi portal data is official market or education-system context, not an advertising benchmark.",
+        "The selected cube can have uneven periods and dimensions; no missing period is inferred.",
+        "License status is not presumed from the portal and remains unknown pending explicit terms verification."
+      ],
+      "version": "2026-08-25",
+      "enabled": true,
+      "market": "SA"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "publisher": "General Authority for Statistics (GASTAT) / DataSaudi",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "DataSaudi portal data is official market or education-system context, not an advertising benchmark.",
+        "The selected cube can have uneven periods and dimensions; no missing period is inferred.",
+        "License status is not presumed from the portal and remains unknown pending explicit terms verification."
+      ],
+      "version": "2026-08-25",
+      "enabled": true,
+      "market": "SA"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-gastat-datasaudi-foreign-trade-exports-20260825",
+      "publisher": "General Authority for Statistics (GASTAT) / DataSaudi",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs/-/categories/123481?tab=436312&category=123481",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "DataSaudi portal data is official market or education-system context, not an advertising benchmark.",
+        "The selected cube can have uneven periods and dimensions; no missing period is inferred.",
+        "License status is not presumed from the portal and remains unknown pending explicit terms verification."
+      ],
+      "version": "2026-08-25",
+      "enabled": true,
+      "market": "SA"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-gastat-datasaudi-foreign-trade-imports-20260825",
+      "publisher": "General Authority for Statistics (GASTAT) / DataSaudi",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs/-/categories/123481?tab=436312&category=123481",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "DataSaudi portal data is official market or education-system context, not an advertising benchmark.",
+        "The selected cube can have uneven periods and dimensions; no missing period is inferred.",
+        "License status is not presumed from the portal and remains unknown pending explicit terms verification."
+      ],
+      "version": "2026-08-25",
+      "enabled": true,
+      "market": "SA"
+    },
+    {
+      "contractVersion": "1.0",
       "sourceId": "src-gastat-open-data-20260825",
       "publisher": "General Authority for Statistics (GASTAT)",
       "sourceUrl": "https://dp.stats.gov.sa/opendata",
@@ -162,6 +252,349 @@
     },
     {
       "contractVersion": "1.0",
+      "sourceId": "src-itu-key-ict-regional-2025",
+      "publisher": "International Telecommunication Union (ITU)",
+      "sourceUrl": "https://www.itu.int/en/ITU-D/Statistics/pages/stat/default.aspx",
+      "sourceType": "official_document",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "The downloaded workbook contains regional/global aggregates; no direct Egypt or Saudi Arabia rows were found.",
+        "Regional aggregates are not substituted for country values and are not advertising benchmarks."
+      ],
+      "version": "Nov-2025",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-kapsarc-sama-pos-detailed-sector-city-sa-20260825",
+      "publisher": "KAPSARC Data Portal / Saudi Central Bank (SAMA)",
+      "sourceUrl": "https://datasource.kapsarc.org/explore/assets/detailed-point-of-sale-transactions-by-sector-and-city/",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "SAMA payment activity is market-context evidence and not proof of online-only demand for each sector.",
+        "Records are aggregate payment activity and do not identify customer, advertising source, or conversion attribution.",
+        "The public portal export is GET-only; source license status remains unknown until explicit terms are verified."
+      ],
+      "version": "2026-08-25",
+      "enabled": true,
+      "market": "SA"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-kapsarc-sama-pos-sector-city-sa-20260825",
+      "publisher": "KAPSARC Data Portal / Saudi Central Bank (SAMA)",
+      "sourceUrl": "https://datasource.kapsarc.org/explore/assets/point-of-sale-transactions-by-sector-and-city/",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "SAMA payment activity is market-context evidence and not proof of online-only demand for each sector.",
+        "Records are aggregate payment activity and do not identify customer, advertising source, or conversion attribution.",
+        "The public portal export is GET-only; source license status remains unknown until explicit terms are verified."
+      ],
+      "version": "2026-08-25",
+      "enabled": true,
+      "market": "SA"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-kapsarc-sama-pos-sector-sa-20260825",
+      "publisher": "KAPSARC Data Portal / Saudi Central Bank (SAMA)",
+      "sourceUrl": "https://datasource.kapsarc.org/explore/assets/points-of-sale-transactions-and-sales-by-sector/",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "SAMA payment activity is market-context evidence and not proof of online-only demand for each sector.",
+        "Records are aggregate payment activity and do not identify customer, advertising source, or conversion attribution.",
+        "The public portal export is GET-only; source license status remains unknown until explicit terms are verified."
+      ],
+      "version": "2026-08-25",
+      "enabled": true,
+      "market": "SA"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-sama-datasaudi-higher-education-students-sa-20260825",
+      "publisher": "Saudi Central Bank (SAMA) / DataSaudi",
+      "sourceUrl": "https://www.sama.gov.sa/en-US/Publications/EconomicReports/Pages/report.aspx?cid=127",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "DataSaudi portal data is official market or education-system context, not an advertising benchmark.",
+        "The selected cube can have uneven periods and dimensions; no missing period is inferred.",
+        "License status is not presumed from the portal and remains unknown pending explicit terms verification."
+      ],
+      "version": "2026-08-25",
+      "enabled": true,
+      "market": "SA"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-sama-datasaudi-students-schools-teachers-sa-20260825",
+      "publisher": "Saudi Central Bank (SAMA) / DataSaudi",
+      "sourceUrl": "https://www.sama.gov.sa/en-US/Publications/EconomicReports/Pages/report.aspx?cid=127",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "DataSaudi portal data is official market or education-system context, not an advertising benchmark.",
+        "The selected cube can have uneven periods and dimensions; no missing period is inferred.",
+        "License status is not presumed from the portal and remains unknown pending explicit terms verification."
+      ],
+      "version": "2026-08-25",
+      "enabled": true,
+      "market": "SA"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-unctad-digital-economy-egy-sau-20260825",
+      "publisher": "UNCTAD via World Bank Data360",
+      "sourceUrl": "https://data360.worldbank.org/en/dataset/UNCTAD_DE",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "Digital economy, ICT, and digitally-deliverable-services context; not advertising demand or campaign performance.",
+        "International digitally-deliverable services trade is not domestic ecommerce GMV.",
+        "Data availability varies by indicator and year; blank cells are not interpolated."
+      ],
+      "version": "2026-08-25",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-undata-consumer_price_index-egy-sau-20260825",
+      "publisher": "United Nations Statistics Division (UNdata)",
+      "sourceUrl": "https://data.un.org/_Docs/SYB/CSV/SYB68_128_202511_Consumer%20Price%20Index.csv",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "UNdata statistical context; not advertising audience size, search demand, or campaign performance.",
+        "The table contains series from the named upstream agency; preserve series-level source and footnotes.",
+        "Coverage years differ by series and may be estimates or projections as indicated by footnotes."
+      ],
+      "version": "SYB68-202511",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-undata-education_enrollment-egy-sau-20260825",
+      "publisher": "United Nations Statistics Division (UNdata)",
+      "sourceUrl": "https://data.un.org/_Docs/SYB/CSV/SYB68_309_202511_Education.csv",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "UNdata statistical context; not advertising audience size, search demand, or campaign performance.",
+        "The table contains series from the named upstream agency; preserve series-level source and footnotes.",
+        "Coverage years differ by series and may be estimates or projections as indicated by footnotes."
+      ],
+      "version": "SYB68-202511",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-undata-education_ict_access-egy-sau-20260825",
+      "publisher": "United Nations Statistics Division (UNdata)",
+      "sourceUrl": "https://data.un.org/_Docs/SYB/CSV/SYB68_245_202511_Public%20expenditure%20on%20education%20and%20access%20to%20computers.csv",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "UNdata statistical context; not advertising audience size, search demand, or campaign performance.",
+        "The table contains series from the named upstream agency; preserve series-level source and footnotes.",
+        "Coverage years differ by series and may be estimates or projections as indicated by footnotes."
+      ],
+      "version": "SYB68-202511",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-undata-employment_by_activity-egy-sau-20260825",
+      "publisher": "United Nations Statistics Division (UNdata)",
+      "sourceUrl": "https://data.un.org/_Docs/SYB/CSV/SYB68_200_202511_Employment.csv",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "UNdata statistical context; not advertising audience size, search demand, or campaign performance.",
+        "The table contains series from the named upstream agency; preserve series-level source and footnotes.",
+        "Coverage years differ by series and may be estimates or projections as indicated by footnotes."
+      ],
+      "version": "SYB68-202511",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-undata-gdp_and_gdp_per_capita-egy-sau-20260825",
+      "publisher": "United Nations Statistics Division (UNdata)",
+      "sourceUrl": "https://data.un.org/_Docs/SYB/CSV/SYB68_230_202511_GDP%20and%20GDP%20Per%20Capita.csv",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "UNdata statistical context; not advertising audience size, search demand, or campaign performance.",
+        "The table contains series from the named upstream agency; preserve series-level source and footnotes.",
+        "Coverage years differ by series and may be estimates or projections as indicated by footnotes."
+      ],
+      "version": "SYB68-202511",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-undata-gva_by_activity-egy-sau-20260825",
+      "publisher": "United Nations Statistics Division (UNdata)",
+      "sourceUrl": "https://data.un.org/_Docs/SYB/CSV/SYB68_153_202511_Gross%20Value%20Added%20by%20Economic%20Activity.csv",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "UNdata statistical context; not advertising audience size, search demand, or campaign performance.",
+        "The table contains series from the named upstream agency; preserve series-level source and footnotes.",
+        "Coverage years differ by series and may be estimates or projections as indicated by footnotes."
+      ],
+      "version": "SYB68-202511",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-undata-internet_usage-egy-sau-20260825",
+      "publisher": "United Nations Statistics Division (UNdata)",
+      "sourceUrl": "https://data.un.org/_Docs/SYB/CSV/SYB68_314_202511_Internet%20Usage.csv",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "UNdata statistical context; not advertising audience size, search demand, or campaign performance.",
+        "The table contains series from the named upstream agency; preserve series-level source and footnotes.",
+        "Coverage years differ by series and may be estimates or projections as indicated by footnotes."
+      ],
+      "version": "SYB68-202511",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-undata-labour_force_and_unemployment-egy-sau-20260825",
+      "publisher": "United Nations Statistics Division (UNdata)",
+      "sourceUrl": "https://data.un.org/_Docs/SYB/CSV/SYB68_329_202511_Labour%20Force%20and%20Unemployment.csv",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "UNdata statistical context; not advertising audience size, search demand, or campaign performance.",
+        "The table contains series from the named upstream agency; preserve series-level source and footnotes.",
+        "Coverage years differ by series and may be estimates or projections as indicated by footnotes."
+      ],
+      "version": "SYB68-202511",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-undata-population_and_density-egy-sau-20260825",
+      "publisher": "United Nations Statistics Division (UNdata)",
+      "sourceUrl": "https://data.un.org/_Docs/SYB/CSV/SYB68_1_202511_Population%2C%20Surface%20Area%20and%20Density.csv",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "UNdata statistical context; not advertising audience size, search demand, or campaign performance.",
+        "The table contains series from the named upstream agency; preserve series-level source and footnotes.",
+        "Coverage years differ by series and may be estimates or projections as indicated by footnotes."
+      ],
+      "version": "SYB68-202511",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-undata-statistical-yearbook-egy-sau-20260825",
+      "publisher": "United Nations Statistics Division (UNdata)",
+      "sourceUrl": "https://data.un.org/",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "Container record for the selected UNdata tables; individual table source IDs are used by observations.",
+        "UNdata context is not advertising audience size, search demand, or campaign performance."
+      ],
+      "version": "SYB68-202511",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-undata-teaching_staff-egy-sau-20260825",
+      "publisher": "United Nations Statistics Division (UNdata)",
+      "sourceUrl": "https://data.un.org/_Docs/SYB/CSV/SYB68_323_202511_Teaching%20Staff%20in%20education.csv",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "UNdata statistical context; not advertising audience size, search demand, or campaign performance.",
+        "The table contains series from the named upstream agency; preserve series-level source and footnotes.",
+        "Coverage years differ by series and may be estimates or projections as indicated by footnotes."
+      ],
+      "version": "SYB68-202511",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-undata-trade_balance-egy-sau-20260825",
+      "publisher": "United Nations Statistics Division (UNdata)",
+      "sourceUrl": "https://data.un.org/_Docs/SYB/CSV/SYB68_123_202511_Total%20Imports%20Exports%20and%20Balance%20of%20Trade.csv",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "UNdata statistical context; not advertising audience size, search demand, or campaign performance.",
+        "The table contains series from the named upstream agency; preserve series-level source and footnotes.",
+        "Coverage years differ by series and may be estimates or projections as indicated by footnotes."
+      ],
+      "version": "SYB68-202511",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-unesco-uis-egy-sau-education-20260825",
+      "publisher": "UNESCO Institute for Statistics (UIS)",
+      "sourceUrl": "https://api.uis.unesco.org/api/public/documentation/",
+      "sourceType": "official_api",
+      "licenseStatus": "approved",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "UIS education supply and participation indicators are not advertising demand or campaign performance.",
+        "The public API response states CC BY-SA 4.0; preserve attribution and share-alike requirements.",
+        "Latest available year varies by indicator and country; missing years are not interpolated."
+      ],
+      "version": "20260507-91260335",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
       "sourceId": "src-world-bank-egy-indicators-v2-20260825",
       "publisher": "World Bank",
       "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
@@ -203,7 +636,7 @@
     {
       "path": "data/knowledge/public/world-bank/2026-08-25/IT.NET.USER.ZS.json",
       "sha256": "83410b6d8e012037e95b7ae9964bec108cd8503e7899d63227c132c0f60c9a9d",
-      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
       "sourceId": "src-world-bank-egy-indicators-v2-20260825",
       "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
       "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
@@ -211,7 +644,7 @@
     {
       "path": "data/knowledge/public/world-bank/2026-08-25/NY.GDP.PCAP.PP.CD.json",
       "sha256": "fc3ed3136e4cd0d6e13b19d1b8f808de834cb0c9b2fd32700442224c8c9d1798",
-      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
       "sourceId": "src-world-bank-egy-indicators-v2-20260825",
       "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
       "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
@@ -219,7 +652,7 @@
     {
       "path": "data/knowledge/public/world-bank/2026-08-25/SE.ADT.LITR.ZS.json",
       "sha256": "8e96c13122c8018fddd7cd8c9d7c3592c33909e70de1387cec1469ac94805928",
-      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
       "sourceId": "src-world-bank-egy-indicators-v2-20260825",
       "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
       "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
@@ -227,7 +660,7 @@
     {
       "path": "data/knowledge/public/world-bank/2026-08-25/SP.POP.TOTL.json",
       "sha256": "5bd4589f3a9894a2ac4daa10e862fea01dd92296000a2fa5f57bd2862a1e0a37",
-      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
       "sourceId": "src-world-bank-egy-indicators-v2-20260825",
       "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
       "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
@@ -235,7 +668,7 @@
     {
       "path": "data/knowledge/public/world-bank/2026-08-25/SP.URB.TOTL.IN.ZS.json",
       "sha256": "b4d46e29995d12f2a6d6176ce421727cc67e735d752ceb0d2bd1e76e9effee83",
-      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
       "sourceId": "src-world-bank-egy-indicators-v2-20260825",
       "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
       "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
@@ -243,7 +676,7 @@
     {
       "path": "data/knowledge/public/world-bank/2026-08-25/normalized-observations.json",
       "sha256": "4055bfc4137298a102d44c239b6b0444126e88fdbe142fbc7e6e911f151ef164",
-      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
       "sourceId": "src-world-bank-egy-indicators-v2-20260825",
       "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
       "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
@@ -251,7 +684,7 @@
     {
       "path": "data/knowledge/public/capmas/2026-08-25/catalog.html",
       "sha256": "2d7408b16d96ce4cabc7328f1046e75042384cc3662a8b7eb096857875a4513f",
-      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
       "sourceId": "src-capmas-central-data-catalog-20260825",
       "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/",
       "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
@@ -259,7 +692,7 @@
     {
       "path": "data/knowledge/public/capmas/2026-08-25/searches/commerce.html",
       "sha256": "bfaeec93236ca744609275a1e94d1073ed2440fcdee49a74cb7b038d1b5d01f5",
-      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
       "sourceId": "src-capmas-central-data-catalog-20260825",
       "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/",
       "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
@@ -267,7 +700,7 @@
     {
       "path": "data/knowledge/public/capmas/2026-08-25/searches/ecommerce.html",
       "sha256": "e0c946193d0b2b4a0dfe883b14b1a4cedc86536dfe6d8bce34b5f0bc0c4ecc7e",
-      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
       "sourceId": "src-capmas-central-data-catalog-20260825",
       "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/",
       "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
@@ -275,7 +708,7 @@
     {
       "path": "data/knowledge/public/capmas/2026-08-25/searches/education.html",
       "sha256": "8de74d0d1db25a78031ee4faef8787b11121eb861a3d3d3db2fe8e43576769f6",
-      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
       "sourceId": "src-capmas-central-data-catalog-20260825",
       "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/",
       "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
@@ -283,7 +716,7 @@
     {
       "path": "data/knowledge/public/capmas/2026-08-25/searches/electronic.html",
       "sha256": "286a3ec95fff1b939b8762950c711992d07c6783a4df0ae0de0d05958a71772a",
-      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
       "sourceId": "src-capmas-central-data-catalog-20260825",
       "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/",
       "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
@@ -291,7 +724,7 @@
     {
       "path": "data/knowledge/public/capmas/2026-08-25/searches/internet.html",
       "sha256": "6cfca245754e4dbfa9efe4a215fadb4fcf5c31043b11cf1f9d18dd87cde9e3eb",
-      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
       "sourceId": "src-capmas-central-data-catalog-20260825",
       "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/",
       "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
@@ -299,7 +732,7 @@
     {
       "path": "data/knowledge/public/capmas/2026-08-25/searches/retail.html",
       "sha256": "cac50b7f403d5d8d306f5200f6920708e56b5a78c417df63b745744b6105bd7f",
-      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
       "sourceId": "src-capmas-central-data-catalog-20260825",
       "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/",
       "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
@@ -307,7 +740,7 @@
     {
       "path": "data/knowledge/public/capmas/2026-08-25/searches/services.html",
       "sha256": "73d10625859e105ed315853f2e8156cf21db938ae5178b201df51456c09e52a0",
-      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
       "sourceId": "src-capmas-central-data-catalog-20260825",
       "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/",
       "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
@@ -315,7 +748,7 @@
     {
       "path": "data/knowledge/public/capmas/2026-08-25/searches/telecommunications.html",
       "sha256": "b5bb73698aed4ed0c64e36cfa11e72ff884f081e26d4054b706350b5d06e555e",
-      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
       "sourceId": "src-capmas-central-data-catalog-20260825",
       "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/",
       "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
@@ -323,7 +756,7 @@
     {
       "path": "data/knowledge/public/capmas/2026-08-25/searches/trade.html",
       "sha256": "b4b9b82cefcbf9d9fa215bb4015bd2f6833709b4f18a84e9785f5c5894cc9085",
-      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
       "sourceId": "src-capmas-central-data-catalog-20260825",
       "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/",
       "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
@@ -331,7 +764,7 @@
     {
       "path": "data/knowledge/public/capmas/2026-08-25/pdfs/education-foundation-2019-2020.pdf",
       "sha256": "7fae4b6c14da5f0b3d0950c797bb75b4674d5c19233ad71de7f235004a1fe6cd",
-      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
       "sourceId": "src-capmas-education-bulletin-2019-2020",
       "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/777/download/2298",
       "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
@@ -339,7 +772,7 @@
     {
       "path": "data/knowledge/public/capmas/2026-08-25/pdfs/telecommunications-2016-2017.pdf",
       "sha256": "61c0eb5f228e91b4806a82e8fa1e2d2f423cfd23705f392e81b7e1dd22164ae8",
-      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
       "sourceId": "src-capmas-telecommunications-bulletin-2016-2017",
       "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/343/download/677",
       "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
@@ -347,7 +780,7 @@
     {
       "path": "data/knowledge/public/google-trends/2026-08-25/eg-arabic-explore.html",
       "sha256": "85115d23123fc369ae9f611bcc0b222e5f7091702fb5ddb338b7122bdf0abe79",
-      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
       "sourceId": "src-google-trends-eg-explore-20260825",
       "sourceUrl": "https://trends.google.com/trends/",
       "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
@@ -355,7 +788,7 @@
     {
       "path": "data/knowledge/public/google-trends/2026-08-25/eg-english-explore.html",
       "sha256": "6df35e591b5924e8e68b6e129fc4391acd1318b2b0ab8494b9490231ba3dcada",
-      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
       "sourceId": "src-google-trends-eg-explore-20260825",
       "sourceUrl": "https://trends.google.com/trends/",
       "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
@@ -363,7 +796,7 @@
     {
       "path": "data/knowledge/public/google-trends/2026-08-25/sa-arabic-explore.html",
       "sha256": "5e4a0a37309e28846c50df8461f958c4f54d924823712ec9c6d19b60eebdc0cb",
-      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
       "sourceId": "src-google-trends-sa-explore-20260825",
       "sourceUrl": "https://trends.google.com/trends/",
       "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
@@ -371,7 +804,7 @@
     {
       "path": "data/knowledge/public/google-trends/2026-08-25/sa-english-explore.html",
       "sha256": "939c86a68c8481f407f2ce011c99f411a833370139c242835212b2b9249dc0b9",
-      "capturedAt": "2026-08-25T00:26:31.000Z",
+      "capturedAt": "2026-08-25T20:30:00.000Z",
       "sourceId": "src-google-trends-sa-explore-20260825",
       "sourceUrl": "https://trends.google.com/trends/",
       "storage": "local_artifact_hash_only_until_object_storage_policy_is_selected"
@@ -381,20 +814,764 @@
     {
       "path": "data/knowledge/public/world-bank/2026-08-25/latest-observations.json",
       "sha256": "7dfb47cc5e08b5779fbe529bb388d1f5a0eb64672e51b53c491a3288308d71d7",
-      "generatedAt": "2026-08-25T00:26:31.000Z",
+      "generatedAt": "2026-08-25T20:30:00.000Z",
       "artifactType": "latest-observations"
     },
     {
       "path": "data/knowledge/public/google-trends/2026-08-25/normalized-observations.json",
       "sha256": "c575910692536b540e0bb1a73085962d9aeecbfdc183dc9adbfd9f1c46c81831",
-      "generatedAt": "2026-08-25T00:26:31.000Z",
+      "generatedAt": "2026-08-25T20:30:00.000Z",
       "artifactType": "normalized-observations"
     },
     {
       "path": "data/knowledge/public/capmas/2026-08-25/normalized-facts.json",
       "sha256": "917bd4254792f9c796c57ced581b47bc6cbadfd6325c8b5a6e393a385dcc0329",
-      "generatedAt": "2026-08-25T00:26:31.000Z",
+      "generatedAt": "2026-08-25T20:30:00.000Z",
       "artifactType": "normalized-facts"
+    },
+    {
+      "path": "data/knowledge/public/unesco/2026-08-25/normalized-observations.json",
+      "sha256": "2dec8b0004df9d108cda026224db2a73abcf6ec7a5ffb905bb94cafc1a44cf44",
+      "generatedAt": "2026-08-25T19:17:42.000Z",
+      "artifactType": "public_education_context_snapshot",
+      "artifactId": "unesco-uis-egy-sau-education-20260825",
+      "sourceIds": [
+        "src-unesco-uis-egy-sau-education-20260825"
+      ],
+      "observationCount": 14,
+      "rawInputs": [
+        {
+          "path": ".local/public-research/unesco/egy-sau-education-data.json",
+          "sha256": "44492b57000073afdeb88317bbd6621e9ab912f221c28bd6eb5d02e8157f2ff5",
+          "capturedAt": "2026-08-25T19:17:42.000Z"
+        }
+      ],
+      "limitations": [
+        "UNESCO UIS is used for cross-national education context, not for current advertising demand or performance benchmarks.",
+        "A record is included only when UIS returned a non-null value; absence remains unavailable.",
+        "Estimates, survey definitions, and data-source footnotes are not interchangeable across years or indicators."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/unctad/2026-08-25/normalized-observations.json",
+      "sha256": "ebf63e92280e007917e2db615db5cd48110dbb9869fbbdd198d9a81141ed353b",
+      "generatedAt": "2026-08-25T19:40:00.000Z",
+      "artifactType": "public_digital_economy_context_snapshot",
+      "artifactId": "unctad-digital-economy-egy-sau-20260825",
+      "sourceIds": [
+        "src-unctad-digital-economy-egy-sau-20260825"
+      ],
+      "observationCount": 87,
+      "rawInputs": [
+        {
+          "dataPath": ".local/public-research/unctad/UNCTAD_DE_WIDEF.csv",
+          "dataSha256": "b480fdc127cd07fc0ff5190aa50c49843f2b59139f5e45c87e73e46d353e2ccb",
+          "dictionaryPath": ".local/public-research/unctad/UNCTAD_DE_DATADICT.csv",
+          "dictionarySha256": "51ddc4ecce65d031585496309e9e6902d30aa565be93aca678699a36c663033f",
+          "capturedAt": "2026-08-25T19:40:00.000Z"
+        }
+      ],
+      "limitations": [
+        "Data360 page describes the collection as 14 indicators covering 2010-2023 and sourced from UNCTAD; the snapshot preserves only target-country non-null cells.",
+        "The source license was not presumed from the landing page and remains unknown pending explicit terms verification.",
+        "No marketing benchmark or causal relationship to advertising outcomes is inferred."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/undata/2026-08-25/normalized-observations.json",
+      "sha256": "9ada2f4c80d98fd4ce87e49403faee3ab12aac3d0045c7fc2308380a0f979541",
+      "generatedAt": "2026-08-25T20:30:00.000Z",
+      "artifactType": "public_undata_context_snapshot",
+      "artifactId": "undata-egy-sau-20260825",
+      "sourceIds": [
+        "src-undata-consumer_price_index-egy-sau-20260825",
+        "src-undata-education_enrollment-egy-sau-20260825",
+        "src-undata-education_ict_access-egy-sau-20260825",
+        "src-undata-employment_by_activity-egy-sau-20260825",
+        "src-undata-gdp_and_gdp_per_capita-egy-sau-20260825",
+        "src-undata-gva_by_activity-egy-sau-20260825",
+        "src-undata-internet_usage-egy-sau-20260825",
+        "src-undata-labour_force_and_unemployment-egy-sau-20260825",
+        "src-undata-population_and_density-egy-sau-20260825",
+        "src-undata-statistical-yearbook-egy-sau-20260825",
+        "src-undata-teaching_staff-egy-sau-20260825",
+        "src-undata-trade_balance-egy-sau-20260825"
+      ],
+      "observationCount": 479,
+      "rawInputs": [
+        {
+          "filename": "population.csv",
+          "datasetKey": "population_and_density",
+          "sha256": "9ef7ab141b20519c1a009ee6c678c3164e2741b57b785f23fd885df59dddfb9b",
+          "path": ".local/public-research/undata/population.csv"
+        },
+        {
+          "filename": "gdp.csv",
+          "datasetKey": "gdp_and_gdp_per_capita",
+          "sha256": "8091d7ba3b94ad60477a66cd41fd7b0a1dd1cafd5014ccda74f6c6032e9da9ac",
+          "path": ".local/public-research/undata/gdp.csv"
+        },
+        {
+          "filename": "gva-by-activity.csv",
+          "datasetKey": "gva_by_activity",
+          "sha256": "bd99b6d1681834a1415fcb7e9fb2cc17371b243ae48fd368575c3d5fac4b3dde",
+          "path": ".local/public-research/undata/gva-by-activity.csv"
+        },
+        {
+          "filename": "education.csv",
+          "datasetKey": "education_enrollment",
+          "sha256": "b4f55b021f602064164808884bc5778c9ed0e39f2afbaea390ce497aec01f659",
+          "path": ".local/public-research/undata/education.csv"
+        },
+        {
+          "filename": "teaching-staff.csv",
+          "datasetKey": "teaching_staff",
+          "sha256": "517d40a35fdfad8e41f3b95dca94d501e4f265d043e0e41eada553a647dad5f4",
+          "path": ".local/public-research/undata/teaching-staff.csv"
+        },
+        {
+          "filename": "education-expenditure.csv",
+          "datasetKey": "education_ict_access",
+          "sha256": "0e75891d040f55dd1e8375ea4c60599927b1f329ee4d25c1937e35e97a302fd9",
+          "path": ".local/public-research/undata/education-expenditure.csv"
+        },
+        {
+          "filename": "labour-force.csv",
+          "datasetKey": "labour_force_and_unemployment",
+          "sha256": "0ebfea07f2cef6251eb5df69fd84f87e6b9d92a9a7782b0c71e5b2ee5ca023eb",
+          "path": ".local/public-research/undata/labour-force.csv"
+        },
+        {
+          "filename": "employment.csv",
+          "datasetKey": "employment_by_activity",
+          "sha256": "7a5acfbeb6ac3868db3a0c19166475285d8757ed77bac8c4e75c28c3aee487fa",
+          "path": ".local/public-research/undata/employment.csv"
+        },
+        {
+          "filename": "cpi.csv",
+          "datasetKey": "consumer_price_index",
+          "sha256": "44062fa68bd15b3eea2f4093b994b8a1d611e874465379263c1940646e96d716",
+          "path": ".local/public-research/undata/cpi.csv"
+        },
+        {
+          "filename": "trade.csv",
+          "datasetKey": "trade_balance",
+          "sha256": "b56312301d88303bc5a27ebf0414be921351adbeab09d5da89a03c4037770346",
+          "path": ".local/public-research/undata/trade.csv"
+        },
+        {
+          "filename": "internet-usage.csv",
+          "datasetKey": "internet_usage",
+          "sha256": "83ad752aa0b0f428e993c41859d12bab57b55d944c2dee36b0a408d4685e6b60",
+          "path": ".local/public-research/undata/internet-usage.csv"
+        }
+      ],
+      "limitations": [
+        "UNdata aggregates official and partner statistical series; each observation retains its upstream source and footnotes.",
+        "The landing page lists the table update dates; the snapshot does not claim all series are current to the same year.",
+        "License status was not presumed from the landing page and remains unknown pending explicit terms verification."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/datasaudi/2026-08-25/datasaudi-digital-economy-gdp-sa-20260825.json",
+      "sha256": "843076d0d04f1dd10ceab358f1459f8fee71632425d10d1e0fdb105840e02b04",
+      "generatedAt": "2026-08-25T20:10:00.000Z",
+      "artifactType": "public_datasaudi_context_snapshot",
+      "artifactId": "datasaudi-digital-economy-gdp-sa-20260825",
+      "sourceIds": [
+        "src-gastat-datasaudi-digital-economy-gdp-sa-20260825"
+      ],
+      "observationCount": 3,
+      "rawInputs": [
+        {
+          "path": ".local/public-research/datasaudi/digital-economy-gdp.json",
+          "sha256": "c52bcf9c57b1b709e1d6254c32c0985d1c9415143db6e4ca163de85e4e5ca371",
+          "capturedAt": "2026-08-25T20:10:00.000Z"
+        }
+      ],
+      "limitations": [
+        "DataSaudi/GASTAT/SAMA portal data is market or education-system context; it is not a marketing benchmark.",
+        "License status remains unknown until explicit terms are verified."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/datasaudi/2026-08-25/datasaudi-digital-establishment-usage-sa-20260825.json",
+      "sha256": "3916f3fdc2ccfb5116557c45480e0f9afb7529a5be32a01e2ab7fa22e4c415a1",
+      "generatedAt": "2026-08-25T20:10:00.000Z",
+      "artifactType": "public_datasaudi_context_snapshot",
+      "artifactId": "datasaudi-digital-establishment-usage-sa-20260825",
+      "sourceIds": [
+        "src-gastat-datasaudi-digital-establishment-usage-sa-20260825"
+      ],
+      "observationCount": 19,
+      "rawInputs": [
+        {
+          "path": ".local/public-research/datasaudi/digital-establishment-usage.json",
+          "sha256": "7cf0753bb10c3a90eebdce590047327697a03569516cfd1ffb3c73e7ca0e776b",
+          "capturedAt": "2026-08-25T20:10:00.000Z"
+        }
+      ],
+      "limitations": [
+        "DataSaudi/GASTAT/SAMA portal data is market or education-system context; it is not a marketing benchmark.",
+        "License status remains unknown until explicit terms are verified."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/datasaudi/2026-08-25/datasaudi-higher-education-students-sa-20260825.json",
+      "sha256": "970cd662a4c0788d4f31b283a56d44a5b4a3efe2937d81504cb5279d88321f85",
+      "generatedAt": "2026-08-25T20:10:00.000Z",
+      "artifactType": "public_datasaudi_context_snapshot",
+      "artifactId": "datasaudi-higher-education-students-sa-20260825",
+      "sourceIds": [
+        "src-sama-datasaudi-higher-education-students-sa-20260825"
+      ],
+      "observationCount": 958,
+      "rawInputs": [
+        {
+          "path": ".local/public-research/datasaudi/higher-education-students.json",
+          "sha256": "9c0009cbaf2979867c2c1a4cace9004b679afe7d8a9083e6d520745684bba42d",
+          "capturedAt": "2026-08-25T20:10:00.000Z"
+        }
+      ],
+      "limitations": [
+        "DataSaudi/GASTAT/SAMA portal data is market or education-system context; it is not a marketing benchmark.",
+        "License status remains unknown until explicit terms are verified."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/datasaudi/2026-08-25/datasaudi-students-schools-teachers-sa-20260825.json",
+      "sha256": "048e50c7296a0d3767f7a18e5d8643f81d88605fa4dce6268ad7554a1233b778",
+      "generatedAt": "2026-08-25T20:10:00.000Z",
+      "artifactType": "public_datasaudi_context_snapshot",
+      "artifactId": "datasaudi-students-schools-teachers-sa-20260825",
+      "sourceIds": [
+        "src-sama-datasaudi-students-schools-teachers-sa-20260825"
+      ],
+      "observationCount": 585,
+      "rawInputs": [
+        {
+          "path": ".local/public-research/datasaudi/students-schools-teachers.json",
+          "sha256": "8be73133c5863f2a3f6faff170048c0accb27910ee8ee123b265717edc11ed49",
+          "capturedAt": "2026-08-25T20:10:00.000Z"
+        }
+      ],
+      "limitations": [
+        "DataSaudi/GASTAT/SAMA portal data is market or education-system context; it is not a marketing benchmark.",
+        "License status remains unknown until explicit terms are verified."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/datasaudi/2026-08-25/datasaudi-education-expenditure-sa-20260825.json",
+      "sha256": "589bcbe702ca388e3c97e8f17457da8cfbeefad169b231104fbad5fe3e4a5c23",
+      "generatedAt": "2026-08-25T20:10:00.000Z",
+      "artifactType": "public_datasaudi_context_snapshot",
+      "artifactId": "datasaudi-education-expenditure-sa-20260825",
+      "sourceIds": [
+        "src-gastat-datasaudi-education-expenditure-sa-20260825"
+      ],
+      "observationCount": 65,
+      "rawInputs": [
+        {
+          "path": ".local/public-research/datasaudi/education-training-expenditure.json",
+          "sha256": "919e47777f7aa7f6ebc8b8b9759ec0485693a12eac20115ab53cf0fe85b1ad12",
+          "capturedAt": "2026-08-25T20:10:00.000Z"
+        }
+      ],
+      "limitations": [
+        "DataSaudi/GASTAT/SAMA portal data is market or education-system context; it is not a marketing benchmark.",
+        "License status remains unknown until explicit terms are verified."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/datasaudi/2026-08-25/exports-egypt-normalized-observations.json",
+      "sha256": "6653e5ea5d103ee0e135fb083c4bf1f4e457c45175b02c6ddc26f4e34254454e",
+      "generatedAt": "2026-08-25T20:00:00.000Z",
+      "artifactType": "public_saudi_egypt_foreign_trade_snapshot",
+      "artifactId": "datasaudi-gastat-exports-egypt-20260825",
+      "sourceIds": [
+        "src-gastat-datasaudi-foreign-trade-exports-20260825"
+      ],
+      "observationCount": 53,
+      "rawInputs": [
+        {
+          "path": ".local/public-research/datasaudi/foreign-trade-exports.json",
+          "sha256": "eced941ea15351276938f467c88b2b372fdbfd774ee3ec4886e20ada0afaed5e",
+          "capturedAt": "2026-08-25T20:00:00.000Z"
+        }
+      ],
+      "limitations": [
+        "GASTAT foreign-trade context is not a marketing benchmark.",
+        "License status remains unknown until explicit terms are verified.",
+        "No total-market or category-specific ecommerce inference is made."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/datasaudi/2026-08-25/imports-egypt-normalized-observations.json",
+      "sha256": "069c698a263183bd5fc40b446614a557d8d936dba8f5813c9913837b7655b7cb",
+      "generatedAt": "2026-08-25T20:00:00.000Z",
+      "artifactType": "public_saudi_egypt_foreign_trade_snapshot",
+      "artifactId": "datasaudi-gastat-imports-egypt-20260825",
+      "sourceIds": [
+        "src-gastat-datasaudi-foreign-trade-imports-20260825"
+      ],
+      "observationCount": 64,
+      "rawInputs": [
+        {
+          "path": ".local/public-research/datasaudi/foreign-trade-imports.json",
+          "sha256": "beebb7161b46b763e86877a8f63375800366cf8507ed3620ee5511e7decf2b1d",
+          "capturedAt": "2026-08-25T20:00:00.000Z"
+        }
+      ],
+      "limitations": [
+        "GASTAT foreign-trade context is not a marketing benchmark.",
+        "License status remains unknown until explicit terms are verified.",
+        "No total-market or category-specific ecommerce inference is made."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/kapsarc/2026-08-25/sector-normalized-observations.json",
+      "sha256": "09514209c42e62d2ade41ae8d8f76cebaedc7c00f3d7ddd59403db279219b99f",
+      "generatedAt": "2026-08-25T19:55:00.000Z",
+      "artifactType": "public_saudi_pos_sector_snapshot",
+      "artifactId": "kapsarc-sama-pos-sector-sa-20260825",
+      "sourceIds": [
+        "src-kapsarc-sama-pos-sector-sa-20260825"
+      ],
+      "observationCount": 2992,
+      "rawInputs": [
+        {
+          "path": ".local/public-research/kapsarc/sector.json",
+          "sha256": "b4a1fe575c950ccb7761f9b4215666d8d03ca006aeb15cafc9b9a449a986551a",
+          "capturedAt": "2026-08-25T19:55:00.000Z"
+        }
+      ],
+      "limitations": [
+        "SAMA payment activity is market-context evidence, not proof of online-only demand for each sector.",
+        "Sector and city payment records are not customer-level data and do not identify advertising source or attribution.",
+        "Source license status was not presumed and remains unknown pending explicit terms verification.",
+        "Change-percent rows are retained as source-reported changes and are not treated as advertising performance."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/kapsarc/2026-08-25/sector-city-latest-observations.json",
+      "sha256": "8beb70f646f177d87161f62f3b780fec7cbcc75534ac4b1343363ab66b9e1f22",
+      "generatedAt": "2026-08-25T19:55:00.000Z",
+      "artifactType": "public_saudi_pos_sector_city_snapshot",
+      "artifactId": "kapsarc-sama-pos-sector-city-sa-20260825",
+      "sourceIds": [
+        "src-kapsarc-sama-pos-sector-city-sa-20260825"
+      ],
+      "observationCount": 44,
+      "rawInputs": [
+        {
+          "path": ".local/public-research/kapsarc/sector-city.json",
+          "sha256": "8f58c1c00ff22630d796f092b2c5873094dbef24db22a183fbaf87c85e52ddfc",
+          "capturedAt": "2026-08-25T19:55:00.000Z"
+        }
+      ],
+      "limitations": [
+        "SAMA payment activity is market-context evidence, not proof of online-only demand for each sector.",
+        "Sector and city payment records are not customer-level data and do not identify advertising source or attribution.",
+        "Source license status was not presumed and remains unknown pending explicit terms verification.",
+        "Change-percent rows are retained as source-reported changes and are not treated as advertising performance."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/kapsarc/2026-08-25/detailed-sector-city-latest-observations.json",
+      "sha256": "ff06d7a0d926184b10997ccacb595b11aa60eade9187d0daf4695e4b413ecedb",
+      "generatedAt": "2026-08-25T19:55:00.000Z",
+      "artifactType": "public_saudi_pos_detailed_sector_city_snapshot",
+      "artifactId": "kapsarc-sama-pos-detailed-sector-city-sa-20260825",
+      "sourceIds": [
+        "src-kapsarc-sama-pos-detailed-sector-city-sa-20260825"
+      ],
+      "observationCount": 32,
+      "rawInputs": [
+        {
+          "path": ".local/public-research/kapsarc/detailed-sector-city.json",
+          "sha256": "97c8a3481e1fbbb89fa4d5ade75a467a19950b6744c242c7b189eb384f0e2990",
+          "capturedAt": "2026-08-25T19:55:00.000Z"
+        }
+      ],
+      "limitations": [
+        "SAMA payment activity is market-context evidence, not proof of online-only demand for each sector.",
+        "Sector and city payment records are not customer-level data and do not identify advertising source or attribution.",
+        "Source license status was not presumed and remains unknown pending explicit terms verification.",
+        "Change-percent rows are retained as source-reported changes and are not treated as advertising performance."
+      ]
+    }
+  ],
+  "publicContextArtifacts": [
+    {
+      "path": "data/knowledge/public/unesco/2026-08-25/normalized-observations.json",
+      "sha256": "2dec8b0004df9d108cda026224db2a73abcf6ec7a5ffb905bb94cafc1a44cf44",
+      "generatedAt": "2026-08-25T19:17:42.000Z",
+      "artifactType": "public_education_context_snapshot",
+      "artifactId": "unesco-uis-egy-sau-education-20260825",
+      "sourceIds": [
+        "src-unesco-uis-egy-sau-education-20260825"
+      ],
+      "observationCount": 14,
+      "rawInputs": [
+        {
+          "path": ".local/public-research/unesco/egy-sau-education-data.json",
+          "sha256": "44492b57000073afdeb88317bbd6621e9ab912f221c28bd6eb5d02e8157f2ff5",
+          "capturedAt": "2026-08-25T19:17:42.000Z"
+        }
+      ],
+      "limitations": [
+        "UNESCO UIS is used for cross-national education context, not for current advertising demand or performance benchmarks.",
+        "A record is included only when UIS returned a non-null value; absence remains unavailable.",
+        "Estimates, survey definitions, and data-source footnotes are not interchangeable across years or indicators."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/unctad/2026-08-25/normalized-observations.json",
+      "sha256": "ebf63e92280e007917e2db615db5cd48110dbb9869fbbdd198d9a81141ed353b",
+      "generatedAt": "2026-08-25T19:40:00.000Z",
+      "artifactType": "public_digital_economy_context_snapshot",
+      "artifactId": "unctad-digital-economy-egy-sau-20260825",
+      "sourceIds": [
+        "src-unctad-digital-economy-egy-sau-20260825"
+      ],
+      "observationCount": 87,
+      "rawInputs": [
+        {
+          "dataPath": ".local/public-research/unctad/UNCTAD_DE_WIDEF.csv",
+          "dataSha256": "b480fdc127cd07fc0ff5190aa50c49843f2b59139f5e45c87e73e46d353e2ccb",
+          "dictionaryPath": ".local/public-research/unctad/UNCTAD_DE_DATADICT.csv",
+          "dictionarySha256": "51ddc4ecce65d031585496309e9e6902d30aa565be93aca678699a36c663033f",
+          "capturedAt": "2026-08-25T19:40:00.000Z"
+        }
+      ],
+      "limitations": [
+        "Data360 page describes the collection as 14 indicators covering 2010-2023 and sourced from UNCTAD; the snapshot preserves only target-country non-null cells.",
+        "The source license was not presumed from the landing page and remains unknown pending explicit terms verification.",
+        "No marketing benchmark or causal relationship to advertising outcomes is inferred."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/undata/2026-08-25/normalized-observations.json",
+      "sha256": "9ada2f4c80d98fd4ce87e49403faee3ab12aac3d0045c7fc2308380a0f979541",
+      "generatedAt": "2026-08-25T20:30:00.000Z",
+      "artifactType": "public_undata_context_snapshot",
+      "artifactId": "undata-egy-sau-20260825",
+      "sourceIds": [
+        "src-undata-consumer_price_index-egy-sau-20260825",
+        "src-undata-education_enrollment-egy-sau-20260825",
+        "src-undata-education_ict_access-egy-sau-20260825",
+        "src-undata-employment_by_activity-egy-sau-20260825",
+        "src-undata-gdp_and_gdp_per_capita-egy-sau-20260825",
+        "src-undata-gva_by_activity-egy-sau-20260825",
+        "src-undata-internet_usage-egy-sau-20260825",
+        "src-undata-labour_force_and_unemployment-egy-sau-20260825",
+        "src-undata-population_and_density-egy-sau-20260825",
+        "src-undata-statistical-yearbook-egy-sau-20260825",
+        "src-undata-teaching_staff-egy-sau-20260825",
+        "src-undata-trade_balance-egy-sau-20260825"
+      ],
+      "observationCount": 479,
+      "rawInputs": [
+        {
+          "filename": "population.csv",
+          "datasetKey": "population_and_density",
+          "sha256": "9ef7ab141b20519c1a009ee6c678c3164e2741b57b785f23fd885df59dddfb9b",
+          "path": ".local/public-research/undata/population.csv"
+        },
+        {
+          "filename": "gdp.csv",
+          "datasetKey": "gdp_and_gdp_per_capita",
+          "sha256": "8091d7ba3b94ad60477a66cd41fd7b0a1dd1cafd5014ccda74f6c6032e9da9ac",
+          "path": ".local/public-research/undata/gdp.csv"
+        },
+        {
+          "filename": "gva-by-activity.csv",
+          "datasetKey": "gva_by_activity",
+          "sha256": "bd99b6d1681834a1415fcb7e9fb2cc17371b243ae48fd368575c3d5fac4b3dde",
+          "path": ".local/public-research/undata/gva-by-activity.csv"
+        },
+        {
+          "filename": "education.csv",
+          "datasetKey": "education_enrollment",
+          "sha256": "b4f55b021f602064164808884bc5778c9ed0e39f2afbaea390ce497aec01f659",
+          "path": ".local/public-research/undata/education.csv"
+        },
+        {
+          "filename": "teaching-staff.csv",
+          "datasetKey": "teaching_staff",
+          "sha256": "517d40a35fdfad8e41f3b95dca94d501e4f265d043e0e41eada553a647dad5f4",
+          "path": ".local/public-research/undata/teaching-staff.csv"
+        },
+        {
+          "filename": "education-expenditure.csv",
+          "datasetKey": "education_ict_access",
+          "sha256": "0e75891d040f55dd1e8375ea4c60599927b1f329ee4d25c1937e35e97a302fd9",
+          "path": ".local/public-research/undata/education-expenditure.csv"
+        },
+        {
+          "filename": "labour-force.csv",
+          "datasetKey": "labour_force_and_unemployment",
+          "sha256": "0ebfea07f2cef6251eb5df69fd84f87e6b9d92a9a7782b0c71e5b2ee5ca023eb",
+          "path": ".local/public-research/undata/labour-force.csv"
+        },
+        {
+          "filename": "employment.csv",
+          "datasetKey": "employment_by_activity",
+          "sha256": "7a5acfbeb6ac3868db3a0c19166475285d8757ed77bac8c4e75c28c3aee487fa",
+          "path": ".local/public-research/undata/employment.csv"
+        },
+        {
+          "filename": "cpi.csv",
+          "datasetKey": "consumer_price_index",
+          "sha256": "44062fa68bd15b3eea2f4093b994b8a1d611e874465379263c1940646e96d716",
+          "path": ".local/public-research/undata/cpi.csv"
+        },
+        {
+          "filename": "trade.csv",
+          "datasetKey": "trade_balance",
+          "sha256": "b56312301d88303bc5a27ebf0414be921351adbeab09d5da89a03c4037770346",
+          "path": ".local/public-research/undata/trade.csv"
+        },
+        {
+          "filename": "internet-usage.csv",
+          "datasetKey": "internet_usage",
+          "sha256": "83ad752aa0b0f428e993c41859d12bab57b55d944c2dee36b0a408d4685e6b60",
+          "path": ".local/public-research/undata/internet-usage.csv"
+        }
+      ],
+      "limitations": [
+        "UNdata aggregates official and partner statistical series; each observation retains its upstream source and footnotes.",
+        "The landing page lists the table update dates; the snapshot does not claim all series are current to the same year.",
+        "License status was not presumed from the landing page and remains unknown pending explicit terms verification."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/datasaudi/2026-08-25/datasaudi-digital-economy-gdp-sa-20260825.json",
+      "sha256": "843076d0d04f1dd10ceab358f1459f8fee71632425d10d1e0fdb105840e02b04",
+      "generatedAt": "2026-08-25T20:10:00.000Z",
+      "artifactType": "public_datasaudi_context_snapshot",
+      "artifactId": "datasaudi-digital-economy-gdp-sa-20260825",
+      "sourceIds": [
+        "src-gastat-datasaudi-digital-economy-gdp-sa-20260825"
+      ],
+      "observationCount": 3,
+      "rawInputs": [
+        {
+          "path": ".local/public-research/datasaudi/digital-economy-gdp.json",
+          "sha256": "c52bcf9c57b1b709e1d6254c32c0985d1c9415143db6e4ca163de85e4e5ca371",
+          "capturedAt": "2026-08-25T20:10:00.000Z"
+        }
+      ],
+      "limitations": [
+        "DataSaudi/GASTAT/SAMA portal data is market or education-system context; it is not a marketing benchmark.",
+        "License status remains unknown until explicit terms are verified."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/datasaudi/2026-08-25/datasaudi-digital-establishment-usage-sa-20260825.json",
+      "sha256": "3916f3fdc2ccfb5116557c45480e0f9afb7529a5be32a01e2ab7fa22e4c415a1",
+      "generatedAt": "2026-08-25T20:10:00.000Z",
+      "artifactType": "public_datasaudi_context_snapshot",
+      "artifactId": "datasaudi-digital-establishment-usage-sa-20260825",
+      "sourceIds": [
+        "src-gastat-datasaudi-digital-establishment-usage-sa-20260825"
+      ],
+      "observationCount": 19,
+      "rawInputs": [
+        {
+          "path": ".local/public-research/datasaudi/digital-establishment-usage.json",
+          "sha256": "7cf0753bb10c3a90eebdce590047327697a03569516cfd1ffb3c73e7ca0e776b",
+          "capturedAt": "2026-08-25T20:10:00.000Z"
+        }
+      ],
+      "limitations": [
+        "DataSaudi/GASTAT/SAMA portal data is market or education-system context; it is not a marketing benchmark.",
+        "License status remains unknown until explicit terms are verified."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/datasaudi/2026-08-25/datasaudi-higher-education-students-sa-20260825.json",
+      "sha256": "970cd662a4c0788d4f31b283a56d44a5b4a3efe2937d81504cb5279d88321f85",
+      "generatedAt": "2026-08-25T20:10:00.000Z",
+      "artifactType": "public_datasaudi_context_snapshot",
+      "artifactId": "datasaudi-higher-education-students-sa-20260825",
+      "sourceIds": [
+        "src-sama-datasaudi-higher-education-students-sa-20260825"
+      ],
+      "observationCount": 958,
+      "rawInputs": [
+        {
+          "path": ".local/public-research/datasaudi/higher-education-students.json",
+          "sha256": "9c0009cbaf2979867c2c1a4cace9004b679afe7d8a9083e6d520745684bba42d",
+          "capturedAt": "2026-08-25T20:10:00.000Z"
+        }
+      ],
+      "limitations": [
+        "DataSaudi/GASTAT/SAMA portal data is market or education-system context; it is not a marketing benchmark.",
+        "License status remains unknown until explicit terms are verified."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/datasaudi/2026-08-25/datasaudi-students-schools-teachers-sa-20260825.json",
+      "sha256": "048e50c7296a0d3767f7a18e5d8643f81d88605fa4dce6268ad7554a1233b778",
+      "generatedAt": "2026-08-25T20:10:00.000Z",
+      "artifactType": "public_datasaudi_context_snapshot",
+      "artifactId": "datasaudi-students-schools-teachers-sa-20260825",
+      "sourceIds": [
+        "src-sama-datasaudi-students-schools-teachers-sa-20260825"
+      ],
+      "observationCount": 585,
+      "rawInputs": [
+        {
+          "path": ".local/public-research/datasaudi/students-schools-teachers.json",
+          "sha256": "8be73133c5863f2a3f6faff170048c0accb27910ee8ee123b265717edc11ed49",
+          "capturedAt": "2026-08-25T20:10:00.000Z"
+        }
+      ],
+      "limitations": [
+        "DataSaudi/GASTAT/SAMA portal data is market or education-system context; it is not a marketing benchmark.",
+        "License status remains unknown until explicit terms are verified."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/datasaudi/2026-08-25/datasaudi-education-expenditure-sa-20260825.json",
+      "sha256": "589bcbe702ca388e3c97e8f17457da8cfbeefad169b231104fbad5fe3e4a5c23",
+      "generatedAt": "2026-08-25T20:10:00.000Z",
+      "artifactType": "public_datasaudi_context_snapshot",
+      "artifactId": "datasaudi-education-expenditure-sa-20260825",
+      "sourceIds": [
+        "src-gastat-datasaudi-education-expenditure-sa-20260825"
+      ],
+      "observationCount": 65,
+      "rawInputs": [
+        {
+          "path": ".local/public-research/datasaudi/education-training-expenditure.json",
+          "sha256": "919e47777f7aa7f6ebc8b8b9759ec0485693a12eac20115ab53cf0fe85b1ad12",
+          "capturedAt": "2026-08-25T20:10:00.000Z"
+        }
+      ],
+      "limitations": [
+        "DataSaudi/GASTAT/SAMA portal data is market or education-system context; it is not a marketing benchmark.",
+        "License status remains unknown until explicit terms are verified."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/datasaudi/2026-08-25/exports-egypt-normalized-observations.json",
+      "sha256": "6653e5ea5d103ee0e135fb083c4bf1f4e457c45175b02c6ddc26f4e34254454e",
+      "generatedAt": "2026-08-25T20:00:00.000Z",
+      "artifactType": "public_saudi_egypt_foreign_trade_snapshot",
+      "artifactId": "datasaudi-gastat-exports-egypt-20260825",
+      "sourceIds": [
+        "src-gastat-datasaudi-foreign-trade-exports-20260825"
+      ],
+      "observationCount": 53,
+      "rawInputs": [
+        {
+          "path": ".local/public-research/datasaudi/foreign-trade-exports.json",
+          "sha256": "eced941ea15351276938f467c88b2b372fdbfd774ee3ec4886e20ada0afaed5e",
+          "capturedAt": "2026-08-25T20:00:00.000Z"
+        }
+      ],
+      "limitations": [
+        "GASTAT foreign-trade context is not a marketing benchmark.",
+        "License status remains unknown until explicit terms are verified.",
+        "No total-market or category-specific ecommerce inference is made."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/datasaudi/2026-08-25/imports-egypt-normalized-observations.json",
+      "sha256": "069c698a263183bd5fc40b446614a557d8d936dba8f5813c9913837b7655b7cb",
+      "generatedAt": "2026-08-25T20:00:00.000Z",
+      "artifactType": "public_saudi_egypt_foreign_trade_snapshot",
+      "artifactId": "datasaudi-gastat-imports-egypt-20260825",
+      "sourceIds": [
+        "src-gastat-datasaudi-foreign-trade-imports-20260825"
+      ],
+      "observationCount": 64,
+      "rawInputs": [
+        {
+          "path": ".local/public-research/datasaudi/foreign-trade-imports.json",
+          "sha256": "beebb7161b46b763e86877a8f63375800366cf8507ed3620ee5511e7decf2b1d",
+          "capturedAt": "2026-08-25T20:00:00.000Z"
+        }
+      ],
+      "limitations": [
+        "GASTAT foreign-trade context is not a marketing benchmark.",
+        "License status remains unknown until explicit terms are verified.",
+        "No total-market or category-specific ecommerce inference is made."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/kapsarc/2026-08-25/sector-normalized-observations.json",
+      "sha256": "09514209c42e62d2ade41ae8d8f76cebaedc7c00f3d7ddd59403db279219b99f",
+      "generatedAt": "2026-08-25T19:55:00.000Z",
+      "artifactType": "public_saudi_pos_sector_snapshot",
+      "artifactId": "kapsarc-sama-pos-sector-sa-20260825",
+      "sourceIds": [
+        "src-kapsarc-sama-pos-sector-sa-20260825"
+      ],
+      "observationCount": 2992,
+      "rawInputs": [
+        {
+          "path": ".local/public-research/kapsarc/sector.json",
+          "sha256": "b4a1fe575c950ccb7761f9b4215666d8d03ca006aeb15cafc9b9a449a986551a",
+          "capturedAt": "2026-08-25T19:55:00.000Z"
+        }
+      ],
+      "limitations": [
+        "SAMA payment activity is market-context evidence, not proof of online-only demand for each sector.",
+        "Sector and city payment records are not customer-level data and do not identify advertising source or attribution.",
+        "Source license status was not presumed and remains unknown pending explicit terms verification.",
+        "Change-percent rows are retained as source-reported changes and are not treated as advertising performance."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/kapsarc/2026-08-25/sector-city-latest-observations.json",
+      "sha256": "8beb70f646f177d87161f62f3b780fec7cbcc75534ac4b1343363ab66b9e1f22",
+      "generatedAt": "2026-08-25T19:55:00.000Z",
+      "artifactType": "public_saudi_pos_sector_city_snapshot",
+      "artifactId": "kapsarc-sama-pos-sector-city-sa-20260825",
+      "sourceIds": [
+        "src-kapsarc-sama-pos-sector-city-sa-20260825"
+      ],
+      "observationCount": 44,
+      "rawInputs": [
+        {
+          "path": ".local/public-research/kapsarc/sector-city.json",
+          "sha256": "8f58c1c00ff22630d796f092b2c5873094dbef24db22a183fbaf87c85e52ddfc",
+          "capturedAt": "2026-08-25T19:55:00.000Z"
+        }
+      ],
+      "limitations": [
+        "SAMA payment activity is market-context evidence, not proof of online-only demand for each sector.",
+        "Sector and city payment records are not customer-level data and do not identify advertising source or attribution.",
+        "Source license status was not presumed and remains unknown pending explicit terms verification.",
+        "Change-percent rows are retained as source-reported changes and are not treated as advertising performance."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/kapsarc/2026-08-25/detailed-sector-city-latest-observations.json",
+      "sha256": "ff06d7a0d926184b10997ccacb595b11aa60eade9187d0daf4695e4b413ecedb",
+      "generatedAt": "2026-08-25T19:55:00.000Z",
+      "artifactType": "public_saudi_pos_detailed_sector_city_snapshot",
+      "artifactId": "kapsarc-sama-pos-detailed-sector-city-sa-20260825",
+      "sourceIds": [
+        "src-kapsarc-sama-pos-detailed-sector-city-sa-20260825"
+      ],
+      "observationCount": 32,
+      "rawInputs": [
+        {
+          "path": ".local/public-research/kapsarc/detailed-sector-city.json",
+          "sha256": "97c8a3481e1fbbb89fa4d5ade75a467a19950b6744c242c7b189eb384f0e2990",
+          "capturedAt": "2026-08-25T19:55:00.000Z"
+        }
+      ],
+      "limitations": [
+        "SAMA payment activity is market-context evidence, not proof of online-only demand for each sector.",
+        "Sector and city payment records are not customer-level data and do not identify advertising source or attribution.",
+        "Source license status was not presumed and remains unknown pending explicit terms verification.",
+        "Change-percent rows are retained as source-reported changes and are not treated as advertising performance."
+      ]
     }
   ],
   "worldBankSelection": {
@@ -921,6 +2098,7 @@
     "marketValidated": false,
     "readyEvidencePackages": 0,
     "limitedEvidencePackagesPlanned": 3,
+    "additionalPublicArtifactCount": 13,
     "discoveryOnlySourceIds": [
       "src-capmas-central-data-catalog-20260825",
       "src-gastat-open-data-20260825",
@@ -943,7 +2121,8 @@
       "World Bank observations are broad contextual indicators and are not industry-specific.",
       "CAPMAS education facts are historical 2019/2020 education-supply context only.",
       "Google Trends observations are relative directional search-interest signals captured from public pages.",
-      "GASTAT rows are portal/discovery metadata until an official dataset export or authorized API response is available.",
+      "Selected DataSaudi/GASTAT and KAPSARC artifacts are aggregate market or education-system context, not advertising benchmarks; license status remains unknown where terms were not explicit.",
+      "UNESCO, UNCTAD, UNdata, and ITU observations preserve their own periods, upstream sources, and regional/country coverage limitations.",
       "TikTok first-party reporting is kept outside this public manifest because it is account-owned and must not become a public benchmark."
     ]
   }

@@ -21,11 +21,45 @@ import { INDUSTRY_PROFILES } from "../src/lib/knowledge/industry-profiles";
 
 const root = process.cwd();
 const publicRoot = path.join(root, "data/knowledge/public");
-const capturedAt = "2026-08-25T00:26:31.000Z";
+const capturedAt = "2026-08-25T20:30:00.000Z";
 const registryData = JSON.parse(fs.readFileSync(path.join(publicRoot, "public-source-registry-2026-08-25.json"), "utf8"));
 const worldBank = JSON.parse(fs.readFileSync(path.join(publicRoot, "world-bank/2026-08-25/latest-observations.json"), "utf8"));
 const trends = JSON.parse(fs.readFileSync(path.join(publicRoot, "google-trends/2026-08-25/normalized-observations.json"), "utf8"));
 const capmas = JSON.parse(fs.readFileSync(path.join(publicRoot, "capmas/2026-08-25/normalized-facts.json"), "utf8"));
+
+type PublicObservation = {
+  observationId: string;
+  sourceId: string;
+  market?: string;
+  country?: string;
+  metric?: string;
+  name?: string;
+  sector?: string;
+  city?: string;
+  indicatorName?: string;
+  indicatorCode?: string;
+  dataset?: string;
+  period?: string;
+  year?: number | string | null;
+  value: string | number | null;
+  unit?: string;
+  observedAt?: string;
+  capturedAt?: string;
+  dimensions?: Record<string, string | number | null | undefined>;
+  industryRelevance?: string;
+  limitations?: string[];
+};
+type PublicArtifact = { observations: PublicObservation[] };
+function loadArtifact(relativePath: string): PublicArtifact {
+  return JSON.parse(fs.readFileSync(path.join(publicRoot, relativePath), "utf8")) as PublicArtifact;
+}
+const unesco = loadArtifact("unesco/2026-08-25/normalized-observations.json");
+const unctad = loadArtifact("unctad/2026-08-25/normalized-observations.json");
+const undata = loadArtifact("undata/2026-08-25/normalized-observations.json");
+const datasaudiDigital = loadArtifact("datasaudi/2026-08-25/datasaudi-digital-establishment-usage-sa-20260825.json");
+const datasaudiEducation = loadArtifact("datasaudi/2026-08-25/datasaudi-higher-education-students-sa-20260825.json");
+const kapsarcSector = loadArtifact("kapsarc/2026-08-25/sector-normalized-observations.json");
+const kapsarcSectorCity = loadArtifact("kapsarc/2026-08-25/sector-city-latest-observations.json");
 
 const registry = new SourceRegistry(registryData.sources.map((source: unknown) => SourceRecordSchema.parse(source)));
 type WorldBankObservation = {
@@ -39,6 +73,79 @@ type WorldBankObservation = {
 };
 const worldBankByKey = new Map<string, WorldBankObservation>(worldBank.observations.map((observation: WorldBankObservation) => [`${observation.market}:${observation.indicator}`, observation]));
 const profileByIndustry = new Map<string, IndustryProfile>(INDUSTRY_PROFILES.map((profile) => [profile.industryKey, profile]));
+
+function observationOrder(observation: PublicObservation): number {
+  const year = typeof observation.year === "number" ? observation.year : Number.parseInt(String(observation.year ?? ""), 10);
+  if (Number.isFinite(year)) return year;
+  const parsed = Date.parse(String(observation.period ?? ""));
+  return Number.isNaN(parsed) ? 0 : parsed;
+}
+
+function latestPerKey(observations: PublicObservation[], keyOf: (observation: PublicObservation) => string, maxCount = 50): PublicObservation[] {
+  const latest = new Map<string, PublicObservation>();
+  for (const observation of observations) {
+    if (observation.value === null || observation.value === undefined) continue;
+    const key = keyOf(observation);
+    const previous = latest.get(key);
+    if (!previous || observationOrder(observation) >= observationOrder(previous)) latest.set(key, observation);
+  }
+  return [...latest.values()].sort((left, right) => observationOrder(right) - observationOrder(left)).slice(0, maxCount);
+}
+
+function publicFact(config: Config, observation: PublicObservation, name: string): MarketFact {
+  const sourceObservedAt = registry.get(observation.sourceId)?.observedAt;
+  return MarketFactSchema.parse({
+    factId: `${config.market.toLowerCase()}-${config.industry}-${name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${observation.observationId}`,
+    name,
+    value: observation.value,
+    unit: observation.unit,
+    status: "limited_external_evidence",
+    sourceIds: [observation.sourceId],
+    observedAt: observation.observedAt ?? observation.capturedAt ?? sourceObservedAt ?? capturedAt,
+    scope: { market: config.market, industry: config.industry, locale: config.locale, currency: config.currency },
+  });
+}
+
+function observationLabel(observation: PublicObservation): string {
+  if (observation.sector && observation.metric) return `${observation.sector} — ${observation.metric} (context)`;
+  return `${observation.indicatorName ?? observation.metric ?? observation.dataset ?? "public market indicator"} (context)`;
+}
+
+function publicContextFacts(config: Config): MarketFact[] {
+  const selected: Array<{ observation: PublicObservation; label?: string }> = [];
+  const push = (observations: PublicObservation[], predicate: (observation: PublicObservation) => boolean, keyOf: (observation: PublicObservation) => string, maxCount = 8) => {
+    for (const observation of latestPerKey(observations.filter(predicate), keyOf, maxCount)) selected.push({ observation });
+  };
+
+  if (config.industry === "education_general") {
+    push(unesco.observations, (observation) => observation.market === config.market && /enrolment|literacy|completion|schooling/i.test(observation.indicatorName ?? ""), (observation) => `${observation.market}:${observation.indicatorCode ?? observation.metric}`, 8);
+    push(undata.observations, (observation) => observation.market === config.market && ["education_enrollment", "teaching_staff", "education_ict_access"].includes(observation.dataset ?? ""), (observation) => `${observation.dataset}:${observation.metric}`, 8);
+    if (config.market === "SA") {
+      push(datasaudiEducation.observations, (observation) => observation.market === "SA" && observation.metric === "higher_education_students" && observation.dimensions?.studentStatus === "Enrolled Students", (observation) => `${observation.dimensions?.academicStatus}:${observation.dimensions?.sex}`, 8);
+      push(kapsarcSector.observations, (observation) => observation.market === "SA" && observation.sector === "Education" && ["sector_sales", "sector_transactions"].includes(observation.metric ?? ""), (observation) => `${observation.sector}:${observation.metric}`, 4);
+    }
+  }
+
+  if (config.industry === "ecommerce_general") {
+    push(unctad.observations, (observation) => observation.market === config.market && /businesses placing orders over the Internet|businesses with a web presence|digitally-deliverable services/i.test(observation.indicatorName ?? ""), (observation) => `${observation.market}:${observation.indicatorCode ?? observation.metric}`, 6);
+    push(undata.observations, (observation) => observation.market === config.market && ["internet_usage", "population_and_density", "gdp_and_gdp_per_capita"].includes(observation.dataset ?? ""), (observation) => `${observation.dataset}:${observation.metric}`, 6);
+    if (config.market === "SA") {
+      push(kapsarcSector.observations, (observation) => observation.market === "SA" && ["Electronic & Electric Devices", "Clothing and Footwear", "Furniture", "Jewelry"].includes(observation.sector ?? "") && ["sector_sales", "sector_transactions"].includes(observation.metric ?? ""), (observation) => `${observation.sector}:${observation.metric}`, 12);
+    }
+  }
+
+  if (config.industry === "local_service_general") {
+    push(undata.observations, (observation) => observation.market === config.market && ["internet_usage", "employment_by_activity", "gva_by_activity"].includes(observation.dataset ?? "") && /services|internet/i.test(observation.metric ?? ""), (observation) => `${observation.dataset}:${observation.metric}`, 6);
+    if (config.market === "SA") {
+      push(kapsarcSector.observations, (observation) => observation.market === "SA" && ["Health", "Restaurants & Café", "Transportation", "Telecommunication", "Public Utilities", "Miscellaneous Goods and Services"].includes(observation.sector ?? "") && ["sector_sales", "sector_transactions"].includes(observation.metric ?? ""), (observation) => `${observation.sector}:${observation.metric}`, 12);
+      push(kapsarcSectorCity.observations, (observation) => observation.market === "SA" && observation.city === "Total" && ["Health", "Restaurants & Café", "Transportation", "Telecommunication", "Public Utilities"].includes(observation.sector ?? "") && ["sector_city_transaction_value", "sector_city_transaction_count"].includes(observation.metric ?? ""), (observation) => `${observation.sector}:${observation.metric}`, 10);
+    }
+  }
+
+  const deduplicated = new Map<string, { observation: PublicObservation; label: string }>();
+  for (const item of selected) deduplicated.set(item.observation.observationId, { observation: item.observation, label: item.label ?? observationLabel(item.observation) });
+  return [...deduplicated.values()].map(({ observation, label }) => publicFact(config, observation, label));
+}
 
 const unknownMetrics = [
   "audience size",
@@ -172,6 +279,7 @@ function buildPackage(config: Config) {
   ];
   if (config.industry === "education_general") facts.push(worldBankFact(config, "SE.ADT.LITR.ZS", "adult literacy percent (context)"));
   if (config.industry === "ecommerce_general") facts.push(worldBankFact(config, "NY.GDP.PCAP.PP.CD", "GDP per capita PPP (context)"));
+  facts.push(...publicContextFacts(config));
   if (config.industry === "education_general") {
     for (const fact of capmas.facts) {
       facts.push(MarketFactSchema.parse({
@@ -192,8 +300,8 @@ function buildPackage(config: Config) {
   const sourceIds = new Set<string>(facts.flatMap((fact) => fact.sourceIds).concat(trendsPart.sourceIds));
   const snapshotId = `snapshot-${config.packageId}`;
   const limitations = [
-    "Coverage incomplete: industry-specific evidence is unavailable.",
-    "Context indicators and directional search interest are not audience-size or advertising-performance benchmarks.",
+    "Coverage incomplete: industry-specific evidence is limited to public contextual indicators and selected payment/education signals.",
+    "Context indicators, payment activity, and directional search interest are not audience-size or advertising-performance benchmarks.",
     ...(config.industry === "education_general" ? ["CAPMAS facts are historical education-supply context for academic year 2019/2020 only."] : []),
     "Market Validation remains false until the approved source-metric-scope matrix is complete.",
   ];
@@ -210,7 +318,7 @@ function buildPackage(config: Config) {
     competitorObservations: [competitorUnavailable(config)],
     keywordSignals: trendsPart.signals,
     seasonalitySignals: [seasonalityUnavailable(config)],
-    unknowns: unknownMetrics.concat(["validated industry-specific audience and demand coverage", "validated creative/offer pattern coverage"]),
+    unknowns: unknownMetrics.concat(["validated industry-specific audience and demand coverage", "validated creative/offer pattern coverage", "license-approved sector-level benchmark coverage"]),
     contradictions: [],
     sourceIds: [...sourceIds],
     confidence: config.industry === "education_general" ? 0.62 : 0.52,

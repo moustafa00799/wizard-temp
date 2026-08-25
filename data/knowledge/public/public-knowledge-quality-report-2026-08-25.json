@@ -1,46 +1,164 @@
 {
-  "reportId": "public-knowledge-quality-20260825-002",
-  "generatedAt": "2026-08-25T00:26:31.000Z",
+  "reportId": "public-knowledge-quality-20260825-003",
+  "generatedAt": "2026-08-25T20:30:00.000Z",
   "status": "PASS",
   "globalMarketValidated": false,
   "sourceRegistry": {
-    "registeredSources": 9,
+    "registeredSources": 34,
     "discoveryOnlySources": 3,
-    "rawArtifactsHashChecked": 22,
+    "rawArtifactsHashChecked": 46,
     "rawArtifactsMissingLocally": [],
-    "derivedArtifactsHashChecked": 3
+    "derivedArtifactsHashChecked": 16,
+    "publicContextRawArtifactsHashChecked": 24
   },
   "evidence": {
     "worldBankSelectedObservations": 10,
     "googleTrendsSnapshots": 4,
     "capmasEducationFacts": 6,
+    "publicContextArtifacts": [
+      {
+        "artifactId": "unesco-uis-egy-sau-education-20260825",
+        "artifactType": "public_education_context_snapshot",
+        "observationCount": 14,
+        "sourceIds": [
+          "src-unesco-uis-egy-sau-education-20260825"
+        ]
+      },
+      {
+        "artifactId": "unctad-digital-economy-egy-sau-20260825",
+        "artifactType": "public_digital_economy_context_snapshot",
+        "observationCount": 87,
+        "sourceIds": [
+          "src-unctad-digital-economy-egy-sau-20260825"
+        ]
+      },
+      {
+        "artifactId": "undata-egy-sau-20260825",
+        "artifactType": "public_undata_context_snapshot",
+        "observationCount": 479,
+        "sourceIds": [
+          "src-undata-consumer_price_index-egy-sau-20260825",
+          "src-undata-education_enrollment-egy-sau-20260825",
+          "src-undata-education_ict_access-egy-sau-20260825",
+          "src-undata-employment_by_activity-egy-sau-20260825",
+          "src-undata-gdp_and_gdp_per_capita-egy-sau-20260825",
+          "src-undata-gva_by_activity-egy-sau-20260825",
+          "src-undata-internet_usage-egy-sau-20260825",
+          "src-undata-labour_force_and_unemployment-egy-sau-20260825",
+          "src-undata-population_and_density-egy-sau-20260825",
+          "src-undata-statistical-yearbook-egy-sau-20260825",
+          "src-undata-teaching_staff-egy-sau-20260825",
+          "src-undata-trade_balance-egy-sau-20260825"
+        ]
+      },
+      {
+        "artifactId": "datasaudi-digital-economy-gdp-sa-20260825",
+        "artifactType": "public_datasaudi_context_snapshot",
+        "observationCount": 3,
+        "sourceIds": [
+          "src-gastat-datasaudi-digital-economy-gdp-sa-20260825"
+        ]
+      },
+      {
+        "artifactId": "datasaudi-digital-establishment-usage-sa-20260825",
+        "artifactType": "public_datasaudi_context_snapshot",
+        "observationCount": 19,
+        "sourceIds": [
+          "src-gastat-datasaudi-digital-establishment-usage-sa-20260825"
+        ]
+      },
+      {
+        "artifactId": "datasaudi-higher-education-students-sa-20260825",
+        "artifactType": "public_datasaudi_context_snapshot",
+        "observationCount": 958,
+        "sourceIds": [
+          "src-sama-datasaudi-higher-education-students-sa-20260825"
+        ]
+      },
+      {
+        "artifactId": "datasaudi-students-schools-teachers-sa-20260825",
+        "artifactType": "public_datasaudi_context_snapshot",
+        "observationCount": 585,
+        "sourceIds": [
+          "src-sama-datasaudi-students-schools-teachers-sa-20260825"
+        ]
+      },
+      {
+        "artifactId": "datasaudi-education-expenditure-sa-20260825",
+        "artifactType": "public_datasaudi_context_snapshot",
+        "observationCount": 65,
+        "sourceIds": [
+          "src-gastat-datasaudi-education-expenditure-sa-20260825"
+        ]
+      },
+      {
+        "artifactId": "datasaudi-gastat-exports-egypt-20260825",
+        "artifactType": "public_saudi_egypt_foreign_trade_snapshot",
+        "observationCount": 53,
+        "sourceIds": [
+          "src-gastat-datasaudi-foreign-trade-exports-20260825"
+        ]
+      },
+      {
+        "artifactId": "datasaudi-gastat-imports-egypt-20260825",
+        "artifactType": "public_saudi_egypt_foreign_trade_snapshot",
+        "observationCount": 64,
+        "sourceIds": [
+          "src-gastat-datasaudi-foreign-trade-imports-20260825"
+        ]
+      },
+      {
+        "artifactId": "kapsarc-sama-pos-sector-sa-20260825",
+        "artifactType": "public_saudi_pos_sector_snapshot",
+        "observationCount": 2992,
+        "sourceIds": [
+          "src-kapsarc-sama-pos-sector-sa-20260825"
+        ]
+      },
+      {
+        "artifactId": "kapsarc-sama-pos-sector-city-sa-20260825",
+        "artifactType": "public_saudi_pos_sector_city_snapshot",
+        "observationCount": 44,
+        "sourceIds": [
+          "src-kapsarc-sama-pos-sector-city-sa-20260825"
+        ]
+      },
+      {
+        "artifactId": "kapsarc-sama-pos-detailed-sector-city-sa-20260825",
+        "artifactType": "public_saudi_pos_detailed_sector_city_snapshot",
+        "observationCount": 32,
+        "sourceIds": [
+          "src-kapsarc-sama-pos-detailed-sector-city-sa-20260825"
+        ]
+      }
+    ],
     "limitedPackages": [
       {
         "packageId": "pkg-eg-education-public-20260825",
         "scope": "EG/education_general/ar/EGP",
         "status": "limited",
         "freshnessStatus": "fresh",
-        "sourceCount": 3,
-        "factCount": 21,
-        "unknownCount": 13
+        "sourceCount": 5,
+        "factCount": 36,
+        "unknownCount": 14
       },
       {
         "packageId": "pkg-sa-ecommerce-public-20260825",
         "scope": "SA/ecommerce_general/ar/SAR",
         "status": "limited",
         "freshnessStatus": "fresh",
-        "sourceCount": 2,
-        "factCount": 15,
-        "unknownCount": 13
+        "sourceCount": 5,
+        "factCount": 33,
+        "unknownCount": 14
       },
       {
         "packageId": "pkg-eg-local-service-public-20260825",
         "scope": "EG/local_service_general/ar/EGP",
         "status": "limited",
         "freshnessStatus": "fresh",
-        "sourceCount": 2,
-        "factCount": 14,
-        "unknownCount": 13
+        "sourceCount": 5,
+        "factCount": 19,
+        "unknownCount": 14
       }
     ],
     "readyPackages": 0
@@ -70,10 +188,10 @@
     "client funnel performance"
   ],
   "gaps": [
-    "No current Saudi dataset-level metric has been ingested; GASTAT remains discovery/API-access gated.",
-    "No current Egypt industry-specific public demand dataset has been ingested beyond contextual indicators and directional Trends observations.",
+    "Saudi DataSaudi/GASTAT/SAMA and KAPSARC datasets are now ingested as aggregate digital-economy, education, trade, and payment-context evidence; they do not establish advertising benchmarks.",
+    "No current Egypt industry-specific public demand dataset or domestic ecommerce category dataset has been ingested beyond contextual indicators and directional Trends observations.",
     "No Google Ads Keyword Planner, GA4, or Search Console first-party/client export is available in this public batch.",
-    "TikTok Creative Center public creative observations are not yet collected; TikTok Business account reporting is private first-party and excluded from the public manifest.",
+    "TikTok Creative Center did not yield a stable public result set in the captured state; TikTok Business account reporting is private first-party and excluded from the public manifest.",
     "Meta remains intentionally deferred to the final platform-collection step."
   ],
   "gates": {

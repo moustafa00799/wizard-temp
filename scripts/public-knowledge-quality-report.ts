@@ -32,8 +32,31 @@ const derivedHashChecks = manifest.derivedArtifacts.map((artifact: any) => {
   const filePath = path.join(root, artifact.path);
   assert.equal(fs.existsSync(filePath), true, `Missing derived artifact ${artifact.path}`);
   assert.equal(hash(filePath), artifact.sha256, `Derived hash mismatch ${artifact.path}`);
+  for (const sourceId of artifact.sourceIds ?? []) assert.equal(sourceIds.has(sourceId), true, `Unregistered derived source ${sourceId}`);
   return artifact.path;
 });
+const publicContextRawHashChecks: string[] = [];
+for (const artifact of manifest.publicContextArtifacts ?? []) {
+  const rawInputs = Array.isArray(artifact.rawInputs) ? artifact.rawInputs : [];
+  for (const rawInput of rawInputs) {
+    const entries = rawInput.dataPath
+      ? [
+          { path: rawInput.dataPath, sha256: rawInput.dataSha256 },
+          ...(rawInput.dictionaryPath ? [{ path: rawInput.dictionaryPath, sha256: rawInput.dictionarySha256 }] : []),
+        ]
+      : [{ path: rawInput.path, sha256: rawInput.sha256 }];
+    for (const entry of entries) {
+      if (!entry.path || !entry.sha256) continue;
+      const filePath = path.join(root, entry.path);
+      if (!fs.existsSync(filePath)) {
+        missingRawArtifacts.push(entry.path);
+        continue;
+      }
+      assert.equal(hash(filePath), entry.sha256, `Public context raw hash mismatch ${entry.path}`);
+      publicContextRawHashChecks.push(entry.path);
+    }
+  }
+}
 
 assert.equal(manifest.quality.marketValidated, false);
 assert.equal(packagesArtifact.marketValidated, false);
@@ -71,21 +94,23 @@ const allUnavailableMetrics = [
 for (const metric of allUnavailableMetrics) assert.equal(manifest.quality.unavailableMetrics.includes(metric), true);
 
 const report = {
-  reportId: "public-knowledge-quality-20260825-002",
+  reportId: "public-knowledge-quality-20260825-003",
   generatedAt: manifest.generatedAt,
   status: "PASS",
   globalMarketValidated: false,
   sourceRegistry: {
     registeredSources: sourceRecords.length,
     discoveryOnlySources: manifest.quality.discoveryOnlySourceIds.length,
-    rawArtifactsHashChecked: rawHashChecks.length,
-    rawArtifactsMissingLocally: missingRawArtifacts,
+    rawArtifactsHashChecked: rawHashChecks.length + publicContextRawHashChecks.length,
+    rawArtifactsMissingLocally: [...new Set(missingRawArtifacts)],
     derivedArtifactsHashChecked: derivedHashChecks.length,
+    publicContextRawArtifactsHashChecked: publicContextRawHashChecks.length,
   },
   evidence: {
     worldBankSelectedObservations: manifest.observations.length,
     googleTrendsSnapshots: manifest.directionalSearchInterest.length,
     capmasEducationFacts: manifest.capmasEducationFacts.length,
+    publicContextArtifacts: (manifest.publicContextArtifacts ?? []).map((artifact: any) => ({ artifactId: artifact.artifactId, artifactType: artifact.artifactType, observationCount: artifact.observationCount, sourceIds: artifact.sourceIds })),
     limitedPackages: packagesArtifact.packageSummary,
     readyPackages: 0,
   },
@@ -98,10 +123,10 @@ const report = {
   },
   unavailableMetrics: allUnavailableMetrics,
   gaps: [
-    "No current Saudi dataset-level metric has been ingested; GASTAT remains discovery/API-access gated.",
-    "No current Egypt industry-specific public demand dataset has been ingested beyond contextual indicators and directional Trends observations.",
+    "Saudi DataSaudi/GASTAT/SAMA and KAPSARC datasets are now ingested as aggregate digital-economy, education, trade, and payment-context evidence; they do not establish advertising benchmarks.",
+    "No current Egypt industry-specific public demand dataset or domestic ecommerce category dataset has been ingested beyond contextual indicators and directional Trends observations.",
     "No Google Ads Keyword Planner, GA4, or Search Console first-party/client export is available in this public batch.",
-    "TikTok Creative Center public creative observations are not yet collected; TikTok Business account reporting is private first-party and excluded from the public manifest.",
+    "TikTok Creative Center did not yield a stable public result set in the captured state; TikTok Business account reporting is private first-party and excluded from the public manifest.",
     "Meta remains intentionally deferred to the final platform-collection step.",
   ],
   gates: {
