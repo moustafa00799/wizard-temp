@@ -34,6 +34,7 @@
     "test:knowledge:meta-csv": "tsx scripts/meta-csv-import-regression.ts",
     "test:knowledge:providers": "tsx scripts/provider-evidence-regression.ts",
     "test:knowledge:google-ads-readonly": "tsx scripts/google-ads-readonly-regression.ts",
+    "test:knowledge:tiktok-readonly": "tsx scripts/tiktok-readonly-regression.ts",
     "test:knowledge:content": "tsx scripts/provider-content-classification-regression.ts",
     "test:knowledge:strategy-context": "tsx scripts/knowledge-strategy-context-regression.ts",
     "test:database:strategy-context": "tsx scripts/strategy-context-persistence-regression.ts",

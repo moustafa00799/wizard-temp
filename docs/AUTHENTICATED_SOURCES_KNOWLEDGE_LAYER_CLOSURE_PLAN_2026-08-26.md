@@ -341,3 +341,25 @@ CRM/store: اسم المنصة فقط ...
 حُفظت الصفوف الخام والـhashes في `.local/private-research/google-ads/2026-08-26/` خارج Git. كما أُنشئ تقرير summary آمن في `docs/GOOGLE_ADS_PRIVATE_COLLECTION_2026-08-26.md`، وnormalized output خاص من خلال `scripts/build_google_ads_readonly_current_evidence.ts`، وملف evidence خارجي. لم تُرسل نصوص الإعلانات أو الكلمات المفتاحية إلى AI، ولم تُنفذ أي عملية إنشاء أو تعديل أو نشر أو إنفاق.
 
 هذا التنفيذ لا يرفع `globalMarketValidated` ولا يجعل بيانات Google Ads benchmark سوقيًا. الحساب 428 بقي `mixed_or_multi_industry` على مستوى الحساب، مع 24 campaign partition مرشحة حتميًا: 14 تعليم EG، و5 خدمات محلية EG، و5 اتصالات SA؛ وكلها `unreviewed` ولا تُربط بـIndustryProfile أو Canonical Blueprint. الحساب 689 ثبته المستخدم كنشاط صيانة منزلية في مصر، فصار نطاقه التشغيلي `EG/local_service_general` مع عملة حساب SAR فقط، وسُجل mismatch صراحةً دون استخدام العملة كدليل سوق. أُنشئت حزمة provider exact خاصة له دون تحويلها إلى Market-Validated. أُجّل الحساب 939 وجميع خصائص GA4 رسميًا كمصادر مستقلة بحالة `unavailable/deferred` بناءً على طلب المستخدم، مع استبعادها من الحزم الحالية وعدم دمجها مع 428 أو 689. عند استئنافها، يجب تأكيد المعرفات أو مسارات الصلاحية الصحيحة، جمع snapshots جديدة مع SHA256، ثم استكمال Search Console أو CRM/المتجر قبل اعتماد funnel أو revenue. لا يؤثر هذا التأجيل على سلامة الأدلة العامة أو بيانات Google Ads المنجزة.
+
+
+---
+
+## 16. نتيجة أول دفعة TikTok الحالية في 27 أغسطس 2026
+
+أظهر تفويض TikTok for Business الحالي أربعة حسابات متاحة، وهي `7215064338044944385` و`7302642673201119233` و`7304560039707328514` و`7556312373204795409`. هذه هي نفس الحسابات الموجودة في سجل الاكتشاف السابق؛ لم تُجمع حسابات التفويض المرتبطة بالبريد الآخر، وستُعامل لاحقًا كـauthorization scope مستقل.
+
+استُخدم سجل محلي للنتائج السابقة يضم 35 ملفًا من نتائج TikTok، منها 22 ملفًا غير فارغ. أُعيد استخدام النتائج السابقة عندما كان نوع العملية والحساب والنطاق متطابقين. جُمعت نافذة أداء جديدة غير متداخلة من 2026-08-23 إلى 2026-08-26 على مستوى الحملة، مع التقاط inventory الناقص لحساب windoor فقط، بينما أعاد Deega نتيجة bounded فارغة في ad groups وads. لا تعني النتائج الفارغة غيابًا تاريخيًا للحملات أو الإعلانات.
+
+| الحساب | الجمع الجديد | النتيجة المنقحة |
+|---|---|---|
+| Plan B0327 | campaign report، نافذة 2026-08-23—2026-08-26 | 14 rows |
+| Mr Moustafa | campaign report، نافذة 2026-08-23—2026-08-26 | 24 rows |
+| Deega | campaign report + adgroup/ad checks | 0 rows في النطاق الحالي |
+| windoor solutions | campaign report + adgroup/ad inventory | 2 campaign rows، 8 ad groups، 32 ads |
+
+استُخدمت مقاييس TikTok المقبولة في الطلب المصحح: spend، impressions، clicks، reach، frequency، CPC، CPM، وCTR. رفضت TikTok محاولة أولى تضمنت `conversions` كاسم metric غير مدعوم، فتم تصحيح الطلب وتسجيل القيود بدل تكرار الخطأ بسرعة.
+
+أُضيف `tiktok-readonly-normalizer.ts` وcollector دائم `build_tiktok_readonly_current_evidence.ts`، مع تحقق من MANIFEST وSHA256، وحذف raw rows من normalized summary. الحسابات الأربعة بقيت `scopeStatus=unverified` و`industryScopeStatus=unmapped` و`marketScopeStatus=unmapped`، ولذلك لم تُنشأ أي Evidence Package ولم تُرفع `marketValidated`.
+
+لا تُستخدم هذه الدفعة كـmarket benchmark، ولا تُخلط performance مع creative/inventory، ولا تُجمع segmented reports مع aggregates متداخلة. لم تُنفذ أي عملية إنشاء أو تحديث أو حذف أو تعطيل أو ربط أو إنفاق، ولم تُرسل نصوص الإعلانات أو URLs أو credentials إلى AI أو GitHub. التقرير الآمن التفصيلي موجود في `docs/TIKTOK_PRIVATE_COLLECTION_2026-08-27.md`، أما raw والـnormalized private artifact فخارج Git في `/home/ubuntu/tiktok_exports/2026-08-26/current-auth/`.
