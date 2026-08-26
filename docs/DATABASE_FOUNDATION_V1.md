@@ -16,7 +16,7 @@
 | JSON payloads | حفظ نسخة JSON مع metadata وhashes | Object Store للملفات الأصلية |
 | Vector retrieval | لا يوجد | embeddings وVector Index |
 | Persistence | repositories للكيانات الأساسية | jobs وqueue workers |
-| Provider state | accounts وconnections وread-only scopes وcollections | OAuth connectors الحية |
+| Provider state | accounts وconnections وread-only scopes وcollections، مع دمج خاص منقح قابل لإعادة التشغيل | OAuth connectors الحية وjobs المجدولة |
 | Governance | approvals وaudit events وحظر write-enabled | RBAC كامل ومتعدد العملاء |
 
 ## الكيانات
@@ -71,7 +71,7 @@ const repositories = createRepositories(database);
 repositories.workspaces.create({ workspaceId: "ws-1", name: "Demo" });
 ```
 
-`openDatabase` يفعّل foreign keys ويطبق كل migrations بصورة idempotent. يمكن تمرير مسار ملف SQLite لاحقًا بدل `:memory:` دون تغيير repositories. ينشئ `knowledge.createSnapshot` تلقائيًا revision أولى مع `snapshot_sha256` و`source_manifest_sha256`، ويرفض تعارض المحتوى أو hash المختلف لنفس revision. كما يسجل `deferredSources` الحسابات أو الموصلات المؤجلة دون السماح بإدخالها في Evidence Packages أو `marketValidated`. لا يُنصح بتشغيل ملف قاعدة بيانات إنتاجي من مستودع Git أو داخل مجلد fixtures.
+`openDatabase` يفعّل foreign keys ويطبق كل migrations بصورة idempotent. يمكن تمرير مسار ملف SQLite لاحقًا بدل `:memory:` دون تغيير repositories. ينشئ `knowledge.createSnapshot` تلقائيًا revision أولى مع `snapshot_sha256` و`source_manifest_sha256`، ويرفض تعارض المحتوى أو hash المختلف لنفس revision. كما تسجل repositories إعادة الإدخال المتطابق للمصادر والحسابات والاتصالات والـcollections والأحداث دون تكرار، لكنها ترفض المحتوى المختلف بدل `INSERT OR IGNORE` الصامت؛ وهذا يحمي provenance عند replay أو drift. ويسجل `deferredSources` الحسابات أو الموصلات المؤجلة دون السماح بإدخالها في Evidence Packages أو `marketValidated`. لا يُنصح بتشغيل ملف قاعدة بيانات إنتاجي من مستودع Git أو داخل مجلد fixtures.
 
 توجد خدمة التكامل في:
 
@@ -89,6 +89,13 @@ src/lib/knowledge/persisted-strategy-context.ts
 npm run test:database:foundation
 ```
 
+ويمكن تشغيل دمج provider evidence المحلي المنقح عند توفر المدخلات الخاصة خارج Git:
+
+```bash
+npm run knowledge:merge:private-provider-evidence
+```
+
+يكتب الأمر SQLite و`MERGE_MANIFEST.json` في `.local/private-research/knowledge-merge/` افتراضيًا. يتحقق من SHA256 للـnormalized artifacts، يحفظ collections التشغيلية بعد إسقاط `rows` والحقول الحساسة، يسجل التفويضات المنفصلة، ويمتنع عن إنشاء Evidence Packages عندما يكون scope غير exact. إعادة تشغيل الأمر على نفس المدخلات يجب أن تكون idempotent؛ أما اختلاف source أو collection payload لنفس المعرف فيفشل مغلقًا.
 ويتحقق من نجاح migrations أربع مرات دون تكرار، وإنشاء نسختين من brief، وربط Wizard submission، وحفظ Blueprint وhash، وحفظ Source وIndustryProfile وSnapshot وsnapshot revision وFact وEvidence Package وStrategy Context وRecommendation، وإنشاء provider connection قراءة فقط، وتسجيل مصدر مؤجل، وتحديث cursor، وتسجيل approval وaudit event. ويشغل تكامل Strategy Context مستقلًا عبر `npm run test:database:strategy-context`.
 
 كما يثبت الاختبار أن النظام:
@@ -102,11 +109,14 @@ npm run test:database:foundation
 | Read-only provider | `write_enabled` مرفوض |
 | Secret hygiene | مراجع secret المقبولة لا تحتوي material، وتظهر قيم API key في URL مرفوضة |
 | Governance | canonical hash لا يتغير داخل persistence layer، وglobalMarketValidated/governance unsafe مرفوضان |
-| Reproducibility | seed منقح deterministic داخل regression |
+| Reproducibility | seed منقح deterministic داخل regression، وreplay للـprovider merge مع hashes ثابتة |
+| Provider merge privacy | 28 collection منقحة مع `rows=[]`، دون creative/URL/phone/credentials، والـraw archive خارج Git |
+| Provider merge scope | 6 provider snapshots خاصة، 0 packages، و`globalMarketValidated=false` |
+| Conflict safety | المحتوى المختلف لنفس source أو provider collection يرفض بدل التجاهل الصامت |
 
 ## نقطة التوقف المرحلية
 
-عند نجاح هذا الإصدار يكون المشروع قد أنجز **قاعدة بيانات واختباراتها، وحفظ snapshots بإصدارات، وربطًا مقيدًا مع Strategy Context**، وليس منصة تشغيلية مكتملة. تبقى الموصلات الحية والمزامنة المجدولة وObject Store وVector Index وRBAC وSecret Manager وretention/encryption وdrift monitoring وClient UX وصلاحيات الكتابة خارج النطاق عمدًا.
+عند نجاح هذا الإصدار يكون المشروع قد أنجز **قاعدة بيانات واختباراتها، وحفظ snapshots بإصدارات، ودمجًا خاصًا منقحًا للبيانات المزودة، وربطًا مقيدًا مع Strategy Context**، وليس منصة تشغيلية مكتملة. الدمج الخاص لا يجعل provider snapshots غير exact قابلة للاستهلاك الاستراتيجي ولا يعلن Market Validation. تبقى الموصلات الحية والمزامنة المجدولة وObject Store وVector Index وRBAC وSecret Manager وretention/encryption وdrift monitoring وClient UX وصلاحيات الكتابة خارج النطاق عمدًا.
 
 ## نقاط الاستئناف المستقبلية
 

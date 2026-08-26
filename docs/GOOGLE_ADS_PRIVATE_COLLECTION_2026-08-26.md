@@ -69,7 +69,7 @@
 /home/ubuntu/wizard-temp/.local/private-research/google-ads/2026-08-26/normalized-readonly-evidence.json
 ```
 
-يحتوي الناتج الحالي على 20 collection (10 لكل حساب)، وتقسيمات campaign عددها 24 للحساب 428 و3 للحساب 689، وحزمة provider exact واحدة للحساب 689. جميعها تحمل `marketValidated=false`، ولا توجد `liveAiCalls`. توجد أيضًا نسخة evidence خارجية أقدم في `/home/ubuntu/multiplatform_evidence_packages_google_ads_2026-08-26.json`؛ لا تُدمج معها الصفوف المتداخلة. كون provider package تقنيًا صالحًا لا يعني أن الحساب يغطي صناعة واحدة أو أن بياناته تثبت سوق مصر أو السعودية كله. لا تزال حزم الصناعات العامة الثلاث تحتاج أدلة سوقية مستقلة، وتبقى المقاييس غير المدعومة `unavailable`.
+يحتوي الناتج الحالي على 20 collection (10 لكل حساب)، وتقسيمات campaign عددها 24 للحساب 428 و3 للحساب 689، مع candidate provider package في normalized artifact للحساب 689 وفق قواعد الـnormalizer. عند تنفيذ الدمج الكامل، لم تُحفظ أي Evidence Package في SQLite (`packagesCreated=0`) لأن provider snapshots account-owned وليست public market evidence ولأن الدمج fail-closed خارج exact package workflow. جميعها تحمل `marketValidated=false`، ولا توجد `liveAiCalls`. توجد أيضًا نسخة evidence خارجية أقدم في `/home/ubuntu/multiplatform_evidence_packages_google_ads_2026-08-26.json`؛ لا تُدمج معها الصفوف المتداخلة. كون provider package تقنيًا صالحًا لا يعني أن الحساب يغطي صناعة واحدة أو أن بياناته تثبت سوق مصر أو السعودية كله. لا تزال حزم الصناعات العامة الثلاث تحتاج أدلة سوقية مستقلة، وتبقى المقاييس غير المدعومة `unavailable`.
 
 لم تُغيّر هذه الجولة Canonical Blueprint أو campaign state أو budgets أو bids أو audiences أو catalogs. ولم تُنفذ أي عملية إنشاء أو تعديل أو نشر أو إنفاق.
 
@@ -77,7 +77,7 @@
 
 تمت الخطوة الأولى مبدئيًا عبر تصنيف حتمي على مستوى الحملة في 428، مع إبقاء كل المرشحات `unreviewed` وعدم تحويلها إلى IndustryProfile. وتم تثبيت تأكيد المستخدم للحساب 689 كـ`EG/local_service_general` مع SAR كعملة فقط. أما `9397976723` فأصبح سجلًا مؤجلًا مستقلًا في normalizer: حالته `unavailable/deferred`، وهو مستبعد من الحزم الحالية، وبوابة إعادة المحاولة هي `new_authorization_or_direct_user_access`. عند توفر الوصول، يجب جمع snapshots جديدة والتحقق من النطاق والـSHA256 قبل الدمج؛ لا يُسمح بدمج صفوف قديمة غير قابلة للمطابقة ولا بترقية Market Validation تلقائيًا.
 
-بعد ذلك يمكن جمع تقرير GA4 أو CRM/المتجر لنفس الفترات والحسابات، ثم مطابقة conversions مع leads/orders/revenue/refunds. لن تُحسب ROAS أو CPA الحقيقية قبل هذا الربط. بالنسبة للحساب 689، يمكن الاحتفاظ بحزمة provider exact على نطاق `EG/local_service_general/ar/SAR` بوصفها evidence تشغيلية خاصة، لا بوصفها Market-Validated. أما حملات 428 فلا تُبنى لها حزمة صناعة نهائية قبل قبول المراجعة البشرية لكل partition.
+بعد ذلك يمكن جمع تقرير GA4 أو CRM/المتجر لنفس الفترات والحسابات، ثم مطابقة conversions مع leads/orders/revenue/refunds. لن تُحسب ROAS أو CPA الحقيقية قبل هذا الربط. بالنسبة للحساب 689، يمكن لاحقًا بناء حزمة provider exact على نطاق `EG/local_service_general/ar/SAR` بوصفها evidence تشغيلية خاصة، لا بوصفها Market-Validated، بعد اعتماد مسار package contract صريح. أما حملات 428 فلا تُبنى لها حزمة صناعة نهائية قبل قبول المراجعة البشرية لكل partition.
 
 ## 8. قرار التأجيل والدمج اللاحق
 

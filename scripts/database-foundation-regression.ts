@@ -241,6 +241,77 @@ repositories.providers.createCollection({
   status: "ready",
   collection: { simulation: true },
 });
+// Provider merge replay must be safe: the same source, account, connection,
+// scope, and collection can be encountered again without duplicate-key failure.
+repositories.sources.create({
+  sourceId: "source-sa-ecommerce-demo",
+  publisher: "Redacted Official Source",
+  sourceUrl: "https://example.com/official-source",
+  sourceType: "official_document",
+  market: "SA",
+  industry: "ecommerce_general",
+  language: "ar",
+  licenseStatus: "approved",
+  version: "2026-01",
+  observedAt: createdAt,
+  freshnessPolicy: "monthly",
+  limitations: ["Demonstration source only; not a production market claim."],
+});
+repositories.providers.createAccount({
+  accountId: "provider-account-demo",
+  workspaceId: "ws-demo",
+  provider: "ga4",
+  externalAccountRef: "owned-ref-redacted",
+  ownershipStatus: "verified",
+});
+repositories.providers.createConnection({
+  connectionId: "connection-demo",
+  accountId: "provider-account-demo",
+  connectionStatus: "read_only_ready",
+  grantedScopes: ["analytics.readonly"],
+  secretRef: "secret-ref/provider-demo",
+  lastVerifiedAt: createdAt,
+});
+repositories.providers.createCollection({
+  collectionId: "collection-demo",
+  connectionId: "connection-demo",
+  market: "SA",
+  industry: "ecommerce_general",
+  periodStart: "2026-08-01",
+  periodEnd: "2026-08-23",
+  status: "ready",
+  collection: { simulation: true },
+});
+assert.equal(count(database, "source_records"), 1);
+assert.equal(count(database, "source_versions"), 1);
+assert.equal(count(database, "provider_accounts"), 1);
+assert.equal(count(database, "provider_connections"), 1);
+assert.equal(count(database, "provider_scopes"), 1);
+assert.equal(count(database, "provider_collections"), 1);
+assert.throws(() => repositories.sources.create({
+  sourceId: "source-sa-ecommerce-demo",
+  publisher: "Changed Publisher Must Fail",
+  sourceUrl: "https://example.com/official-source",
+  sourceType: "official_document",
+  market: "SA",
+  industry: "ecommerce_general",
+  language: "ar",
+  licenseStatus: "approved",
+  version: "2026-01",
+  observedAt: createdAt,
+  freshnessPolicy: "monthly",
+  limitations: ["Demonstration source only; not a production market claim."],
+}), /different content/);
+assert.throws(() => repositories.providers.createCollection({
+  collectionId: "collection-demo",
+  connectionId: "connection-demo",
+  market: "SA",
+  industry: "ecommerce_general",
+  periodStart: "2026-08-01",
+  periodEnd: "2026-08-23",
+  status: "ready",
+  collection: { simulation: false },
+}), /different content/);
 repositories.providers.createSyncRun({
   syncRunId: "sync-demo",
   connectionId: "connection-demo",
@@ -333,7 +404,7 @@ fs.rmSync(diskPath, { force: true });
 console.log(JSON.stringify({
   test: "database-foundation-regression",
   status: "PASS",
-  assertions: 55,
+  assertions: 63,
   migrationIdempotent: true,
   fileBackedPersistence: true,
   tables: count(database, "sqlite_master"),

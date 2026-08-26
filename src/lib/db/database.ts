@@ -248,8 +248,10 @@ export function createRepositories(database: DatabaseSync) {
   const createBlueprint = database.prepare("INSERT INTO canonical_blueprints (blueprint_id, workspace_id, current_version, canonical_sha256, generation_mode, external_actions_allowed, budget_spend_allowed, blueprint_json, created_at) VALUES (?, ?, ?, ?, 'blueprint_only', 0, 0, ?, ?)");
   const createBlueprintVersion = database.prepare("INSERT INTO blueprint_versions (blueprint_id, version, canonical_sha256, blueprint_json, created_at) VALUES (?, ?, ?, ?, ?)");
   const getBlueprint = database.prepare("SELECT * FROM canonical_blueprints WHERE blueprint_id = ?");
-  const createSource = database.prepare("INSERT INTO source_records (source_id, publisher, source_url, source_type, market, industry, language, license_status, current_version, enabled, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-  const createSourceVersion = database.prepare("INSERT INTO source_versions (source_id, version, observed_at, freshness_policy, limitations_json, source_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)");
+  const createSource = database.prepare("INSERT OR IGNORE INTO source_records (source_id, publisher, source_url, source_type, market, industry, language, license_status, current_version, enabled, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+  const getSource = database.prepare("SELECT * FROM source_records WHERE source_id = ?");
+  const createSourceVersion = database.prepare("INSERT OR IGNORE INTO source_versions (source_id, version, observed_at, freshness_policy, limitations_json, source_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)");
+  const getSourceVersion = database.prepare("SELECT * FROM source_versions WHERE source_id = ? AND version = ?");
   const createProfile = database.prepare("INSERT OR IGNORE INTO industry_profiles (profile_id, version, industry_key, branch, status, profile_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)");
   const createSnapshot = database.prepare("INSERT INTO knowledge_snapshots (snapshot_id, workspace_id, market, industry, locale, currency, captured_at, freshness_status, confidence, source_ids_json, snapshot_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
   const getSnapshot = database.prepare("SELECT * FROM knowledge_snapshots WHERE workspace_id = ? AND snapshot_id = ?");
@@ -275,16 +277,20 @@ export function createRepositories(database: DatabaseSync) {
   const getContext = database.prepare("SELECT * FROM strategy_contexts WHERE workspace_id = ? AND context_id = ?");
   const createRecommendation = database.prepare("INSERT INTO strategy_recommendations (recommendation_id, workspace_id, context_id, blueprint_id, status, recommendation_json, created_at) VALUES (?, ?, ?, ?, 'advisory_only', ?, ?)");
   const getRecommendation = database.prepare("SELECT * FROM strategy_recommendations WHERE workspace_id = ? AND recommendation_id = ?");
-  const createProviderAccount = database.prepare("INSERT INTO provider_accounts (account_id, workspace_id, provider, external_account_ref, ownership_status, created_at) VALUES (?, ?, ?, ?, ?, ?)");
-  const createProviderConnection = database.prepare("INSERT INTO provider_connections (connection_id, account_id, connection_status, read_only, secret_ref, granted_scopes_json, last_verified_at, created_at) VALUES (?, ?, ?, 1, ?, ?, ?, ?)");
-  const createProviderScope = database.prepare("INSERT INTO provider_scopes (connection_id, scope_name, permission_kind) VALUES (?, ?, 'read')");
-  const createCollection = database.prepare("INSERT INTO provider_collections (collection_id, connection_id, market, industry, period_start, period_end, collection_status, collection_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+  const createProviderAccount = database.prepare("INSERT OR IGNORE INTO provider_accounts (account_id, workspace_id, provider, external_account_ref, ownership_status, created_at) VALUES (?, ?, ?, ?, ?, ?)");
+  const getProviderAccount = database.prepare("SELECT * FROM provider_accounts WHERE account_id = ?");
+  const createProviderConnection = database.prepare("INSERT OR IGNORE INTO provider_connections (connection_id, account_id, connection_status, read_only, secret_ref, granted_scopes_json, last_verified_at, created_at) VALUES (?, ?, ?, 1, ?, ?, ?, ?)");
+  const getProviderConnection = database.prepare("SELECT * FROM provider_connections WHERE connection_id = ?");
+  const createProviderScope = database.prepare("INSERT OR IGNORE INTO provider_scopes (connection_id, scope_name, permission_kind) VALUES (?, ?, 'read')");
+  const createCollection = database.prepare("INSERT OR IGNORE INTO provider_collections (collection_id, connection_id, market, industry, period_start, period_end, collection_status, collection_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+  const getCollection = database.prepare("SELECT * FROM provider_collections WHERE collection_id = ?");
   const createDeferredSource = database.prepare("INSERT OR IGNORE INTO deferred_sources (deferred_source_id, workspace_id, provider, external_account_ref, status, reason, retry_gate, merge_policy, excluded_from_packages, market_validated, last_attempt_at, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1, 0, ?, ?)");
   const getDeferredSource = database.prepare("SELECT * FROM deferred_sources WHERE workspace_id = ? AND provider = ? AND external_account_ref = ?");
   const createSyncRun = database.prepare("INSERT INTO sync_runs (sync_run_id, connection_id, status, started_at, finished_at, rows_seen, error_code, error_message, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
   const createCursor = database.prepare("INSERT INTO sync_cursors (connection_id, cursor_key, cursor_value, updated_at) VALUES (?, ?, ?, ?) ON CONFLICT(connection_id, cursor_key) DO UPDATE SET cursor_value = excluded.cursor_value, updated_at = excluded.updated_at");
   const createApproval = database.prepare("INSERT INTO approval_events (approval_id, workspace_id, object_type, object_id, decision, actor_user_id, note, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-  const createAudit = database.prepare("INSERT INTO audit_events (audit_event_id, workspace_id, event_type, object_type, object_id, actor_type, payload_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+  const createAudit = database.prepare("INSERT OR IGNORE INTO audit_events (audit_event_id, workspace_id, event_type, object_type, object_id, actor_type, payload_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+  const getAudit = database.prepare("SELECT * FROM audit_events WHERE audit_event_id = ?");
   const createStagingRun = database.prepare("INSERT INTO staging_runs (staging_run_id, workspace_id, scenario_id, blueprint_id, context_id, recommendation_id, status, run_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
   const getStagingRun = database.prepare("SELECT * FROM staging_runs WHERE workspace_id = ? AND scenario_id = ?");
   const createStagingTestRun = database.prepare("INSERT INTO staging_test_runs (test_run_id, workspace_id, suite, seed, variants_per_case, total_runs, status, report_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -338,8 +344,47 @@ export function createRepositories(database: DatabaseSync) {
     sources: {
       create(input: SourceRecord) {
         assertSafeReference(input.sourceUrl);
-        createSource.run(input.sourceId, input.publisher, input.sourceUrl, input.sourceType, input.market ?? null, input.industry ?? null, input.language ?? null, input.licenseStatus, input.version, input.enabled === false ? 0 : 1, now());
-        createSourceVersion.run(input.sourceId, input.version, input.observedAt, input.freshnessPolicy, json(input.limitations), json(input), now());
+        const existingSource = getSource.get(input.sourceId) as Row | undefined;
+        if (existingSource) {
+          const expectedSource = {
+            publisher: input.publisher,
+            sourceUrl: input.sourceUrl,
+            sourceType: input.sourceType,
+            market: input.market ?? null,
+            industry: input.industry ?? null,
+            language: input.language ?? null,
+            licenseStatus: input.licenseStatus,
+            currentVersion: input.version,
+            enabled: input.enabled === false ? 0 : 1,
+          };
+          const actualSource = {
+            publisher: existingSource.publisher,
+            sourceUrl: existingSource.source_url,
+            sourceType: existingSource.source_type,
+            market: existingSource.market,
+            industry: existingSource.industry,
+            language: existingSource.language,
+            licenseStatus: existingSource.license_status,
+            currentVersion: existingSource.current_version,
+            enabled: existingSource.enabled,
+          };
+          if (sha256Json(actualSource) !== sha256Json(expectedSource)) throw new Error("Source record already exists with different content.");
+        } else {
+          createSource.run(input.sourceId, input.publisher, input.sourceUrl, input.sourceType, input.market ?? null, input.industry ?? null, input.language ?? null, input.licenseStatus, input.version, input.enabled === false ? 0 : 1, now());
+        }
+        const existingVersion = getSourceVersion.get(input.sourceId, input.version) as Row | undefined;
+        if (existingVersion) {
+          const expectedVersion = { observedAt: input.observedAt, freshnessPolicy: input.freshnessPolicy, limitations: input.limitations, source: input };
+          const actualVersion = {
+            observedAt: existingVersion.observed_at,
+            freshnessPolicy: existingVersion.freshness_policy,
+            limitations: parseJson<string[]>(existingVersion.limitations_json),
+            source: parseJson<SourceRecord>(existingVersion.source_json),
+          };
+          if (sha256Json(actualVersion) !== sha256Json(expectedVersion)) throw new Error("Source version already exists with different content.");
+        } else {
+          createSourceVersion.run(input.sourceId, input.version, input.observedAt, input.freshnessPolicy, json(input.limitations), json(input), now());
+        }
       },
       createIndustryProfile(profile: JsonRecord & { profileId: string; version: string; industryKey: string; branch: string; status: string }) {
         createProfile.run(profile.profileId, profile.version, profile.industryKey, profile.branch, profile.status, json(profile), now());
@@ -472,15 +517,74 @@ export function createRepositories(database: DatabaseSync) {
     },
     providers: {
       createAccount(input: ProviderAccountRecord) {
+        const existing = getProviderAccount.get(input.accountId) as Row | undefined;
+        if (existing) {
+          const actual = {
+            workspaceId: existing.workspace_id,
+            provider: existing.provider,
+            externalAccountRef: existing.external_account_ref,
+            ownershipStatus: existing.ownership_status,
+          };
+          const expected = {
+            workspaceId: input.workspaceId,
+            provider: input.provider,
+            externalAccountRef: input.externalAccountRef,
+            ownershipStatus: input.ownershipStatus,
+          };
+          if (sha256Json(actual) !== sha256Json(expected)) throw new Error("Provider account already exists with different content.");
+          return;
+        }
         createProviderAccount.run(input.accountId, input.workspaceId, input.provider, input.externalAccountRef, input.ownershipStatus, now());
       },
       createConnection(input: ProviderConnectionRecord) {
         assertSafeReference(input.secretRef);
         if (input.connectionStatus === "write_enabled") throw new Error("Write-enabled provider connections are outside Database Foundation v1.");
-        createProviderConnection.run(input.connectionId, input.accountId, input.connectionStatus, input.secretRef ?? null, json(input.grantedScopes), input.lastVerifiedAt ?? null, now());
+        const existing = getProviderConnection.get(input.connectionId) as Row | undefined;
+        if (existing) {
+          const actual = {
+            accountId: existing.account_id,
+            connectionStatus: existing.connection_status,
+            readOnly: existing.read_only,
+            secretRef: existing.secret_ref,
+            grantedScopes: parseJson<string[]>(existing.granted_scopes_json),
+          };
+          const expected = {
+            accountId: input.accountId,
+            connectionStatus: input.connectionStatus,
+            readOnly: 1,
+            secretRef: input.secretRef ?? null,
+            grantedScopes: input.grantedScopes,
+          };
+          if (sha256Json(actual) !== sha256Json(expected)) throw new Error("Provider connection already exists with different content.");
+        } else {
+          createProviderConnection.run(input.connectionId, input.accountId, input.connectionStatus, input.secretRef ?? null, json(input.grantedScopes), input.lastVerifiedAt ?? null, now());
+        }
         for (const scope of input.grantedScopes) createProviderScope.run(input.connectionId, scope);
       },
       createCollection(input: { collectionId: string; connectionId: string; market?: string; industry?: string; periodStart?: string; periodEnd?: string; status: string; collection: JsonRecord }) {
+        const existing = getCollection.get(input.collectionId) as Row | undefined;
+        if (existing) {
+          const actual = {
+            connectionId: existing.connection_id,
+            market: existing.market,
+            industry: existing.industry,
+            periodStart: existing.period_start,
+            periodEnd: existing.period_end,
+            status: existing.collection_status,
+            collection: parseJson<JsonRecord>(existing.collection_json),
+          };
+          const expected = {
+            connectionId: input.connectionId,
+            market: input.market ?? null,
+            industry: input.industry ?? null,
+            periodStart: input.periodStart ?? null,
+            periodEnd: input.periodEnd ?? null,
+            status: input.status,
+            collection: input.collection,
+          };
+          if (sha256Json(actual) !== sha256Json(expected)) throw new Error("Provider collection already exists with different content.");
+          return;
+        }
         createCollection.run(input.collectionId, input.connectionId, input.market ?? null, input.industry ?? null, input.periodStart ?? null, input.periodEnd ?? null, input.status, json(input.collection), now());
       },
       createSyncRun(input: SyncRunRecord) {
@@ -545,6 +649,27 @@ export function createRepositories(database: DatabaseSync) {
         createApproval.run(input.approvalId, input.workspaceId, input.objectType, input.objectId, input.decision, input.actorUserId ?? null, input.note ?? null, now());
       },
       createAuditEvent(input: AuditEventRecord) {
+        const existing = getAudit.get(input.auditEventId) as Row | undefined;
+        if (existing) {
+          const actual = {
+            workspaceId: existing.workspace_id,
+            eventType: existing.event_type,
+            objectType: existing.object_type,
+            objectId: existing.object_id,
+            actorType: existing.actor_type,
+            payload: parseJson<JsonRecord>(existing.payload_json),
+          };
+          const expected = {
+            workspaceId: input.workspaceId,
+            eventType: input.eventType,
+            objectType: input.objectType,
+            objectId: input.objectId,
+            actorType: input.actorType,
+            payload: input.payload,
+          };
+          if (sha256Json(actual) !== sha256Json(expected)) throw new Error("Audit event already exists with different content.");
+          return;
+        }
         createAudit.run(input.auditEventId, input.workspaceId, input.eventType, input.objectType, input.objectId, input.actorType, json(input.payload), now());
       },
     },

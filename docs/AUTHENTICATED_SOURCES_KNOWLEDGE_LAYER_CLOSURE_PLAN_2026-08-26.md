@@ -340,7 +340,7 @@ CRM/store: اسم المنصة فقط ...
 
 حُفظت الصفوف الخام والـhashes في `.local/private-research/google-ads/2026-08-26/` خارج Git. كما أُنشئ تقرير summary آمن في `docs/GOOGLE_ADS_PRIVATE_COLLECTION_2026-08-26.md`، وnormalized output خاص من خلال `scripts/build_google_ads_readonly_current_evidence.ts`، وملف evidence خارجي. لم تُرسل نصوص الإعلانات أو الكلمات المفتاحية إلى AI، ولم تُنفذ أي عملية إنشاء أو تعديل أو نشر أو إنفاق.
 
-هذا التنفيذ لا يرفع `globalMarketValidated` ولا يجعل بيانات Google Ads benchmark سوقيًا. الحساب 428 بقي `mixed_or_multi_industry` على مستوى الحساب، مع 24 campaign partition مرشحة حتميًا: 14 تعليم EG، و5 خدمات محلية EG، و5 اتصالات SA؛ وكلها `unreviewed` ولا تُربط بـIndustryProfile أو Canonical Blueprint. الحساب 689 ثبته المستخدم كنشاط صيانة منزلية في مصر، فصار نطاقه التشغيلي `EG/local_service_general` مع عملة حساب SAR فقط، وسُجل mismatch صراحةً دون استخدام العملة كدليل سوق. أُنشئت حزمة provider exact خاصة له دون تحويلها إلى Market-Validated. أُجّل الحساب 939 وجميع خصائص GA4 رسميًا كمصادر مستقلة بحالة `unavailable/deferred` بناءً على طلب المستخدم، مع استبعادها من الحزم الحالية وعدم دمجها مع 428 أو 689. عند استئنافها، يجب تأكيد المعرفات أو مسارات الصلاحية الصحيحة، جمع snapshots جديدة مع SHA256، ثم استكمال Search Console أو CRM/المتجر قبل اعتماد funnel أو revenue. لا يؤثر هذا التأجيل على سلامة الأدلة العامة أو بيانات Google Ads المنجزة.
+هذا التنفيذ لا يرفع `globalMarketValidated` ولا يجعل بيانات Google Ads benchmark سوقيًا. الحساب 428 بقي `mixed_or_multi_industry` على مستوى الحساب، مع 24 campaign partition مرشحة حتميًا: 14 تعليم EG، و5 خدمات محلية EG، و5 اتصالات SA؛ وكلها `unreviewed` ولا تُربط بـIndustryProfile أو Canonical Blueprint. الحساب 689 ثبته المستخدم كنشاط صيانة منزلية في مصر، فصار نطاقه التشغيلي `EG/local_service_general` مع عملة حساب SAR فقط، وسُجل mismatch صراحةً دون استخدام العملة كدليل سوق. احتفظ الدمج الخاص بهذه البيانات كـprovider snapshot وcollections منقحة فقط؛ لم ينشئ Evidence Package، ولم يحولها إلى Market-Validated. أُجّل الحساب 939 وجميع خصائص GA4 رسميًا كمصادر مستقلة بحالة `unavailable/deferred` بناءً على طلب المستخدم، مع استبعادها من الحزم الحالية وعدم دمجها مع 428 أو 689. عند استئنافها، يجب تأكيد المعرفات أو مسارات الصلاحية الصحيحة، جمع snapshots جديدة مع SHA256، ثم استكمال Search Console أو CRM/المتجر قبل اعتماد funnel أو revenue. لا يؤثر هذا التأجيل على سلامة الأدلة العامة أو بيانات Google Ads المنجزة.
 
 
 ---
@@ -373,3 +373,25 @@ CRM/store: اسم المنصة فقط ...
 تم الاحتفاظ بهوية التفويض الثاني كسجل access مستقل، ولم تُنسخ raw rows أو تقارير أو inventory مرة أخرى. تظل collections السابقة للحسابين هي المصدر التشغيلي الخاص المرجعي، مع إبقاء market وindustry غير مصنفين وعدم إنشاء package جديد بمجرد تغير هوية التفويض. إذا ظهرت نافذة زمنية أو collection جديدة لاحقًا، يجب جمعها بطلب مستقل مع query hash وraw SHA256 ثم مقارنتها بالفهرس السابق.
 
 لم تُنفذ أي عملية كتابة أو revoke أو إنفاق، ولم تُحفظ credentials، ولم تُرسل raw creative content أو URLs أو phone fields إلى GitHub أو AI. التقرير الآمن للتفويض الثاني موجود في `docs/TIKTOK_SECOND_AUTH_OVERLAP_2026-08-27.md`، وسجل dedup التفصيلي موجود خارج Git في `/home/ubuntu/tiktok_exports/2026-08-26/second-auth/DEDUP_DECISION.json`.
+
+---
+
+## 18. نتيجة الدمج الكامل داخل Knowledge Layer في 27 أغسطس 2026
+
+بعد موافقة المستخدم على إتمام الدمج قبل فتح مصدر جديد، شُغّل `scripts/merge_private_provider_evidence.ts` على normalized artifacts الخاصة بـGoogle Ads وTikTok، مع التحقق من SHA256 للمدخلات وسجل dedup للتفويض الثاني. أنشأ الدمج workspace محليًا مستقلًا، وسجل مصدرين رسميين restricted، وحفظ الحسابات والاتصالات والـcollections في SQLite الخاصة دون إدخال raw provider rows.
+
+| مكوّن الدمج | النتيجة المنقحة | الحالة الحوكمية |
+|---|---:|---|
+| Provider accounts | 6 | Google 2 + TikTok 4 |
+| Provider connections | 8 | كلها `read_only=1`؛ تشمل التفويضين المنفصلين لـTikTok |
+| Provider collections | 28 | Google 20 + TikTok 8، محفوظة مع `rows=[]` وprovenance/hash فقط |
+| Knowledge snapshots | 6 | account-scoped provider snapshots، ليست public market evidence |
+| Snapshot revisions | 6 | revision 1 مع snapshot/source manifest hashes |
+| Deferred sources | 1 | Google Ads `9397976723`، retry فقط بعد تفويض جديد |
+| Evidence Packages created by merge | 0 | fail-closed بسبب scope/market/industry gates |
+| `globalMarketValidated` | `false` | لم يتغير |
+| Canonical Blueprint mutation | `false` | لم يحدث |
+
+شُغّل الدمج مرتين على نفس قاعدة SQLite بعد تثبيت الـallowlist؛ حافظت الإعادة على نفس counts وmanifest hash ولم تضاعف أي account أو connection أو collection أو snapshot. كما اختُبرت حالة تعارض المحتوى: إذا ظهر نفس المعرف مع source أو provider collection مختلف، يرفض repository العملية برسالة conflict بدل تجاهل الاختلاف بصمت. أُبقيت SQLite و`MERGE_MANIFEST.json` والمدخلات الخام خارج Git داخل مسارات خاصة ignored.
+
+هذه النتيجة تعني أن **الدمج التشغيلي الخاص اكتمل**، لكنها لا تعني اكتمال Knowledge Layer العامة أو إعلان Market Validation. ما يزال إنشاء الحزم exact يتطلب scope مؤكدًا للسوق والصناعة واللغة والعملة والفترة، كما تبقى مقاييس CPC وCPA وCVR وROAS وreach وfrequency وsaturation وcompetitor performance غير متاحة ما لم يوجد مصدر matching صالح. ولا يجوز تمرير provider snapshots ذات `mixed` أو `unmapped` إلى Strategy Context قبل تحويلها إلى contract-valid exact evidence بعد مراجعة النطاق.

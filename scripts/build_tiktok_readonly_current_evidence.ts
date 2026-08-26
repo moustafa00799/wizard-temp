@@ -82,7 +82,7 @@ const sanitized = {
     collections: account.collections.map((collection) => ({
       ...collection,
       rows: [],
-      metadata: { ...collection.metadata, rawRowsOmittedFromSanitizedOutput: true },
+      metadata: { ...collection.metadata, rawRowsOmittedFromSanitizedOutput: true, rawRowCount: collection.rows.length },
     })),
   })),
   rawRowsOmittedFromSanitizedOutput: true,
