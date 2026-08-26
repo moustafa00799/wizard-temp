@@ -363,3 +363,13 @@ CRM/store: اسم المنصة فقط ...
 أُضيف `tiktok-readonly-normalizer.ts` وcollector دائم `build_tiktok_readonly_current_evidence.ts`، مع تحقق من MANIFEST وSHA256، وحذف raw rows من normalized summary. الحسابات الأربعة بقيت `scopeStatus=unverified` و`industryScopeStatus=unmapped` و`marketScopeStatus=unmapped`، ولذلك لم تُنشأ أي Evidence Package ولم تُرفع `marketValidated`.
 
 لا تُستخدم هذه الدفعة كـmarket benchmark، ولا تُخلط performance مع creative/inventory، ولا تُجمع segmented reports مع aggregates متداخلة. لم تُنفذ أي عملية إنشاء أو تحديث أو حذف أو تعطيل أو ربط أو إنفاق، ولم تُرسل نصوص الإعلانات أو URLs أو credentials إلى AI أو GitHub. التقرير الآمن التفصيلي موجود في `docs/TIKTOK_PRIVATE_COLLECTION_2026-08-27.md`، أما raw والـnormalized private artifact فخارج Git في `/home/ubuntu/tiktok_exports/2026-08-26/current-auth/`.
+
+---
+
+## 17. نتيجة التفويض الثاني لـTikTok في 27 أغسطس 2026
+
+بعد إعادة محاولة التفويض، تغيرت هوية TikTok إلى `core_user_id=7267770019701654529` مع بريد مقنّع `s***a@gmail.com`. أظهر هذا التفويض حسابين فقط: `7302642673201119233` و`7304560039707328514`. كلاهما موجود في الدفعة السابقة، ولذلك كانت نتيجة dedup: صفر حسابات جديدة، وحسابان متداخلان، وصفر collections جديدة مطلوبة.
+
+تم الاحتفاظ بهوية التفويض الثاني كسجل access مستقل، ولم تُنسخ raw rows أو تقارير أو inventory مرة أخرى. تظل collections السابقة للحسابين هي المصدر التشغيلي الخاص المرجعي، مع إبقاء market وindustry غير مصنفين وعدم إنشاء package جديد بمجرد تغير هوية التفويض. إذا ظهرت نافذة زمنية أو collection جديدة لاحقًا، يجب جمعها بطلب مستقل مع query hash وraw SHA256 ثم مقارنتها بالفهرس السابق.
+
+لم تُنفذ أي عملية كتابة أو revoke أو إنفاق، ولم تُحفظ credentials، ولم تُرسل raw creative content أو URLs أو phone fields إلى GitHub أو AI. التقرير الآمن للتفويض الثاني موجود في `docs/TIKTOK_SECOND_AUTH_OVERLAP_2026-08-27.md`، وسجل dedup التفصيلي موجود خارج Git في `/home/ubuntu/tiktok_exports/2026-08-26/second-auth/DEDUP_DECISION.json`.
