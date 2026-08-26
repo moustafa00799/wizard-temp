@@ -11,8 +11,8 @@
 
 | Customer ID | النتيجة | السوق/العملة/المنطقة الزمنية | الحالة التصنيفية |
 |---|---|---|---|
-| `428-290-0193` (`4282900193`) | تم التحقق من health وقراءة التقارير | EG / EGP / Africa/Cairo | `mixed_or_multi_industry`، ويحتاج مراجعة بشرية |
-| `689-913-7548` (`6899137548`) | تم التحقق من health وقراءة التقارير | SA / SAR / Asia/Riyadh | `unclassified`، ويحتاج مراجعة بشرية |
+| `428-290-0193` (`4282900193`) | تم التحقق من health وقراءة التقارير | مختلط EG/SA على مستوى الحملات / EGP / Africa/Cairo | `mixed_or_multi_industry` على مستوى الحساب |
+| `689-913-7548` (`6899137548`) | تم التحقق من health وقراءة التقارير | EG / SAR / Asia/Riyadh | `local_service_general` بنطاق مصر المؤكد من المستخدم |
 | `939-797-6723` (`9397976723`) | مرفوض بـ403 `USER_PERMISSION_DENIED` | غير متاح | `unavailable` إلى حين تصحيح الوصول |
 
 الحساب الثالث لم يُعتبر فاشلًا نهائيًا أو محذوفًا؛ نتيجة Google Ads أشارت إلى احتمال الحاجة إلى `login-customer-id` عند التعامل مع حساب تابع لمدير. وبما أن المستخدم أكد عدم وجود MCC، يجب أولًا التأكد من صحة الرقم أو من أن حساب Google المعتمد هو المستخدم الصحيح، ثم إعادة health check مرة واحدة فقط بعد توفر سبب واضح، دون تكرار سريع.
@@ -45,7 +45,7 @@
 
 الحساب `4282900193` يحتوي إشارات تشغيلية لأكثر من موضوع تجاري، بما في ذلك حملات تعليمية وصيانة وخدمات واتصالات، لذلك تم إبقاؤه `mixed_or_multi_industry` بدل إجباره على `education_general` أو `local_service_general` أو `ecommerce_general`. أسماء الحملات والكلمات والرسائل تصلح كمرشحات تصنيف مرشحة فقط، وليست إثباتًا مستقلاً للسوق أو الصناعة.
 
-الحساب `6899137548` يحتوي ثلاث حملات بحث متوقفة، وثلاثة إعلانات اتصال مفعلة، و132 كلمة مفتاحية مفعلة. الإشارات النصية توحي بنشاط صيانة منزلية، لكن الصناعة ما زالت `unclassified` حتى يراجعها الإنسان أو يربطها بسجل مستقل موثق. لا ينبغي تحويل اسم الحساب أو اسم الحملة إلى إثبات قانوني لملكية النشاط أو نطاقه الجغرافي.
+الحساب `6899137548` يحتوي ثلاث حملات بحث متوقفة، وثلاثة إعلانات اتصال مفعلة، و132 كلمة مفتاحية مفعلة. أكد المستخدم أن النشاط هو صيانة منزلية في مصر؛ لذلك يسجل normalizer النطاق التشغيلي كـ`EG/local_service_general` مع `currency= SAR` كعملة حساب فقط، ويسجل عدم التطابق بين السوق والعملة صراحةً. لا ينبغي تحويل العملة أو اسم الحساب أو اسم الحملة إلى إثبات قانوني مستقل.
 
 تعريفات التحويل مهمة في تفسير الصفر. في الحساب 428 ظهرت إجراءات مثل الاتصال والنقر للاتصال والاتجاهات، وفي الحساب 689 ظهر إجراء اتصال إعلاني مفعّل وإجراء اشتراك محذوف. لذلك لا يجوز تفسير `conversions=0` بأنه عدم وجود أي اتصال تجاري خارج Google Ads؛ بل هو صفر لما سجله تعريف Google Ads المختار خلال الفترة والاستعلام.
 
@@ -63,27 +63,27 @@
 
 ## 6. حالة Evidence والـMarket Validation
 
-تم إنشاء ملف evidence خارجي schema-valid للحسابين المتاحين:
+أُنشئ normalized output خاص schema-valid للحسابين المتاحين:
 
 ```text
-/home/ubuntu/multiplatform_evidence_packages_google_ads_2026-08-26.json
+/home/ubuntu/wizard-temp/.local/private-research/google-ads/2026-08-26/normalized-readonly-evidence.json
 ```
 
-يحتوي الملف على ست collections وEvidence Packages خاصة بنطاق الحسابين، مع `marketValidated=false` و`liveAiCalls=0`. كون provider package تقنيًا صالحًا لا يعني أن الحساب يغطي صناعة واحدة أو أن بياناته تثبت سوق مصر أو السعودية كله. لا تزال الحزم exact الخاصة بالصناعات الثلاث تحتاج مراجعة الإنسان وربطًا مستقلًا بالسوق والصناعة، وتبقى المقاييس غير المدعومة `unavailable`.
+يحتوي الناتج الحالي على 20 collection (10 لكل حساب)، وتقسيمات campaign عددها 24 للحساب 428 و3 للحساب 689، وحزمة provider exact واحدة للحساب 689. جميعها تحمل `marketValidated=false`، ولا توجد `liveAiCalls`. توجد أيضًا نسخة evidence خارجية أقدم في `/home/ubuntu/multiplatform_evidence_packages_google_ads_2026-08-26.json`؛ لا تُدمج معها الصفوف المتداخلة. كون provider package تقنيًا صالحًا لا يعني أن الحساب يغطي صناعة واحدة أو أن بياناته تثبت سوق مصر أو السعودية كله. لا تزال حزم الصناعات العامة الثلاث تحتاج أدلة سوقية مستقلة، وتبقى المقاييس غير المدعومة `unavailable`.
 
 لم تُغيّر هذه الجولة Canonical Blueprint أو campaign state أو budgets أو bids أو audiences أو catalogs. ولم تُنفذ أي عملية إنشاء أو تعديل أو نشر أو إنفاق.
 
 ## 7. مسار الإكمال التالي
 
-الخطوة الأولى هي مراجعة صاحب المشروع لتصنيف الحساب 428 إلى مجموعات حملات/صناعات بدل تصنيف الحساب كله. والخطوة الثانية هي تثبيت أن الحساب 689 يخص `local_service_general` في السعودية، إن أكد المستخدم ذلك. والخطوة الثالثة هي معالجة `9397976723` بعد التحقق من المعرف أو حساب Google المعتمد، دون افتراض MCC ودون إعادة الطلب بلا سبب.
+تمت الخطوة الأولى مبدئيًا عبر تصنيف حتمي على مستوى الحملة في 428، مع إبقاء كل المرشحات `unreviewed` وعدم تحويلها إلى IndustryProfile. وتم تثبيت تأكيد المستخدم للحساب 689 كـ`EG/local_service_general` مع SAR كعملة فقط. الخطوة التالية المؤجلة هي معالجة `9397976723` بعد التحقق من المعرف أو حساب Google المعتمد، دون افتراض MCC ودون إعادة الطلب بلا سبب.
 
-بعد ذلك يمكن جمع تقرير GA4 أو CRM/المتجر لنفس الفترات والحسابات، ثم مطابقة conversions مع leads/orders/revenue/refunds. لن تُحسب ROAS أو CPA الحقيقية قبل هذا الربط. وبعد اكتمال التطبيع يمكن بناء Evidence Packages exact مثل `SA/local_service_general/ar/SAR` أو `EG/education_general/ar/EGP` فقط إذا دعم نطاق الحساب والبيانات ذلك، مع بقاء القرار النهائي للحواجز الحالية.
+بعد ذلك يمكن جمع تقرير GA4 أو CRM/المتجر لنفس الفترات والحسابات، ثم مطابقة conversions مع leads/orders/revenue/refunds. لن تُحسب ROAS أو CPA الحقيقية قبل هذا الربط. بالنسبة للحساب 689، يمكن الاحتفاظ بحزمة provider exact على نطاق `EG/local_service_general/ar/SAR` بوصفها evidence تشغيلية خاصة، لا بوصفها Market-Validated. أما حملات 428 فلا تُبنى لها حزمة صناعة نهائية قبل قبول المراجعة البشرية لكل partition.
 
 ## 8. الاختبارات التي تم تنفيذها
 
 تم التحقق من وجود موصل Google Ads، ثم فحص metadata قبل كل فئة fields. فشل استعلام أول بسبب استخدام `campaign.start_date` و`campaign.end_date` غير المعتمدين، فتم إيقافه وفحص metadata ثم إعادة استعلام مصحح. وفشل استعلام metrics على `ad_group_criterion` بسبب عدم توافق المورد، فتم استخدام `keyword_view` بعد فحص metadata بدل إعادة الطلب الفاشل.
 
-نجحت health queries للحسابين 428 و689، ونجحت campaign/ad-group/creative/keyword/conversion/device/search-term read queries. فشل health query للحساب 939 بـ403 موثق. كل الاستعلامات كانت GAQL `SELECT` قراءة فقط، ولم تستخدم mutation methods.
+نجحت health queries للحسابين 428 و689، ونجحت campaign/ad-group/creative/keyword/conversion/device/search-term read queries. فشل health query للحساب 939 بـ403 موثق. كل الاستعلامات كانت GAQL `SELECT` قراءة فقط، ولم تستخدم mutation methods. أضيف إلى المستودع `scripts/build_google_ads_readonly_current_evidence.ts` و`src/lib/knowledge/providers/google-ads-readonly-normalizer.ts` و`npm run test:knowledge:google-ads-readonly`. الـnormalizer يتحقق من SHA256SUMS، يرفض الحسابات خارج allowlist، يبقي 428 مختلطًا على مستوى الحساب، يسجل 689 كمصر مع SAR كعملة فقط، ويمثل 939 كـ`unavailable` دون retry تلقائي.
 
 ## المراجع الرسمية
 
