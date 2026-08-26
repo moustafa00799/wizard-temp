@@ -1,11 +1,11 @@
 # تقرير التسليم الشامل — تكملة ملف المرجع الأول لمشروع CDKS وCampaign Builder AI
 
 **الإصدار:** 1.0.0 — تكملة مرجعية بعد مرحلة Knowledge Layer وMarket Intelligence العامة
-**تاريخ التقرير:** 25 أغسطس 2026
+**تاريخ التقرير:** 26 أغسطس 2026 — تحديث متابعة دفعة المصادر العامة
 **المستودع:** `moustafa00799/wizard-temp`
 **الفرع:** `main`
-**آخر commit مؤكد:** `c8e19b7 docs: record payment marketplace coverage`
-**الحالة:** النسخة المحلية و`origin/main` متطابقتان بعد `git fetch origin main`، ولا توجد commits محلية غير مرفوعة أو commits على GitHub غير موجودة محليًا.
+**آخر commit مؤكد:** `265ad9f feat: add additional public knowledge sources`
+**الحالة:** تم رفع `265ad9f` إلى `origin/main`، وتطابق HEAD مع GitHub بعد الرفع؛ ملفات raw القديمة و`.local` وملفات ILOSTAT الفارغة بقيت محلية عمدًا، أما تحديث هذا التقرير نفسه فيُحفظ ضمن commit توثيق مستقل لاحق.
 **العلاقة بالملف السابق:** هذه الوثيقة تكمل ملف `docs/ملف المرجع الشامل – مشروع CDKS.md` وملف `docs/CDKS_CONVERSATION_HANDOFF_TO_KNOWLEDGE_LAYER.md`. لا تستبدل التاريخ السابق ولا تعيد تفسيره كحالة حالية؛ بل تضيف ما تم بعده وتوضح ما بقي.
 
 ---
@@ -69,7 +69,7 @@ Campaign Builder AI / CDKS منصة ذكية لبناء وإدارة الاست�
 
 أغلقت المحادثة الحالية جولة جمع عامة واسعة لمصر والسعودية ولثلاث صناعات ذات أولوية: `ecommerce_general` و`education_general` و`local_service_general`. تم دمج CBE وSAMA ووزارة التخطيط وNafeza وNoon وAmazon ومتاجر التطبيقات، إضافة إلى المصادر العامة التي سبقتها الجولة مثل World Bank وUNESCO وUNCTAD وUNdata وCAPMAS وDataSaudi وGASTAT وKAPSARC وGoogle Trends وITU.
 
-الحالة الرقمية الحالية المولدة من `public-knowledge-quality-report-2026-08-25.json` هي: **53 مصدرًا مسجلًا، 22 artifact سياقيًا عامًا، 3 Evidence Packages عربية محدودة، و0 حزمة جاهزة، مع `globalMarketValidated=false`**. بوابة الجودة في آخر بناء هي `PASS`، لكن بوابة Market Validation هي `BLOCKED_BY_INCOMPLETE_COVERAGE` [2].
+الحالة الرقمية الحالية المولدة من `public-knowledge-quality-report-2026-08-25.json` هي: **56 مصدرًا مسجلًا، 25 artifact سياقيًا عامًا، 3 Evidence Packages عربية محدودة، و0 حزمة جاهزة، مع `globalMarketValidated=false`**. بوابة الجودة في آخر بناء هي `PASS`، لكن بوابة Market Validation هي `BLOCKED_BY_INCOMPLETE_COVERAGE` [2].
 
 | المجال | الحالة الحالية |
 |---|---|
@@ -78,8 +78,8 @@ Campaign Builder AI / CDKS منصة ذكية لبناء وإدارة الاست�
 | Semantic regression | 10/10 PASS |
 | Enterprise assertions | 260/260 PASS |
 | Knowledge Contracts | مدمجة بإصدار 1.0 ومختبرة |
-| Source Registry | 53 سجلًا، مع scope وlicense وfreshness وlimitations |
-| Public context artifacts | 22 artifactًا مع raw/derived provenance وhashes |
+| Source Registry | 56 سجلًا، مع scope وlicense وfreshness وlimitations |
+| Public context artifacts | 25 artifactًا مع raw/derived provenance وhashes |
 | Evidence Packages العامة | 3 حزم عربية، كلها `limited` و`fresh` |
 | Scoped Strategy Context | موجود ومقيد؛ لا يرفع `globalMarketValidated` |
 | Database foundation | SQLite تجريبية، migrations وrepositories واختبار idempotency والعزل |
@@ -570,7 +570,7 @@ AI_BENCHMARK_STOP_ON_NOT_FOUND=true
 | الأمر | النتيجة |
 |---|---|
 | `npm run knowledge:public:full` | PASS؛ أعاد بناء public context وartifacts وregistry وmanifest والحزم |
-| `npm run test:knowledge:public-ingestion` | PASS؛ **112 assertion**، 53 مصدرًا، 22 artifact، 10 World Bank، 4 Trends |
+| `npm run test:knowledge:public-ingestion` | PASS؛ **125 assertion**، 56 مصدرًا، 25 artifact، 10 World Bank، 4 Trends |
 | `npm run test:knowledge:public-evidence` | PASS؛ 3 حزم محدودة، scope/freshness/unknowns سليمة |
 | `npm run test:knowledge:public-quality` | PASS؛ hashes وsource IDs وgates سليمة |
 | `npm run test:knowledge:contracts` | PASS |
@@ -845,3 +845,72 @@ SQLite الحالية كافية لاختبار شكل المنتج والعزل
 الاستكمال الصحيح لا يبدأ بإضافة أرقام أكثر عشوائيًا ولا بـFine-tuning. يبدأ بـgates مستقلة، source-metric-scope matrix، ثم مصادر العميل الرسمية، ثم connectors قراءة فقط، ثم Evidence-aware CDKS، ثم Strategy/Reasoning citations، ثم UX، ثم نقل التخزين إلى بيئة مستضافة. يجب أن يبقى النظام طوال ذلك **blueprint-only، fail-closed، ومعلنًا بصدق على أنه غير Market-Validated عالميًا**.
 
 **نهاية التقرير.**
+
+
+---
+
+# ملحق متابعة — دفعة المصادر العامة الجديدة 2026-08-26
+
+## 1. هدف الدفعة
+
+استُكملت جولة إضافية من جمع البيانات العامة لمصر والسعودية دون تسجيل دخول أو OAuth أو API keys أو صلاحيات خاصة. قبل كل عملية جمع تمت مقارنة المصدر مع artifacts السابقة لمنع التكرار. لم تُستخدم أي بيانات عميل جديدة، ولم تُرسل أسرار أو cookies أو tokens، ولم تُستخدم عمليات كتابة أو نشر على أي منصة إعلانية.
+
+تظل قاعدة الحوكمة ثابتة: كل المخرجات الجديدة هي **سياق عام أو supply/discovery context**، وليست بديلًا عن بيانات العميل المملوكة، ولا تكفي وحدها لإعلان `Market-Validated`. بقيت `globalMarketValidated=false`، كما بقيت Evidence Packages الثلاث بحالة `limited`.
+
+## 2. البيانات التي جُمعت فعليًا
+
+| المصدر | ما جُمع | النطاق والنتيجة | مكان artifact |
+|---|---|---|---|
+| KAPSARC Data Portal / GASTAT | Metadata وCSV لعدد المنشآت حسب النشاط والحجم | **2,688 صفًا**. البيانات المنشورة تغطي 2010–2017، metadata تصفها كـPublic Domain وتضعها في سياق Annual Economic Establishment Survey، مع ملاحظة أن dataset معلّم discontinued. | `data/knowledge/public/kapsarc/2026-08-26/normalized-establishments-observations.json` |
+| CAPMAS HIECS 2021 | صفحة الدراسة العامة وvariable dictionary للمتغير `ACT_REC` | تم تثبيت Study ID `EGY-CAPMAS-HIECS-2021-v1.0`، سنة 2021، ووصف نطاق دخل/إنفاق/استهلاك الأسر. metadata عامة، أما مسار microdata فموسوم Licensed؛ لم تُنزّل microdata ولم تُعامل case counts كإحصاء سكاني. | `data/knowledge/public/capmas/2026-08-26/normalized-hiecs-2021-metadata.json` |
+| OpenStreetMap عبر Overpass | استعلام قراءة فقط لمعالم `school`, `college`, `university`, `kindergarten`, `clinic`, `hospital` داخل bounding boxes محددة للقاهرة والرياض | **12 observation مجمعة** بحسب المدينة ونوع amenity، مع OSM timestamp `2026-08-26T17:17:35Z`. هذه كثافة معالم mapped وليست تعدادًا رسميًا أو حصة سوقية. | `data/knowledge/public/openstreetmap/2026-08-26/normalized-cairo-riyadh-amenities.json` |
+
+## 3. provenance وhashes
+
+| الملف الخام | SHA-256 |
+|---|---|
+| KAPSARC metadata | `e6889da544b4178270951ce9b04741975a4f036f711c30f3eed609edfbf96620` |
+| KAPSARC establishments CSV (raw local capture, CRLF) | `c9f518bc16e494c4de0ad4e06dca5d6cc6c090f0d7e751e838c537ffe4816365` |
+| KAPSARC establishments CSV (promoted LF artifact used by normalizer) | `969ca39190e89d90d5542df3489047872e293080d39d258588ed596dc8c27dbe` |
+| CAPMAS HIECS overview HTML | `35bd58ff3097406391992261e57f95672567e68812d51d4966674151dab4ddbe` |
+| CAPMAS HIECS variable dictionary HTML | `e5228b08a1295f0478d09022c70579c622504cff69baa8138e442966890ad0b2` |
+| OSM Overpass response | `db3cc3af6012dab60fd54ae0248fde3cfbae60e162fc2b8ca2fb21d2923a2ca8` |
+| OSM query | `3f4c664739b4808869f7a81b686e2e549363a5cce40df60ada87fbf1ad44b9e4` |
+
+## 4. أثر الدفعة على Knowledge Layer
+
+أضيفت ثلاثة artifacts عامة جديدة، وسُجلت ثلاثة Source Records جديدة، فأصبح registry يحتوي **56 مصدرًا** وmanifest يحتوي **25 public context artifacts**. أضيف الأمر `knowledge:public:additional-context` إلى `package.json` وربط بـ`knowledge:public:full` حتى يعاد بناء البيانات حتميًا من الملفات الخام الموثقة.
+
+تمت إضافة المصدرين KAPSARC/GASTAT وCAPMAS HIECS إلى registry، إضافة إلى مصدر OSM/Overpass. لم تُدخل هذه البيانات في claims شاملة داخل Evidence Packages؛ وذلك لأن KAPSARC يصف supply تاريخيًا، وCAPMAS HIECS metadata لا تحتوي microdata، وOSM يصف mapped supply proxy. لذلك لم تغلق هذه الدفعة فجوات audience، demand، sales، market share، conversion أو advertising performance.
+
+## 5. مصادر تم تأجيلها أو لم تُثبت كـartifact
+
+| المصدر | سبب التأجيل | الإجراء اللاحق |
+|---|---|---|
+| ILOSTAT direct downloads | ثلاثة quick-download URLs أعادت ملفات صفرية في بيئة الجمع، ولم تُستخدم كدليل. توجد بعض ILO-derived series بالفعل داخل UNdata، ولذلك لم تُكرر. | إعادة المحاولة لاحقًا من endpoint رسمي موثق أو تنزيل dataset محدد بعد التحقق من صيغة الرابط، مع مقارنة variables/periods قبل الإضافة. |
+| Saudi Open Data dataset details | صفحة detail أعادت SPA shell فقط عبر extraction، وcurl المباشر فشل بـ`SSL_ERROR_SYSCALL`. صفحة SDAIA العامة كانت قابلة للقراءة واحتوت IDs، لكن لم يوجد direct file موثق يمكن إدخاله بأمان في هذه الجولة. | استخدام المتصفح أو direct public download عند استقرار البوابة، دون login أو تجاوز حماية. |
+| MPED GDP/Governorate | الصفحات العامة تقرأ وتعرض filters، لكن جلب الصفوف الرقمية يتم من POST endpoints مضمّنة في JavaScript. لم تُستدعَ لأنها خارج نطاق الجولة التي تؤجل APIs. | إذا تقرر السماح بقراءة endpoints العامة لاحقًا، يجب تسجيل request payload وresponse hash والمنهجية قبل التطبيع. |
+| Egypt Data Portal/data.gov.eg | مسار البوابة لم يحل/لم يثبت dataset قابلًا للقراءة في المحاولات المسموحة. | يبقى `discovery/unavailable`، ولا يُستبدل بمصدر ثالث على أنه رسمي. |
+
+ملفات ILOSTAT الصفرية الناتجة من محاولة الجمع بقيت خارج artifacts ولم تُرفع إلى GitHub لأنها ليست بيانات صالحة. لا تُعامل كفجوة في registry ولا كرقم صفري.
+
+## 6. قواعد الاستخدام
+
+لا يجوز استخدام عدد المنشآت من KAPSARC باعتباره حجم المنافسة الفعلي أو market share، ولا استخدام mapped amenities من OSM لتقدير الطلب أو bookings، ولا استخدام HIECS variable case counts كحجم سكان أو إنفاق. كما يجب الاحتفاظ بــODbL attribution عند استخدام بيانات OSM في أي قاعدة مشتقة، والالتزام بالـcache وUser-Agent والتوقف عند 429/406 أو overload.
+
+## 7. اختبارات الدفعة
+
+نجح `npm run knowledge:public:full` بعد الدفعة، وأعاد بناء source registry وmanifest وEvidence Packages دون تغيير حالة market validation. وتشمل النتيجة: 56 مصدرًا، 25 artifact عامًا، 2,688 observation لـKAPSARC، observationين metadata لـHIECS، و12 observation لـOSM. تم تحديث `public-knowledge-ingestion-regression.ts` للتحقق من registry وprovenance وODbL والنطاق ومنع metrics الإعلانية الممنوعة، وأصبح عدد assertions المتوقع **125**.
+
+## 8. مراجع الدفعة
+
+[1]: https://datasource.kapsarc.org/explore/assets/number-of-establishments-by-size-and-economic-activity/ "KAPSARC/GASTAT — Number of Establishments by Size and Economic Activity"
+[2]: https://datasource.kapsarc.org/api/explore/v2.1/catalog/datasets/number-of-establishments-by-size-and-economic-activity "KAPSARC public dataset API metadata"
+[3]: https://censusinfo.capmas.gov.eg/metadata-en-v4.2/index.php/catalog/747/overview "CAPMAS HIECS 2021 overview"
+[4]: https://censusinfo.capmas.gov.eg/metadata-en-v4.2/index.php/catalog/747/datafile/F34/V5984 "CAPMAS HIECS variable dictionary"
+[5]: https://overpass-api.de/api/interpreter "Overpass API endpoint"
+[6]: https://wiki.openstreetmap.org/wiki/Overpass_API "Overpass API documentation and OSM attribution context"
+[7]: https://open.data.gov.sa/en/datasets "Saudi National Open Data Platform"
+[8]: https://sdaia.gov.sa/en/SDAIA/eParticipation/Pages/OpenData.aspx "SDAIA Open Data page"
+[9]: https://mped.gov.eg/Governorate?lang=en "Egypt MPED GDP by Governorate"
+[10]: https://ilostat.ilo.org/data/ "ILOSTAT public data"
