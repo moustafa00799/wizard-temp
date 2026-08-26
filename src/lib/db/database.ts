@@ -3,6 +3,7 @@ import { createHash } from "node:crypto";
 import { DATABASE_FOUNDATION_MIGRATION_ID, DATABASE_FOUNDATION_MIGRATION_SQL } from "./migrations/0001_database_foundation";
 import { PERSONAL_STAGING_MIGRATION_ID, PERSONAL_STAGING_MIGRATION_SQL } from "./migrations/0002_personal_staging";
 import { STAGING_TEST_RUNS_MIGRATION_ID, STAGING_TEST_RUNS_MIGRATION_SQL } from "./migrations/0003_staging_test_runs";
+import { KNOWLEDGE_SNAPSHOT_PERSISTENCE_MIGRATION_ID, KNOWLEDGE_SNAPSHOT_PERSISTENCE_MIGRATION_SQL } from "./migrations/0004_knowledge_snapshot_persistence";
 
 export type DatabaseLocation = ":memory:" | string;
 export type JsonRecord = Record<string, unknown>;
@@ -66,6 +67,31 @@ type SnapshotRecord = {
   confidence: number;
   snapshot: JsonRecord;
   sourceIds: string[];
+  createdAt?: string;
+};
+
+type SnapshotVersionRecord = {
+  snapshotId: string;
+  revision: number;
+  snapshotSha256: string;
+  sourceManifestSha256?: string;
+  capturedAt: string;
+  freshnessStatus: "fresh" | "stale" | "expired" | "missing";
+  payload: JsonRecord;
+  createdAt?: string;
+};
+
+type DeferredSourceRecord = {
+  deferredSourceId: string;
+  workspaceId: string;
+  provider: "meta" | "google_ads" | "tiktok_ads" | "ga4";
+  externalAccountRef: string;
+  status: "deferred" | "unavailable" | "ready_for_retry" | "merged";
+  reason: string;
+  retryGate: "new_authorization" | "direct_user_access" | "manual_review";
+  mergePolicy: "merge_only_after_scope_and_hash_verification";
+  lastAttemptAt?: string;
+  createdAt?: string;
 };
 
 type EvidencePackageRecord = {
@@ -171,6 +197,20 @@ function assertSafeReference(value: string | undefined): void {
   }
 }
 
+function assertSafeGovernance(value: JsonRecord): void {
+  if (value.globalMarketValidated === true) {
+    throw new Error("Persistence cannot store a globally market-validated context or recommendation.");
+  }
+  const governance = value.governance;
+  if (!governance || typeof governance !== "object") return;
+  const governanceRecord = governance as JsonRecord;
+  for (const key of ["externalActionsAllowed", "budgetSpendAllowed", "canMutateCdks", "canChangeCanonicalBlueprint"]) {
+    if (governanceRecord[key] === true) {
+      throw new Error(`Unsafe governance flag cannot be persisted: ${key}.`);
+    }
+  }
+}
+
 export function sha256Json(value: unknown): string {
   return createHash("sha256").update(json(value)).digest("hex");
 }
@@ -193,7 +233,9 @@ export function applyDatabaseMigrations(database: DatabaseSync): void {
   };
   apply(DATABASE_FOUNDATION_MIGRATION_ID, DATABASE_FOUNDATION_MIGRATION_SQL);
   apply(PERSONAL_STAGING_MIGRATION_ID, PERSONAL_STAGING_MIGRATION_SQL);
-  apply(STAGING_TEST_RUNS_MIGRATION_ID, STAGING_TEST_RUNS_MIGRATION_SQL);
+      apply(STAGING_TEST_RUNS_MIGRATION_ID, STAGING_TEST_RUNS_MIGRATION_SQL);
+    apply(KNOWLEDGE_SNAPSHOT_PERSISTENCE_MIGRATION_ID, KNOWLEDGE_SNAPSHOT_PERSISTENCE_MIGRATION_SQL);
+
 }
 
 export function createRepositories(database: DatabaseSync) {
@@ -211,17 +253,34 @@ export function createRepositories(database: DatabaseSync) {
   const createProfile = database.prepare("INSERT OR IGNORE INTO industry_profiles (profile_id, version, industry_key, branch, status, profile_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)");
   const createSnapshot = database.prepare("INSERT INTO knowledge_snapshots (snapshot_id, workspace_id, market, industry, locale, currency, captured_at, freshness_status, confidence, source_ids_json, snapshot_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
   const getSnapshot = database.prepare("SELECT * FROM knowledge_snapshots WHERE workspace_id = ? AND snapshot_id = ?");
+  const createSnapshotVersion = database.prepare("INSERT OR IGNORE INTO knowledge_snapshot_versions (snapshot_id, revision, snapshot_sha256, source_manifest_sha256, captured_at, freshness_status, payload_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+  const getSnapshotVersion = database.prepare("SELECT * FROM knowledge_snapshot_versions WHERE snapshot_id = ? AND revision = ?");
+  const getSnapshotVersionByHash = database.prepare("SELECT * FROM knowledge_snapshot_versions WHERE snapshot_id = ? AND snapshot_sha256 = ?");
+  const persistSnapshotVersion = (input: SnapshotVersionRecord) => {
+    const existingRevision = getSnapshotVersion.get(input.snapshotId, input.revision) as Row | undefined;
+    if (existingRevision && existingRevision.snapshot_sha256 !== input.snapshotSha256) {
+      throw new Error("Snapshot revision already exists with a different SHA-256.");
+    }
+    const existingHash = getSnapshotVersionByHash.get(input.snapshotId, input.snapshotSha256) as Row | undefined;
+    if (!existingRevision && existingHash) return existingHash;
+    createSnapshotVersion.run(input.snapshotId, input.revision, input.snapshotSha256, input.sourceManifestSha256 ?? null, input.capturedAt, input.freshnessStatus, json(input.payload), input.createdAt ?? now());
+    return getSnapshotVersion.get(input.snapshotId, input.revision) as Row;
+  };
   const createFact = database.prepare("INSERT INTO market_facts (fact_id, snapshot_id, market, industry, status, value_json, source_ids_json, observed_at, fact_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
   const createClaim = database.prepare("INSERT INTO claims (claim_id, workspace_id, market, industry, claim_type, status, evidence_ids_json, claim_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
   const createPackage = database.prepare("INSERT INTO evidence_packages (package_id, workspace_id, market, industry, status, freshness_status, retrieval_strategy, package_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
   const attachPackageSnapshot = database.prepare("INSERT INTO evidence_package_snapshots (package_id, snapshot_id) VALUES (?, ?)");
   const createEvidenceLink = database.prepare("INSERT INTO evidence_links (evidence_id, package_id, source_id, observed_at, limitations_json, evidence_json) VALUES (?, ?, ?, ?, ?, ?)");
   const createContext = database.prepare("INSERT INTO strategy_contexts (context_id, workspace_id, package_id, blueprint_id, market, industry, scoped_validation_status, context_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+  const getContext = database.prepare("SELECT * FROM strategy_contexts WHERE workspace_id = ? AND context_id = ?");
   const createRecommendation = database.prepare("INSERT INTO strategy_recommendations (recommendation_id, workspace_id, context_id, blueprint_id, status, recommendation_json, created_at) VALUES (?, ?, ?, ?, 'advisory_only', ?, ?)");
+  const getRecommendation = database.prepare("SELECT * FROM strategy_recommendations WHERE workspace_id = ? AND recommendation_id = ?");
   const createProviderAccount = database.prepare("INSERT INTO provider_accounts (account_id, workspace_id, provider, external_account_ref, ownership_status, created_at) VALUES (?, ?, ?, ?, ?, ?)");
   const createProviderConnection = database.prepare("INSERT INTO provider_connections (connection_id, account_id, connection_status, read_only, secret_ref, granted_scopes_json, last_verified_at, created_at) VALUES (?, ?, ?, 1, ?, ?, ?, ?)");
   const createProviderScope = database.prepare("INSERT INTO provider_scopes (connection_id, scope_name, permission_kind) VALUES (?, ?, 'read')");
   const createCollection = database.prepare("INSERT INTO provider_collections (collection_id, connection_id, market, industry, period_start, period_end, collection_status, collection_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+  const createDeferredSource = database.prepare("INSERT OR IGNORE INTO deferred_sources (deferred_source_id, workspace_id, provider, external_account_ref, status, reason, retry_gate, merge_policy, excluded_from_packages, market_validated, last_attempt_at, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1, 0, ?, ?)");
+  const getDeferredSource = database.prepare("SELECT * FROM deferred_sources WHERE workspace_id = ? AND provider = ? AND external_account_ref = ?");
   const createSyncRun = database.prepare("INSERT INTO sync_runs (sync_run_id, connection_id, status, started_at, finished_at, rows_seen, error_code, error_message, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
   const createCursor = database.prepare("INSERT INTO sync_cursors (connection_id, cursor_key, cursor_value, updated_at) VALUES (?, ?, ?, ?) ON CONFLICT(connection_id, cursor_key) DO UPDATE SET cursor_value = excluded.cursor_value, updated_at = excluded.updated_at");
   const createApproval = database.prepare("INSERT INTO approval_events (approval_id, workspace_id, object_type, object_id, decision, actor_user_id, note, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
@@ -288,13 +347,60 @@ export function createRepositories(database: DatabaseSync) {
     },
     knowledge: {
       createSnapshot(input: SnapshotRecord) {
-        createSnapshot.run(input.snapshotId, input.workspaceId, input.market, input.industry, input.locale, input.currency, input.capturedAt, input.freshnessStatus, input.confidence, json(input.sourceIds), json(input.snapshot), now());
+        const createdAt = input.createdAt ?? now();
+        const existing = getSnapshot.get(input.workspaceId, input.snapshotId) as Row | undefined;
+        if (existing) {
+          const existingSnapshot = parseJson<JsonRecord>(existing.snapshot_json);
+          if (sha256Json(existingSnapshot) !== sha256Json(input.snapshot)) {
+            throw new Error("Knowledge snapshot already exists with different content.");
+          }
+          persistSnapshotVersion({
+            snapshotId: input.snapshotId,
+            revision: 1,
+            snapshotSha256: sha256Json(input.snapshot),
+            sourceManifestSha256: sha256Json([...input.sourceIds].sort()),
+            capturedAt: input.capturedAt,
+            freshnessStatus: input.freshnessStatus,
+            payload: input.snapshot,
+            createdAt,
+          });
+          return existing;
+        }
+        createSnapshot.run(input.snapshotId, input.workspaceId, input.market, input.industry, input.locale, input.currency, input.capturedAt, input.freshnessStatus, input.confidence, json(input.sourceIds), json(input.snapshot), createdAt);
+        persistSnapshotVersion({
+          snapshotId: input.snapshotId,
+          revision: 1,
+          snapshotSha256: sha256Json(input.snapshot),
+          sourceManifestSha256: sha256Json([...input.sourceIds].sort()),
+          capturedAt: input.capturedAt,
+          freshnessStatus: input.freshnessStatus,
+          payload: input.snapshot,
+          createdAt,
+        });
         const row = getSnapshot.get(input.workspaceId, input.snapshotId) as Row;
         return row;
       },
-      getSnapshot(workspaceId: string, snapshotId: string) {
+      createSnapshotVersion(input: SnapshotVersionRecord) {
+        return persistSnapshotVersion(input);
+      },
+      getSnapshotVersion(snapshotId: string, revision: number): (Row & { payload: JsonRecord }) | undefined {
+        const row = getSnapshotVersion.get(snapshotId, revision) as Row | undefined;
+        return row ? { ...row, payload: parseJson<JsonRecord>(row.payload_json) } : undefined;
+      },
+      getSnapshot(workspaceId: string, snapshotId: string): (Row & {
+        sourceIds: string[];
+        snapshot: JsonRecord;
+        captured_at: string;
+        freshness_status: "fresh" | "stale" | "expired" | "missing";
+      }) | undefined {
         const row = getSnapshot.get(workspaceId, snapshotId) as Row | undefined;
-        return row ? { ...row, sourceIds: parseJson<string[]>(row.source_ids_json), snapshot: parseJson<JsonRecord>(row.snapshot_json) } : undefined;
+        return row ? {
+          ...row,
+          sourceIds: parseJson<string[]>(row.source_ids_json),
+          snapshot: parseJson<JsonRecord>(row.snapshot_json),
+          captured_at: String(row.captured_at),
+          freshness_status: String(row.freshness_status) as "fresh" | "stale" | "expired" | "missing",
+        } : undefined;
       },
       createFact(input: { factId: string; snapshotId: string; market: string; industry: string; status: string; value: unknown; sourceIds: string[]; observedAt?: string; fact: JsonRecord }) {
         createFact.run(input.factId, input.snapshotId, input.market, input.industry, input.status, json(input.value), json(input.sourceIds), input.observedAt ?? null, json(input.fact), now());
@@ -314,10 +420,54 @@ export function createRepositories(database: DatabaseSync) {
     },
     strategy: {
       createContext(input: StrategyContextRecord) {
+        assertSafeGovernance(input.context);
         createContext.run(input.contextId, input.workspaceId, input.packageId, input.blueprintId, input.market, input.industry, input.scopedValidationStatus, json(input.context), input.createdAt ?? now());
       },
+      getContext(workspaceId: string, contextId: string): (Row & {
+        context: JsonRecord;
+        package_id: string;
+        blueprint_id: string;
+        market: string;
+        industry: string;
+      }) | undefined {
+        const row = getContext.get(workspaceId, contextId) as Row | undefined;
+        return row ? {
+          ...row,
+          context: parseJson<JsonRecord>(row.context_json),
+          package_id: String(row.package_id),
+          blueprint_id: String(row.blueprint_id),
+          market: String(row.market),
+          industry: String(row.industry),
+        } : undefined;
+      },
       createRecommendation(input: StrategyRecommendationRecord) {
+        assertSafeGovernance(input.recommendation);
         createRecommendation.run(input.recommendationId, input.workspaceId, input.contextId, input.blueprintId, json(input.recommendation), input.createdAt ?? now());
+      },
+      getRecommendation(workspaceId: string, recommendationId: string): (Row & {
+        recommendation: JsonRecord;
+        context_id: string;
+        blueprint_id: string;
+      }) | undefined {
+        const row = getRecommendation.get(workspaceId, recommendationId) as Row | undefined;
+        return row ? {
+          ...row,
+          recommendation: parseJson<JsonRecord>(row.recommendation_json),
+          context_id: String(row.context_id),
+          blueprint_id: String(row.blueprint_id),
+        } : undefined;
+      },
+    },
+    deferredSources: {
+      create(input: DeferredSourceRecord) {
+        assertSafeReference(input.externalAccountRef);
+        const existing = getDeferredSource.get(input.workspaceId, input.provider, input.externalAccountRef) as Row | undefined;
+        if (existing) return existing;
+        createDeferredSource.run(input.deferredSourceId, input.workspaceId, input.provider, input.externalAccountRef, input.status, input.reason, input.retryGate, input.mergePolicy, input.lastAttemptAt ?? null, input.createdAt ?? now());
+        return getDeferredSource.get(input.workspaceId, input.provider, input.externalAccountRef) as Row;
+      },
+      get(workspaceId: string, provider: DeferredSourceRecord["provider"], externalAccountRef: string) {
+        return getDeferredSource.get(workspaceId, provider, externalAccountRef) as Row | undefined;
       },
     },
     providers: {

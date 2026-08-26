@@ -26,11 +26,11 @@
 | العزل | `workspaces`, `workspace_memberships` |
 | مدخلات العميل | `client_briefs`, `wizard_submissions` |
 | القرار canonical | `canonical_blueprints`, `blueprint_versions` |
-| المعرفة | `source_records`, `source_versions`, `industry_profiles`, `knowledge_snapshots`, `market_facts`, `claims` |
+| المعرفة | `source_records`, `source_versions`, `industry_profiles`, `knowledge_snapshots`, `knowledge_snapshot_versions`, `market_facts`, `claims` |
 | الأدلة | `evidence_packages`, `evidence_package_snapshots`, `evidence_links` |
 | الاستراتيجية | `strategy_contexts`, `strategy_recommendations` |
 | الموصلات | `provider_accounts`, `provider_connections`, `provider_scopes`, `provider_collections` |
-| المزامنة | `sync_runs`, `sync_cursors` |
+| المزامنة | `sync_runs`, `sync_cursors`, `deferred_sources` |
 | الحوكمة | `approval_events`, `audit_events` |
 
 كل كيان تشغيلي رئيسي يحتوي على `workspace_id` أو يرتبط بكيان يحمل `workspace_id`. تعتمد العلاقات الخارجية على `ON DELETE RESTRICT` لمنع حذف سجل مصدر أو Blueprint بينما توجد أدلة أو توصيات تعتمد عليه.
@@ -45,11 +45,16 @@
 
 ## Migration وAPI
 
-توجد migration في:
+توجد migrations في:
 
 ```text
 src/lib/db/migrations/0001_database_foundation.ts
+src/lib/db/migrations/0002_personal_staging.ts
+src/lib/db/migrations/0003_staging_test_runs.ts
+src/lib/db/migrations/0004_knowledge_snapshot_persistence.ts
 ```
+
+لا تُعدّل migrations السابقة بعد تطبيقها؛ تُضاف أي تغييرات لاحقة في migration جديدة.
 
 وتوجد واجهة التشغيل في:
 
@@ -66,7 +71,15 @@ const repositories = createRepositories(database);
 repositories.workspaces.create({ workspaceId: "ws-1", name: "Demo" });
 ```
 
-`openDatabase` يفعّل foreign keys ويطبق migration بصورة idempotent. يمكن تمرير مسار ملف SQLite لاحقًا بدل `:memory:` دون تغيير repositories. لا يُنصح بتشغيل ملف قاعدة بيانات إنتاجي من مستودع Git أو داخل مجلد fixtures.
+`openDatabase` يفعّل foreign keys ويطبق كل migrations بصورة idempotent. يمكن تمرير مسار ملف SQLite لاحقًا بدل `:memory:` دون تغيير repositories. ينشئ `knowledge.createSnapshot` تلقائيًا revision أولى مع `snapshot_sha256` و`source_manifest_sha256`، ويرفض تعارض المحتوى أو hash المختلف لنفس revision. كما يسجل `deferredSources` الحسابات أو الموصلات المؤجلة دون السماح بإدخالها في Evidence Packages أو `marketValidated`. لا يُنصح بتشغيل ملف قاعدة بيانات إنتاجي من مستودع Git أو داخل مجلد fixtures.
+
+توجد خدمة التكامل في:
+
+```text
+src/lib/knowledge/persisted-strategy-context.ts
+```
+
+وتقوم بقراءة `ScopedStrategyContext` و`StrategyRecommendation` من قاعدة البيانات، والتحقق من Zod contract، ومطابقة workspace/package/market/industry/Blueprint bindings، ورفض أي سياق يفعّل `globalMarketValidated` أو أي governance flag غير آمن. هذه الخدمة لا تعدل Canonical Blueprint.
 
 ## الاختبار
 
@@ -76,25 +89,25 @@ repositories.workspaces.create({ workspaceId: "ws-1", name: "Demo" });
 npm run test:database:foundation
 ```
 
-ويتحقق من نجاح migration مرتين دون تكرار، وإنشاء نسختين من brief، وربط Wizard submission، وحفظ Blueprint وhash، وحفظ Source وIndustryProfile وSnapshot وFact وEvidence Package وStrategy Context وRecommendation، وإنشاء provider connection قراءة فقط، وتحديث cursor، وتسجيل approval وaudit event.
+ويتحقق من نجاح migrations أربع مرات دون تكرار، وإنشاء نسختين من brief، وربط Wizard submission، وحفظ Blueprint وhash، وحفظ Source وIndustryProfile وSnapshot وsnapshot revision وFact وEvidence Package وStrategy Context وRecommendation، وإنشاء provider connection قراءة فقط، وتسجيل مصدر مؤجل، وتحديث cursor، وتسجيل approval وaudit event. ويشغل تكامل Strategy Context مستقلًا عبر `npm run test:database:strategy-context`.
 
 كما يثبت الاختبار أن النظام:
 
 | البوابة | الإثبات |
 |---|---|
-| Migration idempotency | migration واحدة بعد التطبيق المتكرر |
+| Migration idempotency | أربع migrations بعد التطبيق المتكرر |
 | Referential integrity | حذف workspace مع سجلات تابعة مرفوض |
-| Versioning | حفظ أكثر من نسخة brief ونسخة Blueprint ذات hash |
-| Scope metadata | snapshot وpackage وcontext تحفظ market وindustry |
+| Versioning | حفظ أكثر من نسخة brief ونسخة Blueprint ذات hash وsnapshot revision ذات hash |
+| Scope metadata | snapshot وpackage وcontext تحفظ market وindustry، وdeferred source منفصل |
 | Read-only provider | `write_enabled` مرفوض |
 | Secret hygiene | مراجع secret المقبولة لا تحتوي material، وتظهر قيم API key في URL مرفوضة |
-| Governance | canonical hash لا يتغير داخل persistence layer |
+| Governance | canonical hash لا يتغير داخل persistence layer، وglobalMarketValidated/governance unsafe مرفوضان |
 | Reproducibility | seed منقح deterministic داخل regression |
 
 ## نقطة التوقف المرحلية
 
-عند نجاح هذا الإصدار يكون المشروع قد أنجز **قاعدة بيانات واختباراتها**، وليس منصة تشغيلية مكتملة. تبقى الموصلات الحية والمزامنة المجدولة وObject Store وVector Index وRBAC وSecret Manager وretention/encryption وdrift monitoring وClient UX وصلاحيات الكتابة خارج النطاق عمدًا.
+عند نجاح هذا الإصدار يكون المشروع قد أنجز **قاعدة بيانات واختباراتها، وحفظ snapshots بإصدارات، وربطًا مقيدًا مع Strategy Context**، وليس منصة تشغيلية مكتملة. تبقى الموصلات الحية والمزامنة المجدولة وObject Store وVector Index وRBAC وSecret Manager وretention/encryption وdrift monitoring وClient UX وصلاحيات الكتابة خارج النطاق عمدًا.
 
 ## نقاط الاستئناف المستقبلية
 
-يمكن استئناف المشروع دون كسر المخطط عبر إضافة migrations جديدة بدل تعديل migration `0001` بعد نشرها. المسار اللاحق المقترح هو إضافة repository interfaces أكثر صرامة، ثم driver مستضاف، ثم GA4 أو Google Ads read-only، ثم sync jobs وcursors حقيقية، ثم Object Store وevidence panels، وأخيرًا تقييم أي انتقال إلى صلاحيات كتابة في مرحلة مستقلة وبموافقة صريحة.
+يمكن استئناف المشروع دون كسر المخطط عبر إضافة migrations جديدة بدل تعديل migrations السابقة بعد نشرها. المسار اللاحق المقترح هو إضافة driver مستضاف، ثم Search Console أو CRM/store، ثم GA4 أو إعادة فتح Google Ads 939 read-only، ثم sync jobs وcursors حقيقية، ثم Object Store وevidence panels، وأخيرًا تقييم أي انتقال إلى صلاحيات كتابة في مرحلة مستقلة وبموافقة صريحة.

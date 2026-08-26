@@ -19,3 +19,7 @@ export {
   STAGING_TEST_RUNS_MIGRATION_ID,
   STAGING_TEST_RUNS_MIGRATION_SQL,
 } from "./migrations/0003_staging_test_runs";
+export {
+  KNOWLEDGE_SNAPSHOT_PERSISTENCE_MIGRATION_ID,
+  KNOWLEDGE_SNAPSHOT_PERSISTENCE_MIGRATION_SQL,
+} from "./migrations/0004_knowledge_snapshot_persistence";

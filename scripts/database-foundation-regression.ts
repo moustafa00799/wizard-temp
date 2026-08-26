@@ -13,7 +13,7 @@ function count(database: ReturnType<typeof openDatabase>, table: string): number
 
 const database = openDatabase(":memory:");
 applyDatabaseMigrations(database);
-assert.equal(count(database, "schema_migrations"), 3);
+assert.equal(count(database, "schema_migrations"), 4);
 assert.ok(count(database, "sqlite_master") >= 0);
 
 const repositories = createRepositories(database);
@@ -101,6 +101,41 @@ const snapshot = {
   snapshot: { simulation: true, sourceIds: ["source-sa-ecommerce-demo"] },
 };
 repositories.knowledge.createSnapshot(snapshot);
+repositories.knowledge.createSnapshot(snapshot);
+assert.equal(count(database, "knowledge_snapshots"), 1);
+assert.throws(() => repositories.knowledge.createSnapshot({ ...snapshot, snapshot: { tampered: true } }), /different content/);
+const snapshotHash = sha256Json(snapshot.snapshot);
+const sourceManifestHash = "a".repeat(64);
+repositories.knowledge.createSnapshotVersion({
+  snapshotId: snapshot.snapshotId,
+  revision: 1,
+  snapshotSha256: snapshotHash,
+  sourceManifestSha256: sourceManifestHash,
+  capturedAt: snapshot.capturedAt,
+  freshnessStatus: snapshot.freshnessStatus,
+  payload: snapshot.snapshot,
+  createdAt,
+});
+repositories.knowledge.createSnapshotVersion({
+  snapshotId: snapshot.snapshotId,
+  revision: 1,
+  snapshotSha256: snapshotHash,
+  sourceManifestSha256: sourceManifestHash,
+  capturedAt: snapshot.capturedAt,
+  freshnessStatus: snapshot.freshnessStatus,
+  payload: snapshot.snapshot,
+  createdAt,
+});
+assert.equal(repositories.knowledge.getSnapshotVersion(snapshot.snapshotId, 1)?.snapshot_sha256, snapshotHash);
+assert.deepEqual(repositories.knowledge.getSnapshotVersion(snapshot.snapshotId, 1)?.payload, snapshot.snapshot);
+assert.throws(() => repositories.knowledge.createSnapshotVersion({
+  snapshotId: snapshot.snapshotId,
+  revision: 1,
+  snapshotSha256: "b".repeat(64),
+  capturedAt: snapshot.capturedAt,
+  freshnessStatus: snapshot.freshnessStatus,
+  payload: snapshot.snapshot,
+}), /different SHA-256/);
 repositories.knowledge.createFact({
   factId: "fact-sa-ecommerce-demo",
   snapshotId: snapshot.snapshotId,
@@ -153,6 +188,7 @@ repositories.strategy.createContext({
   context: { simulation: true, globalMarketValidated: false },
   createdAt,
 });
+assert.equal(repositories.strategy.getContext("ws-demo", "context-sa-ecommerce-demo")?.context.simulation, true);
 repositories.strategy.createRecommendation({
   recommendationId: "recommendation-sa-ecommerce-demo",
   workspaceId: "ws-demo",
@@ -161,6 +197,24 @@ repositories.strategy.createRecommendation({
   recommendation: { status: "advisory_only", simulation: true },
   createdAt,
 });
+assert.equal(repositories.strategy.getRecommendation("ws-demo", "recommendation-sa-ecommerce-demo")?.recommendation.simulation, true);
+assert.throws(() => repositories.strategy.createContext({
+  contextId: "context-unsafe-global",
+  workspaceId: "ws-demo",
+  packageId: "package-sa-ecommerce-demo",
+  blueprintId: "blueprint-demo",
+  market: "SA",
+  industry: "ecommerce_general",
+  scopedValidationStatus: "partial",
+  context: { globalMarketValidated: true },
+}), /globally market-validated/);
+assert.throws(() => repositories.strategy.createRecommendation({
+  recommendationId: "recommendation-unsafe-governance",
+  workspaceId: "ws-demo",
+  contextId: "context-sa-ecommerce-demo",
+  blueprintId: "blueprint-demo",
+  recommendation: { governance: { canMutateCdks: true } },
+}), /Unsafe governance flag/);
 
 repositories.providers.createAccount({
   accountId: "provider-account-demo",
@@ -198,6 +252,20 @@ repositories.providers.createSyncRun({
 repositories.providers.upsertCursor("connection-demo", "page:0", "cursor-redacted-1");
 repositories.providers.upsertCursor("connection-demo", "page:0", "cursor-redacted-2");
 
+repositories.deferredSources.create({
+  deferredSourceId: "deferred-google-939",
+  workspaceId: "ws-demo",
+  provider: "google_ads",
+  externalAccountRef: "9397976723",
+  status: "deferred",
+  reason: "Read-only authorization is unavailable; retry only after a new authorization or direct user access.",
+  retryGate: "new_authorization",
+  mergePolicy: "merge_only_after_scope_and_hash_verification",
+  createdAt,
+});
+assert.equal(repositories.deferredSources.get("ws-demo", "google_ads", "9397976723")?.status, "deferred");
+assert.equal(database.prepare("SELECT market_validated FROM deferred_sources WHERE deferred_source_id = ?").get<{ market_validated: number }>("deferred-google-939")?.market_validated, 0);
+
 repositories.governance.createApproval({
   approvalId: "approval-demo",
   workspaceId: "ws-demo",
@@ -221,6 +289,8 @@ assert.equal(count(database, "client_briefs"), 2);
 assert.equal(count(database, "blueprint_versions"), 1);
 assert.equal(count(database, "source_versions"), 1);
 assert.equal(count(database, "market_facts"), 1);
+assert.equal(count(database, "knowledge_snapshot_versions"), 1);
+assert.equal(count(database, "deferred_sources"), 1);
 assert.equal(count(database, "claims"), 1);
 assert.equal(count(database, "evidence_links"), 1);
 assert.equal(count(database, "strategy_contexts"), 1);
@@ -263,7 +333,7 @@ fs.rmSync(diskPath, { force: true });
 console.log(JSON.stringify({
   test: "database-foundation-regression",
   status: "PASS",
-  assertions: 41,
+  assertions: 55,
   migrationIdempotent: true,
   fileBackedPersistence: true,
   tables: count(database, "sqlite_master"),
@@ -272,6 +342,8 @@ console.log(JSON.stringify({
   secretsStored: false,
   canonicalBlueprintMutation: false,
   liveConnectors: false,
+  deferredSourcesExcludedFromPackages: true,
+  snapshotVersionHashes: true,
 }, null, 2));
 
 database.close();

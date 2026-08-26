@@ -84,6 +84,38 @@ function scenarioStatus(repositories: DatabaseRepositories, scenario: StagingSce
   };
 }
 
+function persistSnapshotVersion(repositories: DatabaseRepositories, snapshot: {
+  snapshotId: string;
+  sourceIds: string[];
+  capturedAt: string;
+  freshnessStatus: "fresh" | "stale" | "expired" | "missing";
+  snapshot: JsonRecord;
+}): void {
+  repositories.knowledge.createSnapshotVersion({
+    snapshotId: snapshot.snapshotId,
+    revision: 1,
+    snapshotSha256: sha256Json(snapshot.snapshot),
+    sourceManifestSha256: sha256Json([...snapshot.sourceIds].sort()),
+    capturedAt: snapshot.capturedAt,
+    freshnessStatus: snapshot.freshnessStatus,
+    payload: snapshot.snapshot,
+  });
+}
+
+function ensurePersistedSnapshotVersions(repositories: DatabaseRepositories): void {
+  for (const scenario of STAGING_SCENARIOS) {
+    const snapshot = repositories.knowledge.getSnapshot(STAGING_WORKSPACE_ID, scenario.selection.snapshot.snapshotId);
+    if (!snapshot) continue;
+    persistSnapshotVersion(repositories, {
+      snapshotId: scenario.selection.snapshot.snapshotId,
+      sourceIds: Array.isArray(snapshot.sourceIds) ? snapshot.sourceIds : [],
+      capturedAt: String(snapshot.captured_at),
+      freshnessStatus: String(snapshot.freshness_status) as "fresh" | "stale" | "expired" | "missing",
+      snapshot: asJsonRecord(snapshot.snapshot),
+    });
+  }
+}
+
 function seedSourceAndKnowledge(repositories: DatabaseRepositories, scenario: StagingScenario): void {
   const createdAt = "2026-08-24T00:00:00.000Z";
   const profile = INDUSTRY_PROFILES.find((candidate) => candidate.industryKey === scenario.selection.industry);
@@ -119,6 +151,13 @@ function seedSourceAndKnowledge(repositories: DatabaseRepositories, scenario: St
     freshnessStatus: scenario.selection.snapshot.freshnessStatus,
     confidence: scenario.selection.snapshot.confidence,
     sourceIds: [...scenario.selection.snapshot.sourceIds],
+    snapshot: asJsonRecord(scenario.selection.snapshot),
+  });
+  persistSnapshotVersion(repositories, {
+    snapshotId: scenario.selection.snapshot.snapshotId,
+    sourceIds: [...scenario.selection.snapshot.sourceIds],
+    capturedAt: scenario.selection.snapshot.capturedAt,
+    freshnessStatus: scenario.selection.snapshot.freshnessStatus,
     snapshot: asJsonRecord(scenario.selection.snapshot),
   });
 
@@ -306,6 +345,7 @@ export async function seedPersonalStaging(): Promise<void> {
 export async function getPersonalStagingOverview() {
   await seedPersonalStaging();
   const { database, repositories } = getState();
+  ensurePersistedSnapshotVersions(repositories);
   return {
     workspace: {
       id: STAGING_WORKSPACE_ID,
@@ -318,6 +358,7 @@ export async function getPersonalStagingOverview() {
       briefs: count(database, "client_briefs"),
       blueprints: count(database, "canonical_blueprints"),
       snapshots: count(database, "knowledge_snapshots"),
+      snapshotVersions: count(database, "knowledge_snapshot_versions"),
       evidencePackages: count(database, "evidence_packages"),
       contexts: count(database, "strategy_contexts"),
       recommendations: count(database, "strategy_recommendations"),
