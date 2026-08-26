@@ -274,6 +274,51 @@ def main() -> None:
         ],
         version='customs-fx-2026-02-24',
     ))
+    sources.append(record(
+        'src-kapsarc-gastat-establishments-size-activity-sa-20260826',
+        'KAPSARC Data Portal / General Authority for Statistics (GASTAT)',
+        'https://datasource.kapsarc.org/explore/assets/number-of-establishments-by-size-and-economic-activity/',
+        'official_api',
+        market='SA',
+        license_status='approved',
+        freshness='on_demand',
+        version='kapsarc-dataset-2026-05-05-data-2010-2017',
+        limitations=[
+            'Public-domain aggregate establishment counts from the Annual Economic Establishment Survey; supply context only.',
+            'The dataset excludes governmental and external sectors, is marked discontinued in metadata, and covers the published 2010–2017 period.',
+            'No sales, revenue, customers, demand, market share, audience, conversion, CPC, CPA, CVR, ROAS, reach, frequency, saturation, or competitor performance is supplied.',
+        ],
+    ))
+    sources.append(record(
+        'src-capmas-hiecs-2021-eg-20260826',
+        'Central Agency for Public Mobilization and Statistics (CAPMAS) / Ministry of Planning',
+        'https://censusinfo.capmas.gov.eg/metadata-en-v4.2/index.php/catalog/747/overview',
+        'official_document',
+        market='EG',
+        language='en',
+        license_status='unknown',
+        freshness='on_demand',
+        version='EGY-CAPMAS-HIECS-2021-v1.0',
+        limitations=[
+            'Public study metadata and variable dictionary only; the catalogue labels the microdata route as licensed data files.',
+            'No licensed microdata was downloaded, and public case counts are not population estimates without weights and methodology.',
+            'Household consumption metadata is context, not online-commerce demand, audience, conversion, or advertising-performance evidence.',
+        ],
+    ))
+    sources.append(record(
+        'src-openstreetmap-overpass-cairo-riyadh-20260826',
+        'OpenStreetMap contributors via Overpass API',
+        'https://wiki.openstreetmap.org/wiki/Overpass_API',
+        'public_library',
+        license_status='approved',
+        freshness='on_demand',
+        version='overpass-0.7.62.11-osm-base-2026-08-26',
+        limitations=[
+            'Mapped-feature counts inside explicit Cairo and Riyadh bounding boxes; not a census of establishments, demand, revenue, ratings, or market share.',
+            'OpenStreetMap completeness, tagging, duplicates, geometry, and update timing vary by place; no official registry equivalence is inferred.',
+            'Open Database License (ODbL) attribution/share-alike obligations and Overpass public-instance usage limits must be respected; stop/back off on 429/406.',
+        ],
+    ))
     marketplace_records = [
         ('src-noon-eg-mobile-category-20260825', 'Noon Egypt', 'https://www.noon.com/egypt-en/electronics-and-mobiles/mobiles-and-accessories/mobiles-20905/', 'EG'),
         ('src-noon-eg-galaxy-a17-product-20260825', 'Noon Egypt', 'https://www.noon.com/egypt-en/galaxy-a17-dual-sim-4g-black-4gb-ram-128gb-middle-east-version/N70214276V/p/?o=b93223709b1aab3c', 'EG'),

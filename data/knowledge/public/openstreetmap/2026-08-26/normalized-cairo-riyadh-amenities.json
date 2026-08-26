@@ -1,0 +1,426 @@
+{
+  "contractVersion": "1.0",
+  "artifactType": "public_city_mapped_amenity_supply_context",
+  "artifactId": "openstreetmap-overpass-cairo-riyadh-amenities-eg-sa-20260826",
+  "generatedAt": "2026-08-26T17:12:09Z",
+  "sourceId": "src-openstreetmap-overpass-cairo-riyadh-20260826",
+  "sourceUrl": "https://wiki.openstreetmap.org/wiki/Overpass_API",
+  "queryEndpoint": "https://overpass-api.de/api/interpreter",
+  "licenseStatus": "approved",
+  "license": "Open Database License (ODbL) — OpenStreetMap attribution required",
+  "rawInputs": [
+    {
+      "path": "data/knowledge/public/openstreetmap/2026-08-26/cairo-riyadh-amenities.ql",
+      "sha256": "3f4c664739b4808869f7a81b686e2e549363a5cce40df60ada87fbf1ad44b9e4",
+      "capturedAt": "2026-08-26T17:12:09Z"
+    },
+    {
+      "path": "data/knowledge/public/openstreetmap/2026-08-26/cairo-riyadh-amenities.json",
+      "sha256": "db3cc3af6012dab60fd54ae0248fde3cfbae60e162fc2b8ca2fb21d2923a2ca8",
+      "capturedAt": "2026-08-26T17:12:09Z"
+    }
+  ],
+  "query": "[out:json][timeout:90];\n(\n  nwr[amenity~\"^(school|college|university|kindergarten|clinic|hospital)$\"](29.95,31.15,30.15,31.45);\n  nwr[amenity~\"^(school|college|university|kindergarten|clinic|hospital)$\"](24.55,46.50,24.90,46.90);\n);\nout center tags;",
+  "queryTimestamp": "2026-08-26T17:17:35Z",
+  "bboxDefinitions": {
+    "Cairo": {
+      "south": 29.95,
+      "west": 31.15,
+      "north": 30.15,
+      "east": 31.45
+    },
+    "Riyadh": {
+      "south": 24.55,
+      "west": 46.5,
+      "north": 24.9,
+      "east": 46.9
+    }
+  },
+  "elementCountByCity": {
+    "Cairo": 671,
+    "Riyadh": 699
+  },
+  "observations": [
+    {
+      "observationId": "osm-cairo-clinic-amenity-count-20260826",
+      "sourceId": "src-openstreetmap-overpass-cairo-riyadh-20260826",
+      "market": "EG",
+      "city": "Cairo",
+      "marketScope": "city_bbox_mapped_supply_context",
+      "industryRelevance": "local_service_general",
+      "observationType": "mapped_amenity_count",
+      "metric": "osm_mapped_amenity_count",
+      "value": 85,
+      "unit": "mapped_features",
+      "period": "2026-08-26T17:17:35Z",
+      "status": "observed",
+      "sourceUrl": "https://wiki.openstreetmap.org/wiki/Overpass_API",
+      "queryEndpoint": "https://overpass-api.de/api/interpreter",
+      "capturedAt": "2026-08-26T17:12:09Z",
+      "dimensions": {
+        "amenity": "clinic",
+        "bbox": [
+          29.95,
+          31.15,
+          30.15,
+          31.45
+        ]
+      },
+      "limitations": [
+        "OpenStreetMap mapped-feature count inside the stated bounding box; it is a supply/discovery proxy, not a census of all establishments.",
+        "OpenStreetMap completeness, tagging, duplicates, geometry, and update timing vary by location; counts are not market share, demand, sales, ratings, or audience size.",
+        "No CPC, CPA, CVR, ROAS, reach, frequency, saturation, or competitor campaign performance is inferred."
+      ]
+    },
+    {
+      "observationId": "osm-cairo-college-amenity-count-20260826",
+      "sourceId": "src-openstreetmap-overpass-cairo-riyadh-20260826",
+      "market": "EG",
+      "city": "Cairo",
+      "marketScope": "city_bbox_mapped_supply_context",
+      "industryRelevance": "education_general",
+      "observationType": "mapped_amenity_count",
+      "metric": "osm_mapped_amenity_count",
+      "value": 47,
+      "unit": "mapped_features",
+      "period": "2026-08-26T17:17:35Z",
+      "status": "observed",
+      "sourceUrl": "https://wiki.openstreetmap.org/wiki/Overpass_API",
+      "queryEndpoint": "https://overpass-api.de/api/interpreter",
+      "capturedAt": "2026-08-26T17:12:09Z",
+      "dimensions": {
+        "amenity": "college",
+        "bbox": [
+          29.95,
+          31.15,
+          30.15,
+          31.45
+        ]
+      },
+      "limitations": [
+        "OpenStreetMap mapped-feature count inside the stated bounding box; it is a supply/discovery proxy, not a census of all establishments.",
+        "OpenStreetMap completeness, tagging, duplicates, geometry, and update timing vary by location; counts are not market share, demand, sales, ratings, or audience size.",
+        "No CPC, CPA, CVR, ROAS, reach, frequency, saturation, or competitor campaign performance is inferred."
+      ]
+    },
+    {
+      "observationId": "osm-cairo-hospital-amenity-count-20260826",
+      "sourceId": "src-openstreetmap-overpass-cairo-riyadh-20260826",
+      "market": "EG",
+      "city": "Cairo",
+      "marketScope": "city_bbox_mapped_supply_context",
+      "industryRelevance": "local_service_general",
+      "observationType": "mapped_amenity_count",
+      "metric": "osm_mapped_amenity_count",
+      "value": 222,
+      "unit": "mapped_features",
+      "period": "2026-08-26T17:17:35Z",
+      "status": "observed",
+      "sourceUrl": "https://wiki.openstreetmap.org/wiki/Overpass_API",
+      "queryEndpoint": "https://overpass-api.de/api/interpreter",
+      "capturedAt": "2026-08-26T17:12:09Z",
+      "dimensions": {
+        "amenity": "hospital",
+        "bbox": [
+          29.95,
+          31.15,
+          30.15,
+          31.45
+        ]
+      },
+      "limitations": [
+        "OpenStreetMap mapped-feature count inside the stated bounding box; it is a supply/discovery proxy, not a census of all establishments.",
+        "OpenStreetMap completeness, tagging, duplicates, geometry, and update timing vary by location; counts are not market share, demand, sales, ratings, or audience size.",
+        "No CPC, CPA, CVR, ROAS, reach, frequency, saturation, or competitor campaign performance is inferred."
+      ]
+    },
+    {
+      "observationId": "osm-cairo-kindergarten-amenity-count-20260826",
+      "sourceId": "src-openstreetmap-overpass-cairo-riyadh-20260826",
+      "market": "EG",
+      "city": "Cairo",
+      "marketScope": "city_bbox_mapped_supply_context",
+      "industryRelevance": "education_general",
+      "observationType": "mapped_amenity_count",
+      "metric": "osm_mapped_amenity_count",
+      "value": 17,
+      "unit": "mapped_features",
+      "period": "2026-08-26T17:17:35Z",
+      "status": "observed",
+      "sourceUrl": "https://wiki.openstreetmap.org/wiki/Overpass_API",
+      "queryEndpoint": "https://overpass-api.de/api/interpreter",
+      "capturedAt": "2026-08-26T17:12:09Z",
+      "dimensions": {
+        "amenity": "kindergarten",
+        "bbox": [
+          29.95,
+          31.15,
+          30.15,
+          31.45
+        ]
+      },
+      "limitations": [
+        "OpenStreetMap mapped-feature count inside the stated bounding box; it is a supply/discovery proxy, not a census of all establishments.",
+        "OpenStreetMap completeness, tagging, duplicates, geometry, and update timing vary by location; counts are not market share, demand, sales, ratings, or audience size.",
+        "No CPC, CPA, CVR, ROAS, reach, frequency, saturation, or competitor campaign performance is inferred."
+      ]
+    },
+    {
+      "observationId": "osm-cairo-school-amenity-count-20260826",
+      "sourceId": "src-openstreetmap-overpass-cairo-riyadh-20260826",
+      "market": "EG",
+      "city": "Cairo",
+      "marketScope": "city_bbox_mapped_supply_context",
+      "industryRelevance": "education_general",
+      "observationType": "mapped_amenity_count",
+      "metric": "osm_mapped_amenity_count",
+      "value": 268,
+      "unit": "mapped_features",
+      "period": "2026-08-26T17:17:35Z",
+      "status": "observed",
+      "sourceUrl": "https://wiki.openstreetmap.org/wiki/Overpass_API",
+      "queryEndpoint": "https://overpass-api.de/api/interpreter",
+      "capturedAt": "2026-08-26T17:12:09Z",
+      "dimensions": {
+        "amenity": "school",
+        "bbox": [
+          29.95,
+          31.15,
+          30.15,
+          31.45
+        ]
+      },
+      "limitations": [
+        "OpenStreetMap mapped-feature count inside the stated bounding box; it is a supply/discovery proxy, not a census of all establishments.",
+        "OpenStreetMap completeness, tagging, duplicates, geometry, and update timing vary by location; counts are not market share, demand, sales, ratings, or audience size.",
+        "No CPC, CPA, CVR, ROAS, reach, frequency, saturation, or competitor campaign performance is inferred."
+      ]
+    },
+    {
+      "observationId": "osm-cairo-university-amenity-count-20260826",
+      "sourceId": "src-openstreetmap-overpass-cairo-riyadh-20260826",
+      "market": "EG",
+      "city": "Cairo",
+      "marketScope": "city_bbox_mapped_supply_context",
+      "industryRelevance": "education_general",
+      "observationType": "mapped_amenity_count",
+      "metric": "osm_mapped_amenity_count",
+      "value": 32,
+      "unit": "mapped_features",
+      "period": "2026-08-26T17:17:35Z",
+      "status": "observed",
+      "sourceUrl": "https://wiki.openstreetmap.org/wiki/Overpass_API",
+      "queryEndpoint": "https://overpass-api.de/api/interpreter",
+      "capturedAt": "2026-08-26T17:12:09Z",
+      "dimensions": {
+        "amenity": "university",
+        "bbox": [
+          29.95,
+          31.15,
+          30.15,
+          31.45
+        ]
+      },
+      "limitations": [
+        "OpenStreetMap mapped-feature count inside the stated bounding box; it is a supply/discovery proxy, not a census of all establishments.",
+        "OpenStreetMap completeness, tagging, duplicates, geometry, and update timing vary by location; counts are not market share, demand, sales, ratings, or audience size.",
+        "No CPC, CPA, CVR, ROAS, reach, frequency, saturation, or competitor campaign performance is inferred."
+      ]
+    },
+    {
+      "observationId": "osm-riyadh-clinic-amenity-count-20260826",
+      "sourceId": "src-openstreetmap-overpass-cairo-riyadh-20260826",
+      "market": "SA",
+      "city": "Riyadh",
+      "marketScope": "city_bbox_mapped_supply_context",
+      "industryRelevance": "local_service_general",
+      "observationType": "mapped_amenity_count",
+      "metric": "osm_mapped_amenity_count",
+      "value": 45,
+      "unit": "mapped_features",
+      "period": "2026-08-26T17:17:35Z",
+      "status": "observed",
+      "sourceUrl": "https://wiki.openstreetmap.org/wiki/Overpass_API",
+      "queryEndpoint": "https://overpass-api.de/api/interpreter",
+      "capturedAt": "2026-08-26T17:12:09Z",
+      "dimensions": {
+        "amenity": "clinic",
+        "bbox": [
+          24.55,
+          46.5,
+          24.9,
+          46.9
+        ]
+      },
+      "limitations": [
+        "OpenStreetMap mapped-feature count inside the stated bounding box; it is a supply/discovery proxy, not a census of all establishments.",
+        "OpenStreetMap completeness, tagging, duplicates, geometry, and update timing vary by location; counts are not market share, demand, sales, ratings, or audience size.",
+        "No CPC, CPA, CVR, ROAS, reach, frequency, saturation, or competitor campaign performance is inferred."
+      ]
+    },
+    {
+      "observationId": "osm-riyadh-college-amenity-count-20260826",
+      "sourceId": "src-openstreetmap-overpass-cairo-riyadh-20260826",
+      "market": "SA",
+      "city": "Riyadh",
+      "marketScope": "city_bbox_mapped_supply_context",
+      "industryRelevance": "education_general",
+      "observationType": "mapped_amenity_count",
+      "metric": "osm_mapped_amenity_count",
+      "value": 59,
+      "unit": "mapped_features",
+      "period": "2026-08-26T17:17:35Z",
+      "status": "observed",
+      "sourceUrl": "https://wiki.openstreetmap.org/wiki/Overpass_API",
+      "queryEndpoint": "https://overpass-api.de/api/interpreter",
+      "capturedAt": "2026-08-26T17:12:09Z",
+      "dimensions": {
+        "amenity": "college",
+        "bbox": [
+          24.55,
+          46.5,
+          24.9,
+          46.9
+        ]
+      },
+      "limitations": [
+        "OpenStreetMap mapped-feature count inside the stated bounding box; it is a supply/discovery proxy, not a census of all establishments.",
+        "OpenStreetMap completeness, tagging, duplicates, geometry, and update timing vary by location; counts are not market share, demand, sales, ratings, or audience size.",
+        "No CPC, CPA, CVR, ROAS, reach, frequency, saturation, or competitor campaign performance is inferred."
+      ]
+    },
+    {
+      "observationId": "osm-riyadh-hospital-amenity-count-20260826",
+      "sourceId": "src-openstreetmap-overpass-cairo-riyadh-20260826",
+      "market": "SA",
+      "city": "Riyadh",
+      "marketScope": "city_bbox_mapped_supply_context",
+      "industryRelevance": "local_service_general",
+      "observationType": "mapped_amenity_count",
+      "metric": "osm_mapped_amenity_count",
+      "value": 126,
+      "unit": "mapped_features",
+      "period": "2026-08-26T17:17:35Z",
+      "status": "observed",
+      "sourceUrl": "https://wiki.openstreetmap.org/wiki/Overpass_API",
+      "queryEndpoint": "https://overpass-api.de/api/interpreter",
+      "capturedAt": "2026-08-26T17:12:09Z",
+      "dimensions": {
+        "amenity": "hospital",
+        "bbox": [
+          24.55,
+          46.5,
+          24.9,
+          46.9
+        ]
+      },
+      "limitations": [
+        "OpenStreetMap mapped-feature count inside the stated bounding box; it is a supply/discovery proxy, not a census of all establishments.",
+        "OpenStreetMap completeness, tagging, duplicates, geometry, and update timing vary by location; counts are not market share, demand, sales, ratings, or audience size.",
+        "No CPC, CPA, CVR, ROAS, reach, frequency, saturation, or competitor campaign performance is inferred."
+      ]
+    },
+    {
+      "observationId": "osm-riyadh-kindergarten-amenity-count-20260826",
+      "sourceId": "src-openstreetmap-overpass-cairo-riyadh-20260826",
+      "market": "SA",
+      "city": "Riyadh",
+      "marketScope": "city_bbox_mapped_supply_context",
+      "industryRelevance": "education_general",
+      "observationType": "mapped_amenity_count",
+      "metric": "osm_mapped_amenity_count",
+      "value": 9,
+      "unit": "mapped_features",
+      "period": "2026-08-26T17:17:35Z",
+      "status": "observed",
+      "sourceUrl": "https://wiki.openstreetmap.org/wiki/Overpass_API",
+      "queryEndpoint": "https://overpass-api.de/api/interpreter",
+      "capturedAt": "2026-08-26T17:12:09Z",
+      "dimensions": {
+        "amenity": "kindergarten",
+        "bbox": [
+          24.55,
+          46.5,
+          24.9,
+          46.9
+        ]
+      },
+      "limitations": [
+        "OpenStreetMap mapped-feature count inside the stated bounding box; it is a supply/discovery proxy, not a census of all establishments.",
+        "OpenStreetMap completeness, tagging, duplicates, geometry, and update timing vary by location; counts are not market share, demand, sales, ratings, or audience size.",
+        "No CPC, CPA, CVR, ROAS, reach, frequency, saturation, or competitor campaign performance is inferred."
+      ]
+    },
+    {
+      "observationId": "osm-riyadh-school-amenity-count-20260826",
+      "sourceId": "src-openstreetmap-overpass-cairo-riyadh-20260826",
+      "market": "SA",
+      "city": "Riyadh",
+      "marketScope": "city_bbox_mapped_supply_context",
+      "industryRelevance": "education_general",
+      "observationType": "mapped_amenity_count",
+      "metric": "osm_mapped_amenity_count",
+      "value": 434,
+      "unit": "mapped_features",
+      "period": "2026-08-26T17:17:35Z",
+      "status": "observed",
+      "sourceUrl": "https://wiki.openstreetmap.org/wiki/Overpass_API",
+      "queryEndpoint": "https://overpass-api.de/api/interpreter",
+      "capturedAt": "2026-08-26T17:12:09Z",
+      "dimensions": {
+        "amenity": "school",
+        "bbox": [
+          24.55,
+          46.5,
+          24.9,
+          46.9
+        ]
+      },
+      "limitations": [
+        "OpenStreetMap mapped-feature count inside the stated bounding box; it is a supply/discovery proxy, not a census of all establishments.",
+        "OpenStreetMap completeness, tagging, duplicates, geometry, and update timing vary by location; counts are not market share, demand, sales, ratings, or audience size.",
+        "No CPC, CPA, CVR, ROAS, reach, frequency, saturation, or competitor campaign performance is inferred."
+      ]
+    },
+    {
+      "observationId": "osm-riyadh-university-amenity-count-20260826",
+      "sourceId": "src-openstreetmap-overpass-cairo-riyadh-20260826",
+      "market": "SA",
+      "city": "Riyadh",
+      "marketScope": "city_bbox_mapped_supply_context",
+      "industryRelevance": "education_general",
+      "observationType": "mapped_amenity_count",
+      "metric": "osm_mapped_amenity_count",
+      "value": 26,
+      "unit": "mapped_features",
+      "period": "2026-08-26T17:17:35Z",
+      "status": "observed",
+      "sourceUrl": "https://wiki.openstreetmap.org/wiki/Overpass_API",
+      "queryEndpoint": "https://overpass-api.de/api/interpreter",
+      "capturedAt": "2026-08-26T17:12:09Z",
+      "dimensions": {
+        "amenity": "university",
+        "bbox": [
+          24.55,
+          46.5,
+          24.9,
+          46.9
+        ]
+      },
+      "limitations": [
+        "OpenStreetMap mapped-feature count inside the stated bounding box; it is a supply/discovery proxy, not a census of all establishments.",
+        "OpenStreetMap completeness, tagging, duplicates, geometry, and update timing vary by location; counts are not market share, demand, sales, ratings, or audience size.",
+        "No CPC, CPA, CVR, ROAS, reach, frequency, saturation, or competitor campaign performance is inferred."
+      ]
+    }
+  ],
+  "unknowns": [
+    "No address-level completeness audit or deduplication against official registries was performed.",
+    "No customer demand, revenue, bookings, ratings, market share, or advertising outcome is supplied."
+  ],
+  "limitations": [
+    "Read-only public Overpass query with small city bounding boxes; response timestamp and query are retained for reproducibility.",
+    "Respect Overpass public-instance usage policies, cache results, identify the client, and stop/back off on HTTP 429/406 or server overload.",
+    "OSM/ODbL attribution and share-alike obligations must be preserved for derivative database use."
+  ]
+}

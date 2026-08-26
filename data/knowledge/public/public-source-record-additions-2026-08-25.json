@@ -99,6 +99,25 @@
     },
     {
       "contractVersion": "1.0",
+      "sourceId": "src-capmas-hiecs-2021-eg-20260826",
+      "publisher": "Central Agency for Public Mobilization and Statistics (CAPMAS) / Ministry of Planning",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/metadata-en-v4.2/index.php/catalog/747/overview",
+      "sourceType": "official_document",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Public study metadata and variable dictionary only; the catalogue labels the microdata route as licensed data files.",
+        "No licensed microdata was downloaded, and public case counts are not population estimates without weights and methodology.",
+        "Household consumption metadata is context, not online-commerce demand, audience, conversion, or advertising-performance evidence."
+      ],
+      "version": "EGY-CAPMAS-HIECS-2021-v1.0",
+      "enabled": true,
+      "market": "EG",
+      "language": "en"
+    },
+    {
+      "contractVersion": "1.0",
       "sourceId": "src-cbe-payment-system-eg-20260825",
       "publisher": "Central Bank of Egypt (CBE)",
       "sourceUrl": "https://www.cbe.org.eg/en/payment-systems-and-services",
@@ -275,6 +294,24 @@
       ],
       "version": "Nov-2025",
       "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-kapsarc-gastat-establishments-size-activity-sa-20260826",
+      "publisher": "KAPSARC Data Portal / General Authority for Statistics (GASTAT)",
+      "sourceUrl": "https://datasource.kapsarc.org/explore/assets/number-of-establishments-by-size-and-economic-activity/",
+      "sourceType": "official_api",
+      "licenseStatus": "approved",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Public-domain aggregate establishment counts from the Annual Economic Establishment Survey; supply context only.",
+        "The dataset excludes governmental and external sectors, is marked discontinued in metadata, and covers the published 2010–2017 period.",
+        "No sales, revenue, customers, demand, market share, audience, conversion, CPC, CPA, CVR, ROAS, reach, frequency, saturation, or competitor performance is supplied."
+      ],
+      "version": "kapsarc-dataset-2026-05-05-data-2010-2017",
+      "enabled": true,
+      "market": "SA"
     },
     {
       "contractVersion": "1.0",
@@ -463,6 +500,23 @@
       "market": "SA",
       "industry": "ecommerce_general",
       "language": "en"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-openstreetmap-overpass-cairo-riyadh-20260826",
+      "publisher": "OpenStreetMap contributors via Overpass API",
+      "sourceUrl": "https://wiki.openstreetmap.org/wiki/Overpass_API",
+      "sourceType": "public_library",
+      "licenseStatus": "approved",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Mapped-feature counts inside explicit Cairo and Riyadh bounding boxes; not a census of establishments, demand, revenue, ratings, or market share.",
+        "OpenStreetMap completeness, tagging, duplicates, geometry, and update timing vary by place; no official registry equivalence is inferred.",
+        "Open Database License (ODbL) attribution/share-alike obligations and Overpass public-instance usage limits must be respected; stop/back off on 429/406."
+      ],
+      "version": "overpass-0.7.62.11-osm-base-2026-08-26",
+      "enabled": true
     },
     {
       "contractVersion": "1.0",

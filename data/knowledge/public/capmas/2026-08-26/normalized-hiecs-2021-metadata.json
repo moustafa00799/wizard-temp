@@ -1,0 +1,88 @@
+{
+  "contractVersion": "1.0",
+  "artifactType": "public_egypt_household_consumption_metadata",
+  "artifactId": "capmas-hiecs-2021-metadata-eg-20260826",
+  "generatedAt": "2026-08-26T17:12:09Z",
+  "sourceId": "src-capmas-hiecs-2021-eg-20260826",
+  "sourceUrl": "https://censusinfo.capmas.gov.eg/metadata-en-v4.2/index.php/catalog/747/overview",
+  "licenseStatus": "unknown",
+  "rawInputs": [
+    {
+      "path": "data/knowledge/public/capmas/2026-08-26/hiecs-2021-capture.md",
+      "sha256": "c28157508280203662e9806cfd972b9169050e218b766b8990ab73d4436aa412",
+      "capturedAt": "2026-08-26T17:12:09Z"
+    }
+  ],
+  "studyMetadata": {
+    "referenceId": "EGY-CAPMAS-HIECS-2021-v1.0",
+    "year": 2021,
+    "country": "Egypt",
+    "producer": "Central Agency for Public Mobilization and Statistics - Ministry of Planning",
+    "kindOfData": "Survey Sample Data",
+    "unitsOfAnalysis": "Living household",
+    "scope": "Household spending and actual consumption during the survey period, housing conditions, and demographic characteristics.",
+    "publicMetadataStatus": "Study metadata and variable dictionary are publicly readable.",
+    "microdataStatus": "The catalogue labels the microdata route as licensed data files; no microdata was downloaded.",
+    "productionDate": "2024-11-23",
+    "catalogueDate": "2025-03-25"
+  },
+  "variableMetadata": {
+    "file": "HH_HEAD2021",
+    "variable": "ACT_REC",
+    "description": "Main economic activity",
+    "publicPageWarning": "Case counts shown by the dictionary are cases in the data file and cannot be interpreted as population summary statistics.",
+    "relevantCategories": [
+      "Whole trade, retail trade and repairing",
+      "Activity of Information and Telecommunications",
+      "Education",
+      "Health, and social work activity",
+      "Other services activity"
+    ]
+  },
+  "observations": [
+    {
+      "observationId": "capmas-eg-hiecs-2021-consumption-study-scope",
+      "sourceId": "src-capmas-hiecs-2021-eg-20260826",
+      "market": "EG",
+      "marketScope": "national_household_survey_metadata",
+      "observationType": "study_scope",
+      "metric": "household_consumption_study_scope",
+      "value": "Income, spending, consumption, living standards, poverty-line inputs, CPI-weight inputs, housing, and demographic characteristics",
+      "unit": "qualitative_study_metadata",
+      "status": "observed",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/metadata-en-v4.2/index.php/catalog/747/overview",
+      "capturedAt": "2026-08-26T17:12:09Z",
+      "limitations": [
+        "Metadata describes a household survey, not online-commerce demand or advertising performance.",
+        "No household-level personal data or licensed microdata was downloaded."
+      ]
+    },
+    {
+      "observationId": "capmas-eg-hiecs-2021-access-boundary",
+      "sourceId": "src-capmas-hiecs-2021-eg-20260826",
+      "market": "EG",
+      "marketScope": "national_household_survey_metadata",
+      "observationType": "access_policy",
+      "metric": "microdata_access_status",
+      "value": "Public study metadata; microdata route labeled licensed data files",
+      "unit": "qualitative_access_metadata",
+      "status": "observed",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/metadata-en-v4.2/index.php/catalog/747/datafile/F34/V5984",
+      "capturedAt": "2026-08-26T17:12:09Z",
+      "limitations": [
+        "The access boundary is retained explicitly; no licensed microdata was requested or inferred.",
+        "Public variable case counts are not population estimates without survey weights and methodology."
+      ]
+    }
+  ],
+  "unknowns": [
+    "No public unrestricted HIECS microdata file was downloaded in this batch.",
+    "No digital-commerce, product, channel, conversion, audience, or advertising-performance metric is supplied.",
+    "No population estimate is derived from the public variable dictionary case counts."
+  ],
+  "limitations": [
+    "CAPMAS HIECS is retained as public metadata and survey-scope context; microdata remains licensed.",
+    "The artifact does not close Egypt ecommerce or local-service market-validation gaps.",
+    "Raw HTML captures are retained for provenance; no CAPTCHA, login, or protected route was bypassed."
+  ]
+}

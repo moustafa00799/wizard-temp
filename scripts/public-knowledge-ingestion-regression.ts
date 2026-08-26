@@ -26,6 +26,9 @@ const contextArtifactPaths = [
   "kapsarc/2026-08-25/sector-normalized-observations.json",
   "kapsarc/2026-08-25/sector-city-latest-observations.json",
   "kapsarc/2026-08-25/detailed-sector-city-latest-observations.json",
+  "kapsarc/2026-08-26/normalized-establishments-observations.json",
+  "capmas/2026-08-26/normalized-hiecs-2021-metadata.json",
+  "openstreetmap/2026-08-26/normalized-cairo-riyadh-amenities.json",
   "cbe/2026-08-25/normalized-payment-system-observation.json",
   "sama/2026-08-25/normalized-payment-context.json",
   "sama/2026-08-25/normalized-ecommerce-interface-observation.json",
@@ -49,9 +52,9 @@ const manifest = readJson(manifestPath);
 
 const parsedSources = registry.sources.map((source: unknown) => SourceRecordSchema.parse(source));
 const sourceIds = new Set(parsedSources.map((source: ReturnType<typeof SourceRecordSchema.parse>) => source.sourceId));
-assert.equal(parsedSources.length, 53);
-assert.equal(additions.sources.length, 44);
-assert.equal(manifest.publicContextArtifacts.length, 22);
+assert.equal(parsedSources.length, 56);
+assert.equal(additions.sources.length, 47);
+assert.equal(manifest.publicContextArtifacts.length, 25);
 assert.equal(sourceIds.has("src-world-bank-egy-indicators-v2-20260825"), true);
 assert.equal(sourceIds.has("src-world-bank-sau-indicators-v2-20260825"), true);
 assert.equal(sourceIds.has("src-capmas-education-bulletin-2019-2020"), true);
@@ -63,6 +66,9 @@ for (const sourceId of [
   "src-unctad-digital-economy-egy-sau-20260825",
   "src-undata-statistical-yearbook-egy-sau-20260825",
   "src-gastat-datasaudi-digital-economy-gdp-sa-20260825",
+  "src-kapsarc-gastat-establishments-size-activity-sa-20260826",
+  "src-capmas-hiecs-2021-eg-20260826",
+  "src-openstreetmap-overpass-cairo-riyadh-20260826",
   "src-kapsarc-sama-pos-ecommerce-sa-20260825",
   "src-kapsarc-sama-pos-sector-sa-20260825",
   "src-cbe-payment-system-eg-20260825",
@@ -146,6 +152,25 @@ for (const relativePath of contextArtifactPaths) {
   }
 }
 
+const kapsarcEstablishments = readJson(path.join(publicRoot, "kapsarc/2026-08-26/normalized-establishments-observations.json"));
+assert.equal(kapsarcEstablishments.observations.length, 2688);
+assert.equal(kapsarcEstablishments.licenseStatus, "approved");
+assert.equal(kapsarcEstablishments.observations.every((observation: any) => observation.market === "SA" && observation.metric === "number_of_establishments" && observation.status === "observed"), true);
+assert.equal(JSON.stringify(kapsarcEstablishments).toLowerCase().includes("market share"), true);
+const capmasHiecs = readJson(path.join(publicRoot, "capmas/2026-08-26/normalized-hiecs-2021-metadata.json"));
+assert.equal(capmasHiecs.observations.length, 2);
+assert.equal(capmasHiecs.licenseStatus, "unknown");
+assert.equal(capmasHiecs.observations.every((observation: any) => observation.market === "EG" && observation.sourceId === "src-capmas-hiecs-2021-eg-20260826"), true);
+assert.equal(JSON.stringify(capmasHiecs).toLowerCase().includes("licensed microdata"), true);
+
+const osm = readJson(path.join(publicRoot, "openstreetmap/2026-08-26/normalized-cairo-riyadh-amenities.json"));
+assert.equal(osm.observations.length, 12);
+assert.equal(osm.licenseStatus, "approved");
+assert.equal(osm.license.includes("ODbL"), true);
+assert.deepEqual(Object.keys(osm.elementCountByCity).sort(), ["Cairo", "Riyadh"]);
+assert.equal(osm.observations.every((observation: any) => observation.metric === "osm_mapped_amenity_count" && observation.status === "observed" && ["EG", "SA"].includes(observation.market)), true);
+assert.equal(JSON.stringify(osm).toLowerCase().includes("demand"), true);
+
 const trends = readJson(path.join(publicRoot, "google-trends/2026-08-25/normalized-observations.json"));
 assert.equal(trends.snapshots.length, 4);
 assert.equal(trends.snapshots.every((snapshot: any) => sourceIds.has(snapshot.sourceId)), true);
@@ -176,7 +201,7 @@ assert.equal(JSON.stringify(appStores).toLowerCase().includes("country-specific"
 console.log(JSON.stringify({
   test: "public-knowledge-ingestion-regression",
   status: "PASS",
-  assertions: 112,
+  assertions: 125,
   worldBankSelectedObservations: worldBank.observations.length,
   contextArtifacts: contextArtifactPaths.length,
   capmasEducationFacts: capmasFacts.facts.length,

@@ -4,12 +4,12 @@
   "status": "PASS",
   "globalMarketValidated": false,
   "sourceRegistry": {
-    "registeredSources": 53,
+    "registeredSources": 56,
     "discoveryOnlySources": 3,
-    "rawArtifactsHashChecked": 55,
+    "rawArtifactsHashChecked": 60,
     "rawArtifactsMissingLocally": [],
-    "derivedArtifactsHashChecked": 25,
-    "publicContextRawArtifactsHashChecked": 33
+    "derivedArtifactsHashChecked": 28,
+    "publicContextRawArtifactsHashChecked": 38
   },
   "evidence": {
     "worldBankSelectedObservations": 10,
@@ -137,6 +137,30 @@
         "observationCount": 32,
         "sourceIds": [
           "src-kapsarc-sama-pos-detailed-sector-city-sa-20260825"
+        ]
+      },
+      {
+        "artifactId": "kapsarc-gastat-establishments-by-size-activity-sa-20260826",
+        "artifactType": "public_saudi_establishments_supply_context",
+        "observationCount": 2688,
+        "sourceIds": [
+          "src-kapsarc-gastat-establishments-size-activity-sa-20260826"
+        ]
+      },
+      {
+        "artifactId": "capmas-hiecs-2021-metadata-eg-20260826",
+        "artifactType": "public_egypt_household_consumption_metadata",
+        "observationCount": 2,
+        "sourceIds": [
+          "src-capmas-hiecs-2021-eg-20260826"
+        ]
+      },
+      {
+        "artifactId": "openstreetmap-overpass-cairo-riyadh-amenities-eg-sa-20260826",
+        "artifactType": "public_city_mapped_amenity_supply_context",
+        "observationCount": 12,
+        "sourceIds": [
+          "src-openstreetmap-overpass-cairo-riyadh-20260826"
         ]
       },
       {

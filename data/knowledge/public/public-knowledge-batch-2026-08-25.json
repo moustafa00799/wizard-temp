@@ -160,6 +160,25 @@
     },
     {
       "contractVersion": "1.0",
+      "sourceId": "src-capmas-hiecs-2021-eg-20260826",
+      "publisher": "Central Agency for Public Mobilization and Statistics (CAPMAS) / Ministry of Planning",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/metadata-en-v4.2/index.php/catalog/747/overview",
+      "sourceType": "official_document",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Public study metadata and variable dictionary only; the catalogue labels the microdata route as licensed data files.",
+        "No licensed microdata was downloaded, and public case counts are not population estimates without weights and methodology.",
+        "Household consumption metadata is context, not online-commerce demand, audience, conversion, or advertising-performance evidence."
+      ],
+      "version": "EGY-CAPMAS-HIECS-2021-v1.0",
+      "enabled": true,
+      "market": "EG",
+      "language": "en"
+    },
+    {
+      "contractVersion": "1.0",
       "sourceId": "src-capmas-telecommunications-bulletin-2016-2017",
       "publisher": "CAPMAS",
       "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/343/download/677",
@@ -436,6 +455,24 @@
     },
     {
       "contractVersion": "1.0",
+      "sourceId": "src-kapsarc-gastat-establishments-size-activity-sa-20260826",
+      "publisher": "KAPSARC Data Portal / General Authority for Statistics (GASTAT)",
+      "sourceUrl": "https://datasource.kapsarc.org/explore/assets/number-of-establishments-by-size-and-economic-activity/",
+      "sourceType": "official_api",
+      "licenseStatus": "approved",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Public-domain aggregate establishment counts from the Annual Economic Establishment Survey; supply context only.",
+        "The dataset excludes governmental and external sectors, is marked discontinued in metadata, and covers the published 2010–2017 period.",
+        "No sales, revenue, customers, demand, market share, audience, conversion, CPC, CPA, CVR, ROAS, reach, frequency, saturation, or competitor performance is supplied."
+      ],
+      "version": "kapsarc-dataset-2026-05-05-data-2010-2017",
+      "enabled": true,
+      "market": "SA"
+    },
+    {
+      "contractVersion": "1.0",
       "sourceId": "src-kapsarc-sama-pos-detailed-sector-city-sa-20260825",
       "publisher": "KAPSARC Data Portal / Saudi Central Bank (SAMA)",
       "sourceUrl": "https://datasource.kapsarc.org/explore/assets/detailed-point-of-sale-transactions-by-sector-and-city/",
@@ -621,6 +658,23 @@
       "market": "SA",
       "industry": "ecommerce_general",
       "language": "en"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-openstreetmap-overpass-cairo-riyadh-20260826",
+      "publisher": "OpenStreetMap contributors via Overpass API",
+      "sourceUrl": "https://wiki.openstreetmap.org/wiki/Overpass_API",
+      "sourceType": "public_library",
+      "licenseStatus": "approved",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Mapped-feature counts inside explicit Cairo and Riyadh bounding boxes; not a census of establishments, demand, revenue, ratings, or market share.",
+        "OpenStreetMap completeness, tagging, duplicates, geometry, and update timing vary by place; no official registry equivalence is inferred.",
+        "Open Database License (ODbL) attribution/share-alike obligations and Overpass public-instance usage limits must be respected; stop/back off on 429/406."
+      ],
+      "version": "overpass-0.7.62.11-osm-base-2026-08-26",
+      "enabled": true
     },
     {
       "contractVersion": "1.0",
@@ -1580,6 +1634,85 @@
       ]
     },
     {
+      "path": "data/knowledge/public/kapsarc/2026-08-26/normalized-establishments-observations.json",
+      "sha256": "8583e082f55c0ebe1ec66c18a9320d21191805cef7b9a91e6c28dcf899f11cc2",
+      "generatedAt": "2026-08-26T17:12:09Z",
+      "artifactType": "public_saudi_establishments_supply_context",
+      "artifactId": "kapsarc-gastat-establishments-by-size-activity-sa-20260826",
+      "sourceIds": [
+        "src-kapsarc-gastat-establishments-size-activity-sa-20260826"
+      ],
+      "observationCount": 2688,
+      "rawInputs": [
+        {
+          "path": "data/knowledge/public/kapsarc/2026-08-26/establishments.csv",
+          "sha256": "969ca39190e89d90d5542df3489047872e293080d39d258588ed596dc8c27dbe",
+          "capturedAt": "2026-08-26T17:12:09Z"
+        },
+        {
+          "path": "data/knowledge/public/kapsarc/2026-08-26/establishments-metadata.json",
+          "sha256": "e6889da544b4178270951ce9b04741975a4f036f711c30f3eed609edfbf96620",
+          "capturedAt": "2026-08-26T17:12:09Z"
+        }
+      ],
+      "limitations": [
+        "KAPSARC/GASTAT public-domain dataset retained as aggregate Saudi supply context only.",
+        "The source metadata marks the dataset as discontinued and the published temporal coverage is 2010–2017.",
+        "Public API access was read-only and captured with query/file hashes; no authenticated endpoint was used."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/capmas/2026-08-26/normalized-hiecs-2021-metadata.json",
+      "sha256": "317432202b8e72e574751ffa1d35df07b32a98f96b028ab27b53c7db5acd0b4d",
+      "generatedAt": "2026-08-26T17:12:09Z",
+      "artifactType": "public_egypt_household_consumption_metadata",
+      "artifactId": "capmas-hiecs-2021-metadata-eg-20260826",
+      "sourceIds": [
+        "src-capmas-hiecs-2021-eg-20260826"
+      ],
+      "observationCount": 2,
+      "rawInputs": [
+        {
+          "path": "data/knowledge/public/capmas/2026-08-26/hiecs-2021-capture.md",
+          "sha256": "c28157508280203662e9806cfd972b9169050e218b766b8990ab73d4436aa412",
+          "capturedAt": "2026-08-26T17:12:09Z"
+        }
+      ],
+      "limitations": [
+        "CAPMAS HIECS is retained as public metadata and survey-scope context; microdata remains licensed.",
+        "The artifact does not close Egypt ecommerce or local-service market-validation gaps.",
+        "Raw HTML captures are retained for provenance; no CAPTCHA, login, or protected route was bypassed."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/openstreetmap/2026-08-26/normalized-cairo-riyadh-amenities.json",
+      "sha256": "9ff3ab3d714109e50db30dc84c77bb1852891e4bfae0128e914b53d05b2c1edc",
+      "generatedAt": "2026-08-26T17:12:09Z",
+      "artifactType": "public_city_mapped_amenity_supply_context",
+      "artifactId": "openstreetmap-overpass-cairo-riyadh-amenities-eg-sa-20260826",
+      "sourceIds": [
+        "src-openstreetmap-overpass-cairo-riyadh-20260826"
+      ],
+      "observationCount": 12,
+      "rawInputs": [
+        {
+          "path": "data/knowledge/public/openstreetmap/2026-08-26/cairo-riyadh-amenities.ql",
+          "sha256": "3f4c664739b4808869f7a81b686e2e549363a5cce40df60ada87fbf1ad44b9e4",
+          "capturedAt": "2026-08-26T17:12:09Z"
+        },
+        {
+          "path": "data/knowledge/public/openstreetmap/2026-08-26/cairo-riyadh-amenities.json",
+          "sha256": "db3cc3af6012dab60fd54ae0248fde3cfbae60e162fc2b8ca2fb21d2923a2ca8",
+          "capturedAt": "2026-08-26T17:12:09Z"
+        }
+      ],
+      "limitations": [
+        "Read-only public Overpass query with small city bounding boxes; response timestamp and query are retained for reproducibility.",
+        "Respect Overpass public-instance usage policies, cache results, identify the client, and stop/back off on HTTP 429/406 or server overload.",
+        "OSM/ODbL attribution and share-alike obligations must be preserved for derivative database use."
+      ]
+    },
+    {
       "path": "data/knowledge/public/cbe/2026-08-25/normalized-payment-system-observation.json",
       "sha256": "5aa74d384e788b915eeae9da53b8cdff8f40343bf9b2568d6f2ca57353746701",
       "generatedAt": "2026-08-25T20:30:00.000Z",
@@ -2155,6 +2288,85 @@
         "Sector and city payment records are not customer-level data and do not identify advertising source or attribution.",
         "Source license status was not presumed and remains unknown pending explicit terms verification.",
         "Change-percent rows are retained as source-reported changes and are not treated as advertising performance."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/kapsarc/2026-08-26/normalized-establishments-observations.json",
+      "sha256": "8583e082f55c0ebe1ec66c18a9320d21191805cef7b9a91e6c28dcf899f11cc2",
+      "generatedAt": "2026-08-26T17:12:09Z",
+      "artifactType": "public_saudi_establishments_supply_context",
+      "artifactId": "kapsarc-gastat-establishments-by-size-activity-sa-20260826",
+      "sourceIds": [
+        "src-kapsarc-gastat-establishments-size-activity-sa-20260826"
+      ],
+      "observationCount": 2688,
+      "rawInputs": [
+        {
+          "path": "data/knowledge/public/kapsarc/2026-08-26/establishments.csv",
+          "sha256": "969ca39190e89d90d5542df3489047872e293080d39d258588ed596dc8c27dbe",
+          "capturedAt": "2026-08-26T17:12:09Z"
+        },
+        {
+          "path": "data/knowledge/public/kapsarc/2026-08-26/establishments-metadata.json",
+          "sha256": "e6889da544b4178270951ce9b04741975a4f036f711c30f3eed609edfbf96620",
+          "capturedAt": "2026-08-26T17:12:09Z"
+        }
+      ],
+      "limitations": [
+        "KAPSARC/GASTAT public-domain dataset retained as aggregate Saudi supply context only.",
+        "The source metadata marks the dataset as discontinued and the published temporal coverage is 2010–2017.",
+        "Public API access was read-only and captured with query/file hashes; no authenticated endpoint was used."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/capmas/2026-08-26/normalized-hiecs-2021-metadata.json",
+      "sha256": "317432202b8e72e574751ffa1d35df07b32a98f96b028ab27b53c7db5acd0b4d",
+      "generatedAt": "2026-08-26T17:12:09Z",
+      "artifactType": "public_egypt_household_consumption_metadata",
+      "artifactId": "capmas-hiecs-2021-metadata-eg-20260826",
+      "sourceIds": [
+        "src-capmas-hiecs-2021-eg-20260826"
+      ],
+      "observationCount": 2,
+      "rawInputs": [
+        {
+          "path": "data/knowledge/public/capmas/2026-08-26/hiecs-2021-capture.md",
+          "sha256": "c28157508280203662e9806cfd972b9169050e218b766b8990ab73d4436aa412",
+          "capturedAt": "2026-08-26T17:12:09Z"
+        }
+      ],
+      "limitations": [
+        "CAPMAS HIECS is retained as public metadata and survey-scope context; microdata remains licensed.",
+        "The artifact does not close Egypt ecommerce or local-service market-validation gaps.",
+        "Raw HTML captures are retained for provenance; no CAPTCHA, login, or protected route was bypassed."
+      ]
+    },
+    {
+      "path": "data/knowledge/public/openstreetmap/2026-08-26/normalized-cairo-riyadh-amenities.json",
+      "sha256": "9ff3ab3d714109e50db30dc84c77bb1852891e4bfae0128e914b53d05b2c1edc",
+      "generatedAt": "2026-08-26T17:12:09Z",
+      "artifactType": "public_city_mapped_amenity_supply_context",
+      "artifactId": "openstreetmap-overpass-cairo-riyadh-amenities-eg-sa-20260826",
+      "sourceIds": [
+        "src-openstreetmap-overpass-cairo-riyadh-20260826"
+      ],
+      "observationCount": 12,
+      "rawInputs": [
+        {
+          "path": "data/knowledge/public/openstreetmap/2026-08-26/cairo-riyadh-amenities.ql",
+          "sha256": "3f4c664739b4808869f7a81b686e2e549363a5cce40df60ada87fbf1ad44b9e4",
+          "capturedAt": "2026-08-26T17:12:09Z"
+        },
+        {
+          "path": "data/knowledge/public/openstreetmap/2026-08-26/cairo-riyadh-amenities.json",
+          "sha256": "db3cc3af6012dab60fd54ae0248fde3cfbae60e162fc2b8ca2fb21d2923a2ca8",
+          "capturedAt": "2026-08-26T17:12:09Z"
+        }
+      ],
+      "limitations": [
+        "Read-only public Overpass query with small city bounding boxes; response timestamp and query are retained for reproducibility.",
+        "Respect Overpass public-instance usage policies, cache results, identify the client, and stop/back off on HTTP 429/406 or server overload.",
+        "OSM/ODbL attribution and share-alike obligations must be preserved for derivative database use."
       ]
     },
     {
@@ -2864,7 +3076,7 @@
     "marketValidated": false,
     "readyEvidencePackages": 0,
     "limitedEvidencePackagesPlanned": 3,
-    "additionalPublicArtifactCount": 22,
+    "additionalPublicArtifactCount": 25,
     "discoveryOnlySourceIds": [
       "src-capmas-central-data-catalog-20260825",
       "src-gastat-open-data-20260825",
