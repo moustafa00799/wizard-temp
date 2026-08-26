@@ -328,3 +328,16 @@ CRM/store: اسم المنصة فقط ...
 [7]: https://developer.apple.com/help/app-store-connect/get-started/app-store-connect-api/ "Apple App Store Connect API — Get started"
 
 **ملاحظة provenance:** تم التحقق من صفحات Google Ads وGA4 وSearch Console وMeta وTikTok وGoogle Play وApple الرسمية أثناء إعداد هذه الخطة. أُبقيت هذه الوثيقة خطة تشغيلية؛ لا تحتوي على أي credential ولا تمنح صلاحية فعلية لأي حساب.
+
+
+---
+
+## 15. نتيجة أول تنفيذ Google Ads في 26 أغسطس 2026
+
+بعد تثبيت allowlist الحسابات المستقلة `428-290-0193` و`689-913-7548` و`939-797-6723`، وتفعيل موصل Google Ads وحده، نجحت health وGAQL read queries للحسابين الأول والثاني. الحساب `4282900193` ظهر بعملة EGP والمنطقة الزمنية Africa/Cairo، والحساب `6899137548` ظهر بعملة SAR والمنطقة الزمنية Asia/Riyadh. أما `9397976723` فأعاد 403 `USER_PERMISSION_DENIED`، ولم تُحفظ منه أي صفوف قابلة للاستخدام.
+
+تم جمع campaign inventory وad-group inventory وcreative inventory وkeyword inventory وconversion actions وcampaign performance وdevice performance وkeyword performance وعينة top search terms للحسابين الناجحين. التقرير المجمع للفترة 2024-01-01 إلى 2026-08-25 أعاد للحساب 428 عدد 4,831,778 impression و2,909 click وتكلفة 118,870.006827 EGP و0 conversions وقيمة تحويل 0، وأعاد للحساب 689 عدد 84 impression و2 click وتكلفة 31.612213 SAR و0 conversions وقيمة تحويل 0. هذه أرقام account-owned operational evidence وليست benchmark سوقيًا، ولا تُستخدم لحساب ROAS أو CPA دون CRM/store revenue وربط conversion موثق.
+
+حُفظت الصفوف الخام والـhashes في `.local/private-research/google-ads/2026-08-26/` خارج Git. كما أُنشئ تقرير summary آمن في `docs/GOOGLE_ADS_PRIVATE_COLLECTION_2026-08-26.md` وملف evidence خارجي في `/home/ubuntu/multiplatform_evidence_packages_google_ads_2026-08-26.json`. لم تُرسل نصوص الإعلانات أو الكلمات المفتاحية إلى AI، ولم تُنفذ أي عملية إنشاء أو تعديل أو نشر أو إنفاق.
+
+هذا التنفيذ لا يرفع `globalMarketValidated` ولا يجعل الحسابين exact industry packages تلقائيًا. الحساب 428 بقي `mixed_or_multi_industry`، والحساب 689 بقي `unclassified` إلى حين المراجعة البشرية. يجب معالجة الحساب 939 بعد تأكيد المعرف أو مسار الصلاحية الصحيح، ثم استكمال GA4/Search Console/CRM أو المتجر قبل اعتماد funnel أو revenue.
