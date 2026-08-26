@@ -111,6 +111,17 @@ assert.deepEqual(output.blockedAccounts, [{
   status: "unavailable",
   reason: "USER_PERMISSION_DENIED; fixture confirms blocked read-only scope.",
 }]);
+assert.deepEqual(output.deferredAccounts, [{
+  accountId: "9397976723",
+  status: "deferred",
+  accessStatus: "unavailable",
+  reason: "USER_PERMISSION_DENIED; fixture confirms blocked read-only scope.",
+  retryGate: "new_authorization_or_direct_user_access",
+  mergePolicy: "merge_only_after_scope_and_hash_verification",
+  excludedFromPackages: true,
+  marketValidated: false,
+}]);
+assert.equal(output.packages.some((pkg) => pkg.sourceRecords.some((source) => source.sourceId.endsWith("9397976723"))), false);
 assert.equal(JSON.stringify(output).includes("createCampaign"), false);
 assert.equal(JSON.stringify(output).includes("updateCampaign"), false);
 
@@ -120,6 +131,7 @@ console.log(JSON.stringify({
   assertions: 24,
   accounts: ["4282900193", "6899137548"],
   blockedAccount: "9397976723",
+  deferredAccount: "9397976723",
   campaignScope: { mixedAccount428: 3, egyptianService689: 1 },
   marketValidated: false,
   privateFixturesOnly: true,

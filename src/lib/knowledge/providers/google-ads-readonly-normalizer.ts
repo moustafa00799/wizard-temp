@@ -58,6 +58,17 @@ export type GoogleAdsReadOnlyBlockedAccountInput = {
   reason: string;
 };
 
+export type GoogleAdsDeferredAccount = {
+  accountId: string;
+  status: "deferred";
+  accessStatus: "unavailable";
+  reason: string;
+  retryGate: "new_authorization_or_direct_user_access";
+  mergePolicy: "merge_only_after_scope_and_hash_verification";
+  excludedFromPackages: true;
+  marketValidated: false;
+};
+
 export type GoogleAdsReadOnlyNormalizerInput = {
   generatedAt?: string;
   locale?: KnowledgeLocale;
@@ -136,6 +147,7 @@ export type GoogleAdsReadOnlyNormalizedOutput = {
   };
   accounts: GoogleAdsNormalizedAccount[];
   blockedAccounts: GoogleAdsReadOnlyBlockedAccountInput[];
+  deferredAccounts: GoogleAdsDeferredAccount[];
   packages: EvidencePackage[];
 };
 
@@ -528,6 +540,22 @@ export function normalizeGoogleAdsReadOnly(input: GoogleAdsReadOnlyNormalizerInp
     };
   });
 
+  const blockedAccounts = input.blockedAccounts ?? [{
+    accountId: GOOGLE_ADS_BLOCKED_ACCOUNT_ID,
+    status: "unavailable" as const,
+    reason: "USER_PERMISSION_DENIED; no usable rows were collected and no retry was performed without a new authorization basis.",
+  }];
+  const deferredAccounts: GoogleAdsDeferredAccount[] = blockedAccounts.map((account) => ({
+    accountId: account.accountId,
+    status: "deferred",
+    accessStatus: account.status,
+    reason: account.reason,
+    retryGate: "new_authorization_or_direct_user_access",
+    mergePolicy: "merge_only_after_scope_and_hash_verification",
+    excludedFromPackages: true,
+    marketValidated: false,
+  }));
+
   const packages = accounts.flatMap((account) => packagesForAccount(
     input.accounts.find((candidate) => candidate.accountId === account.accountId) as GoogleAdsReadOnlyAccountInput,
     account.collections,
@@ -550,11 +578,8 @@ export function normalizeGoogleAdsReadOnly(input: GoogleAdsReadOnlyNormalizerInp
       currencyConversion: "google_ads_cost_micros_divided_by_1000000",
     },
     accounts,
-    blockedAccounts: input.blockedAccounts ?? [{
-      accountId: GOOGLE_ADS_BLOCKED_ACCOUNT_ID,
-      status: "unavailable",
-      reason: "USER_PERMISSION_DENIED; no usable rows were collected and no retry was performed without a new authorization basis.",
-    }],
+    blockedAccounts,
+    deferredAccounts,
     packages,
   };
 }

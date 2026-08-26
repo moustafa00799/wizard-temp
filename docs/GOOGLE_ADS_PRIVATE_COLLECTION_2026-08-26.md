@@ -15,7 +15,7 @@
 | `689-913-7548` (`6899137548`) | تم التحقق من health وقراءة التقارير | EG / SAR / Asia/Riyadh | `local_service_general` بنطاق مصر المؤكد من المستخدم |
 | `939-797-6723` (`9397976723`) | مرفوض بـ403 `USER_PERMISSION_DENIED` | غير متاح | `unavailable` إلى حين تصحيح الوصول |
 
-الحساب الثالث لم يُعتبر فاشلًا نهائيًا أو محذوفًا؛ نتيجة Google Ads أشارت إلى احتمال الحاجة إلى `login-customer-id` عند التعامل مع حساب تابع لمدير. وبما أن المستخدم أكد عدم وجود MCC، يجب أولًا التأكد من صحة الرقم أو من أن حساب Google المعتمد هو المستخدم الصحيح، ثم إعادة health check مرة واحدة فقط بعد توفر سبب واضح، دون تكرار سريع.
+الحساب الثالث لم يُعتبر فاشلًا نهائيًا أو محذوفًا. بعد تجربة مسار الحساب الصحيح في Google Ads، ظل موصل Google Ads الحالي يعيد `USER_PERMISSION_DENIED`، بينما ظهر الحساب في واجهة Google Ads تحت هوية أخرى. لذلك سُجل `9397976723` كمصدر **deferred/unavailable مستقل**، ولن تتم إعادة المحاولة إلا بعد تفويض جديد أو منح هوية الموصل صلاحية مباشرة. لا يؤثر هذا التأجيل على صلاحية أو أدلة الحسابين 428 و689.
 
 ## 2. البيانات التي جُمعت فعليًا
 
@@ -75,15 +75,19 @@
 
 ## 7. مسار الإكمال التالي
 
-تمت الخطوة الأولى مبدئيًا عبر تصنيف حتمي على مستوى الحملة في 428، مع إبقاء كل المرشحات `unreviewed` وعدم تحويلها إلى IndustryProfile. وتم تثبيت تأكيد المستخدم للحساب 689 كـ`EG/local_service_general` مع SAR كعملة فقط. الخطوة التالية المؤجلة هي معالجة `9397976723` بعد التحقق من المعرف أو حساب Google المعتمد، دون افتراض MCC ودون إعادة الطلب بلا سبب.
+تمت الخطوة الأولى مبدئيًا عبر تصنيف حتمي على مستوى الحملة في 428، مع إبقاء كل المرشحات `unreviewed` وعدم تحويلها إلى IndustryProfile. وتم تثبيت تأكيد المستخدم للحساب 689 كـ`EG/local_service_general` مع SAR كعملة فقط. أما `9397976723` فأصبح سجلًا مؤجلًا مستقلًا في normalizer: حالته `unavailable/deferred`، وهو مستبعد من الحزم الحالية، وبوابة إعادة المحاولة هي `new_authorization_or_direct_user_access`. عند توفر الوصول، يجب جمع snapshots جديدة والتحقق من النطاق والـSHA256 قبل الدمج؛ لا يُسمح بدمج صفوف قديمة غير قابلة للمطابقة ولا بترقية Market Validation تلقائيًا.
 
 بعد ذلك يمكن جمع تقرير GA4 أو CRM/المتجر لنفس الفترات والحسابات، ثم مطابقة conversions مع leads/orders/revenue/refunds. لن تُحسب ROAS أو CPA الحقيقية قبل هذا الربط. بالنسبة للحساب 689، يمكن الاحتفاظ بحزمة provider exact على نطاق `EG/local_service_general/ar/SAR` بوصفها evidence تشغيلية خاصة، لا بوصفها Market-Validated. أما حملات 428 فلا تُبنى لها حزمة صناعة نهائية قبل قبول المراجعة البشرية لكل partition.
 
-## 8. الاختبارات التي تم تنفيذها
+## 8. قرار التأجيل والدمج اللاحق
+
+التأجيل هو الخيار الأنسب حاليًا لأن بيانات 428 و689 أصبحت ممثلة ومختبرة، بينما مصادقة 939 لم تنجح عبر هوية الموصل الحالية. فصل 939 يمنع فقدان صلاحية الحسابين السابقين، ويمنع خلط بيانات حساب لم تُتحقق ملكيته التشغيلية للموصل بعد. عند استئنافه، تكون خطوات الدمج: فتح تفويض مباشر أو منح هوية الموصل وصولًا مباشرًا، إجراء health check، جمع التقارير المطلوبة، حساب SHA256، تصنيف الحملات على مستوى الحملة، ثم بناء package exact فقط بعد مراجعة النطاق. تبقى raw data خارج Git، وتظل بيانات 939 account-owned evidence لا benchmark سوقيًا.
+
+## 9. الاختبارات التي تم تنفيذها
 
 تم التحقق من وجود موصل Google Ads، ثم فحص metadata قبل كل فئة fields. فشل استعلام أول بسبب استخدام `campaign.start_date` و`campaign.end_date` غير المعتمدين، فتم إيقافه وفحص metadata ثم إعادة استعلام مصحح. وفشل استعلام metrics على `ad_group_criterion` بسبب عدم توافق المورد، فتم استخدام `keyword_view` بعد فحص metadata بدل إعادة الطلب الفاشل.
 
-نجحت health queries للحسابين 428 و689، ونجحت campaign/ad-group/creative/keyword/conversion/device/search-term read queries. فشل health query للحساب 939 بـ403 موثق. كل الاستعلامات كانت GAQL `SELECT` قراءة فقط، ولم تستخدم mutation methods. أضيف إلى المستودع `scripts/build_google_ads_readonly_current_evidence.ts` و`src/lib/knowledge/providers/google-ads-readonly-normalizer.ts` و`npm run test:knowledge:google-ads-readonly`. الـnormalizer يتحقق من SHA256SUMS، يرفض الحسابات خارج allowlist، يبقي 428 مختلطًا على مستوى الحساب، يسجل 689 كمصر مع SAR كعملة فقط، ويمثل 939 كـ`unavailable` دون retry تلقائي.
+نجحت health queries للحسابين 428 و689، ونجحت campaign/ad-group/creative/keyword/conversion/device/search-term read queries. فشل health query للحساب 939 بـ403 موثق. كل الاستعلامات كانت GAQL `SELECT` قراءة فقط، ولم تستخدم mutation methods. أضيف إلى المستودع `scripts/build_google_ads_readonly_current_evidence.ts` و`src/lib/knowledge/providers/google-ads-readonly-normalizer.ts` و`npm run test:knowledge:google-ads-readonly`. الـnormalizer يتحقق من SHA256SUMS، يرفض الحسابات خارج allowlist، يبقي 428 مختلطًا على مستوى الحساب، يسجل 689 كمصر مع SAR كعملة فقط، ويمثل 939 كـ`unavailable/deferred` دون retry تلقائي. regression يثبت أن 939 مستبعد من packages ولا يمكن دمجه إلا بعد بوابة التفويض والتحقق.
 
 ## المراجع الرسمية
 
