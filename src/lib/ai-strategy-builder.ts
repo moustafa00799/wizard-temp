@@ -15,6 +15,7 @@ import type {
 } from "./contracts/blueprint-contract-v3";
 import type { ScopedStrategyContext } from "./contracts/knowledge-strategy-context";
 import { sanitizeUnknownForAI } from "./ai-sanitizer";
+import { buildAIKnowledgeGuardrails } from "./knowledge/knowledge-gap-closure";
 
 const StrategyProposalSchema = z.object({
   strategic_summary: z.string().min(1),
@@ -100,6 +101,7 @@ Write all text in the requested locale. Keep proposed changes actionable but non
         strategy: blueprint.strategy,
       },
       knowledge_context: knowledgeContext ?? null,
+      knowledge_gap_guardrails: buildAIKnowledgeGuardrails(),
       safety: {
         generation_mode: "blueprint_only",
         external_actions_allowed: false,

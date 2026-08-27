@@ -17,6 +17,7 @@ import {
 import type { CanonicalBlueprint } from "./contracts/canonical-blueprint";
 import type { CanonicalWizardInput } from "./contracts/wizard-input";
 import { sanitizeUnknownForAI } from "./ai-sanitizer";
+import { buildAIKnowledgeGuardrails } from "./knowledge/knowledge-gap-closure";
 
 export type ReasoningBuilderProvider = ReasoningProviderName | "mock";
 export type ReasoningProviderRunner = typeof runReasoningProvider;
@@ -222,6 +223,7 @@ Use the requested locale and keep the output concise.`,
         blueprint_id: blueprint.blueprint_id,
         strategy: blueprint.strategy,
       },
+      knowledge_gap_guardrails: buildAIKnowledgeGuardrails(),
       available_evidence: [
         {
           id: "evidence-wizard-input",

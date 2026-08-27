@@ -32,7 +32,7 @@ const source: SourceRecord = {
 };
 
 const registry = new SourceRegistry([source]);
-registry.register({ ...source, version: "fixture-2", observedAt: "2026-08-21T12:00:00.000Z" });
+registry.register({ ...source, version: "fixture-2", observedAt: "2026-08-21T12:00:00.000Z", freshnessPolicy: "on_demand" });
 assert.equal(registry.list().length, 1);
 assert.equal(registry.listVersions(source.sourceId).length, 2);
 assert.equal(registry.getVersion(source.sourceId, "fixture-1")?.version, "fixture-1");

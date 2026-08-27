@@ -2,9 +2,9 @@
 
 ## الملخص التنفيذي
 
-تم تنفيذ فحص واسع ومقيد لمحتويات Google Drive المتاحة للمشروع، ثم اختيار البيانات المفيدة من أكثر من GA4 بدل قصر العمل على مسار GA4 فقط. شمل المسار تحليلات GA4، تقارير Search Console، تقارير Keyword Planner، تقارير الحملات وشراء الوسائط، ملفات الكتالوج وMerchant Center، ملف منتج تشغيلي، تقرير مبيعات تاريخي، وملف تعريف بائع. جرى التعامل مع هذه المواد بوصفها **بيانات first-party خاصة بالمستخدم**، وليست أدلة سوق عامة، ولذلك تم حفظها داخل workspace خاص على هيئة artifacts منقحة لا تحتوي صفوفًا أو قيمًا خامًا، ولم تُنشأ منها Evidence Packages أو Claims سوقية.
+تم تنفيذ فحص واسع ومقيد لمحتويات Google Drive المتاحة للمشروع، ثم اختيار البيانات المفيدة من أكثر من GA4 بدل قصر العمل على مسار GA4 فقط. شمل المسار تحليلات GA4، تقارير Search Console، تقارير Keyword Planner، تقارير الحملات وشراء الوسائط، ملفات الكتالوج وMerchant Center، ملف منتج تشغيلي، تقرير مبيعات تاريخي، وملف تعريف بائع. جرى التعامل مع هذه المواد بوصفها **بيانات first-party خاصة بالمستخدم**، وليست أدلة سوق عامة. حُفظت ملفات الإدخال داخل workspace خاص على هيئة artifacts منقحة لا تحتوي صفوفًا أو قيمًا خامًا، ثم أُنشئت لاحقًا حزمة خاصة محدودة لـShaadDesign فقط بعد تأكيد نطاقها؛ ولم تُنشأ أي حزمة عامة أو Claim سوقي.
 
-> النتيجة الحاكمة: **تم دمج 86 artifact منقحًا في SQLite الخاص بـDrive، مع بقاء `marketValidated=false`، وعدم تعديل Canonical Blueprint، وعدم إنشاء حزم جاهزة للاستخدام الاستراتيجي قبل إثبات property/site/currency والنطاق الدقيق.**
+> النتيجة الحاكمة: **تم دمج 86 artifact منقحًا في SQLite الخاص بـDrive، ثم إنشاء Snapshot و`limited package` خاصين بـShaadDesign بعد تأكيد Property والموقع والسوق والعملة والفترة. بقي `marketValidated=false`، ولم يتغير Canonical Blueprint، ولا توجد حزمة عامة أو حزمة جاهزة لاعتماد سوقي.**
 
 ## حدود الفحص ومخزون Drive
 
@@ -38,7 +38,7 @@
 | Store product | 1 | ملف منتج تاريخي منفصل عن Easy Orders | Artifact خاص، لا ربط تلقائي |
 | Sales report | 1 | `MTD SALES` تاريخي لعام 2022، بلا قاموس أو إثبات ملكية/عملة كافٍ | Artifact خاص، `scope_unverified` |
 | Seller profile | 1 | `maroof data`، يحتوي إشارات شخصية محتملة ولا يثبت أداء سوق | Artifact هيكلي خاص فقط |
-| **الإجمالي** | **86** | **كلها داخل workspace خاص** | **لا حزم عامة** |
+| **الإجمالي** | **86** | **كلها داخل workspace خاص** | **لا حزم عامة؛ حزمة ShaadDesign الخاصة موثقة لاحقًا** |
 
 بعد تطبيق قواعد التكرار الصريحة، أصبحت الحالة داخل قاعدة Drive كالتالي:
 
@@ -48,7 +48,7 @@
 | `catalog_identity_unverified` | 12 | كتالوجات أو منتجات لا يجوز إرفاقها بـEasy Orders أو سوق محدد |
 | `scope_unverified` | 10 | كلمات أو حملات أو مبيعات أو تعريف بائع تحتاج owner/source dictionary |
 | `excluded_duplicate` | 3 | تكرار Search Console معروف ونسختان Catalog متطابقتان ضمن قاعدة dedup المحددة |
-| **الإجمالي** | **86** | **لا يوجد artifact صالح تلقائيًا لحزمة سوقية** |
+| **الإجمالي** | **86** | **لا يوجد artifact صالح تلقائيًا لحزمة سوقية عامة** |
 
 ## مسار النشاط السعودي: GA4 وSearch Console وKeyword Planner
 
@@ -90,7 +90,7 @@
 
 أضيفت migration مستقلة [`0005_drive_evidence_artifacts.ts`](../src/lib/db/migrations/0005_drive_evidence_artifacts.ts) تنشئ جدول `drive_evidence_artifacts` مع قيود على SHA-256، class، scope، null currency، وعدم السماح بـ`market_validated=1`. وأضيف repository replay-safe في [`database.ts`](../src/lib/db/database.ts)، بحيث يؤدي إدخال نفس artifact مرة ثانية إلى مقارنة المحتوى بدل إنشاء duplicate، بينما يؤدي اختلاف المحتوى تحت نفس hash إلى فشل مغلق.
 
-يستخدم سكربت الدمج [`merge_google_drive_private_evidence.ts`](../scripts/merge_google_drive_private_evidence.ts) workspace مستقلًا اسمه `ws-cdks-private-google-drive`. لا ينشئ هذا المسار Evidence Packages، ولا Source Records عامة، ولا Claims، ولا Strategy Context، ولا Recommendation. توجد فقط artifacts منقحة وتدقيق merge يثبت أن العملية تمت read-only وأن `marketValidated=false`.
+يستخدم سكربت الدمج [`merge_google_drive_private_evidence.ts`](../scripts/merge_google_drive_private_evidence.ts) workspace مستقلًا اسمه `ws-cdks-private-google-drive`. مرحلة ingestion لا تنشئ Evidence Packages عامة ولا Claims ولا Strategy Context؛ تحفظ فقط artifacts منقحة وتدقيق merge. وبعد اكتمال Owner Attestation لـShaadDesign، أنشأ builder منفصل Snapshot و`limited package` خاصين (`shaaddesign-ga4-restricted-snapshot-2023` و`shaaddesign-ga4-restricted-package-2023`) دون رفعهما إلى Public Source Registry أو إعلان Market Validation.
 
 لإعادة بناء artifact من exports المحلية بعد تجهيز `export-manifest.jsonl`، يشغّل المستخدم `npm run knowledge:google-drive:normalize` ثم `npm run knowledge:google-drive:merge`، ويمكن تشغيل `npm run test:knowledge:google-drive-private` للتحقق. لا يحتاج parser إلى Drive IDs داخل artifact النهائي، ويمكنه العمل بمتغيرات `CDKS_GOOGLE_DRIVE_NORMALIZED_ROOT` و`CDKS_GOOGLE_DRIVE_EXPORT_MANIFEST` و`CDKS_GOOGLE_DRIVE_NORMALIZED_OUTPUT`. وعند تشغيل CI دون artifacts الخاصة غير المرفوعة، ينشئ regression fixture منقحًا داخل SQLite في الذاكرة؛ أما عند وجود قاعدة merge الخاصة فيستخدمها ويتحقق من أعدادها الفعلية.
 
@@ -109,7 +109,7 @@
 | أول merge إلى workspace Drive | 86 artifacts |
 | replay للدمج | 86/86 replay، 0 artifact جديد |
 | raw-row/privacy/credential gates | PASS |
-| عدد Evidence Packages لworkspace Drive | 0، كما هو مقصود |
+| عدد Evidence Packages عامة لworkspace Drive | 0؛ توجد حزمة ShaadDesign خاصة محدودة منفصلة |
 | Market Validation | false، كما هو مقصود |
 
 تم أيضًا تشغيل قاعدة الدمج على مستوى SQLite للتحقق من عدم وجود currency مخمّنة، وعدم وجود تكرار غير مسموح، وعدم وجود raw rows، وعدم وجود flags تسمح بـBlueprint mutation أو external writes.
