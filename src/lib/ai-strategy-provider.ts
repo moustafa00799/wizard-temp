@@ -340,7 +340,7 @@ export async function runStrategyProvider(
           { role: "system", content: systemPrompt },
           { role: "user", content: userPrompt },
         ],
-        temperature: 0.2,
+        ...(options.provider === "gemini" ? {} : { temperature: 0.2 }),
         max_tokens: 4096,
         response_format: responseFormat(defaults.structuredMode, options.provider),
         stream: false,

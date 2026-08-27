@@ -1,0 +1,129 @@
+# ============================================================
+# CDKS — Local Staging + Optional Governed AI Advisory
+# Blueprint-only / Non-production
+# ============================================================
+# انسخ هذا الملف إلى .env.local أو ادمج محتواه مع ملفك الحالي.
+# لا ترفع .env.local إلى GitHub ولا ترسل محتواه.
+
+# ============================================================
+# Local Staging Authentication
+# ============================================================
+
+# true = يطلب تسجيل الدخول المحلي قبل استخدام Local Staging وgenerate v5
+CDKS_LOCAL_AUTH_ENABLED=true
+
+# كود ستكتبه في صفحة http://localhost:3000/login
+# يجب ألا يقل عن 12 محرفًا. استبدل القيمة بقيمة عشوائية خاصة بك.
+CDKS_LOCAL_AUTH_ACCESS_CODE=REPLACE_WITH_YOUR_LOCAL_ACCESS_CODE
+
+# مفتاح داخلي لتوقيع session cookie، وليس كودًا تدخله في الصفحة.
+# يجب ألا يقل عن 32 محرفًا. استبدل القيمة بقيمة عشوائية خاصة بك.
+CDKS_LOCAL_AUTH_SESSION_SECRET=REPLACE_WITH_A_RANDOM_SESSION_SECRET_AT_LEAST_32_CHARS
+
+# هوية وworkspace محليان للاختبار الشخصي
+CDKS_LOCAL_AUTH_USER_ID=local-owner
+CDKS_LOCAL_AUTH_WORKSPACE_ID=workspace-local-cdks
+CDKS_LOCAL_AUTH_ROLE=owner
+CDKS_DEFAULT_WORKSPACE_ID=workspace-local-cdks
+CDKS_DEFAULT_WORKSPACE_USER_ID=local-owner
+
+# قواعد البيانات المحلية الافتراضية
+CDKS_APP_DB_PATH=.local/cdks-app.sqlite
+CDKS_STAGING_DB_PATH=.local/cdks-staging.sqlite
+
+# ============================================================
+# Client AI consent and server safety gates
+# ============================================================
+
+# true = يسمح للعميل بطلب AI الاستشاري بعد موافقته من Wizard
+# false = CDKS وRules Engine فقط دون طلب AI خارجي
+AI_LIVE_ENABLED=true
+
+# التشغيل غير الإنتاجي فقط
+AI_PROVIDER_MODE=nonprod
+
+# ترسل نسخة منقحة من Wizard فقط إلى مزود AI
+AI_DATA_POLICY=sanitized_wizard_only
+
+# ============================================================
+# Provider order for Strategy Builder and AI Reasoning
+# ============================================================
+
+# المزود الأساسي للنموذجين
+AI_STRATEGY_PROVIDER=groq
+AI_REASONING_PROVIDER=groq
+
+# fallback عند timeout أو rate limit أو network أو provider 5xx
+AI_STRATEGY_FALLBACK_PROVIDER=mistral
+
+# Gemini للـBenchmark فقط، وليس fallback تلقائيًا في رحلة العميل
+AI_BENCHMARK_PROVIDER=gemini
+AI_BENCHMARK_ENABLED=true
+
+# ============================================================
+# Models
+# ============================================================
+
+# Groq — Strategy Builder وAI Reasoning
+# Confirmed official production model ID: openai/gpt-oss-120b
+GROQ_STRATEGY_MODEL=openai/gpt-oss-120b
+GROQ_REASONING_MODEL=openai/gpt-oss-120b
+
+# Mistral — fallback للنموذجين
+MISTRAL_STRATEGY_MODEL=mistral-small-latest
+MISTRAL_REASONING_MODEL=mistral-small-latest
+
+# Gemini — Benchmark فقط
+# Confirmed official production model ID: gemini-3.6-flash
+# Do not add temperature, top_p, top_k, or candidate_count to Gemini requests.
+GEMINI_BENCHMARK_MODEL=gemini-3.6-flash
+
+# ============================================================
+# Provider timeouts
+# ============================================================
+
+GROQ_AI_TIMEOUT_MS=15000
+MISTRAL_AI_TIMEOUT_MS=30000
+GEMINI_AI_TIMEOUT_MS=45000
+
+# ============================================================
+# API keys — أضف القيم محليًا فقط
+# ============================================================
+# لا تترك العناصر النائبة عند تشغيل AI Live.
+# لا ترسل هذه القيم في المحادثة ولا ترفع الملف إلى Git.
+
+GROQ_API_KEY=PASTE_YOUR_GROQ_API_KEY_HERE
+MISTRAL_API_KEY=PASTE_YOUR_MISTRAL_API_KEY_HERE
+GEMINI_API_KEY=PASTE_YOUR_GEMINI_API_KEY_HERE
+
+# ============================================================
+# Safe benchmark controls
+# ============================================================
+
+# ابدأ بحالة واحدة فقط عند أول اختبار حي
+AI_BENCHMARK_MAX_CASES=1
+
+# فواصل محافظة بين طلبات Benchmark
+AI_BENCHMARK_GROQ_INTERVAL_MS=20000
+AI_BENCHMARK_MISTRAL_INTERVAL_MS=15000
+AI_BENCHMARK_GEMINI_INTERVAL_MS=15000
+
+# إيقاف المزود عند Rate Limit أو Model Not Found
+AI_BENCHMARK_STOP_ON_RATE_LIMIT=true
+AI_BENCHMARK_STOP_ON_NOT_FOUND=true
+
+# اختياري: تشغيل fixture محددة فقط أثناء التشخيص
+# AI_BENCHMARK_FIXTURES=EX-001_ecommerce-sales.json
+
+# ============================================================
+# Production-only reviewer gate — لا تحتاجه في Local Staging
+# ============================================================
+# عند الانتقال إلى production فقط، يجب تحديد قائمة المراجعين المصرح لهم.
+# CDKS_AUTHORIZED_REVIEWER_IDS=reviewer-id-1,reviewer-id-2
+
+# ============================================================
+# Governance reminder
+# ============================================================
+# approved = review/preparation/export فقط.
+# لا Launch ولا Publish ولا Spend ولا provider write.
+# marketValidated=false ما لم تتوفر أدلة سوقية رسمية مطابقة.
