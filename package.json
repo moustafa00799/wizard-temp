@@ -42,6 +42,7 @@
     "knowledge:easy-orders:normalize": "python3 scripts/build_easy_orders_readonly_current_evidence.py",
     "knowledge:easy-orders:merge": "tsx scripts/merge_easy_orders_private_evidence.ts",
     "test:knowledge:easy-orders:private": "tsx scripts/easy-orders-merge-regression.ts",
+    "knowledge:google-drive:normalize": "python3 scripts/build_google_drive_readonly_artifact.py",
     "knowledge:google-drive:merge": "tsx scripts/merge_google_drive_private_evidence.ts",
     "test:knowledge:google-drive-private": "tsx scripts/google-drive-merge-regression.ts",
     "knowledge:public:ingest": "python3 scripts/build_public_knowledge_ingestion.py",

@@ -92,6 +92,8 @@
 
 يستخدم سكربت الدمج [`merge_google_drive_private_evidence.ts`](../scripts/merge_google_drive_private_evidence.ts) workspace مستقلًا اسمه `ws-cdks-private-google-drive`. لا ينشئ هذا المسار Evidence Packages، ولا Source Records عامة، ولا Claims، ولا Strategy Context، ولا Recommendation. توجد فقط artifacts منقحة وتدقيق merge يثبت أن العملية تمت read-only وأن `marketValidated=false`.
 
+لإعادة بناء artifact من exports المحلية بعد تجهيز `export-manifest.jsonl`، يشغّل المستخدم `npm run knowledge:google-drive:normalize` ثم `npm run knowledge:google-drive:merge`، ويمكن تشغيل `npm run test:knowledge:google-drive-private` للتحقق. لا يحتاج parser إلى Drive IDs داخل artifact النهائي، ويمكنه العمل بمتغيرات `CDKS_GOOGLE_DRIVE_NORMALIZED_ROOT` و`CDKS_GOOGLE_DRIVE_EXPORT_MANIFEST` و`CDKS_GOOGLE_DRIVE_NORMALIZED_OUTPUT`. وعند تشغيل CI دون artifacts الخاصة غير المرفوعة، ينشئ regression fixture منقحًا داخل SQLite في الذاكرة؛ أما عند وجود قاعدة merge الخاصة فيستخدمها ويتحقق من أعدادها الفعلية.
+
 ## الاختبارات التي أُجريت
 
 | الاختبار | النتيجة |
