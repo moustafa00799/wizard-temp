@@ -1,0 +1,325 @@
+{
+  "contractVersion": "1.0",
+  "artifactType": "public_official_context_expansion",
+  "artifactId": "public-official-context-expansion-eg-sa-20260827",
+  "generatedAt": "2026-08-27T00:00:00.000Z",
+  "rawInput": {
+    "path": "data/knowledge/public/source-expansion/2026-08-27/official-context-capture.md",
+    "sha256": "5986caadeff667d2e535d57846fec3961913685019fc35428df16d8db6d798ce"
+  },
+  "observations": [
+    {
+      "observationId": "gastat-digital-economy-reference-period-2023",
+      "sourceId": "src-gastat-digital-economy-methodology-sa-20260827",
+      "market": "SA",
+      "marketScope": "country_context",
+      "industryRelevance": "ecommerce_general",
+      "status": "observed",
+      "capturedAt": "2026-08-27T00:00:00.000Z",
+      "limitations": [
+        "Official methodology metadata; not a numerical ecommerce demand or advertising-performance series."
+      ],
+      "observationType": "official_methodology",
+      "metric": "digital_economy_survey_reference_period",
+      "value": 2023,
+      "unit": "year",
+      "period": "2023",
+      "methodology": "annual survey; all economic activities; ISIC4; 13 administrative regions"
+    },
+    {
+      "observationId": "gastat-digital-economy-time-coverage-2022-2023",
+      "sourceId": "src-gastat-digital-economy-methodology-sa-20260827",
+      "market": "SA",
+      "marketScope": "country_context",
+      "industryRelevance": "ecommerce_general",
+      "status": "observed",
+      "capturedAt": "2026-08-27T00:00:00.000Z",
+      "limitations": [
+        "Official methodology metadata; availability statement is retained as published and does not fill missing indicators."
+      ],
+      "observationType": "official_methodology",
+      "metric": "digital_economy_survey_time_coverage",
+      "value": "2022-2023",
+      "unit": "period",
+      "period": "2022-2023"
+    },
+    {
+      "observationId": "saudi-mcit-digital-economy-size-2025",
+      "sourceId": "src-saudi-mcit-digital-economy-news-20250427-20260827",
+      "market": "SA",
+      "marketScope": "country_context",
+      "industryRelevance": "ecommerce_general",
+      "status": "observed",
+      "capturedAt": "2026-08-27T00:00:00.000Z",
+      "limitations": [
+        "Publisher-stated national digital-economy context; not ecommerce-only market size or advertising benchmark."
+      ],
+      "observationType": "official_national_context",
+      "metric": "digital_economy_size",
+      "value": 495,
+      "unit": "SAR_billion",
+      "period": "2025 publication; underlying period as stated by publisher"
+    },
+    {
+      "observationId": "saudi-mcit-digital-economy-gdp-share-2025",
+      "sourceId": "src-saudi-mcit-digital-economy-news-20250427-20260827",
+      "market": "SA",
+      "marketScope": "country_context",
+      "industryRelevance": "ecommerce_general",
+      "status": "observed",
+      "capturedAt": "2026-08-27T00:00:00.000Z",
+      "limitations": [
+        "Publisher-stated national digital-economy context; not ecommerce-only share."
+      ],
+      "observationType": "official_national_context",
+      "metric": "digital_economy_gdp_share",
+      "value": 15,
+      "unit": "percent",
+      "period": "2025 publication; underlying period as stated by publisher"
+    },
+    {
+      "observationId": "saudi-mcit-ict-market-2024",
+      "sourceId": "src-saudi-mcit-digital-economy-news-20250427-20260827",
+      "market": "SA",
+      "marketScope": "country_context",
+      "industryRelevance": "ecommerce_general",
+      "status": "observed",
+      "capturedAt": "2026-08-27T00:00:00.000Z",
+      "limitations": [
+        "The page states the ICT market surpassed this value; it is not an ecommerce-only series."
+      ],
+      "observationType": "official_national_context",
+      "metric": "ict_market_size",
+      "value": 180,
+      "unit": "SAR_billion_lower_bound",
+      "period": "2024"
+    },
+    {
+      "observationId": "egypt-ita-ict-growth-fy2022-2023",
+      "sourceId": "src-ita-egypt-digital-economy-guide-20251121-20260827",
+      "market": "EG",
+      "marketScope": "country_context",
+      "industryRelevance": "ecommerce_general",
+      "status": "observed",
+      "capturedAt": "2026-08-27T00:00:00.000Z",
+      "limitations": [
+        "Official U.S. government guide; secondary context and not an advertising-performance metric."
+      ],
+      "observationType": "official_secondary_context",
+      "metric": "ict_sector_growth",
+      "value": 15.2,
+      "unit": "percent",
+      "period": "FY2022/2023"
+    },
+    {
+      "observationId": "egypt-ita-ict-gdp-share-fy2022-2023",
+      "sourceId": "src-ita-egypt-digital-economy-guide-20251121-20260827",
+      "market": "EG",
+      "marketScope": "country_context",
+      "industryRelevance": "ecommerce_general",
+      "status": "observed",
+      "capturedAt": "2026-08-27T00:00:00.000Z",
+      "limitations": [
+        "Official U.S. government guide; secondary context and not ecommerce-only share."
+      ],
+      "observationType": "official_secondary_context",
+      "metric": "ict_sector_gdp_share",
+      "value": 5.1,
+      "unit": "percent",
+      "period": "FY2022/2023"
+    },
+    {
+      "observationId": "egypt-ita-ict-investment-fy2022-2023",
+      "sourceId": "src-ita-egypt-digital-economy-guide-20251121-20260827",
+      "market": "EG",
+      "marketScope": "country_context",
+      "industryRelevance": "ecommerce_general",
+      "status": "observed",
+      "capturedAt": "2026-08-27T00:00:00.000Z",
+      "limitations": [
+        "Publisher-attributed investment context; not ecommerce investment or advertising spend."
+      ],
+      "observationType": "official_secondary_context",
+      "metric": "ict_sector_investment",
+      "value": 4.2,
+      "unit": "USD_billion",
+      "period": "FY2022/2023"
+    },
+    {
+      "observationId": "egypt-ita-internet-users-2025",
+      "sourceId": "src-ita-egypt-ecommerce-guide-20251121-20260827",
+      "market": "EG",
+      "marketScope": "country_context",
+      "industryRelevance": "ecommerce_general",
+      "status": "observed",
+      "capturedAt": "2026-08-27T00:00:00.000Z",
+      "limitations": [
+        "Country-guide context; internet users are not ecommerce buyers, customers, or ad audiences."
+      ],
+      "observationType": "ecommerce_context",
+      "metric": "internet_users",
+      "value": 96.3,
+      "unit": "million_people",
+      "period": "January 2025"
+    },
+    {
+      "observationId": "egypt-ita-internet-penetration-2025",
+      "sourceId": "src-ita-egypt-ecommerce-guide-20251121-20260827",
+      "market": "EG",
+      "marketScope": "country_context",
+      "industryRelevance": "ecommerce_general",
+      "status": "observed",
+      "capturedAt": "2026-08-27T00:00:00.000Z",
+      "limitations": [
+        "Country-guide context; not ecommerce conversion or active buyer rate."
+      ],
+      "observationType": "ecommerce_context",
+      "metric": "internet_penetration",
+      "value": 81.9,
+      "unit": "percent",
+      "period": "January 2025"
+    },
+    {
+      "observationId": "egypt-ita-regular-online-purchase-share-2025",
+      "sourceId": "src-ita-egypt-ecommerce-guide-20251121-20260827",
+      "market": "EG",
+      "marketScope": "country_context",
+      "industryRelevance": "ecommerce_general",
+      "status": "observed",
+      "capturedAt": "2026-08-27T00:00:00.000Z",
+      "limitations": [
+        "Publisher-stated adoption context; definition and sampling belong to the cited source and are not extrapolated."
+      ],
+      "observationType": "ecommerce_context",
+      "metric": "regular_online_purchase_share",
+      "value": 8.3,
+      "unit": "percent",
+      "period": "2025 guide"
+    },
+    {
+      "observationId": "saudi-ita-ict-market-2025",
+      "sourceId": "src-ita-saudi-digital-economy-guide-20260512-20260827",
+      "market": "SA",
+      "marketScope": "country_context",
+      "industryRelevance": "ecommerce_general",
+      "status": "observed",
+      "capturedAt": "2026-08-27T00:00:00.000Z",
+      "limitations": [
+        "Country-guide secondary ICT context; not ecommerce-only market size."
+      ],
+      "observationType": "official_secondary_context",
+      "metric": "ict_market_size",
+      "value": 48,
+      "unit": "USD_billion",
+      "period": "May 2025"
+    },
+    {
+      "observationId": "saudi-ita-internet-penetration-2025",
+      "sourceId": "src-ita-saudi-digital-economy-guide-20260512-20260827",
+      "market": "SA",
+      "marketScope": "country_context",
+      "industryRelevance": "ecommerce_general",
+      "status": "observed",
+      "capturedAt": "2026-08-27T00:00:00.000Z",
+      "limitations": [
+        "Country-guide context; not active ecommerce buyers or ad audiences."
+      ],
+      "observationType": "official_secondary_context",
+      "metric": "internet_penetration",
+      "value": 99,
+      "unit": "percent",
+      "period": "2025 guide"
+    },
+    {
+      "observationId": "saudi-ita-ecommerce-users-2025",
+      "sourceId": "src-ita-saudi-ecommerce-guide-20260519-20260827",
+      "market": "SA",
+      "marketScope": "country_context",
+      "industryRelevance": "ecommerce_general",
+      "status": "observed",
+      "capturedAt": "2026-08-27T00:00:00.000Z",
+      "limitations": [
+        "Publisher-stated expectation; not observed sales, active users, or market share."
+      ],
+      "observationType": "ecommerce_context",
+      "metric": "ecommerce_users",
+      "value": 34.5,
+      "unit": "million_people",
+      "period": "end-2025 expectation"
+    },
+    {
+      "observationId": "saudi-ita-ecommerce-retail-share-2026",
+      "sourceId": "src-ita-saudi-ecommerce-guide-20260519-20260827",
+      "market": "SA",
+      "marketScope": "country_context",
+      "industryRelevance": "ecommerce_general",
+      "status": "observed",
+      "capturedAt": "2026-08-27T00:00:00.000Z",
+      "limitations": [
+        "The page attributes this to McKinsey; it is a secondary contextual estimate and not a Saudi official statistical series."
+      ],
+      "observationType": "ecommerce_context",
+      "metric": "ecommerce_share_of_retail",
+      "value": 10,
+      "unit": "percent",
+      "period": "2026 guide statement"
+    },
+    {
+      "observationId": "egypt-sis-ict-growth-fy2022-2023",
+      "sourceId": "src-sis-egypt-ict-sector-20240129-20260827",
+      "market": "EG",
+      "marketScope": "country_context",
+      "industryRelevance": "ecommerce_general",
+      "status": "observed",
+      "capturedAt": "2026-08-27T00:00:00.000Z",
+      "limitations": [
+        "Egyptian government information-service summary; definition and methodology remain publisher-specific."
+      ],
+      "observationType": "official_national_context",
+      "metric": "ict_sector_growth",
+      "value": 16.3,
+      "unit": "percent",
+      "period": "FY2022/2023"
+    },
+    {
+      "observationId": "egypt-sis-ict-revenue-current-fy",
+      "sourceId": "src-sis-egypt-ict-sector-20240129-20260827",
+      "market": "EG",
+      "marketScope": "country_context",
+      "industryRelevance": "ecommerce_general",
+      "status": "observed",
+      "capturedAt": "2026-08-27T00:00:00.000Z",
+      "limitations": [
+        "Publisher-stated ICT-sector context; not ecommerce GMV or advertising revenue."
+      ],
+      "observationType": "official_national_context",
+      "metric": "ict_sector_revenue",
+      "value": 315,
+      "unit": "EGP_billion",
+      "period": "current fiscal year as stated on 2024 page"
+    },
+    {
+      "observationId": "egypt-sis-digital-exports-2023",
+      "sourceId": "src-sis-egypt-ict-sector-20240129-20260827",
+      "market": "EG",
+      "marketScope": "country_context",
+      "industryRelevance": "ecommerce_general",
+      "status": "observed",
+      "capturedAt": "2026-08-27T00:00:00.000Z",
+      "limitations": [
+        "Publisher-stated digital-export context; not domestic ecommerce sales."
+      ],
+      "observationType": "official_national_context",
+      "metric": "digital_exports",
+      "value": 6.2,
+      "unit": "USD_billion",
+      "period": "2023"
+    }
+  ],
+  "unknowns": [
+    "These sources do not provide advertising audience, CPC, CPA, CVR, ROAS, or campaign-performance data."
+  ],
+  "limitations": [
+    "Official government or government-guide context is retained with source attribution and scope; secondary figures are not promoted to primary national series."
+  ]
+}

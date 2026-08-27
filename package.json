@@ -49,6 +49,8 @@
     "knowledge:public:source-records": "python3 scripts/build_public_source_record_additions.py && python3 scripts/merge_public_source_registry.py",
     "knowledge:public:manifest": "python3 scripts/rebuild_public_knowledge_manifest.py",
     "knowledge:public:packages": "tsx scripts/build_public_evidence_packages.ts",
+    "knowledge:public:expansion": "python3 scripts/build_public_source_expansion_20260827.py && tsx scripts/build_public_source_expansion_packages.ts",
+    "test:knowledge:public-expansion": "tsx scripts/public-source-expansion-regression.ts",
     "knowledge:public:full": "npm run knowledge:public:context && npm run knowledge:public:additional-context && npm run knowledge:public:payment-marketplaces && npm run knowledge:public:source-records && npm run knowledge:public:manifest && npm run knowledge:public:packages",
     "test:knowledge:public-ingestion": "tsx scripts/public-knowledge-ingestion-regression.ts",
     "test:knowledge:public-evidence": "tsx scripts/public-evidence-package-regression.ts",

@@ -1,0 +1,1118 @@
+{
+  "contractVersion": "1.0",
+  "artifactType": "scoped_public_evidence_packages_expansion",
+  "generatedAt": "2026-08-27T00:00:00.000Z",
+  "marketValidated": false,
+  "packages": [
+    {
+      "contractVersion": "1.0",
+      "packageId": "pkg-eg-ecommerce-public-expansion-20260827",
+      "generatedAt": "2026-08-27T00:00:00.000Z",
+      "market": "EG",
+      "industry": "ecommerce_general",
+      "locale": "ar",
+      "currency": "EGP",
+      "sourceRecords": [
+        {
+          "contractVersion": "1.0",
+          "sourceId": "src-ita-egypt-digital-economy-guide-20251121-20260827",
+          "publisher": "International Trade Administration, U.S. Department of Commerce",
+          "sourceUrl": "https://www.trade.gov/country-commercial-guides/egypt-digital-economy",
+          "sourceType": "official_document",
+          "jurisdiction": "EG",
+          "market": "EG",
+          "language": "en",
+          "licenseStatus": "unknown",
+          "observedAt": "2026-08-27T00:00:00.000Z",
+          "freshnessPolicy": "on_demand",
+          "limitations": [
+            "Official U.S. government country-guide context prepared by the International Trade Administration; it is secondary context for Egypt.",
+            "Some figures are attributed by the page to Egyptian authorities or third-party reports; publisher attribution and date must be retained.",
+            "Not a substitute for a primary Egyptian statistical release and not advertising-performance evidence."
+          ],
+          "version": "guide-2025-11-21",
+          "enabled": true
+        },
+        {
+          "contractVersion": "1.0",
+          "sourceId": "src-ita-egypt-ecommerce-guide-20251121-20260827",
+          "publisher": "International Trade Administration, U.S. Department of Commerce",
+          "sourceUrl": "https://www.trade.gov/country-commercial-guides/egypt-ecommerce",
+          "sourceType": "official_document",
+          "jurisdiction": "EG",
+          "market": "EG",
+          "industry": "ecommerce_general",
+          "language": "en",
+          "licenseStatus": "unknown",
+          "observedAt": "2026-08-27T00:00:00.000Z",
+          "freshnessPolicy": "on_demand",
+          "limitations": [
+            "Official U.S. government country-guide context prepared by the International Trade Administration; it is secondary context for Egypt.",
+            "The guide discusses ecommerce adoption, payments, logistics, and internet context but does not provide the client's store performance.",
+            "Not a primary Egyptian administrative dataset and not advertising-performance evidence."
+          ],
+          "version": "guide-2025-11-21",
+          "enabled": true
+        },
+        {
+          "contractVersion": "1.0",
+          "sourceId": "src-sis-egypt-ict-sector-20240129-20260827",
+          "publisher": "State Information Service / Ministry of Communications and Information Technology (Egypt)",
+          "sourceUrl": "https://sis.gov.eg/en/media-center/files/ict-sector/",
+          "sourceType": "official_document",
+          "jurisdiction": "EG",
+          "market": "EG",
+          "language": "en",
+          "licenseStatus": "unknown",
+          "observedAt": "2026-08-27T00:00:00.000Z",
+          "freshnessPolicy": "on_demand",
+          "limitations": [
+            "Egyptian government information-service page summarizing 2023 ICT-sector achievements and publisher-attributed indicators.",
+            "Sector-level ICT figures are broader than ecommerce and are not campaign or customer-performance evidence.",
+            "Figures are retained with their stated period and are not reconciled with the later ITA country-guide figures."
+          ],
+          "version": "ict-sector-2024-01-29",
+          "enabled": true
+        },
+        {
+          "contractVersion": "1.0",
+          "sourceId": "src-jumia-eg-electronics-category-20260827",
+          "publisher": "Jumia Egypt",
+          "sourceUrl": "https://www.jumia.com.eg/mlp-electronics-products-deals/",
+          "sourceType": "public_library",
+          "jurisdiction": "EG",
+          "market": "EG",
+          "industry": "ecommerce_general",
+          "language": "en",
+          "licenseStatus": "unknown",
+          "observedAt": "2026-08-27T00:00:00.000Z",
+          "freshnessPolicy": "on_demand",
+          "limitations": [
+            "Single public category-page observation; visible listing count, prices, promotions, ratings, seller signals, and availability can change.",
+            "The page is not a representative assortment, price index, demand estimate, sales volume, or market-share sample.",
+            "No competitor campaign performance or customer-level data is inferred."
+          ],
+          "version": "category-capture-2026-08-27",
+          "enabled": true
+        },
+        {
+          "contractVersion": "1.0",
+          "sourceId": "src-carrefour-eg-food-cupboard-20260827",
+          "publisher": "Carrefour Egypt",
+          "sourceUrl": "https://www.carrefouregypt.com/mafegy/en/food-cupboard/n/c/clp_FEGY1700000",
+          "sourceType": "public_library",
+          "jurisdiction": "EG",
+          "market": "EG",
+          "industry": "ecommerce_general",
+          "language": "en",
+          "licenseStatus": "unknown",
+          "observedAt": "2026-08-27T00:00:00.000Z",
+          "freshnessPolicy": "on_demand",
+          "limitations": [
+            "Single public Cairo storefront/category observation; location, delivery slot, price, stock, and promotions can change.",
+            "Visible product examples are not a national price average, representative sample, demand estimate, or sales-volume measurement.",
+            "No customer-level or advertising-performance data is inferred."
+          ],
+          "version": "category-capture-2026-08-27",
+          "enabled": true
+        },
+        {
+          "contractVersion": "1.0",
+          "sourceId": "src-google-play-jumia-en-us-20260827",
+          "publisher": "JUMIA Online Shopping",
+          "sourceUrl": "https://play.google.com/store/apps/details?id=com.jumia.android&hl=en_US",
+          "sourceType": "public_library",
+          "industry": "ecommerce_general",
+          "language": "en",
+          "licenseStatus": "unknown",
+          "observedAt": "2026-08-27T00:00:00.000Z",
+          "freshnessPolicy": "on_demand",
+          "limitations": [
+            "Google Play en_US app-page observation; displayed rating, review count, and download band are global/store-locale indicators.",
+            "These indicators do not establish Egypt-specific active users, installs, retention, revenue, sales, or market share.",
+            "Data-safety disclosures are developer declarations and may change."
+          ],
+          "version": "app-capture-2026-08-27",
+          "enabled": true
+        },
+        {
+          "contractVersion": "1.0",
+          "sourceId": "src-apple-store-jumia-eg-20260827",
+          "publisher": "Jumia Online Shopping",
+          "sourceUrl": "https://apps.apple.com/eg/app/jumia-online-shopping/id925015459",
+          "sourceType": "public_library",
+          "jurisdiction": "EG",
+          "market": "EG",
+          "industry": "ecommerce_general",
+          "language": "en",
+          "licenseStatus": "unknown",
+          "observedAt": "2026-08-27T00:00:00.000Z",
+          "freshnessPolicy": "on_demand",
+          "limitations": [
+            "Egypt-locale Apple App Store page observation; ratings and chart position are public storefront signals, not active users, sales, or market share.",
+            "Review text is not imported as evidence; only displayed aggregate metadata is retained.",
+            "App-store values and ranking can change over time."
+          ],
+          "version": "app-capture-2026-08-27",
+          "enabled": true
+        }
+      ],
+      "evidenceReferences": [
+        {
+          "evidenceId": "evidence-src-ita-egypt-digital-economy-guide-20251121-20260827",
+          "sourceId": "src-ita-egypt-digital-economy-guide-20251121-20260827",
+          "observedAt": "2026-08-27T00:00:00.000Z",
+          "excerpt": "Public official-context or app-store source record referenced by a limited scoped snapshot.",
+          "limitations": [
+            "Official U.S. government country-guide context prepared by the International Trade Administration; it is secondary context for Egypt.",
+            "Some figures are attributed by the page to Egyptian authorities or third-party reports; publisher attribution and date must be retained.",
+            "Not a substitute for a primary Egyptian statistical release and not advertising-performance evidence."
+          ]
+        },
+        {
+          "evidenceId": "evidence-src-ita-egypt-ecommerce-guide-20251121-20260827",
+          "sourceId": "src-ita-egypt-ecommerce-guide-20251121-20260827",
+          "observedAt": "2026-08-27T00:00:00.000Z",
+          "excerpt": "Public official-context or app-store source record referenced by a limited scoped snapshot.",
+          "limitations": [
+            "Official U.S. government country-guide context prepared by the International Trade Administration; it is secondary context for Egypt.",
+            "The guide discusses ecommerce adoption, payments, logistics, and internet context but does not provide the client's store performance.",
+            "Not a primary Egyptian administrative dataset and not advertising-performance evidence."
+          ]
+        },
+        {
+          "evidenceId": "evidence-src-sis-egypt-ict-sector-20240129-20260827",
+          "sourceId": "src-sis-egypt-ict-sector-20240129-20260827",
+          "observedAt": "2026-08-27T00:00:00.000Z",
+          "excerpt": "Public official-context or app-store source record referenced by a limited scoped snapshot.",
+          "limitations": [
+            "Egyptian government information-service page summarizing 2023 ICT-sector achievements and publisher-attributed indicators.",
+            "Sector-level ICT figures are broader than ecommerce and are not campaign or customer-performance evidence.",
+            "Figures are retained with their stated period and are not reconciled with the later ITA country-guide figures."
+          ]
+        },
+        {
+          "evidenceId": "evidence-src-jumia-eg-electronics-category-20260827",
+          "sourceId": "src-jumia-eg-electronics-category-20260827",
+          "observedAt": "2026-08-27T00:00:00.000Z",
+          "excerpt": "Public official-context or app-store source record referenced by a limited scoped snapshot.",
+          "limitations": [
+            "Single public category-page observation; visible listing count, prices, promotions, ratings, seller signals, and availability can change.",
+            "The page is not a representative assortment, price index, demand estimate, sales volume, or market-share sample.",
+            "No competitor campaign performance or customer-level data is inferred."
+          ]
+        },
+        {
+          "evidenceId": "evidence-src-carrefour-eg-food-cupboard-20260827",
+          "sourceId": "src-carrefour-eg-food-cupboard-20260827",
+          "observedAt": "2026-08-27T00:00:00.000Z",
+          "excerpt": "Public official-context or app-store source record referenced by a limited scoped snapshot.",
+          "limitations": [
+            "Single public Cairo storefront/category observation; location, delivery slot, price, stock, and promotions can change.",
+            "Visible product examples are not a national price average, representative sample, demand estimate, or sales-volume measurement.",
+            "No customer-level or advertising-performance data is inferred."
+          ]
+        },
+        {
+          "evidenceId": "evidence-src-google-play-jumia-en-us-20260827",
+          "sourceId": "src-google-play-jumia-en-us-20260827",
+          "observedAt": "2026-08-27T00:00:00.000Z",
+          "excerpt": "Public official-context or app-store source record referenced by a limited scoped snapshot.",
+          "limitations": [
+            "Google Play en_US app-page observation; displayed rating, review count, and download band are global/store-locale indicators.",
+            "These indicators do not establish Egypt-specific active users, installs, retention, revenue, sales, or market share.",
+            "Data-safety disclosures are developer declarations and may change."
+          ]
+        },
+        {
+          "evidenceId": "evidence-src-apple-store-jumia-eg-20260827",
+          "sourceId": "src-apple-store-jumia-eg-20260827",
+          "observedAt": "2026-08-27T00:00:00.000Z",
+          "excerpt": "Public official-context or app-store source record referenced by a limited scoped snapshot.",
+          "limitations": [
+            "Egypt-locale Apple App Store page observation; ratings and chart position are public storefront signals, not active users, sales, or market share.",
+            "Review text is not imported as evidence; only displayed aggregate metadata is retained.",
+            "App-store values and ranking can change over time."
+          ]
+        }
+      ],
+      "snapshots": [
+        {
+          "contractVersion": "1.0",
+          "snapshotId": "snapshot-pkg-eg-ecommerce-public-expansion-20260827",
+          "market": "EG",
+          "industry": "ecommerce_general",
+          "locale": "ar",
+          "currency": "EGP",
+          "capturedAt": "2026-08-27T00:00:00.000Z",
+          "freshnessStatus": "fresh",
+          "facts": [
+            {
+              "factId": "eg-ict_sector_growth-egypt-ita-ict-growth-fy2022-2023",
+              "name": "ict_sector_growth (public context)",
+              "value": 15.2,
+              "unit": "percent",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-ita-egypt-digital-economy-guide-20251121-20260827"
+              ],
+              "observedAt": "2026-08-27T00:00:00.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-ict_sector_gdp_share-egypt-ita-ict-gdp-share-fy2022-2023",
+              "name": "ict_sector_gdp_share (public context)",
+              "value": 5.1,
+              "unit": "percent",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-ita-egypt-digital-economy-guide-20251121-20260827"
+              ],
+              "observedAt": "2026-08-27T00:00:00.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-ict_sector_investment-egypt-ita-ict-investment-fy2022-2023",
+              "name": "ict_sector_investment (public context)",
+              "value": 4.2,
+              "unit": "USD_billion",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-ita-egypt-digital-economy-guide-20251121-20260827"
+              ],
+              "observedAt": "2026-08-27T00:00:00.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-internet_users-egypt-ita-internet-users-2025",
+              "name": "internet_users (public context)",
+              "value": 96.3,
+              "unit": "million_people",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-ita-egypt-ecommerce-guide-20251121-20260827"
+              ],
+              "observedAt": "2026-08-27T00:00:00.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-internet_penetration-egypt-ita-internet-penetration-2025",
+              "name": "internet_penetration (public context)",
+              "value": 81.9,
+              "unit": "percent",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-ita-egypt-ecommerce-guide-20251121-20260827"
+              ],
+              "observedAt": "2026-08-27T00:00:00.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-regular_online_purchase_share-egypt-ita-regular-online-purchase-share-2025",
+              "name": "regular_online_purchase_share (public context)",
+              "value": 8.3,
+              "unit": "percent",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-ita-egypt-ecommerce-guide-20251121-20260827"
+              ],
+              "observedAt": "2026-08-27T00:00:00.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-ict_sector_growth-egypt-sis-ict-growth-fy2022-2023",
+              "name": "ict_sector_growth (public context)",
+              "value": 16.3,
+              "unit": "percent",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-sis-egypt-ict-sector-20240129-20260827"
+              ],
+              "observedAt": "2026-08-27T00:00:00.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-ict_sector_revenue-egypt-sis-ict-revenue-current-fy",
+              "name": "ict_sector_revenue (public context)",
+              "value": 315,
+              "unit": "EGP_billion",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-sis-egypt-ict-sector-20240129-20260827"
+              ],
+              "observedAt": "2026-08-27T00:00:00.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "factId": "eg-digital_exports-egypt-sis-digital-exports-2023",
+              "name": "digital_exports (public context)",
+              "value": 6.2,
+              "unit": "USD_billion",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-sis-egypt-ict-sector-20240129-20260827"
+              ],
+              "observedAt": "2026-08-27T00:00:00.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            }
+          ],
+          "competitorObservations": [
+            {
+              "observationId": "eg-src-jumia-eg-electronics-category-20260827-channel-presence",
+              "subject": "Jumia storefront",
+              "observationType": "channel_presence",
+              "observation": "A public storefront/category page exposed channel taxonomy and selected merchandising, price, rating, promotion, stock, delivery, or service signals at capture time; this is not a representative market or performance measurement.",
+              "status": "observed",
+              "sourceIds": [
+                "src-jumia-eg-electronics-category-20260827"
+              ],
+              "observedAt": "2026-08-27T00:00:00.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "observationId": "eg-src-carrefour-eg-food-cupboard-20260827-channel-presence",
+              "subject": "Carrefour storefront",
+              "observationType": "channel_presence",
+              "observation": "A public storefront/category page exposed channel taxonomy and selected merchandising, price, rating, promotion, stock, delivery, or service signals at capture time; this is not a representative market or performance measurement.",
+              "status": "observed",
+              "sourceIds": [
+                "src-carrefour-eg-food-cupboard-20260827"
+              ],
+              "observedAt": "2026-08-27T00:00:00.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "observationId": "eg-src-google-play-jumia-en-us-20260827-channel-presence",
+              "subject": "Google Play app page",
+              "observationType": "channel_presence",
+              "observation": "A public app-store page exposed app metadata and store-locale rating/download or ranking signals at capture time; this is not country-specific active-user, sales, or market-share evidence.",
+              "status": "observed",
+              "sourceIds": [
+                "src-google-play-jumia-en-us-20260827"
+              ],
+              "observedAt": "2026-08-27T00:00:00.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            },
+            {
+              "observationId": "eg-src-apple-store-jumia-eg-20260827-channel-presence",
+              "subject": "Apple App Store app page",
+              "observationType": "channel_presence",
+              "observation": "A public app-store page exposed app metadata and store-locale rating/download or ranking signals at capture time; this is not country-specific active-user, sales, or market-share evidence.",
+              "status": "observed",
+              "sourceIds": [
+                "src-apple-store-jumia-eg-20260827"
+              ],
+              "observedAt": "2026-08-27T00:00:00.000Z",
+              "scope": {
+                "market": "EG",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            }
+          ],
+          "keywordSignals": [],
+          "seasonalitySignals": [
+            {
+              "signalId": "eg-ecommerce-public-expansion-seasonality-unavailable",
+              "period": "exact ecommerce seasonality",
+              "direction": "unknown",
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "The public expansion does not contain a validated exact-scope ecommerce seasonality series.",
+              "scope": {
+                "market": "EG",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "EGP"
+              }
+            }
+          ],
+          "unknowns": [
+            "Advertising audience size, CPC, CPA, CVR, ROAS, reach, frequency, saturation, and competitor campaign performance are unavailable.",
+            "Country-specific active users, installs, retention, revenue, and sales are unavailable from public app pages.",
+            "Representative category price averages, demand, sales volume, and market share are unavailable from the storefront captures.",
+            "The official context sources do not provide exact client-industry conversion or ecommerce-only market performance."
+          ],
+          "contradictions": [],
+          "sourceIds": [
+            "src-ita-egypt-digital-economy-guide-20251121-20260827",
+            "src-ita-egypt-ecommerce-guide-20251121-20260827",
+            "src-sis-egypt-ict-sector-20240129-20260827",
+            "src-jumia-eg-electronics-category-20260827",
+            "src-carrefour-eg-food-cupboard-20260827",
+            "src-google-play-jumia-en-us-20260827",
+            "src-apple-store-jumia-eg-20260827"
+          ],
+          "confidence": 0.45,
+          "limitations": [
+            "Coverage incomplete: the expansion contains official context and selected storefront/app observations, not a complete industry-specific evidence matrix.",
+            "National digital-economy and ICT indicators are broader than ecommerce and must not be read as ecommerce-only demand or market size.",
+            "Public storefront and app-page observations are point-in-time channel signals, not representative price indexes, active-user measures, sales volume, market share, or competitor campaign performance.",
+            "Market Validation remains false until the approved source-metric-scope matrix is complete with reproducible, licensed, exact-scope evidence."
+          ]
+        }
+      ],
+      "claims": [],
+      "status": "limited",
+      "freshnessStatus": "fresh",
+      "limitations": [
+        "Coverage incomplete: the expansion contains official context and selected storefront/app observations, not a complete industry-specific evidence matrix.",
+        "National digital-economy and ICT indicators are broader than ecommerce and must not be read as ecommerce-only demand or market size.",
+        "Public storefront and app-page observations are point-in-time channel signals, not representative price indexes, active-user measures, sales volume, market share, or competitor campaign performance.",
+        "Market Validation remains false until the approved source-metric-scope matrix is complete with reproducible, licensed, exact-scope evidence.",
+        "Official U.S. government country-guide context prepared by the International Trade Administration; it is secondary context for Egypt.",
+        "Some figures are attributed by the page to Egyptian authorities or third-party reports; publisher attribution and date must be retained.",
+        "Not a substitute for a primary Egyptian statistical release and not advertising-performance evidence.",
+        "The guide discusses ecommerce adoption, payments, logistics, and internet context but does not provide the client's store performance.",
+        "Not a primary Egyptian administrative dataset and not advertising-performance evidence.",
+        "Egyptian government information-service page summarizing 2023 ICT-sector achievements and publisher-attributed indicators.",
+        "Sector-level ICT figures are broader than ecommerce and are not campaign or customer-performance evidence.",
+        "Figures are retained with their stated period and are not reconciled with the later ITA country-guide figures.",
+        "Single public category-page observation; visible listing count, prices, promotions, ratings, seller signals, and availability can change.",
+        "The page is not a representative assortment, price index, demand estimate, sales volume, or market-share sample.",
+        "No competitor campaign performance or customer-level data is inferred.",
+        "Single public Cairo storefront/category observation; location, delivery slot, price, stock, and promotions can change.",
+        "Visible product examples are not a national price average, representative sample, demand estimate, or sales-volume measurement.",
+        "No customer-level or advertising-performance data is inferred.",
+        "Google Play en_US app-page observation; displayed rating, review count, and download band are global/store-locale indicators.",
+        "These indicators do not establish Egypt-specific active users, installs, retention, revenue, sales, or market share.",
+        "Data-safety disclosures are developer declarations and may change.",
+        "Egypt-locale Apple App Store page observation; ratings and chart position are public storefront signals, not active users, sales, or market share.",
+        "Review text is not imported as evidence; only displayed aggregate metadata is retained.",
+        "App-store values and ranking can change over time."
+      ],
+      "retrieval": {
+        "strategy": "registry_lookup",
+        "queryHash": "public-source-expansion-20260827-EG-ecommerce_general-ar-EGP",
+        "selectedEvidenceIds": [
+          "evidence-src-ita-egypt-digital-economy-guide-20251121-20260827",
+          "evidence-src-ita-egypt-ecommerce-guide-20251121-20260827",
+          "evidence-src-sis-egypt-ict-sector-20240129-20260827",
+          "evidence-src-jumia-eg-electronics-category-20260827",
+          "evidence-src-carrefour-eg-food-cupboard-20260827",
+          "evidence-src-google-play-jumia-en-us-20260827",
+          "evidence-src-apple-store-jumia-eg-20260827"
+        ]
+      }
+    },
+    {
+      "contractVersion": "1.0",
+      "packageId": "pkg-sa-ecommerce-public-expansion-20260827",
+      "generatedAt": "2026-08-27T00:00:00.000Z",
+      "market": "SA",
+      "industry": "ecommerce_general",
+      "locale": "ar",
+      "currency": "SAR",
+      "sourceRecords": [
+        {
+          "contractVersion": "1.0",
+          "sourceId": "src-gastat-digital-economy-methodology-sa-20260827",
+          "publisher": "General Authority for Statistics (GASTAT)",
+          "sourceUrl": "https://www.stats.gov.sa/en/w/methodology-and-quality-report-of-digital-economy-statistics",
+          "sourceType": "official_document",
+          "jurisdiction": "SA",
+          "market": "SA",
+          "language": "en",
+          "licenseStatus": "unknown",
+          "observedAt": "2026-08-27T00:00:00.000Z",
+          "freshnessPolicy": "monthly",
+          "limitations": [
+            "Official methodology and quality documentation for the Saudi Digital Economy Survey; it is not itself a complete numerical market dataset.",
+            "The page states 2022–2023 availability and 2023 reference period; missing indicators are not filled or interpolated.",
+            "Digital economy survey scope is broader than ecommerce and is not advertising-performance evidence."
+          ],
+          "version": "methodology-quality-2025-05-25",
+          "enabled": true
+        },
+        {
+          "contractVersion": "1.0",
+          "sourceId": "src-saudi-mcit-digital-economy-news-20250427-20260827",
+          "publisher": "Saudi Ministry of Communications and Information Technology (MCIT)",
+          "sourceUrl": "https://mcit.gov.sa/en/news/saudi-arabia%E2%80%99s-digital-economy-new-era-tech-growth-innovation-and-global-impact-empowered-hrh",
+          "sourceType": "official_document",
+          "jurisdiction": "SA",
+          "market": "SA",
+          "language": "en",
+          "licenseStatus": "unknown",
+          "observedAt": "2026-08-27T00:00:00.000Z",
+          "freshnessPolicy": "on_demand",
+          "limitations": [
+            "Official MCIT news-page context dated 2025-04-27; figures are publisher-stated national digital-economy and ICT context.",
+            "The figures are not ecommerce-only demand, sales, market share, or advertising benchmarks.",
+            "No reconciliation is performed against GASTAT, SAMA, or third-party series in this batch."
+          ],
+          "version": "news-2025-04-27",
+          "enabled": true
+        },
+        {
+          "contractVersion": "1.0",
+          "sourceId": "src-ita-saudi-digital-economy-guide-20260512-20260827",
+          "publisher": "International Trade Administration, U.S. Department of Commerce",
+          "sourceUrl": "https://www.trade.gov/country-commercial-guides/saudi-arabia-digital-economy-0",
+          "sourceType": "official_document",
+          "jurisdiction": "SA",
+          "market": "SA",
+          "language": "en",
+          "licenseStatus": "unknown",
+          "observedAt": "2026-08-27T00:00:00.000Z",
+          "freshnessPolicy": "on_demand",
+          "limitations": [
+            "Official U.S. government country-guide context prepared by the International Trade Administration; it includes publisher-attributed secondary sources.",
+            "Digital economy and ICT indicators are broader than ecommerce and must not be treated as a single market-size series.",
+            "Not advertising-performance, CPC, CPA, CVR, ROAS, or competitor-campaign evidence."
+          ],
+          "version": "guide-2026-05-12",
+          "enabled": true
+        },
+        {
+          "contractVersion": "1.0",
+          "sourceId": "src-ita-saudi-ecommerce-guide-20260519-20260827",
+          "publisher": "International Trade Administration, U.S. Department of Commerce",
+          "sourceUrl": "https://www.trade.gov/country-commercial-guides/saudi-arabia-ecommerce",
+          "sourceType": "official_document",
+          "jurisdiction": "SA",
+          "market": "SA",
+          "industry": "ecommerce_general",
+          "language": "en",
+          "licenseStatus": "unknown",
+          "observedAt": "2026-08-27T00:00:00.000Z",
+          "freshnessPolicy": "on_demand",
+          "limitations": [
+            "Official U.S. government country-guide context prepared by the International Trade Administration; cited market figures may come from secondary sources named on the page.",
+            "Platform names and channel context are not market share or sales-volume measurements.",
+            "Not advertising-performance, CPC, CPA, CVR, ROAS, or competitor-campaign evidence."
+          ],
+          "version": "guide-2026-05-19",
+          "enabled": true
+        },
+        {
+          "contractVersion": "1.0",
+          "sourceId": "src-jarir-sa-smartphones-category-20260827",
+          "publisher": "Jarir Bookstore Saudi Arabia",
+          "sourceUrl": "https://www.jarir.com/sa-en/smartphones.html",
+          "sourceType": "public_library",
+          "jurisdiction": "SA",
+          "market": "SA",
+          "industry": "ecommerce_general",
+          "language": "en",
+          "licenseStatus": "unknown",
+          "observedAt": "2026-08-27T00:00:00.000Z",
+          "freshnessPolicy": "on_demand",
+          "limitations": [
+            "Single public Saudi category-page observation; the rendered view exposed taxonomy and service context but not a stable product-price grid.",
+            "Category and service observations are not a representative assortment, demand estimate, sales volume, or market share.",
+            "No competitor campaign performance or customer-level data is inferred."
+          ],
+          "version": "category-capture-2026-08-27",
+          "enabled": true
+        },
+        {
+          "contractVersion": "1.0",
+          "sourceId": "src-google-play-jarir-en-us-20260827",
+          "publisher": "Jarir Bookstore",
+          "sourceUrl": "https://play.google.com/store/apps/details?id=com.jarirbookstore.JBMarketingApp&hl=en_US",
+          "sourceType": "public_library",
+          "jurisdiction": "SA",
+          "market": "SA",
+          "industry": "ecommerce_general",
+          "language": "en",
+          "licenseStatus": "unknown",
+          "observedAt": "2026-08-27T00:00:00.000Z",
+          "freshnessPolicy": "on_demand",
+          "limitations": [
+            "Google Play en_US app-page observation; displayed rating, review count, and download band are not Saudi active-user or sales measurements.",
+            "The app description and data-safety declarations are not campaign-performance evidence.",
+            "Displayed values can change over time and vary by store locale."
+          ],
+          "version": "app-capture-2026-08-27",
+          "enabled": true
+        },
+        {
+          "contractVersion": "1.0",
+          "sourceId": "src-apple-store-jarir-us-20260827",
+          "publisher": "Jarir Bookstore",
+          "sourceUrl": "https://apps.apple.com/us/app/jarir-bookstore/id535777677",
+          "sourceType": "public_library",
+          "jurisdiction": "SA",
+          "market": "SA",
+          "industry": "ecommerce_general",
+          "language": "en",
+          "licenseStatus": "unknown",
+          "observedAt": "2026-08-27T00:00:00.000Z",
+          "freshnessPolicy": "on_demand",
+          "limitations": [
+            "US-locale Apple App Store page observation for a Saudi retailer; ratings and app metadata are not Saudi active users, sales, or market share.",
+            "Review text and user identity are not imported as evidence.",
+            "App-store values can change over time and are not reconciled with Google Play values."
+          ],
+          "version": "app-capture-2026-08-27",
+          "enabled": true
+        }
+      ],
+      "evidenceReferences": [
+        {
+          "evidenceId": "evidence-src-gastat-digital-economy-methodology-sa-20260827",
+          "sourceId": "src-gastat-digital-economy-methodology-sa-20260827",
+          "observedAt": "2026-08-27T00:00:00.000Z",
+          "excerpt": "Public official-context or app-store source record referenced by a limited scoped snapshot.",
+          "limitations": [
+            "Official methodology and quality documentation for the Saudi Digital Economy Survey; it is not itself a complete numerical market dataset.",
+            "The page states 2022–2023 availability and 2023 reference period; missing indicators are not filled or interpolated.",
+            "Digital economy survey scope is broader than ecommerce and is not advertising-performance evidence."
+          ]
+        },
+        {
+          "evidenceId": "evidence-src-saudi-mcit-digital-economy-news-20250427-20260827",
+          "sourceId": "src-saudi-mcit-digital-economy-news-20250427-20260827",
+          "observedAt": "2026-08-27T00:00:00.000Z",
+          "excerpt": "Public official-context or app-store source record referenced by a limited scoped snapshot.",
+          "limitations": [
+            "Official MCIT news-page context dated 2025-04-27; figures are publisher-stated national digital-economy and ICT context.",
+            "The figures are not ecommerce-only demand, sales, market share, or advertising benchmarks.",
+            "No reconciliation is performed against GASTAT, SAMA, or third-party series in this batch."
+          ]
+        },
+        {
+          "evidenceId": "evidence-src-ita-saudi-digital-economy-guide-20260512-20260827",
+          "sourceId": "src-ita-saudi-digital-economy-guide-20260512-20260827",
+          "observedAt": "2026-08-27T00:00:00.000Z",
+          "excerpt": "Public official-context or app-store source record referenced by a limited scoped snapshot.",
+          "limitations": [
+            "Official U.S. government country-guide context prepared by the International Trade Administration; it includes publisher-attributed secondary sources.",
+            "Digital economy and ICT indicators are broader than ecommerce and must not be treated as a single market-size series.",
+            "Not advertising-performance, CPC, CPA, CVR, ROAS, or competitor-campaign evidence."
+          ]
+        },
+        {
+          "evidenceId": "evidence-src-ita-saudi-ecommerce-guide-20260519-20260827",
+          "sourceId": "src-ita-saudi-ecommerce-guide-20260519-20260827",
+          "observedAt": "2026-08-27T00:00:00.000Z",
+          "excerpt": "Public official-context or app-store source record referenced by a limited scoped snapshot.",
+          "limitations": [
+            "Official U.S. government country-guide context prepared by the International Trade Administration; cited market figures may come from secondary sources named on the page.",
+            "Platform names and channel context are not market share or sales-volume measurements.",
+            "Not advertising-performance, CPC, CPA, CVR, ROAS, or competitor-campaign evidence."
+          ]
+        },
+        {
+          "evidenceId": "evidence-src-jarir-sa-smartphones-category-20260827",
+          "sourceId": "src-jarir-sa-smartphones-category-20260827",
+          "observedAt": "2026-08-27T00:00:00.000Z",
+          "excerpt": "Public official-context or app-store source record referenced by a limited scoped snapshot.",
+          "limitations": [
+            "Single public Saudi category-page observation; the rendered view exposed taxonomy and service context but not a stable product-price grid.",
+            "Category and service observations are not a representative assortment, demand estimate, sales volume, or market share.",
+            "No competitor campaign performance or customer-level data is inferred."
+          ]
+        },
+        {
+          "evidenceId": "evidence-src-google-play-jarir-en-us-20260827",
+          "sourceId": "src-google-play-jarir-en-us-20260827",
+          "observedAt": "2026-08-27T00:00:00.000Z",
+          "excerpt": "Public official-context or app-store source record referenced by a limited scoped snapshot.",
+          "limitations": [
+            "Google Play en_US app-page observation; displayed rating, review count, and download band are not Saudi active-user or sales measurements.",
+            "The app description and data-safety declarations are not campaign-performance evidence.",
+            "Displayed values can change over time and vary by store locale."
+          ]
+        },
+        {
+          "evidenceId": "evidence-src-apple-store-jarir-us-20260827",
+          "sourceId": "src-apple-store-jarir-us-20260827",
+          "observedAt": "2026-08-27T00:00:00.000Z",
+          "excerpt": "Public official-context or app-store source record referenced by a limited scoped snapshot.",
+          "limitations": [
+            "US-locale Apple App Store page observation for a Saudi retailer; ratings and app metadata are not Saudi active users, sales, or market share.",
+            "Review text and user identity are not imported as evidence.",
+            "App-store values can change over time and are not reconciled with Google Play values."
+          ]
+        }
+      ],
+      "snapshots": [
+        {
+          "contractVersion": "1.0",
+          "snapshotId": "snapshot-pkg-sa-ecommerce-public-expansion-20260827",
+          "market": "SA",
+          "industry": "ecommerce_general",
+          "locale": "ar",
+          "currency": "SAR",
+          "capturedAt": "2026-08-27T00:00:00.000Z",
+          "freshnessStatus": "fresh",
+          "facts": [
+            {
+              "factId": "sa-digital_economy_survey_reference_period-gastat-digital-economy-reference-period-2023",
+              "name": "digital_economy_survey_reference_period (public context)",
+              "value": 2023,
+              "unit": "year",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-gastat-digital-economy-methodology-sa-20260827"
+              ],
+              "observedAt": "2026-08-27T00:00:00.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-digital_economy_survey_time_coverage-gastat-digital-economy-time-coverage-2022-2023",
+              "name": "digital_economy_survey_time_coverage (public context)",
+              "value": "2022-2023",
+              "unit": "period",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-gastat-digital-economy-methodology-sa-20260827"
+              ],
+              "observedAt": "2026-08-27T00:00:00.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-digital_economy_size-saudi-mcit-digital-economy-size-2025",
+              "name": "digital_economy_size (public context)",
+              "value": 495,
+              "unit": "SAR_billion",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-saudi-mcit-digital-economy-news-20250427-20260827"
+              ],
+              "observedAt": "2026-08-27T00:00:00.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-digital_economy_gdp_share-saudi-mcit-digital-economy-gdp-share-2025",
+              "name": "digital_economy_gdp_share (public context)",
+              "value": 15,
+              "unit": "percent",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-saudi-mcit-digital-economy-news-20250427-20260827"
+              ],
+              "observedAt": "2026-08-27T00:00:00.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ict_market_size-saudi-mcit-ict-market-2024",
+              "name": "ict_market_size (public context)",
+              "value": 180,
+              "unit": "SAR_billion_lower_bound",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-saudi-mcit-digital-economy-news-20250427-20260827"
+              ],
+              "observedAt": "2026-08-27T00:00:00.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ict_market_size-saudi-ita-ict-market-2025",
+              "name": "ict_market_size (public context)",
+              "value": 48,
+              "unit": "USD_billion",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-ita-saudi-digital-economy-guide-20260512-20260827"
+              ],
+              "observedAt": "2026-08-27T00:00:00.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-internet_penetration-saudi-ita-internet-penetration-2025",
+              "name": "internet_penetration (public context)",
+              "value": 99,
+              "unit": "percent",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-ita-saudi-digital-economy-guide-20260512-20260827"
+              ],
+              "observedAt": "2026-08-27T00:00:00.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ecommerce_users-saudi-ita-ecommerce-users-2025",
+              "name": "ecommerce_users (public context)",
+              "value": 34.5,
+              "unit": "million_people",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-ita-saudi-ecommerce-guide-20260519-20260827"
+              ],
+              "observedAt": "2026-08-27T00:00:00.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "factId": "sa-ecommerce_share_of_retail-saudi-ita-ecommerce-retail-share-2026",
+              "name": "ecommerce_share_of_retail (public context)",
+              "value": 10,
+              "unit": "percent",
+              "status": "limited_external_evidence",
+              "sourceIds": [
+                "src-ita-saudi-ecommerce-guide-20260519-20260827"
+              ],
+              "observedAt": "2026-08-27T00:00:00.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            }
+          ],
+          "competitorObservations": [
+            {
+              "observationId": "sa-src-jarir-sa-smartphones-category-20260827-channel-presence",
+              "subject": "Jarir storefront",
+              "observationType": "channel_presence",
+              "observation": "A public storefront/category page exposed channel taxonomy and selected merchandising, price, rating, promotion, stock, delivery, or service signals at capture time; this is not a representative market or performance measurement.",
+              "status": "observed",
+              "sourceIds": [
+                "src-jarir-sa-smartphones-category-20260827"
+              ],
+              "observedAt": "2026-08-27T00:00:00.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "observationId": "sa-src-google-play-jarir-en-us-20260827-channel-presence",
+              "subject": "Google Play app page",
+              "observationType": "channel_presence",
+              "observation": "A public app-store page exposed app metadata and store-locale rating/download or ranking signals at capture time; this is not country-specific active-user, sales, or market-share evidence.",
+              "status": "observed",
+              "sourceIds": [
+                "src-google-play-jarir-en-us-20260827"
+              ],
+              "observedAt": "2026-08-27T00:00:00.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            },
+            {
+              "observationId": "sa-src-apple-store-jarir-us-20260827-channel-presence",
+              "subject": "Apple App Store app page",
+              "observationType": "channel_presence",
+              "observation": "A public app-store page exposed app metadata and store-locale rating/download or ranking signals at capture time; this is not country-specific active-user, sales, or market-share evidence.",
+              "status": "observed",
+              "sourceIds": [
+                "src-apple-store-jarir-us-20260827"
+              ],
+              "observedAt": "2026-08-27T00:00:00.000Z",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            }
+          ],
+          "keywordSignals": [],
+          "seasonalitySignals": [
+            {
+              "signalId": "sa-ecommerce-public-expansion-seasonality-unavailable",
+              "period": "exact ecommerce seasonality",
+              "direction": "unknown",
+              "status": "unavailable",
+              "sourceIds": [],
+              "unavailableReason": "The public expansion does not contain a validated exact-scope ecommerce seasonality series.",
+              "scope": {
+                "market": "SA",
+                "industry": "ecommerce_general",
+                "locale": "ar",
+                "currency": "SAR"
+              }
+            }
+          ],
+          "unknowns": [
+            "Advertising audience size, CPC, CPA, CVR, ROAS, reach, frequency, saturation, and competitor campaign performance are unavailable.",
+            "Country-specific active users, installs, retention, revenue, and sales are unavailable from public app pages.",
+            "Representative category price averages, demand, sales volume, and market share are unavailable from the storefront captures.",
+            "The official context sources do not provide exact client-industry conversion or ecommerce-only market performance."
+          ],
+          "contradictions": [],
+          "sourceIds": [
+            "src-gastat-digital-economy-methodology-sa-20260827",
+            "src-saudi-mcit-digital-economy-news-20250427-20260827",
+            "src-ita-saudi-digital-economy-guide-20260512-20260827",
+            "src-ita-saudi-ecommerce-guide-20260519-20260827",
+            "src-jarir-sa-smartphones-category-20260827",
+            "src-google-play-jarir-en-us-20260827",
+            "src-apple-store-jarir-us-20260827"
+          ],
+          "confidence": 0.45,
+          "limitations": [
+            "Coverage incomplete: the expansion contains official context and selected storefront/app observations, not a complete industry-specific evidence matrix.",
+            "National digital-economy and ICT indicators are broader than ecommerce and must not be read as ecommerce-only demand or market size.",
+            "Public storefront and app-page observations are point-in-time channel signals, not representative price indexes, active-user measures, sales volume, market share, or competitor campaign performance.",
+            "Market Validation remains false until the approved source-metric-scope matrix is complete with reproducible, licensed, exact-scope evidence."
+          ]
+        }
+      ],
+      "claims": [],
+      "status": "limited",
+      "freshnessStatus": "fresh",
+      "limitations": [
+        "Coverage incomplete: the expansion contains official context and selected storefront/app observations, not a complete industry-specific evidence matrix.",
+        "National digital-economy and ICT indicators are broader than ecommerce and must not be read as ecommerce-only demand or market size.",
+        "Public storefront and app-page observations are point-in-time channel signals, not representative price indexes, active-user measures, sales volume, market share, or competitor campaign performance.",
+        "Market Validation remains false until the approved source-metric-scope matrix is complete with reproducible, licensed, exact-scope evidence.",
+        "Official methodology and quality documentation for the Saudi Digital Economy Survey; it is not itself a complete numerical market dataset.",
+        "The page states 2022–2023 availability and 2023 reference period; missing indicators are not filled or interpolated.",
+        "Digital economy survey scope is broader than ecommerce and is not advertising-performance evidence.",
+        "Official MCIT news-page context dated 2025-04-27; figures are publisher-stated national digital-economy and ICT context.",
+        "The figures are not ecommerce-only demand, sales, market share, or advertising benchmarks.",
+        "No reconciliation is performed against GASTAT, SAMA, or third-party series in this batch.",
+        "Official U.S. government country-guide context prepared by the International Trade Administration; it includes publisher-attributed secondary sources.",
+        "Digital economy and ICT indicators are broader than ecommerce and must not be treated as a single market-size series.",
+        "Not advertising-performance, CPC, CPA, CVR, ROAS, or competitor-campaign evidence.",
+        "Official U.S. government country-guide context prepared by the International Trade Administration; cited market figures may come from secondary sources named on the page.",
+        "Platform names and channel context are not market share or sales-volume measurements.",
+        "Single public Saudi category-page observation; the rendered view exposed taxonomy and service context but not a stable product-price grid.",
+        "Category and service observations are not a representative assortment, demand estimate, sales volume, or market share.",
+        "No competitor campaign performance or customer-level data is inferred.",
+        "Google Play en_US app-page observation; displayed rating, review count, and download band are not Saudi active-user or sales measurements.",
+        "The app description and data-safety declarations are not campaign-performance evidence.",
+        "Displayed values can change over time and vary by store locale.",
+        "US-locale Apple App Store page observation for a Saudi retailer; ratings and app metadata are not Saudi active users, sales, or market share.",
+        "Review text and user identity are not imported as evidence.",
+        "App-store values can change over time and are not reconciled with Google Play values."
+      ],
+      "retrieval": {
+        "strategy": "registry_lookup",
+        "queryHash": "public-source-expansion-20260827-SA-ecommerce_general-ar-SAR",
+        "selectedEvidenceIds": [
+          "evidence-src-gastat-digital-economy-methodology-sa-20260827",
+          "evidence-src-saudi-mcit-digital-economy-news-20250427-20260827",
+          "evidence-src-ita-saudi-digital-economy-guide-20260512-20260827",
+          "evidence-src-ita-saudi-ecommerce-guide-20260519-20260827",
+          "evidence-src-jarir-sa-smartphones-category-20260827",
+          "evidence-src-google-play-jarir-en-us-20260827",
+          "evidence-src-apple-store-jarir-us-20260827"
+        ]
+      }
+    }
+  ],
+  "packageSummary": [
+    {
+      "packageId": "pkg-eg-ecommerce-public-expansion-20260827",
+      "scope": "EG/ecommerce_general/ar/EGP",
+      "status": "limited",
+      "freshnessStatus": "fresh",
+      "sourceCount": 7,
+      "factCount": 9,
+      "competitorObservationCount": 4,
+      "unknownCount": 4
+    },
+    {
+      "packageId": "pkg-sa-ecommerce-public-expansion-20260827",
+      "scope": "SA/ecommerce_general/ar/SAR",
+      "status": "limited",
+      "freshnessStatus": "fresh",
+      "sourceCount": 7,
+      "factCount": 9,
+      "competitorObservationCount": 3,
+      "unknownCount": 4
+    }
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "contractVersion": "1.0",
+  "artifactType": "public_marketplace_storefront_expansion",
+  "artifactId": "public-marketplace-storefront-expansion-eg-sa-20260827",
+  "generatedAt": "2026-08-27T00:00:00.000Z",
+  "rawInput": {
+    "path": "data/knowledge/public/source-expansion/2026-08-27/marketplaces-capture.md",
+    "sha256": "b358566db79bfc01161358ef91948526efeba6746ef9dbba92811dc42237d9b4"
+  },
+  "observations": [
+    {
+      "observationId": "jumia-eg-electronics-category-listings-20260827",
+      "sourceId": "src-jumia-eg-electronics-category-20260827",
+      "market": "EG",
+      "marketScope": "market_page_observation",
+      "industryRelevance": "ecommerce_general",
+      "status": "observed",
+      "capturedAt": "2026-08-27T00:00:00.000Z",
+      "limitations": [
+        "Single public electronics category snapshot; the visible listing count and sample price range are not a representative market index or demand estimate."
+      ],
+      "platform": "Jumia",
+      "observationType": "category_structure",
+      "pageUrl": "https://www.jumia.com.eg/mlp-electronics-products-deals/",
+      "visibleListingCount": 19595,
+      "visiblePriceSampleRange": {
+        "min": 68.0,
+        "max": 99999.0,
+        "currency": "EGP"
+      },
+      "priceObserved": true,
+      "discountObserved": true,
+      "ratingObserved": true,
+      "availabilitySignalObserved": true,
+      "visibleFilterGroups": [
+        "brand",
+        "price",
+        "campaigns",
+        "product rating",
+        "seller score",
+        "official store"
+      ]
+    },
+    {
+      "observationId": "carrefour-eg-food-cupboard-cairo-20260827",
+      "sourceId": "src-carrefour-eg-food-cupboard-20260827",
+      "market": "EG",
+      "marketScope": "market_page_observation",
+      "industryRelevance": "ecommerce_general",
+      "status": "observed",
+      "capturedAt": "2026-08-27T00:00:00.000Z",
+      "limitations": [
+        "Cairo storefront/category snapshot; sample price range is not a national price average or market-demand estimate."
+      ],
+      "platform": "Carrefour",
+      "observationType": "category_structure",
+      "pageUrl": "https://www.carrefouregypt.com/mafegy/en/food-cupboard/n/c/clp_FEGY1700000",
+      "deliveryLocation": "Maadi - Cairo",
+      "visiblePriceSampleRange": {
+        "min": 8.5,
+        "max": 1713.5,
+        "currency": "EGP"
+      },
+      "promotionObserved": true,
+      "stockLabelObserved": true,
+      "deliverySlotObserved": true,
+      "visibleCategory": "Food Cupboard"
+    },
+    {
+      "observationId": "jarir-sa-smartphones-category-structure-20260827",
+      "sourceId": "src-jarir-sa-smartphones-category-20260827",
+      "market": "SA",
+      "marketScope": "market_page_observation",
+      "industryRelevance": "ecommerce_general",
+      "status": "observed",
+      "capturedAt": "2026-08-27T00:00:00.000Z",
+      "limitations": [
+        "The rendered public page exposed taxonomy and service context but no stable product-price grid; no Jarir price is asserted."
+      ],
+      "platform": "Jarir",
+      "observationType": "category_structure",
+      "pageUrl": "https://www.jarir.com/sa-en/smartphones.html",
+      "visibleCategories": [
+        "smartphones",
+        "smartphone accessories",
+        "headphones and speakers",
+        "smartwatches and wearables",
+        "cameras and accessories",
+        "smart home"
+      ],
+      "visibleBrands": [
+        "Apple",
+        "Samsung",
+        "Huawei",
+        "Xiaomi",
+        "Motorola"
+      ],
+      "serviceSignals": [
+        "payment",
+        "warranty",
+        "returns",
+        "delivery"
+      ],
+      "stableProductPriceGridObserved": false
+    }
+  ],
+  "unknowns": [
+    "No representative price average, demand, sales volume, market share, competitor performance, or campaign attribution is available from the storefront captures."
+  ],
+  "limitations": [
+    "Storefront values are point-in-time observations and must be refreshed on demand."
+  ]
+}

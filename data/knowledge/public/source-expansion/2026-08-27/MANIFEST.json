@@ -1,0 +1,59 @@
+{
+  "contractVersion": "1.0",
+  "artifactType": "public_source_expansion_manifest",
+  "manifestId": "public-source-expansion-20260827",
+  "generatedAt": "2026-08-27T00:00:00.000Z",
+  "baselineRegistry": "data/knowledge/public/public-source-registry-2026-08-25.json",
+  "expandedRegistry": "data/knowledge/public/public-source-registry-2026-08-27.json",
+  "newSourceCount": 14,
+  "newObservationCounts": {
+    "official": 18,
+    "marketplaces": 3,
+    "apps": 4
+  },
+  "newSourceIds": [
+    "src-gastat-digital-economy-methodology-sa-20260827",
+    "src-saudi-mcit-digital-economy-news-20250427-20260827",
+    "src-ita-egypt-digital-economy-guide-20251121-20260827",
+    "src-ita-egypt-ecommerce-guide-20251121-20260827",
+    "src-ita-saudi-digital-economy-guide-20260512-20260827",
+    "src-ita-saudi-ecommerce-guide-20260519-20260827",
+    "src-sis-egypt-ict-sector-20240129-20260827",
+    "src-jumia-eg-electronics-category-20260827",
+    "src-carrefour-eg-food-cupboard-20260827",
+    "src-jarir-sa-smartphones-category-20260827",
+    "src-google-play-jumia-en-us-20260827",
+    "src-google-play-jarir-en-us-20260827",
+    "src-apple-store-jumia-eg-20260827",
+    "src-apple-store-jarir-us-20260827"
+  ],
+  "sourceTypes": {
+    "official": "official_document",
+    "marketplaces": "public_library",
+    "apps": "public_library"
+  },
+  "marketValidated": false,
+  "captures": {
+    "official": {
+      "path": "data/knowledge/public/source-expansion/2026-08-27/official-context-capture.md",
+      "sha256": "5986caadeff667d2e535d57846fec3961913685019fc35428df16d8db6d798ce"
+    },
+    "marketplaces": {
+      "path": "data/knowledge/public/source-expansion/2026-08-27/marketplaces-capture.md",
+      "sha256": "b358566db79bfc01161358ef91948526efeba6746ef9dbba92811dc42237d9b4"
+    },
+    "apps": {
+      "path": "data/knowledge/public/source-expansion/2026-08-27/app-stores-capture.md",
+      "sha256": "769b071b33b635644ad7940d073098fdceb80b4d990d0e9e4a4a8701ec8feedd"
+    }
+  },
+  "policy": {
+    "noCaptchaBypass": true,
+    "noLogin": true,
+    "noPurchaseOrMutation": true,
+    "noRawReviewText": true,
+    "noPersonalIdentity": true,
+    "noMarketBenchmarkFabrication": true,
+    "noAdPerformanceInference": true
+  }
+}

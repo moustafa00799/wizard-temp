@@ -1,0 +1,1311 @@
+{
+  "contractVersion": "1.0",
+  "generatedAt": "2026-08-27T00:00:00.000Z",
+  "sources": [
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-amazon-eg-homepage-20260825",
+      "publisher": "Amazon Egypt",
+      "sourceUrl": "https://www.amazon.eg/-/en/",
+      "sourceType": "public_library",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Public storefront observation at a point in time; not a representative sample, demand estimate, sales volume, or market share.",
+        "Visible price, rating, review count, seller, stock, fulfillment, rank, and merchandising claims can change over time.",
+        "No CPC, CPA, CVR, ROAS, reach, frequency, saturation, or competitor campaign performance is inferred."
+      ],
+      "version": "storefront-capture-2026-08-25",
+      "enabled": true,
+      "market": "EG",
+      "industry": "ecommerce_general",
+      "language": "en"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-amazon-eg-product-captcha-20260825",
+      "publisher": "Amazon Egypt",
+      "sourceUrl": "https://www.amazon.eg/-/en/Silver-Crest-Performance-Convection-DR-8803S/dp/B0C1ZJJ1XG",
+      "sourceType": "public_library",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "The public product request returned a CAPTCHA/interstitial and was not bypassed.",
+        "No product value was inferred and no further automated retries were made."
+      ],
+      "version": "storefront-capture-2026-08-25",
+      "enabled": false,
+      "market": "EG",
+      "industry": "ecommerce_general",
+      "language": "en"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-amazon-sa-anker-product-20260825",
+      "publisher": "Amazon Saudi Arabia",
+      "sourceUrl": "https://www.amazon.sa/-/en/Anker-2-Pack-Premium-Charger-Samsung/dp/B07DC5PPFV/",
+      "sourceType": "public_library",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Public storefront observation at a point in time; not a representative sample, demand estimate, sales volume, or market share.",
+        "Visible price, rating, review count, seller, stock, fulfillment, rank, and merchandising claims can change over time.",
+        "No CPC, CPA, CVR, ROAS, reach, frequency, saturation, or competitor campaign performance is inferred."
+      ],
+      "version": "storefront-capture-2026-08-25",
+      "enabled": true,
+      "market": "SA",
+      "industry": "ecommerce_general",
+      "language": "en"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-apple-store-amazon-us-20260825",
+      "publisher": "Amazon Shopping",
+      "sourceUrl": "https://apps.apple.com/us/app/amazon-shopping/id297606951",
+      "sourceType": "public_library",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Global or store-locale app-page observation; not country-specific active users, installs, market share, or performance.",
+        "Header/detail review-count differences are retained as displayed and are not reconciled into a new metric.",
+        "Ratings and downloads do not establish sales, retention, conversion, CPC, CPA, CVR, ROAS, or campaign success."
+      ],
+      "version": "app-store-capture-2026-08-25",
+      "enabled": true,
+      "language": "en"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-apple-store-jarir-us-20260827",
+      "publisher": "Jarir Bookstore",
+      "sourceUrl": "https://apps.apple.com/us/app/jarir-bookstore/id535777677",
+      "sourceType": "public_library",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-27T00:00:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "US-locale Apple App Store page observation for a Saudi retailer; ratings and app metadata are not Saudi active users, sales, or market share.",
+        "Review text and user identity are not imported as evidence.",
+        "App-store values can change over time and are not reconciled with Google Play values."
+      ],
+      "version": "app-capture-2026-08-27",
+      "enabled": true,
+      "market": "SA",
+      "industry": "ecommerce_general",
+      "language": "en",
+      "jurisdiction": "SA"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-apple-store-jumia-eg-20260827",
+      "publisher": "Jumia Online Shopping",
+      "sourceUrl": "https://apps.apple.com/eg/app/jumia-online-shopping/id925015459",
+      "sourceType": "public_library",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-27T00:00:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Egypt-locale Apple App Store page observation; ratings and chart position are public storefront signals, not active users, sales, or market share.",
+        "Review text is not imported as evidence; only displayed aggregate metadata is retained.",
+        "App-store values and ranking can change over time."
+      ],
+      "version": "app-capture-2026-08-27",
+      "enabled": true,
+      "market": "EG",
+      "industry": "ecommerce_general",
+      "language": "en",
+      "jurisdiction": "EG"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-apple-store-noon-us-20260825",
+      "publisher": "Noon Shopping, Food, Grocery",
+      "sourceUrl": "https://apps.apple.com/us/app/noon-shopping-food-grocery/id1269038866",
+      "sourceType": "public_library",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Global or store-locale app-page observation; not country-specific active users, installs, market share, or performance.",
+        "Header/detail review-count differences are retained as displayed and are not reconciled into a new metric.",
+        "Ratings and downloads do not establish sales, retention, conversion, CPC, CPA, CVR, ROAS, or campaign success."
+      ],
+      "version": "app-store-capture-2026-08-25",
+      "enabled": true,
+      "language": "en"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-capmas-central-data-catalog-20260825",
+      "publisher": "CAPMAS",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/",
+      "sourceType": "official_document",
+      "jurisdiction": "EG",
+      "market": "EG",
+      "language": "en",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T00:16:31.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Catalog metadata was captured; no specific sector dataset is asserted by this registry row.",
+        "Dataset-level license and release metadata must be verified before evidence-backed claims."
+      ],
+      "version": "catalog-20260825",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-capmas-education-bulletin-2019-2020",
+      "publisher": "CAPMAS",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/777/download/2298",
+      "sourceType": "official_document",
+      "jurisdiction": "EG",
+      "market": "EG",
+      "industry": "education_general",
+      "language": "en",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T00:26:31.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Official education and training bulletin for academic year 2019/2020.",
+        "Dataset-level reuse license and currentness require verification before a ready package.",
+        "Does not establish online education demand or advertising performance."
+      ],
+      "version": "education-2019-2020",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-capmas-hiecs-2021-eg-20260826",
+      "publisher": "Central Agency for Public Mobilization and Statistics (CAPMAS) / Ministry of Planning",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/metadata-en-v4.2/index.php/catalog/747/overview",
+      "sourceType": "official_document",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Public study metadata and variable dictionary only; the catalogue labels the microdata route as licensed data files.",
+        "No licensed microdata was downloaded, and public case counts are not population estimates without weights and methodology.",
+        "Household consumption metadata is context, not online-commerce demand, audience, conversion, or advertising-performance evidence."
+      ],
+      "version": "EGY-CAPMAS-HIECS-2021-v1.0",
+      "enabled": true,
+      "market": "EG",
+      "language": "en"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-capmas-telecommunications-bulletin-2016-2017",
+      "publisher": "CAPMAS",
+      "sourceUrl": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/343/download/677",
+      "sourceType": "official_document",
+      "jurisdiction": "EG",
+      "market": "EG",
+      "industry": "ecommerce_general",
+      "language": "en",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T00:26:31.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Historical telecommunications bulletin for 2016-2017; it is context only.",
+        "Dataset-level reuse license and currentness require verification before a ready package.",
+        "Does not establish current digital demand, CPC, CPA, CVR, ROAS, or saturation."
+      ],
+      "version": "telecommunications-2016-2017",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-carrefour-eg-food-cupboard-20260827",
+      "publisher": "Carrefour Egypt",
+      "sourceUrl": "https://www.carrefouregypt.com/mafegy/en/food-cupboard/n/c/clp_FEGY1700000",
+      "sourceType": "public_library",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-27T00:00:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Single public Cairo storefront/category observation; location, delivery slot, price, stock, and promotions can change.",
+        "Visible product examples are not a national price average, representative sample, demand estimate, or sales-volume measurement.",
+        "No customer-level or advertising-performance data is inferred."
+      ],
+      "version": "category-capture-2026-08-27",
+      "enabled": true,
+      "market": "EG",
+      "industry": "ecommerce_general",
+      "language": "en",
+      "jurisdiction": "EG"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-cbe-payment-system-eg-20260825",
+      "publisher": "Central Bank of Egypt (CBE)",
+      "sourceUrl": "https://www.cbe.org.eg/en/payment-systems-and-services",
+      "sourceType": "official_document",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Qualitative CBE national payment-system and institutional context; no numerical ecommerce series was captured from this page.",
+        "The public browser rendered the page while the text extraction endpoint returned an official server rejection; reproducibility is limited.",
+        "Not audience size, ecommerce demand, CPC, CPA, CVR, ROAS, reach, frequency, saturation, market share, or competitor performance."
+      ],
+      "version": "payment-systems-2026-07-08",
+      "enabled": true,
+      "market": "EG",
+      "language": "en"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-egypt-national-open-data-portal-20260825",
+      "publisher": "Government of Egypt",
+      "sourceUrl": "https://data.gov.eg/",
+      "sourceType": "official_document",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Discovery-only record: the public portal did not resolve in the permitted retrieval attempt and no dataset was asserted.",
+        "Disabled until an official endpoint and dataset metadata can be read without bypassing protection."
+      ],
+      "version": "unavailable-discovery-2026-08-25",
+      "enabled": false,
+      "market": "EG",
+      "language": "ar"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-gastat-datasaudi-digital-economy-gdp-sa-20260825",
+      "publisher": "General Authority for Statistics (GASTAT) / DataSaudi",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs/-/categories/122941?tab=436312&category=122941",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "DataSaudi portal data is official market or education-system context, not an advertising benchmark.",
+        "The selected cube can have uneven periods and dimensions; no missing period is inferred.",
+        "License status is not presumed from the portal and remains unknown pending explicit terms verification."
+      ],
+      "version": "2026-08-25",
+      "enabled": true,
+      "market": "SA"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-gastat-datasaudi-digital-establishment-usage-sa-20260825",
+      "publisher": "General Authority for Statistics (GASTAT) / DataSaudi",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs/-/categories/122941?tab=436312&category=122941",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "DataSaudi portal data is official market or education-system context, not an advertising benchmark.",
+        "The selected cube can have uneven periods and dimensions; no missing period is inferred.",
+        "License status is not presumed from the portal and remains unknown pending explicit terms verification."
+      ],
+      "version": "2026-08-25",
+      "enabled": true,
+      "market": "SA"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-gastat-datasaudi-education-expenditure-sa-20260825",
+      "publisher": "General Authority for Statistics (GASTAT) / DataSaudi",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs?tab=436318&category=514986",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "DataSaudi portal data is official market or education-system context, not an advertising benchmark.",
+        "The selected cube can have uneven periods and dimensions; no missing period is inferred.",
+        "License status is not presumed from the portal and remains unknown pending explicit terms verification."
+      ],
+      "version": "2026-08-25",
+      "enabled": true,
+      "market": "SA"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-gastat-datasaudi-foreign-trade-exports-20260825",
+      "publisher": "General Authority for Statistics (GASTAT) / DataSaudi",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs/-/categories/123481?tab=436312&category=123481",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "DataSaudi portal data is official market or education-system context, not an advertising benchmark.",
+        "The selected cube can have uneven periods and dimensions; no missing period is inferred.",
+        "License status is not presumed from the portal and remains unknown pending explicit terms verification."
+      ],
+      "version": "2026-08-25",
+      "enabled": true,
+      "market": "SA"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-gastat-datasaudi-foreign-trade-imports-20260825",
+      "publisher": "General Authority for Statistics (GASTAT) / DataSaudi",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics-tabs/-/categories/123481?tab=436312&category=123481",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "DataSaudi portal data is official market or education-system context, not an advertising benchmark.",
+        "The selected cube can have uneven periods and dimensions; no missing period is inferred.",
+        "License status is not presumed from the portal and remains unknown pending explicit terms verification."
+      ],
+      "version": "2026-08-25",
+      "enabled": true,
+      "market": "SA"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-gastat-digital-economy-methodology-sa-20260827",
+      "publisher": "General Authority for Statistics (GASTAT)",
+      "sourceUrl": "https://www.stats.gov.sa/en/w/methodology-and-quality-report-of-digital-economy-statistics",
+      "sourceType": "official_document",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-27T00:00:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "Official methodology and quality documentation for the Saudi Digital Economy Survey; it is not itself a complete numerical market dataset.",
+        "The page states 2022–2023 availability and 2023 reference period; missing indicators are not filled or interpolated.",
+        "Digital economy survey scope is broader than ecommerce and is not advertising-performance evidence."
+      ],
+      "version": "methodology-quality-2025-05-25",
+      "enabled": true,
+      "market": "SA",
+      "language": "en",
+      "jurisdiction": "SA"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-gastat-open-data-20260825",
+      "publisher": "General Authority for Statistics (GASTAT)",
+      "sourceUrl": "https://dp.stats.gov.sa/opendata",
+      "sourceType": "official_document",
+      "jurisdiction": "SA",
+      "market": "SA",
+      "language": "en",
+      "licenseStatus": "approved",
+      "observedAt": "2026-08-25T00:16:31.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Portal/API availability was recorded; each selected dataset needs its own definition, period, unit, and license metadata.",
+        "Portal categories do not establish demand, CPC, CPA, ROAS, or competitor performance."
+      ],
+      "version": "opendata-20260825",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-gastat-statistics-categories-20260825",
+      "publisher": "General Authority for Statistics (GASTAT)",
+      "sourceUrl": "https://www.stats.gov.sa/en/statistics",
+      "sourceType": "official_document",
+      "jurisdiction": "SA",
+      "market": "SA",
+      "language": "en",
+      "licenseStatus": "approved",
+      "observedAt": "2026-08-25T00:16:31.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Statistics categories are discovery metadata; no metric value is asserted by this row.",
+        "Selected statistics require dataset-level period, unit, release, and methodology metadata."
+      ],
+      "version": "categories-20260825",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-google-play-amazon-en-us-20260825",
+      "publisher": "Amazon Shopping",
+      "sourceUrl": "https://play.google.com/store/apps/details?id=com.amazon.mShop.android.shopping&hl=en_US",
+      "sourceType": "public_library",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Global or store-locale app-page observation; not country-specific active users, installs, market share, or performance.",
+        "Header/detail review-count differences are retained as displayed and are not reconciled into a new metric.",
+        "Ratings and downloads do not establish sales, retention, conversion, CPC, CPA, CVR, ROAS, or campaign success."
+      ],
+      "version": "app-store-capture-2026-08-25",
+      "enabled": true,
+      "language": "en"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-google-play-jarir-en-us-20260827",
+      "publisher": "Jarir Bookstore",
+      "sourceUrl": "https://play.google.com/store/apps/details?id=com.jarirbookstore.JBMarketingApp&hl=en_US",
+      "sourceType": "public_library",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-27T00:00:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Google Play en_US app-page observation; displayed rating, review count, and download band are not Saudi active-user or sales measurements.",
+        "The app description and data-safety declarations are not campaign-performance evidence.",
+        "Displayed values can change over time and vary by store locale."
+      ],
+      "version": "app-capture-2026-08-27",
+      "enabled": true,
+      "market": "SA",
+      "industry": "ecommerce_general",
+      "language": "en",
+      "jurisdiction": "SA"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-google-play-jumia-en-us-20260827",
+      "publisher": "JUMIA Online Shopping",
+      "sourceUrl": "https://play.google.com/store/apps/details?id=com.jumia.android&hl=en_US",
+      "sourceType": "public_library",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-27T00:00:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Google Play en_US app-page observation; displayed rating, review count, and download band are global/store-locale indicators.",
+        "These indicators do not establish Egypt-specific active users, installs, retention, revenue, sales, or market share.",
+        "Data-safety disclosures are developer declarations and may change."
+      ],
+      "version": "app-capture-2026-08-27",
+      "enabled": true,
+      "industry": "ecommerce_general",
+      "language": "en"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-google-play-noon-en-us-20260825",
+      "publisher": "Noon Online Shopping & Grocery",
+      "sourceUrl": "https://play.google.com/store/apps/details?id=com.noon.buyerapp&hl=en_US",
+      "sourceType": "public_library",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Global or store-locale app-page observation; not country-specific active users, installs, market share, or performance.",
+        "Header/detail review-count differences are retained as displayed and are not reconciled into a new metric.",
+        "Ratings and downloads do not establish sales, retention, conversion, CPC, CPA, CVR, ROAS, or campaign success."
+      ],
+      "version": "app-store-capture-2026-08-25",
+      "enabled": true,
+      "language": "en"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-google-trends-eg-explore-20260825",
+      "publisher": "Google Trends",
+      "sourceUrl": "https://trends.google.com/trends/",
+      "sourceType": "public_library",
+      "jurisdiction": "global",
+      "market": "EG",
+      "licenseStatus": "approved",
+      "observedAt": "2026-08-25T00:26:31.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Public relative search-interest tool; values are normalized 0-100 and not absolute volume.",
+        "Directional discovery only; not audience size, CPC, CPA, CVR, ROAS, sales, or saturation.",
+        "Each query keeps its own terms, search type, category, time range, and URL."
+      ],
+      "version": "explore-20260825",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-google-trends-sa-explore-20260825",
+      "publisher": "Google Trends",
+      "sourceUrl": "https://trends.google.com/trends/",
+      "sourceType": "public_library",
+      "jurisdiction": "global",
+      "market": "SA",
+      "licenseStatus": "approved",
+      "observedAt": "2026-08-25T00:26:31.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Public relative search-interest tool; values are normalized 0-100 and not absolute volume.",
+        "Directional discovery only; not audience size, CPC, CPA, CVR, ROAS, sales, or saturation.",
+        "Each query keeps its own terms, search type, category, time range, and URL."
+      ],
+      "version": "explore-20260825",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-ita-egypt-digital-economy-guide-20251121-20260827",
+      "publisher": "International Trade Administration, U.S. Department of Commerce",
+      "sourceUrl": "https://www.trade.gov/country-commercial-guides/egypt-digital-economy",
+      "sourceType": "official_document",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-27T00:00:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Official U.S. government country-guide context prepared by the International Trade Administration; it is secondary context for Egypt.",
+        "Some figures are attributed by the page to Egyptian authorities or third-party reports; publisher attribution and date must be retained.",
+        "Not a substitute for a primary Egyptian statistical release and not advertising-performance evidence."
+      ],
+      "version": "guide-2025-11-21",
+      "enabled": true,
+      "market": "EG",
+      "language": "en",
+      "jurisdiction": "EG"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-ita-egypt-ecommerce-guide-20251121-20260827",
+      "publisher": "International Trade Administration, U.S. Department of Commerce",
+      "sourceUrl": "https://www.trade.gov/country-commercial-guides/egypt-ecommerce",
+      "sourceType": "official_document",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-27T00:00:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Official U.S. government country-guide context prepared by the International Trade Administration; it is secondary context for Egypt.",
+        "The guide discusses ecommerce adoption, payments, logistics, and internet context but does not provide the client's store performance.",
+        "Not a primary Egyptian administrative dataset and not advertising-performance evidence."
+      ],
+      "version": "guide-2025-11-21",
+      "enabled": true,
+      "market": "EG",
+      "industry": "ecommerce_general",
+      "language": "en",
+      "jurisdiction": "EG"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-ita-saudi-digital-economy-guide-20260512-20260827",
+      "publisher": "International Trade Administration, U.S. Department of Commerce",
+      "sourceUrl": "https://www.trade.gov/country-commercial-guides/saudi-arabia-digital-economy-0",
+      "sourceType": "official_document",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-27T00:00:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Official U.S. government country-guide context prepared by the International Trade Administration; it includes publisher-attributed secondary sources.",
+        "Digital economy and ICT indicators are broader than ecommerce and must not be treated as a single market-size series.",
+        "Not advertising-performance, CPC, CPA, CVR, ROAS, or competitor-campaign evidence."
+      ],
+      "version": "guide-2026-05-12",
+      "enabled": true,
+      "market": "SA",
+      "language": "en",
+      "jurisdiction": "SA"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-ita-saudi-ecommerce-guide-20260519-20260827",
+      "publisher": "International Trade Administration, U.S. Department of Commerce",
+      "sourceUrl": "https://www.trade.gov/country-commercial-guides/saudi-arabia-ecommerce",
+      "sourceType": "official_document",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-27T00:00:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Official U.S. government country-guide context prepared by the International Trade Administration; cited market figures may come from secondary sources named on the page.",
+        "Platform names and channel context are not market share or sales-volume measurements.",
+        "Not advertising-performance, CPC, CPA, CVR, ROAS, or competitor-campaign evidence."
+      ],
+      "version": "guide-2026-05-19",
+      "enabled": true,
+      "market": "SA",
+      "industry": "ecommerce_general",
+      "language": "en",
+      "jurisdiction": "SA"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-itu-key-ict-regional-2025",
+      "publisher": "International Telecommunication Union (ITU)",
+      "sourceUrl": "https://www.itu.int/en/ITU-D/Statistics/pages/stat/default.aspx",
+      "sourceType": "official_document",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "The downloaded workbook contains regional/global aggregates; no direct Egypt or Saudi Arabia rows were found.",
+        "Regional aggregates are not substituted for country values and are not advertising benchmarks."
+      ],
+      "version": "Nov-2025",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-jarir-sa-smartphones-category-20260827",
+      "publisher": "Jarir Bookstore Saudi Arabia",
+      "sourceUrl": "https://www.jarir.com/sa-en/smartphones.html",
+      "sourceType": "public_library",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-27T00:00:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Single public Saudi category-page observation; the rendered view exposed taxonomy and service context but not a stable product-price grid.",
+        "Category and service observations are not a representative assortment, demand estimate, sales volume, or market share.",
+        "No competitor campaign performance or customer-level data is inferred."
+      ],
+      "version": "category-capture-2026-08-27",
+      "enabled": true,
+      "market": "SA",
+      "industry": "ecommerce_general",
+      "language": "en",
+      "jurisdiction": "SA"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-jumia-eg-electronics-category-20260827",
+      "publisher": "Jumia Egypt",
+      "sourceUrl": "https://www.jumia.com.eg/mlp-electronics-products-deals/",
+      "sourceType": "public_library",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-27T00:00:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Single public category-page observation; visible listing count, prices, promotions, ratings, seller signals, and availability can change.",
+        "The page is not a representative assortment, price index, demand estimate, sales volume, or market-share sample.",
+        "No competitor campaign performance or customer-level data is inferred."
+      ],
+      "version": "category-capture-2026-08-27",
+      "enabled": true,
+      "market": "EG",
+      "industry": "ecommerce_general",
+      "language": "en",
+      "jurisdiction": "EG"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-kapsarc-gastat-establishments-size-activity-sa-20260826",
+      "publisher": "KAPSARC Data Portal / General Authority for Statistics (GASTAT)",
+      "sourceUrl": "https://datasource.kapsarc.org/explore/assets/number-of-establishments-by-size-and-economic-activity/",
+      "sourceType": "official_api",
+      "licenseStatus": "approved",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Public-domain aggregate establishment counts from the Annual Economic Establishment Survey; supply context only.",
+        "The dataset excludes governmental and external sectors, is marked discontinued in metadata, and covers the published 2010–2017 period.",
+        "No sales, revenue, customers, demand, market share, audience, conversion, CPC, CPA, CVR, ROAS, reach, frequency, saturation, or competitor performance is supplied."
+      ],
+      "version": "kapsarc-dataset-2026-05-05-data-2010-2017",
+      "enabled": true,
+      "market": "SA"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-kapsarc-sama-pos-detailed-sector-city-sa-20260825",
+      "publisher": "KAPSARC Data Portal / Saudi Central Bank (SAMA)",
+      "sourceUrl": "https://datasource.kapsarc.org/explore/assets/detailed-point-of-sale-transactions-by-sector-and-city/",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "SAMA payment activity is market-context evidence and not proof of online-only demand for each sector.",
+        "Records are aggregate payment activity and do not identify customer, advertising source, or conversion attribution.",
+        "The public portal export is GET-only; source license status remains unknown until explicit terms are verified."
+      ],
+      "version": "2026-08-25",
+      "enabled": true,
+      "market": "SA"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-kapsarc-sama-pos-ecommerce-sa-20260825",
+      "publisher": "KAPSARC Data Portal / Saudi Central Bank (SAMA)",
+      "sourceUrl": "https://datasource.kapsarc.org/explore/assets/pos-transactions/",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "SAMA payment activity is market-context evidence and not proof of online-only demand for each sector.",
+        "Records are aggregate payment activity and do not identify customer, advertising source, or conversion attribution.",
+        "The public portal export is GET-only; source license status remains unknown until explicit terms are verified."
+      ],
+      "version": "2026-08-25",
+      "enabled": true,
+      "market": "SA"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-kapsarc-sama-pos-sector-city-sa-20260825",
+      "publisher": "KAPSARC Data Portal / Saudi Central Bank (SAMA)",
+      "sourceUrl": "https://datasource.kapsarc.org/explore/assets/point-of-sale-transactions-by-sector-and-city/",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "SAMA payment activity is market-context evidence and not proof of online-only demand for each sector.",
+        "Records are aggregate payment activity and do not identify customer, advertising source, or conversion attribution.",
+        "The public portal export is GET-only; source license status remains unknown until explicit terms are verified."
+      ],
+      "version": "2026-08-25",
+      "enabled": true,
+      "market": "SA"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-kapsarc-sama-pos-sector-sa-20260825",
+      "publisher": "KAPSARC Data Portal / Saudi Central Bank (SAMA)",
+      "sourceUrl": "https://datasource.kapsarc.org/explore/assets/points-of-sale-transactions-and-sales-by-sector/",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "SAMA payment activity is market-context evidence and not proof of online-only demand for each sector.",
+        "Records are aggregate payment activity and do not identify customer, advertising source, or conversion attribution.",
+        "The public portal export is GET-only; source license status remains unknown until explicit terms are verified."
+      ],
+      "version": "2026-08-25",
+      "enabled": true,
+      "market": "SA"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-mped-national-accounts-eg-20260825",
+      "publisher": "Egypt Ministry of Planning and Economic Development",
+      "sourceUrl": "https://mped.gov.eg/Analytics?lang=en",
+      "sourceType": "official_document",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "The page confirms interactive GDP and regional-account dataset scope; linked numerical tables were not copied into this batch.",
+        "Macroeconomic and regional context only; not ecommerce demand, audience, market share, or advertising performance."
+      ],
+      "version": "national-accounts-discovery-2026-08-25",
+      "enabled": true,
+      "market": "EG",
+      "language": "en"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-nafeza-customs-fx-eg-20260825",
+      "publisher": "Egyptian Customs Authority via Nafeza",
+      "sourceUrl": "https://sandbox.nafeza.gov.eg/ar/currencies",
+      "sourceType": "official_document",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "daily",
+      "limitations": [
+        "Customs conversion rates for the displayed date; not consumer market prices or advertising benchmarks.",
+        "Use only for explicit currency normalization while retaining the displayed date and source label."
+      ],
+      "version": "customs-fx-2026-02-24",
+      "enabled": true,
+      "market": "EG",
+      "language": "ar"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-noon-eg-galaxy-a17-product-20260825",
+      "publisher": "Noon Egypt",
+      "sourceUrl": "https://www.noon.com/egypt-en/galaxy-a17-dual-sim-4g-black-4gb-ram-128gb-middle-east-version/N70214276V/p/?o=b93223709b1aab3c",
+      "sourceType": "public_library",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Public storefront observation at a point in time; not a representative sample, demand estimate, sales volume, or market share.",
+        "Visible price, rating, review count, seller, stock, fulfillment, rank, and merchandising claims can change over time.",
+        "No CPC, CPA, CVR, ROAS, reach, frequency, saturation, or competitor campaign performance is inferred."
+      ],
+      "version": "storefront-capture-2026-08-25",
+      "enabled": true,
+      "market": "EG",
+      "industry": "ecommerce_general",
+      "language": "en"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-noon-eg-mobile-category-20260825",
+      "publisher": "Noon Egypt",
+      "sourceUrl": "https://www.noon.com/egypt-en/electronics-and-mobiles/mobiles-and-accessories/mobiles-20905/",
+      "sourceType": "public_library",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Public storefront observation at a point in time; not a representative sample, demand estimate, sales volume, or market share.",
+        "Visible price, rating, review count, seller, stock, fulfillment, rank, and merchandising claims can change over time.",
+        "No CPC, CPA, CVR, ROAS, reach, frequency, saturation, or competitor campaign performance is inferred."
+      ],
+      "version": "storefront-capture-2026-08-25",
+      "enabled": true,
+      "market": "EG",
+      "industry": "ecommerce_general",
+      "language": "en"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-noon-sa-galaxy-s25-product-20260825",
+      "publisher": "Noon Saudi Arabia",
+      "sourceUrl": "https://www.noon.com/saudi-en/galaxy-s25-ultra-dual-sim-titanium-black-12gb-ram-256gb-5g-international-version/N70142933V/p/",
+      "sourceType": "public_library",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Public storefront observation at a point in time; not a representative sample, demand estimate, sales volume, or market share.",
+        "Visible price, rating, review count, seller, stock, fulfillment, rank, and merchandising claims can change over time.",
+        "No CPC, CPA, CVR, ROAS, reach, frequency, saturation, or competitor campaign performance is inferred."
+      ],
+      "version": "storefront-capture-2026-08-25",
+      "enabled": true,
+      "market": "SA",
+      "industry": "ecommerce_general",
+      "language": "en"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-noon-sa-mobile-category-20260825",
+      "publisher": "Noon Saudi Arabia",
+      "sourceUrl": "https://www.noon.com/saudi-en/electronics-and-mobiles/mobiles-and-accessories/mobiles-20905/",
+      "sourceType": "public_library",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Public storefront observation at a point in time; not a representative sample, demand estimate, sales volume, or market share.",
+        "Visible price, rating, review count, seller, stock, fulfillment, rank, and merchandising claims can change over time.",
+        "No CPC, CPA, CVR, ROAS, reach, frequency, saturation, or competitor campaign performance is inferred."
+      ],
+      "version": "storefront-capture-2026-08-25",
+      "enabled": true,
+      "market": "SA",
+      "industry": "ecommerce_general",
+      "language": "en"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-openstreetmap-overpass-cairo-riyadh-20260826",
+      "publisher": "OpenStreetMap contributors via Overpass API",
+      "sourceUrl": "https://wiki.openstreetmap.org/wiki/Overpass_API",
+      "sourceType": "public_library",
+      "licenseStatus": "approved",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Mapped-feature counts inside explicit Cairo and Riyadh bounding boxes; not a census of establishments, demand, revenue, ratings, or market share.",
+        "OpenStreetMap completeness, tagging, duplicates, geometry, and update timing vary by place; no official registry equivalence is inferred.",
+        "Open Database License (ODbL) attribution/share-alike obligations and Overpass public-instance usage limits must be respected; stop/back off on 429/406."
+      ],
+      "version": "overpass-0.7.62.11-osm-base-2026-08-26",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-sama-datasaudi-higher-education-students-sa-20260825",
+      "publisher": "Saudi Central Bank (SAMA) / DataSaudi",
+      "sourceUrl": "https://www.sama.gov.sa/en-US/Publications/EconomicReports/Pages/report.aspx?cid=127",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "DataSaudi portal data is official market or education-system context, not an advertising benchmark.",
+        "The selected cube can have uneven periods and dimensions; no missing period is inferred.",
+        "License status is not presumed from the portal and remains unknown pending explicit terms verification."
+      ],
+      "version": "2026-08-25",
+      "enabled": true,
+      "market": "SA"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-sama-datasaudi-students-schools-teachers-sa-20260825",
+      "publisher": "Saudi Central Bank (SAMA) / DataSaudi",
+      "sourceUrl": "https://www.sama.gov.sa/en-US/Publications/EconomicReports/Pages/report.aspx?cid=127",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "DataSaudi portal data is official market or education-system context, not an advertising benchmark.",
+        "The selected cube can have uneven periods and dimensions; no missing period is inferred.",
+        "License status is not presumed from the portal and remains unknown pending explicit terms verification."
+      ],
+      "version": "2026-08-25",
+      "enabled": true,
+      "market": "SA"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-sama-ecommerce-interface-news1095-sa-20260825",
+      "publisher": "Saudi Central Bank (SAMA)",
+      "sourceUrl": "https://sama.gov.sa/en-US/MediaCenter/News/pages/news-1095.aspx",
+      "sourceType": "official_document",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Payment-infrastructure description for ecommerce; not ecommerce sales, demand, audience, market share, or ad performance.",
+        "No adoption count or channel-level outcome is inferred from the interface description."
+      ],
+      "version": "news-1095-2025-07-07",
+      "enabled": true,
+      "market": "SA",
+      "language": "en"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-sama-national-payment-news1139-sa-20260825",
+      "publisher": "Saudi Central Bank (SAMA)",
+      "sourceUrl": "https://www.sama.gov.sa/en-US/MediaCenter/News/pages/news-1139.aspx",
+      "sourceType": "official_document",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Official national payment-ecosystem facts for 2024 and 2025; not ecommerce-only sales, demand, audience, or advertising performance.",
+        "The source does not provide product, industry, city, customer, or ad-attribution breakdowns."
+      ],
+      "version": "news-1139-2026-04-12",
+      "enabled": true,
+      "market": "SA",
+      "language": "en"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-sama-weekly-pos-page-sa-20260825",
+      "publisher": "Saudi Central Bank (SAMA)",
+      "sourceUrl": "https://www.sama.gov.sa/en-US/Statistics/Indices/Pages/POS.aspx",
+      "sourceType": "official_document",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "weekly",
+      "limitations": [
+        "Public report-availability and dimension context; the captured page did not expose a downloadable numerical row.",
+        "Existing KAPSARC/SAMA exports remain the numeric POS artifacts; no ecommerce-only demand or advertising performance is inferred."
+      ],
+      "version": "weekly-pos-page-2026-08-25",
+      "enabled": true,
+      "market": "SA",
+      "language": "en"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-saudi-mcit-digital-economy-news-20250427-20260827",
+      "publisher": "Saudi Ministry of Communications and Information Technology (MCIT)",
+      "sourceUrl": "https://mcit.gov.sa/en/news/saudi-arabia%E2%80%99s-digital-economy-new-era-tech-growth-innovation-and-global-impact-empowered-hrh",
+      "sourceType": "official_document",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-27T00:00:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Official MCIT news-page context dated 2025-04-27; figures are publisher-stated national digital-economy and ICT context.",
+        "The figures are not ecommerce-only demand, sales, market share, or advertising benchmarks.",
+        "No reconciliation is performed against GASTAT, SAMA, or third-party series in this batch."
+      ],
+      "version": "news-2025-04-27",
+      "enabled": true,
+      "market": "SA",
+      "language": "en",
+      "jurisdiction": "SA"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-sis-egypt-ict-sector-20240129-20260827",
+      "publisher": "State Information Service / Ministry of Communications and Information Technology (Egypt)",
+      "sourceUrl": "https://sis.gov.eg/en/media-center/files/ict-sector/",
+      "sourceType": "official_document",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-27T00:00:00.000Z",
+      "freshnessPolicy": "on_demand",
+      "limitations": [
+        "Egyptian government information-service page summarizing 2023 ICT-sector achievements and publisher-attributed indicators.",
+        "Sector-level ICT figures are broader than ecommerce and are not campaign or customer-performance evidence.",
+        "Figures are retained with their stated period and are not reconciled with the later ITA country-guide figures."
+      ],
+      "version": "ict-sector-2024-01-29",
+      "enabled": true,
+      "market": "EG",
+      "language": "en",
+      "jurisdiction": "EG"
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-unctad-digital-economy-egy-sau-20260825",
+      "publisher": "UNCTAD via World Bank Data360",
+      "sourceUrl": "https://data360.worldbank.org/en/dataset/UNCTAD_DE",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "Digital economy, ICT, and digitally-deliverable-services context; not advertising demand or campaign performance.",
+        "International digitally-deliverable services trade is not domestic ecommerce GMV.",
+        "Data availability varies by indicator and year; blank cells are not interpolated."
+      ],
+      "version": "2026-08-25",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-undata-consumer_price_index-egy-sau-20260825",
+      "publisher": "United Nations Statistics Division (UNdata)",
+      "sourceUrl": "https://data.un.org/_Docs/SYB/CSV/SYB68_128_202511_Consumer%20Price%20Index.csv",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "UNdata statistical context; not advertising audience size, search demand, or campaign performance.",
+        "The table contains series from the named upstream agency; preserve series-level source and footnotes.",
+        "Coverage years differ by series and may be estimates or projections as indicated by footnotes."
+      ],
+      "version": "SYB68-202511",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-undata-education_enrollment-egy-sau-20260825",
+      "publisher": "United Nations Statistics Division (UNdata)",
+      "sourceUrl": "https://data.un.org/_Docs/SYB/CSV/SYB68_309_202511_Education.csv",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "UNdata statistical context; not advertising audience size, search demand, or campaign performance.",
+        "The table contains series from the named upstream agency; preserve series-level source and footnotes.",
+        "Coverage years differ by series and may be estimates or projections as indicated by footnotes."
+      ],
+      "version": "SYB68-202511",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-undata-education_ict_access-egy-sau-20260825",
+      "publisher": "United Nations Statistics Division (UNdata)",
+      "sourceUrl": "https://data.un.org/_Docs/SYB/CSV/SYB68_245_202511_Public%20expenditure%20on%20education%20and%20access%20to%20computers.csv",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "UNdata statistical context; not advertising audience size, search demand, or campaign performance.",
+        "The table contains series from the named upstream agency; preserve series-level source and footnotes.",
+        "Coverage years differ by series and may be estimates or projections as indicated by footnotes."
+      ],
+      "version": "SYB68-202511",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-undata-employment_by_activity-egy-sau-20260825",
+      "publisher": "United Nations Statistics Division (UNdata)",
+      "sourceUrl": "https://data.un.org/_Docs/SYB/CSV/SYB68_200_202511_Employment.csv",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "UNdata statistical context; not advertising audience size, search demand, or campaign performance.",
+        "The table contains series from the named upstream agency; preserve series-level source and footnotes.",
+        "Coverage years differ by series and may be estimates or projections as indicated by footnotes."
+      ],
+      "version": "SYB68-202511",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-undata-gdp_and_gdp_per_capita-egy-sau-20260825",
+      "publisher": "United Nations Statistics Division (UNdata)",
+      "sourceUrl": "https://data.un.org/_Docs/SYB/CSV/SYB68_230_202511_GDP%20and%20GDP%20Per%20Capita.csv",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "UNdata statistical context; not advertising audience size, search demand, or campaign performance.",
+        "The table contains series from the named upstream agency; preserve series-level source and footnotes.",
+        "Coverage years differ by series and may be estimates or projections as indicated by footnotes."
+      ],
+      "version": "SYB68-202511",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-undata-gva_by_activity-egy-sau-20260825",
+      "publisher": "United Nations Statistics Division (UNdata)",
+      "sourceUrl": "https://data.un.org/_Docs/SYB/CSV/SYB68_153_202511_Gross%20Value%20Added%20by%20Economic%20Activity.csv",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "UNdata statistical context; not advertising audience size, search demand, or campaign performance.",
+        "The table contains series from the named upstream agency; preserve series-level source and footnotes.",
+        "Coverage years differ by series and may be estimates or projections as indicated by footnotes."
+      ],
+      "version": "SYB68-202511",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-undata-internet_usage-egy-sau-20260825",
+      "publisher": "United Nations Statistics Division (UNdata)",
+      "sourceUrl": "https://data.un.org/_Docs/SYB/CSV/SYB68_314_202511_Internet%20Usage.csv",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "UNdata statistical context; not advertising audience size, search demand, or campaign performance.",
+        "The table contains series from the named upstream agency; preserve series-level source and footnotes.",
+        "Coverage years differ by series and may be estimates or projections as indicated by footnotes."
+      ],
+      "version": "SYB68-202511",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-undata-labour_force_and_unemployment-egy-sau-20260825",
+      "publisher": "United Nations Statistics Division (UNdata)",
+      "sourceUrl": "https://data.un.org/_Docs/SYB/CSV/SYB68_329_202511_Labour%20Force%20and%20Unemployment.csv",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "UNdata statistical context; not advertising audience size, search demand, or campaign performance.",
+        "The table contains series from the named upstream agency; preserve series-level source and footnotes.",
+        "Coverage years differ by series and may be estimates or projections as indicated by footnotes."
+      ],
+      "version": "SYB68-202511",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-undata-population_and_density-egy-sau-20260825",
+      "publisher": "United Nations Statistics Division (UNdata)",
+      "sourceUrl": "https://data.un.org/_Docs/SYB/CSV/SYB68_1_202511_Population%2C%20Surface%20Area%20and%20Density.csv",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "UNdata statistical context; not advertising audience size, search demand, or campaign performance.",
+        "The table contains series from the named upstream agency; preserve series-level source and footnotes.",
+        "Coverage years differ by series and may be estimates or projections as indicated by footnotes."
+      ],
+      "version": "SYB68-202511",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-undata-statistical-yearbook-egy-sau-20260825",
+      "publisher": "United Nations Statistics Division (UNdata)",
+      "sourceUrl": "https://data.un.org/",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "Container record for the selected UNdata tables; individual table source IDs are used by observations.",
+        "UNdata context is not advertising audience size, search demand, or campaign performance."
+      ],
+      "version": "SYB68-202511",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-undata-teaching_staff-egy-sau-20260825",
+      "publisher": "United Nations Statistics Division (UNdata)",
+      "sourceUrl": "https://data.un.org/_Docs/SYB/CSV/SYB68_323_202511_Teaching%20Staff%20in%20education.csv",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "UNdata statistical context; not advertising audience size, search demand, or campaign performance.",
+        "The table contains series from the named upstream agency; preserve series-level source and footnotes.",
+        "Coverage years differ by series and may be estimates or projections as indicated by footnotes."
+      ],
+      "version": "SYB68-202511",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-undata-trade_balance-egy-sau-20260825",
+      "publisher": "United Nations Statistics Division (UNdata)",
+      "sourceUrl": "https://data.un.org/_Docs/SYB/CSV/SYB68_123_202511_Total%20Imports%20Exports%20and%20Balance%20of%20Trade.csv",
+      "sourceType": "official_api",
+      "licenseStatus": "unknown",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "UNdata statistical context; not advertising audience size, search demand, or campaign performance.",
+        "The table contains series from the named upstream agency; preserve series-level source and footnotes.",
+        "Coverage years differ by series and may be estimates or projections as indicated by footnotes."
+      ],
+      "version": "SYB68-202511",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-unesco-uis-egy-sau-education-20260825",
+      "publisher": "UNESCO Institute for Statistics (UIS)",
+      "sourceUrl": "https://api.uis.unesco.org/api/public/documentation/",
+      "sourceType": "official_api",
+      "licenseStatus": "approved",
+      "observedAt": "2026-08-25T20:30:00.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "UIS education supply and participation indicators are not advertising demand or campaign performance.",
+        "The public API response states CC BY-SA 4.0; preserve attribution and share-alike requirements.",
+        "Latest available year varies by indicator and country; missing years are not interpolated."
+      ],
+      "version": "20260507-91260335",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-world-bank-egy-indicators-v2-20260825",
+      "publisher": "World Bank",
+      "sourceUrl": "https://api.worldbank.org/v2/country/EGY",
+      "sourceType": "official_api",
+      "jurisdiction": "global",
+      "market": "EG",
+      "language": "en",
+      "licenseStatus": "approved",
+      "observedAt": "2026-08-25T00:16:31.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "Context indicators only; not campaign performance or competitor benchmark.",
+        "Indicator-specific period, unit, and methodology must be retained."
+      ],
+      "version": "v2-20260825",
+      "enabled": true
+    },
+    {
+      "contractVersion": "1.0",
+      "sourceId": "src-world-bank-sau-indicators-v2-20260825",
+      "publisher": "World Bank",
+      "sourceUrl": "https://api.worldbank.org/v2/country/SAU",
+      "sourceType": "official_api",
+      "jurisdiction": "global",
+      "market": "SA",
+      "language": "en",
+      "licenseStatus": "approved",
+      "observedAt": "2026-08-25T00:16:31.000Z",
+      "freshnessPolicy": "monthly",
+      "limitations": [
+        "Context indicators only; not campaign performance or competitor benchmark.",
+        "Indicator-specific period, unit, and methodology must be retained."
+      ],
+      "version": "v2-20260825",
+      "enabled": true
+    }
+  ]
+}

@@ -1,0 +1,141 @@
+{
+  "contractVersion": "1.0",
+  "artifactType": "public_app_store_expansion",
+  "artifactId": "public-app-store-expansion-eg-sa-20260827",
+  "generatedAt": "2026-08-27T00:00:00.000Z",
+  "rawInput": {
+    "path": "data/knowledge/public/source-expansion/2026-08-27/app-stores-capture.md",
+    "sha256": "769b071b33b635644ad7940d073098fdceb80b4d990d0e9e4a4a8701ec8feedd"
+  },
+  "observations": [
+    {
+      "observationId": "google-play-jumia-en-us-metadata-20260827",
+      "sourceId": "src-google-play-jumia-en-us-20260827",
+      "market": "EG",
+      "marketScope": "global_or_store_locale",
+      "industryRelevance": "ecommerce_general",
+      "status": "observed",
+      "capturedAt": "2026-08-27T00:00:00.000Z",
+      "limitations": [
+        "Global/store-locale app-page indicators; not Egypt-specific users, installs, sales, retention, or market share."
+      ],
+      "platform": "Google Play",
+      "storeLocale": "en_US",
+      "observationType": "app_store_metadata",
+      "pageUrl": "https://play.google.com/store/apps/details?id=com.jumia.android&hl=en_US",
+      "app": {
+        "name": "JUMIA Online Shopping",
+        "packageId": "com.jumia.android"
+      },
+      "rating": {
+        "value": 4.4,
+        "reviewCountText": "2.69M"
+      },
+      "downloadCountText": "100M+",
+      "lastUpdateDisplayed": "2026-08-20",
+      "dataSafetySignals": [
+        "may share personal and financial information",
+        "encrypted in transit",
+        "data deletion request available"
+      ]
+    },
+    {
+      "observationId": "google-play-jarir-en-us-metadata-20260827",
+      "sourceId": "src-google-play-jarir-en-us-20260827",
+      "market": "SA",
+      "marketScope": "global_or_store_locale",
+      "industryRelevance": "ecommerce_general",
+      "status": "observed",
+      "capturedAt": "2026-08-27T00:00:00.000Z",
+      "limitations": [
+        "Global/store-locale app-page indicators; not Saudi-specific users, installs, sales, retention, or market share."
+      ],
+      "platform": "Google Play",
+      "storeLocale": "en_US",
+      "observationType": "app_store_metadata",
+      "pageUrl": "https://play.google.com/store/apps/details?id=com.jarirbookstore.JBMarketingApp&hl=en_US",
+      "app": {
+        "name": "Jarir Bookstore",
+        "packageId": "com.jarirbookstore.JBMarketingApp"
+      },
+      "rating": {
+        "value": 4.8,
+        "reviewCountText": "89.6K"
+      },
+      "downloadCountText": "10M+",
+      "lastUpdateDisplayed": "2026-08-10",
+      "dataSafetySignals": [
+        "no data shared with third parties declared",
+        "location and personal info may be collected",
+        "encrypted in transit",
+        "data deletion request available"
+      ]
+    },
+    {
+      "observationId": "apple-store-jumia-eg-metadata-20260827",
+      "sourceId": "src-apple-store-jumia-eg-20260827",
+      "market": "EG",
+      "marketScope": "country_store_locale",
+      "industryRelevance": "ecommerce_general",
+      "status": "observed",
+      "capturedAt": "2026-08-27T00:00:00.000Z",
+      "limitations": [
+        "Egypt-locale app-page indicators; not active users, sales, retention, or market share."
+      ],
+      "platform": "Apple App Store",
+      "storeLocale": "EG",
+      "observationType": "app_store_metadata",
+      "pageUrl": "https://apps.apple.com/eg/app/jumia-online-shopping/id925015459",
+      "app": {
+        "name": "Jumia Online Shopping",
+        "appId": "925015459"
+      },
+      "rating": {
+        "value": 4.7,
+        "ratingsCountText": "93K"
+      },
+      "chartPosition": {
+        "chart": "top-free shopping",
+        "position": 14
+      },
+      "category": "Shopping",
+      "languagesDisplayed": "English, Arabic, French",
+      "versionDisplayed": "20.0.0",
+      "reviewTextImported": false
+    },
+    {
+      "observationId": "apple-store-jarir-us-metadata-20260827",
+      "sourceId": "src-apple-store-jarir-us-20260827",
+      "market": "SA",
+      "marketScope": "global_or_store_locale",
+      "industryRelevance": "ecommerce_general",
+      "status": "observed",
+      "capturedAt": "2026-08-27T00:00:00.000Z",
+      "limitations": [
+        "US-locale app-page indicators for a Saudi retailer; not Saudi active users, sales, retention, or market share."
+      ],
+      "platform": "Apple App Store",
+      "storeLocale": "US",
+      "observationType": "app_store_metadata",
+      "pageUrl": "https://apps.apple.com/us/app/jarir-bookstore/id535777677",
+      "app": {
+        "name": "Jarir Bookstore",
+        "appId": "535777677"
+      },
+      "rating": {
+        "value": 4.8,
+        "ratingsCountText": "5.7K"
+      },
+      "category": "Shopping",
+      "languagesDisplayed": "English, Arabic",
+      "versionDisplayed": "9.9.6",
+      "reviewTextImported": false
+    }
+  ],
+  "unknowns": [
+    "Country-specific active users, installs, retention, revenue, sales, conversion, and market share are unavailable from public app pages."
+  ],
+  "limitations": [
+    "App-store indicators are kept by store locale and are not reconciled into country performance metrics."
+  ]
+}
