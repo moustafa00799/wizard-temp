@@ -13,13 +13,15 @@ import type { ScopedStrategyContext } from '@/lib/contracts/knowledge-strategy-c
 import { ZodError } from 'zod';
 import { getRuntimeDatabaseState } from '@/lib/db/runtime-database';
 import { sha256Json, type JsonRecord } from '@/lib/db';
+import { readJsonBody, RequestSecurityError } from '@/lib/api/request-security';
 
 export async function POST(request: NextRequest) {
   const startTime = performance.now();
 
   try {
-    const body = await request.json();
-    const inputPayload = body && typeof body === 'object' && 'input' in body ? body.input : body;
+    const body = await readJsonBody(request, 256 * 1024);
+    const bodyRecord = body && typeof body === 'object' && !Array.isArray(body) ? body as Record<string, unknown> : undefined;
+    const inputPayload = bodyRecord && 'input' in bodyRecord ? bodyRecord.input : body;
     const validatedInput = canonicalizeWizardInput(inputPayload);
     const engine = new CDKSEngine();
     
@@ -27,9 +29,9 @@ export async function POST(request: NextRequest) {
     const blueprint = await engine.generate(validatedInput);
     
     const validatedOutput = CanonicalBlueprintSchema.parse(blueprint);
-    const baseContract = buildBlueprintContractV3(validatedInput, validatedOutput, body);
-    const lifecycleRequest = body && typeof body === 'object' && body.campaign_lifecycle && typeof body.campaign_lifecycle === 'object'
-      ? body.campaign_lifecycle as { enabled?: unknown }
+    const baseContract = buildBlueprintContractV3(validatedInput, validatedOutput, bodyRecord ?? {});
+    const lifecycleRequest = bodyRecord && bodyRecord.campaign_lifecycle && typeof bodyRecord.campaign_lifecycle === 'object'
+      ? bodyRecord.campaign_lifecycle as { enabled?: unknown }
       : undefined;
     const lifecycleEnabled = lifecycleRequest?.enabled !== false;
     let campaignLifecycle: Record<string, unknown> | null = null;
@@ -69,11 +71,11 @@ export async function POST(request: NextRequest) {
         updatedAt: String(lifecycle.updated_at),
       };
     }
-    const requestedKnowledgeContextId = body && typeof body === 'object' && typeof body.knowledge_context_id === 'string'
-      ? body.knowledge_context_id.trim()
+    const requestedKnowledgeContextId = bodyRecord && typeof bodyRecord.knowledge_context_id === 'string'
+      ? bodyRecord.knowledge_context_id.trim()
       : '';
-    const rawKnowledgeSelection = body && typeof body === 'object' && body.knowledge_strategy_selection && typeof body.knowledge_strategy_selection === 'object'
-      ? body.knowledge_strategy_selection
+    const rawKnowledgeSelection = bodyRecord && bodyRecord.knowledge_strategy_selection && typeof bodyRecord.knowledge_strategy_selection === 'object'
+      ? bodyRecord.knowledge_strategy_selection
       : undefined;
     const knowledgeSelection = requestedKnowledgeContextId
       ? getStrategyContextSelection(requestedKnowledgeContextId)
@@ -81,14 +83,14 @@ export async function POST(request: NextRequest) {
     const knowledgeContext: ScopedStrategyContext | undefined = knowledgeSelection
       ? buildScopedStrategyContext(knowledgeSelection)
       : undefined;
-    const aiAdvisoryRequest = body && typeof body === 'object' && body.ai_advisory && typeof body.ai_advisory === 'object'
-      ? body.ai_advisory as { enabled?: unknown }
+    const aiAdvisoryRequest = bodyRecord && bodyRecord.ai_advisory && typeof bodyRecord.ai_advisory === 'object'
+      ? bodyRecord.ai_advisory as { enabled?: unknown }
       : undefined;
     const clientAiEnabled = aiAdvisoryRequest?.enabled === true;
     const serverLiveAiEnabled = process.env.AI_LIVE_ENABLED === 'true' && process.env.AI_PROVIDER_MODE === 'nonprod';
     const aiInput = sanitizeWizardInputForAI(validatedInput);
-    const strategyRequest = body && typeof body === 'object' && body.ai_strategy_builder && typeof body.ai_strategy_builder === 'object'
-      ? body.ai_strategy_builder as { enabled?: unknown; model?: unknown; provider?: unknown; fallbackProvider?: unknown; benchmark?: unknown; mockScenario?: unknown }
+    const strategyRequest = bodyRecord && bodyRecord.ai_strategy_builder && typeof bodyRecord.ai_strategy_builder === 'object'
+      ? bodyRecord.ai_strategy_builder as { enabled?: unknown; model?: unknown; provider?: unknown; fallbackProvider?: unknown; benchmark?: unknown; mockScenario?: unknown }
       : {};
     const strategy = await buildAIStrategyProposal(aiInput, validatedOutput, baseContract, {
       enabled: aiAdvisoryRequest ? clientAiEnabled : strategyRequest.enabled === true,
@@ -102,8 +104,8 @@ export async function POST(request: NextRequest) {
         : undefined,
       knowledgeContext,
     });
-    const reasoningRequest = body && typeof body === 'object' && body.ai_reasoning && typeof body.ai_reasoning === 'object'
-      ? body.ai_reasoning as { enabled?: unknown; provider?: unknown; model?: unknown; fallbackProvider?: unknown; mockScenario?: unknown }
+    const reasoningRequest = bodyRecord && bodyRecord.ai_reasoning && typeof bodyRecord.ai_reasoning === 'object'
+      ? bodyRecord.ai_reasoning as { enabled?: unknown; provider?: unknown; model?: unknown; fallbackProvider?: unknown; mockScenario?: unknown }
       : {};
     const configuredReasoningProvider = process.env.AI_REASONING_PROVIDER;
     const strategyProvider = process.env.AI_STRATEGY_PROVIDER;
@@ -159,6 +161,12 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
+    if (error instanceof RequestSecurityError) {
+      return NextResponse.json(
+        { status: 'error', error: error.code === 'BODY_TOO_LARGE' ? 'Request body too large' : 'Invalid JSON', message: error.message, timestamp: new Date().toISOString() },
+        { status: error.code === 'BODY_TOO_LARGE' ? 413 : 400 },
+      );
+    }
     if (error instanceof ZodError) {
       return NextResponse.json(
         {

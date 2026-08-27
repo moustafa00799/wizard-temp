@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PreparationRequestSchema, buildCampaignPreparationEnvelope } from "@/lib/campaign-preparation";
 import { getRuntimeDatabaseState } from "@/lib/db/runtime-database";
+import { readJsonBody, RequestSecurityError } from "@/lib/api/request-security";
 
 function errorResponse(error: unknown, status = 400) {
   const message = error instanceof Error ? error.message : "Invalid preparation request.";
@@ -9,7 +10,7 @@ function errorResponse(error: unknown, status = 400) {
 
 export async function POST(request: NextRequest) {
   try {
-    const input = PreparationRequestSchema.parse(await request.json());
+    const input = PreparationRequestSchema.parse(await readJsonBody(request, 32 * 1024));
     const { repositories } = getRuntimeDatabaseState();
     const lifecycle = repositories.campaignLifecycle.get(input.workspace_id, input.lifecycle_id) as Record<string, unknown> | undefined;
     if (!lifecycle) return errorResponse(new Error("Campaign lifecycle was not found."), 404);
@@ -39,6 +40,7 @@ export async function POST(request: NextRequest) {
     });
     return NextResponse.json({ status: "success", preparation: envelope });
   } catch (error) {
+    if (error instanceof RequestSecurityError) return errorResponse(error, error.code === "BODY_TOO_LARGE" ? 413 : 400);
     return errorResponse(error);
   }
 }

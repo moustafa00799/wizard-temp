@@ -6,6 +6,7 @@ import {
   lifecycleLabel,
 } from "@/lib/campaign-lifecycle";
 import { getRuntimeDatabaseState } from "@/lib/db/runtime-database";
+import { readJsonBody, RequestSecurityError } from "@/lib/api/request-security";
 
 function serializeLifecycle(row: Record<string, unknown> | undefined) {
   if (!row) return null;
@@ -89,7 +90,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const action = CampaignLifecycleActionSchema.parse(await request.json());
+    const action = CampaignLifecycleActionSchema.parse(await readJsonBody(request, 32 * 1024));
     assertSafeLifecycleReference(action.workspace_id, "workspace_id");
     assertSafeLifecycleReference(action.lifecycle_id, "lifecycle_id");
     if (action.action === "create") assertSafeLifecycleReference(action.blueprint_id, "blueprint_id");
@@ -154,6 +155,7 @@ export async function POST(request: NextRequest) {
     });
     return NextResponse.json({ status: "success", lifecycle: serializeLifecycle(lifecycle as Record<string, unknown>), events: repositories.campaignLifecycle.listEvents(action.workspace_id, action.lifecycle_id) });
   } catch (error) {
+    if (error instanceof RequestSecurityError) return errorResponse(error, error.code === "BODY_TOO_LARGE" ? 413 : 400);
     return errorResponse(error, 400);
   }
 }

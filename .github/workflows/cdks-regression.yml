@@ -41,6 +41,7 @@ jobs:
           npm run test:campaign:lifecycle:http
           npm run test:measurement:contract
           npm run test:workspace:isolation
+          npm run test:security
           CDKS_GOOGLE_DRIVE_MERGE_DATABASE=/tmp/cdks-shaaddesign-snapshot.sqlite npm run knowledge:shaaddesign:snapshot
           CDKS_GOOGLE_DRIVE_MERGE_DATABASE=/tmp/cdks-shaaddesign-snapshot.sqlite npm run test:knowledge:shaaddesign-snapshot
 
