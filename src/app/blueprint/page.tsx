@@ -2645,6 +2645,120 @@ function ClientOutcomeSummary({ blueprint, wizardInput, reasoningActive, strateg
   );
 }
 
+function CampaignLifecyclePanel({ initialLifecycle }: { initialLifecycle?: any }) {
+  const [lifecycle, setLifecycle] = useState<any>(initialLifecycle ?? null);
+  const [events, setEvents] = useState<any[]>([]);
+  const [reviewerId, setReviewerId] = useState("local-human-reviewer");
+  const [note, setNote] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    setLifecycle(initialLifecycle ?? null);
+    if (!initialLifecycle?.workspaceId || !initialLifecycle?.lifecycleId) return;
+    const params = new URLSearchParams({
+      workspace_id: initialLifecycle.workspaceId,
+      lifecycle_id: initialLifecycle.lifecycleId,
+    });
+    fetch(`/api/campaign-lifecycle?${params.toString()}`)
+      .then((response) => response.ok ? response.json() : null)
+      .then((payload) => {
+        if (!payload || payload.status !== "success") return;
+        if (payload.lifecycle) setLifecycle(payload.lifecycle);
+        if (Array.isArray(payload.events)) setEvents(payload.events);
+      })
+      .catch(() => undefined);
+  }, [initialLifecycle]);
+
+  const transition = async (toState: "review" | "approved" | "rejected" | "draft") => {
+    if (!lifecycle || submitting) return;
+    setSubmitting(true);
+    setError("");
+    const fromState = lifecycle.state;
+    const isHumanAction = toState !== "review";
+    try {
+      const response = await fetch("/api/campaign-lifecycle", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "transition",
+          workspace_id: lifecycle.workspaceId,
+          lifecycle_id: lifecycle.lifecycleId,
+          event_id: `${lifecycle.lifecycleId}:ui:${fromState}:${toState}`,
+          from_state: fromState,
+          to_state: toState,
+          actor_type: isHumanAction ? "user" : "system",
+          ...(isHumanAction ? { actor_user_id: reviewerId.trim() } : {}),
+          note: note.trim() || (toState === "review" ? "CDKS أرسل الـBlueprint إلى المراجعة البشرية." : "تم تسجيل قرار المراجع البشري؛ لا يوجد نشر أو إنفاق تلقائي."),
+          canonical_sha256: lifecycle.canonicalSha256,
+        }),
+      });
+      const payload = await response.json().catch(() => null);
+      if (!response.ok || payload?.status !== "success") throw new Error(payload?.error || "تعذر تحديث حالة الحملة.");
+      setLifecycle(payload.lifecycle);
+      setEvents(Array.isArray(payload.events) ? payload.events : []);
+      setNote("");
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : "تعذر تحديث حالة الحملة.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const state = lifecycle?.state ?? "draft";
+  const stateLabel = lifecycle?.stateLabel ?? "لا توجد دورة حياة محفوظة";
+  return (
+    <section className="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" aria-label="دورة حياة الحملة">
+      <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Campaign Lifecycle</p>
+          <h2 className="mt-1 text-xl font-bold text-slate-950">حالة الحملة والمراجعة البشرية</h2>
+          <p className="mt-1 max-w-3xl text-sm leading-6 text-slate-600">الاعتماد هنا يعني اعتماد Blueprint للمراجعة أو التحضير فقط. لا ينشئ حملة على منصة خارجية ولا يسمح بالإنفاق.</p>
+        </div>
+        <span className={`rounded-full border px-3 py-1 text-xs font-bold ${state === "approved" ? "border-emerald-200 bg-emerald-50 text-emerald-800" : state === "rejected" ? "border-rose-200 bg-rose-50 text-rose-800" : "border-amber-200 bg-amber-50 text-amber-800"}`}>{stateLabel}</span>
+      </div>
+
+      {!lifecycle ? (
+        <p className="mt-4 rounded-xl bg-slate-50 p-4 text-sm leading-6 text-slate-700">لا توجد دورة حياة محفوظة لهذا Blueprint القديم. أعد التوليد من Wizard لإنشاء Draft قابل للمراجعة.</p>
+      ) : (
+        <>
+          <div className="mt-4 grid gap-3 sm:grid-cols-3">
+            <DataCard label="Blueprint" value={lifecycle.blueprintId} />
+            <DataCard label="الحالة" value={stateLabel} />
+            <DataCard label="التنفيذ الخارجي" value={lifecycle.externalActionsAllowed ? "مسموح" : "مقفل"} />
+          </div>
+          <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
+            <div className="flex flex-col gap-3 md:flex-row md:items-end">
+              <label className="flex-1 text-sm font-medium text-slate-800">
+                معرّف المراجع البشري
+                <input value={reviewerId} onChange={(event) => setReviewerId(event.target.value)} disabled={state === "draft" || state === "approved"} className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 disabled:bg-slate-100" placeholder="human-reviewer" />
+              </label>
+              <label className="flex-[2] text-sm font-medium text-slate-800">
+                ملاحظة المراجعة
+                <input value={note} onChange={(event) => setNote(event.target.value)} disabled={state === "approved"} className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 disabled:bg-slate-100" placeholder="سبب القرار أو نطاق الاعتماد" />
+              </label>
+            </div>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {state === "draft" && <button onClick={() => transition("review")} disabled={submitting} className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-bold text-white hover:bg-blue-700 disabled:opacity-50">{submitting ? "جارٍ الحفظ..." : "إرسال إلى Review"}</button>}
+              {state === "review" && <>
+                <button onClick={() => transition("approved")} disabled={submitting || !reviewerId.trim()} className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-bold text-white hover:bg-emerald-700 disabled:opacity-50">اعتماد بشري</button>
+                <button onClick={() => transition("rejected")} disabled={submitting || !reviewerId.trim()} className="rounded-lg bg-rose-100 px-4 py-2 text-sm font-bold text-rose-800 hover:bg-rose-200 disabled:opacity-50">رفض وإرجاع للمراجعة</button>
+              </>}
+              {state === "rejected" && <button onClick={() => transition("draft")} disabled={submitting || !reviewerId.trim()} className="rounded-lg bg-amber-600 px-4 py-2 text-sm font-bold text-white hover:bg-amber-700 disabled:opacity-50">إعادة إلى Draft</button>}
+              {state === "approved" && <span className="rounded-lg bg-emerald-50 px-4 py-2 text-sm font-bold text-emerald-800">تم الاعتماد البشري — التنفيذ الخارجي ما زال مقفلًا</span>}
+            </div>
+            {error && <p className="mt-3 text-sm font-medium text-rose-700">{error}</p>}
+          </div>
+          {events.length > 0 && <details className="mt-4 rounded-xl border border-slate-200 bg-white">
+            <summary className="cursor-pointer px-4 py-3 text-sm font-bold text-slate-800">سجل انتقالات الحالة ({events.length})</summary>
+            <div className="border-t border-slate-200 px-4 py-3 space-y-2">{events.map((event) => <div key={event.eventId} className="flex flex-wrap items-center gap-2 text-xs text-slate-600"><span className="font-bold text-slate-900">{event.fromState ?? "بداية"} → {event.toState}</span><span>{event.actorType === "user" ? `مراجع: ${event.actorUserId ?? "غير محدد"}` : "CDKS"}</span><span>{event.createdAt}</span></div>)}</div>
+          </details>}
+        </>
+      )}
+    </section>
+  );
+}
+
 /* -------------------------------------------------------------------------- */
 /* Main Page                                                                  */
 /* -------------------------------------------------------------------------- */
@@ -2845,6 +2959,7 @@ export default function BlueprintPage() {
           reasoningStatus={reasoningContract?.status ?? "not_requested"}
           knowledgeContext={generationEnvelope?.knowledge_context ?? null}
         />
+        <CampaignLifecyclePanel initialLifecycle={generationEnvelope?.campaign_lifecycle ?? null} />
 
         <details className="mt-6 overflow-hidden rounded-2xl border border-indigo-100 bg-white shadow-sm">
           <summary className="cursor-pointer list-none px-5 py-4 text-sm font-bold text-indigo-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">

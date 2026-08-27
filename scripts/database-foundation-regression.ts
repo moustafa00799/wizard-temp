@@ -13,7 +13,7 @@ function count(database: ReturnType<typeof openDatabase>, table: string): number
 
 const database = openDatabase(":memory:");
 applyDatabaseMigrations(database);
-assert.equal(count(database, "schema_migrations"), 5);
+assert.equal(count(database, "schema_migrations"), 6);
 assert.ok(count(database, "sqlite_master") >= 0);
 
 const repositories = createRepositories(database);

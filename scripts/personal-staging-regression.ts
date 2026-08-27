@@ -30,7 +30,7 @@ assert.equal(overview.governance.budgetSpendAllowed, false);
 assert.equal(overview.governance.globalMarketValidated, false);
 assert.equal(overview.tests.canonicalBlueprintMutation, false);
 assert.equal(overview.tests.secretMaterialStored, false);
-assert.equal(overview.tests.migrationCount, 5);
+assert.equal(overview.tests.migrationCount, 6);
 assert.equal(overview.randomizedSuite, null);
 
 const suite = await staging.runRandomizedWizardFixtureSuite({ seed: 20260824, variantsPerCase: 3 });
@@ -107,7 +107,7 @@ assert.equal(invalidApiRun.status, 400);
 const reopened = openDatabase(databasePath);
 const migrationCount = reopened.prepare("SELECT COUNT(*) AS count FROM schema_migrations").get<{ count: number }>();
 const runCount = reopened.prepare("SELECT COUNT(*) AS count FROM staging_runs WHERE workspace_id = ?").get<{ count: number }>(staging.STAGING_WORKSPACE_ID);
-assert.equal(migrationCount?.count, 5);
+assert.equal(migrationCount?.count, 6);
 assert.equal(runCount?.count, 3);
 assert.equal(reopened.prepare("SELECT COUNT(*) AS count FROM provider_connections WHERE connection_status = 'write_enabled'").get<{ count: number }>()?.count, 0);
 reopened.close();
@@ -122,7 +122,7 @@ fs.rmSync(tempDir, { recursive: true, force: true });
   api: "GET/POST/invalid-input passed",
   seedIdempotent: true,
   fileBackedPersistence: true,
-    migrationCount: 5,
+    migrationCount: 6,
   writeConnections: "blocked",
   globalMarketValidated: false,
   canonicalBlueprintMutation: false,

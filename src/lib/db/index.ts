@@ -27,3 +27,7 @@ export {
   DRIVE_EVIDENCE_ARTIFACTS_MIGRATION_ID,
   DRIVE_EVIDENCE_ARTIFACTS_MIGRATION_SQL,
 } from "./migrations/0005_drive_evidence_artifacts";
+export {
+  CAMPAIGN_LIFECYCLE_MIGRATION_ID,
+  CAMPAIGN_LIFECYCLE_MIGRATION_SQL,
+} from "./migrations/0006_campaign_lifecycle";

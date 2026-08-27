@@ -11,6 +11,8 @@ import { getStrategyContextSelection } from '@/lib/knowledge/available-strategy-
 import { sanitizeWizardInputForAI } from '@/lib/ai-sanitizer';
 import type { ScopedStrategyContext } from '@/lib/contracts/knowledge-strategy-context';
 import { ZodError } from 'zod';
+import { getRuntimeDatabaseState } from '@/lib/db/runtime-database';
+import { sha256Json, type JsonRecord } from '@/lib/db';
 
 export async function POST(request: NextRequest) {
   const startTime = performance.now();
@@ -26,6 +28,47 @@ export async function POST(request: NextRequest) {
     
     const validatedOutput = CanonicalBlueprintSchema.parse(blueprint);
     const baseContract = buildBlueprintContractV3(validatedInput, validatedOutput, body);
+    const lifecycleRequest = body && typeof body === 'object' && body.campaign_lifecycle && typeof body.campaign_lifecycle === 'object'
+      ? body.campaign_lifecycle as { enabled?: unknown }
+      : undefined;
+    const lifecycleEnabled = lifecycleRequest?.enabled !== false;
+    let campaignLifecycle: Record<string, unknown> | null = null;
+    if (lifecycleEnabled) {
+      const workspaceId = process.env.CDKS_DEFAULT_WORKSPACE_ID ?? 'workspace-local-cdks';
+      const userId = process.env.CDKS_DEFAULT_WORKSPACE_USER_ID ?? 'user-local-owner';
+      const { repositories } = getRuntimeDatabaseState();
+      if (!repositories.workspaces.get(workspaceId)) {
+        repositories.workspaces.create({ workspaceId, name: 'CDKS Local Workspace' });
+        repositories.memberships.create(workspaceId, userId, 'owner');
+      }
+      const canonicalSha256 = sha256Json(validatedOutput);
+      repositories.blueprints.create({
+        blueprintId: validatedOutput.blueprint_id,
+        workspaceId,
+        version: 1,
+        blueprint: validatedOutput as unknown as JsonRecord,
+        canonicalSha256,
+      });
+      const lifecycleId = `campaign-lifecycle-${validatedOutput.blueprint_id}`;
+      const lifecycle = repositories.campaignLifecycle.create({
+        lifecycleId,
+        workspaceId,
+        blueprintId: validatedOutput.blueprint_id,
+        canonicalSha256,
+      }) as Record<string, unknown>;
+      campaignLifecycle = {
+        lifecycleId: String(lifecycle.lifecycle_id),
+        workspaceId: String(lifecycle.workspace_id),
+        blueprintId: String(lifecycle.blueprint_id),
+        state: String(lifecycle.state),
+        canonicalSha256: String(lifecycle.canonical_sha256),
+        generationMode: String(lifecycle.generation_mode),
+        externalActionsAllowed: Boolean(lifecycle.external_actions_allowed),
+        budgetSpendAllowed: Boolean(lifecycle.budget_spend_allowed),
+        createdAt: String(lifecycle.created_at),
+        updatedAt: String(lifecycle.updated_at),
+      };
+    }
     const requestedKnowledgeContextId = body && typeof body === 'object' && typeof body.knowledge_context_id === 'string'
       ? body.knowledge_context_id.trim()
       : '';
@@ -96,6 +139,7 @@ export async function POST(request: NextRequest) {
         contract_version: contract.contract_version,
         processingTimeMs: processingTime,
         data: contract,
+        campaign_lifecycle: campaignLifecycle,
         knowledge_context: knowledgeContext ? {
           contextId: knowledgeContext.contextId,
           packageId: knowledgeContext.packageId,

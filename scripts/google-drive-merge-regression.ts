@@ -121,13 +121,15 @@ if (hasPrivateMerge) {
   assert(manifest.result.canonicalBlueprintMutation === false, "Manifest must state no Canonical Blueprint mutation.");
 }
 const packageCount = count(database, "evidence_packages", "workspace_id = ?", [workspaceId]);
+const packageRows = database.prepare("SELECT package_id, status, market, industry FROM evidence_packages WHERE workspace_id = ? ORDER BY package_id").all(workspaceId) as Array<{ package_id: string; status: string; market: string; industry: string }>;
 const saConfirmedMarketCount = count(database, "drive_evidence_artifacts", "workspace_id = ? AND market = 'SA' AND scope_status = 'activity_and_market_user_confirmed_property_unverified'", [workspaceId]);
 const duplicateCount = count(database, "drive_evidence_artifacts", "workspace_id = ? AND scope_status = 'excluded_duplicate'", [workspaceId]);
 const catalogUnverifiedCount = count(database, "drive_evidence_artifacts", "workspace_id = ? AND scope_status = 'catalog_identity_unverified'", [workspaceId]);
 const currencyGuessCount = count(database, "drive_evidence_artifacts", "workspace_id = ? AND currency IS NOT NULL", [workspaceId]);
 const rawRowsFlagViolations = count(database, "drive_evidence_artifacts", "workspace_id = ? AND (raw_rows_omitted <> 1 OR raw_values_omitted <> 1 OR market_validated <> 0)", [workspaceId]);
 const auditCount = count(database, "audit_events", "workspace_id = ? AND audit_event_id = 'audit-google-drive-private-merge-20260827'", [workspaceId]);
-assert(packageCount === 0, `Drive workspace must not create evidence packages, got ${packageCount}.`);
+assert(packageCount <= 1, `Drive workspace must not create more than the one approved ShaadDesign package, got ${packageCount}.`);
+assert(packageRows.every((row) => row.package_id === "shaaddesign-ga4-restricted-package-2023" && row.status === "limited" && row.market === "SA" && row.industry === "interior_design_and_decoration"), "Unexpected package found in Drive workspace.");
 assert(saConfirmedMarketCount === expectedSaudiCount, `Expected ${expectedSaudiCount} Saudi activity artifacts, got ${saConfirmedMarketCount}.`);
 assert(duplicateCount === expectedDuplicateCount, `Expected ${expectedDuplicateCount} explicitly known duplicates excluded, got ${duplicateCount}.`);
 assert(catalogUnverifiedCount === expectedCatalogCount, `Expected ${expectedCatalogCount} catalog identity-unverified artifacts, got ${catalogUnverifiedCount}.`);

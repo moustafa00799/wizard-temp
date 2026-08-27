@@ -5,6 +5,7 @@ import { PERSONAL_STAGING_MIGRATION_ID, PERSONAL_STAGING_MIGRATION_SQL } from ".
 import { STAGING_TEST_RUNS_MIGRATION_ID, STAGING_TEST_RUNS_MIGRATION_SQL } from "./migrations/0003_staging_test_runs";
 import { KNOWLEDGE_SNAPSHOT_PERSISTENCE_MIGRATION_ID, KNOWLEDGE_SNAPSHOT_PERSISTENCE_MIGRATION_SQL } from "./migrations/0004_knowledge_snapshot_persistence";
 import { DRIVE_EVIDENCE_ARTIFACTS_MIGRATION_ID, DRIVE_EVIDENCE_ARTIFACTS_MIGRATION_SQL } from "./migrations/0005_drive_evidence_artifacts";
+import { CAMPAIGN_LIFECYCLE_MIGRATION_ID, CAMPAIGN_LIFECYCLE_MIGRATION_SQL } from "./migrations/0006_campaign_lifecycle";
 
 export type DatabaseLocation = ":memory:" | string;
 export type JsonRecord = Record<string, unknown>;
@@ -184,6 +185,27 @@ type ApprovalEventRecord = {
   note?: string;
 };
 
+type CampaignLifecycleState = "draft" | "review" | "approved" | "rejected";
+type CampaignLifecycleRecord = {
+  lifecycleId: string;
+  workspaceId: string;
+  blueprintId: string;
+  canonicalSha256: string;
+  state?: CampaignLifecycleState;
+  createdAt?: string;
+};
+type CampaignLifecycleEventRecord = {
+  eventId: string;
+  lifecycleId: string;
+  workspaceId: string;
+  fromState: CampaignLifecycleState | null;
+  toState: CampaignLifecycleState;
+  actorType: "user" | "system";
+  actorUserId?: string;
+  note?: string;
+  canonicalSha256: string;
+};
+
 type AuditEventRecord = {
   auditEventId: string;
   workspaceId: string;
@@ -255,6 +277,7 @@ export function applyDatabaseMigrations(database: DatabaseSync): void {
       apply(STAGING_TEST_RUNS_MIGRATION_ID, STAGING_TEST_RUNS_MIGRATION_SQL);
     apply(KNOWLEDGE_SNAPSHOT_PERSISTENCE_MIGRATION_ID, KNOWLEDGE_SNAPSHOT_PERSISTENCE_MIGRATION_SQL);
     apply(DRIVE_EVIDENCE_ARTIFACTS_MIGRATION_ID, DRIVE_EVIDENCE_ARTIFACTS_MIGRATION_SQL);
+    apply(CAMPAIGN_LIFECYCLE_MIGRATION_ID, CAMPAIGN_LIFECYCLE_MIGRATION_SQL);
 
 }
 
@@ -311,6 +334,13 @@ export function createRepositories(database: DatabaseSync) {
   const createApproval = database.prepare("INSERT INTO approval_events (approval_id, workspace_id, object_type, object_id, decision, actor_user_id, note, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
   const createAudit = database.prepare("INSERT OR IGNORE INTO audit_events (audit_event_id, workspace_id, event_type, object_type, object_id, actor_type, payload_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
   const getAudit = database.prepare("SELECT * FROM audit_events WHERE audit_event_id = ?");
+  const createCampaignLifecycle = database.prepare("INSERT INTO campaign_lifecycles (lifecycle_id, workspace_id, blueprint_id, canonical_sha256, state, generation_mode, external_actions_allowed, budget_spend_allowed, created_at, updated_at) VALUES (?, ?, ?, ?, ?, 'blueprint_only', 0, 0, ?, ?)");
+  const getCampaignLifecycle = database.prepare("SELECT * FROM campaign_lifecycles WHERE workspace_id = ? AND lifecycle_id = ?");
+  const getCampaignLifecycleByBlueprint = database.prepare("SELECT * FROM campaign_lifecycles WHERE workspace_id = ? AND blueprint_id = ?");
+  const updateCampaignLifecycle = database.prepare("UPDATE campaign_lifecycles SET state = ?, updated_at = ? WHERE workspace_id = ? AND lifecycle_id = ?");
+  const createCampaignLifecycleEvent = database.prepare("INSERT INTO campaign_lifecycle_events (event_id, lifecycle_id, workspace_id, from_state, to_state, actor_type, actor_user_id, note, canonical_sha256, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+  const getCampaignLifecycleEvent = database.prepare("SELECT * FROM campaign_lifecycle_events WHERE event_id = ?");
+  const listCampaignLifecycleEvents = database.prepare("SELECT * FROM campaign_lifecycle_events WHERE workspace_id = ? AND lifecycle_id = ? ORDER BY created_at ASC, event_id ASC");
   const createStagingRun = database.prepare("INSERT INTO staging_runs (staging_run_id, workspace_id, scenario_id, blueprint_id, context_id, recommendation_id, status, run_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
   const getStagingRun = database.prepare("SELECT * FROM staging_runs WHERE workspace_id = ? AND scenario_id = ?");
   const createStagingTestRun = database.prepare("INSERT INTO staging_test_runs (test_run_id, workspace_id, suite, seed, variants_per_case, total_runs, status, report_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -351,8 +381,16 @@ export function createRepositories(database: DatabaseSync) {
     blueprints: {
       create(input: BlueprintRecord) {
         const canonicalSha256 = input.canonicalSha256 ?? sha256Json(input.blueprint);
-        createBlueprint.run(input.blueprintId, input.workspaceId, input.version, canonicalSha256, json(input.blueprint), input.createdAt ?? now());
-        createBlueprintVersion.run(input.blueprintId, input.version, canonicalSha256, json(input.blueprint), input.createdAt ?? now());
+        const existing = getBlueprint.get(input.blueprintId) as Row | undefined;
+        if (existing) {
+          if (existing.workspace_id !== input.workspaceId || existing.canonical_sha256 !== canonicalSha256) {
+            throw new Error("Canonical Blueprint already exists with different content or workspace.");
+          }
+          return existing;
+        }
+        const createdAt = input.createdAt ?? now();
+        createBlueprint.run(input.blueprintId, input.workspaceId, input.version, canonicalSha256, json(input.blueprint), createdAt);
+        createBlueprintVersion.run(input.blueprintId, input.version, canonicalSha256, json(input.blueprint), createdAt);
         return getBlueprint.get(input.blueprintId) as Row;
       },
       get(blueprintId: string) {
@@ -747,6 +785,73 @@ export function createRepositories(database: DatabaseSync) {
           return;
         }
         createAudit.run(input.auditEventId, input.workspaceId, input.eventType, input.objectType, input.objectId, input.actorType, json(input.payload), now());
+      },
+    },
+    campaignLifecycle: {
+      create(input: CampaignLifecycleRecord) {
+        const state = input.state ?? "draft";
+        const existing = (getCampaignLifecycleByBlueprint.get(input.workspaceId, input.blueprintId) ?? getCampaignLifecycle.get(input.workspaceId, input.lifecycleId)) as Row | undefined;
+        if (existing) {
+          if (existing.lifecycle_id !== input.lifecycleId || existing.canonical_sha256 !== input.canonicalSha256) {
+            throw new Error("Campaign lifecycle already exists with different identity or Canonical Blueprint hash.");
+          }
+          return existing;
+        }
+        const createdAt = input.createdAt ?? now();
+        createCampaignLifecycle.run(input.lifecycleId, input.workspaceId, input.blueprintId, input.canonicalSha256, state, createdAt, createdAt);
+        const eventId = `${input.lifecycleId}:created:${state}`;
+        createCampaignLifecycleEvent.run(eventId, input.lifecycleId, input.workspaceId, null, state, "system", null, "Lifecycle created from an immutable Canonical Blueprint.", input.canonicalSha256, createdAt);
+        return getCampaignLifecycle.get(input.workspaceId, input.lifecycleId) as Row;
+      },
+      get(workspaceId: string, lifecycleId: string) {
+        return getCampaignLifecycle.get(workspaceId, lifecycleId) as Row | undefined;
+      },
+      getByBlueprint(workspaceId: string, blueprintId: string) {
+        return getCampaignLifecycleByBlueprint.get(workspaceId, blueprintId) as Row | undefined;
+      },
+      transition(input: CampaignLifecycleEventRecord) {
+        const existingEvent = getCampaignLifecycleEvent.get(input.eventId) as Row | undefined;
+        if (existingEvent) {
+          const actual = {
+            lifecycleId: existingEvent.lifecycle_id,
+            workspaceId: existingEvent.workspace_id,
+            fromState: existingEvent.from_state,
+            toState: existingEvent.to_state,
+            actorType: existingEvent.actor_type,
+            actorUserId: existingEvent.actor_user_id,
+            note: existingEvent.note,
+            canonicalSha256: existingEvent.canonical_sha256,
+          };
+          const expected = {
+            lifecycleId: input.lifecycleId,
+            workspaceId: input.workspaceId,
+            fromState: input.fromState,
+            toState: input.toState,
+            actorType: input.actorType,
+            actorUserId: input.actorUserId ?? null,
+            note: input.note ?? null,
+            canonicalSha256: input.canonicalSha256,
+          };
+          if (sha256Json(actual) !== sha256Json(expected)) throw new Error("Lifecycle event already exists with different content.");
+          return getCampaignLifecycle.get(input.workspaceId, input.lifecycleId) as Row;
+        }
+        const lifecycle = getCampaignLifecycle.get(input.workspaceId, input.lifecycleId) as Row | undefined;
+        if (!lifecycle) throw new Error("Campaign lifecycle not found.");
+        if (lifecycle.canonical_sha256 !== input.canonicalSha256) throw new Error("Canonical Blueprint hash mismatch.");
+        if (lifecycle.state !== input.fromState) throw new Error(`Lifecycle transition expected ${input.fromState} but is ${lifecycle.state}.`);
+        if (input.actorType === "user" && !input.actorUserId) throw new Error("Human approval transitions require actor_user_id.");
+        if (input.toState === "approved" && (input.actorType !== "user" || !input.actorUserId)) throw new Error("Only an identified human actor may approve a campaign lifecycle.");
+        const allowed = (input.fromState === "draft" && input.toState === "review")
+          || (input.fromState === "review" && (input.toState === "approved" || input.toState === "rejected"))
+          || (input.fromState === "rejected" && input.toState === "draft");
+        if (!allowed) throw new Error(`Invalid campaign lifecycle transition: ${input.fromState} -> ${input.toState}.`);
+        const createdAt = now();
+        updateCampaignLifecycle.run(input.toState, createdAt, input.workspaceId, input.lifecycleId);
+        createCampaignLifecycleEvent.run(input.eventId, input.lifecycleId, input.workspaceId, input.fromState, input.toState, input.actorType, input.actorUserId ?? null, input.note ?? null, input.canonicalSha256, createdAt);
+        return getCampaignLifecycle.get(input.workspaceId, input.lifecycleId) as Row;
+      },
+      listEvents(workspaceId: string, lifecycleId: string) {
+        return listCampaignLifecycleEvents.all(workspaceId, lifecycleId) as Row[];
       },
     },
     rawDatabase: database,
