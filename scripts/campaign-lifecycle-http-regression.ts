@@ -12,6 +12,7 @@ process.env.AI_LIVE_ENABLED = "false";
 
 const { POST: generateV5 } = await import("../src/app/api/generate/v5/route");
 const { GET: getLifecycle, POST: updateLifecycle } = await import("../src/app/api/campaign-lifecycle/route");
+const { POST: prepareBlueprint } = await import("../src/app/api/campaign-preparation/route");
 
 const fixture = JSON.parse(fs.readFileSync(path.join(process.cwd(), "tests/fixtures/wizard-inputs-v1/EX-001_ecommerce-sales.json"), "utf8"));
 const generationResponse = await generateV5(new NextRequest("http://localhost/api/generate/v5", {
@@ -80,6 +81,31 @@ assert.equal(approval.response.status, 200);
 assert.equal(approval.payload.lifecycle?.state, "approved");
 assert.equal(approval.payload.lifecycle?.externalActionsAllowed, false);
 assert.equal(approval.payload.lifecycle?.budgetSpendAllowed, false);
+
+const preparationResponse = await prepareBlueprint(new NextRequest("http://localhost/api/campaign-preparation", {
+  method: "POST",
+  headers: { "content-type": "application/json" },
+  body: JSON.stringify({ workspace_id: lifecycle.workspaceId, lifecycle_id: lifecycle.lifecycleId }),
+}));
+const preparationPayload = await preparationResponse.json() as { status: string; preparation?: { formatVersion: string; preparationStatus: string; lifecycle: { state: string; canonicalSha256: string }; measurementPlan: { contractVersion: string; trackingReadiness: string; metrics: Array<{ metric: string; status: string; value?: number; unavailableReason?: string }>; attribution: { status: string; window: string }; governance: { performanceObserved: boolean; revenueObserved: boolean; externalActionsAllowed: boolean; budgetSpendAllowed: boolean; marketValidated: boolean } }; reviewChecklist: { humanApprovalRecorded: boolean; canonicalHashVerified: boolean; blueprintOnly: boolean; externalActionsAllowed: boolean; budgetSpendAllowed: boolean; providerWriteEnabled: boolean; marketValidationClaimed: boolean }; blockedActions: string[] } };
+assert.equal(preparationResponse.status, 200);
+assert.equal(preparationPayload.status, "success");
+assert.equal(preparationPayload.preparation?.formatVersion, "campaign-preparation-v1");
+assert.equal(preparationPayload.preparation?.preparationStatus, "approved_for_preparation");
+assert.equal(preparationPayload.preparation?.lifecycle.state, "approved");
+assert.equal(preparationPayload.preparation?.lifecycle.canonicalSha256, lifecycle.canonicalSha256);
+assert.equal(preparationPayload.preparation?.measurementPlan.contractVersion, "measurement-plan-v1");
+assert.equal(preparationPayload.preparation?.measurementPlan.attribution.status, "unavailable");
+assert.equal(preparationPayload.preparation?.measurementPlan.attribution.window, "unavailable");
+assert.equal(preparationPayload.preparation?.measurementPlan.governance.performanceObserved, false);
+assert.equal(preparationPayload.preparation?.measurementPlan.governance.revenueObserved, false);
+assert.equal(preparationPayload.preparation?.measurementPlan.governance.externalActionsAllowed, false);
+assert.equal(preparationPayload.preparation?.measurementPlan.governance.budgetSpendAllowed, false);
+assert.equal(preparationPayload.preparation?.measurementPlan.governance.marketValidated, false);
+assert.equal(preparationPayload.preparation?.measurementPlan.metrics.length, 8);
+assert.ok(preparationPayload.preparation?.measurementPlan.metrics.every((metric) => metric.status === "unavailable" && metric.unavailableReason));
+assert.deepEqual(preparationPayload.preparation?.reviewChecklist, { humanApprovalRecorded: true, canonicalHashVerified: true, blueprintOnly: true, externalActionsAllowed: false, budgetSpendAllowed: false, providerWriteEnabled: false, marketValidationClaimed: false });
+assert.equal(preparationPayload.preparation?.blockedActions.length, 5);
 
 const getResponse = await getLifecycle(new NextRequest(`http://localhost/api/campaign-lifecycle?workspace_id=${encodeURIComponent(lifecycle.workspaceId)}&lifecycle_id=${encodeURIComponent(lifecycle.lifecycleId)}`));
 const getPayload = await getResponse.json() as { status: string; lifecycle?: { state: string }; events?: Array<{ toState: string }> };

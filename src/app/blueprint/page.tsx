@@ -2651,6 +2651,7 @@ function CampaignLifecyclePanel({ initialLifecycle }: { initialLifecycle?: any }
   const [reviewerId, setReviewerId] = useState("local-human-reviewer");
   const [note, setNote] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [preparing, setPreparing] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -2705,6 +2706,34 @@ function CampaignLifecyclePanel({ initialLifecycle }: { initialLifecycle?: any }
     }
   };
 
+  const prepareApprovedBlueprint = async () => {
+    if (!lifecycle || lifecycle.state !== "approved" || preparing) return;
+    setPreparing(true);
+    setError("");
+    try {
+      const response = await fetch("/api/campaign-preparation", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ workspace_id: lifecycle.workspaceId, lifecycle_id: lifecycle.lifecycleId }),
+      });
+      const payload = await response.json().catch(() => null);
+      if (!response.ok || payload?.status !== "success" || !payload.preparation) throw new Error(payload?.error || "تعذر تجهيز Blueprint المعتمد.");
+      const blob = new Blob([JSON.stringify(payload.preparation, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `campaign-preparation-${lifecycle.blueprintId}.json`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : "تعذر تجهيز Blueprint المعتمد.");
+    } finally {
+      setPreparing(false);
+    }
+  };
+
   const state = lifecycle?.state ?? "draft";
   const stateLabel = lifecycle?.stateLabel ?? "لا توجد دورة حياة محفوظة";
   return (
@@ -2745,7 +2774,10 @@ function CampaignLifecyclePanel({ initialLifecycle }: { initialLifecycle?: any }
                 <button onClick={() => transition("rejected")} disabled={submitting || !reviewerId.trim()} className="rounded-lg bg-rose-100 px-4 py-2 text-sm font-bold text-rose-800 hover:bg-rose-200 disabled:opacity-50">رفض وإرجاع للمراجعة</button>
               </>}
               {state === "rejected" && <button onClick={() => transition("draft")} disabled={submitting || !reviewerId.trim()} className="rounded-lg bg-amber-600 px-4 py-2 text-sm font-bold text-white hover:bg-amber-700 disabled:opacity-50">إعادة إلى Draft</button>}
-              {state === "approved" && <span className="rounded-lg bg-emerald-50 px-4 py-2 text-sm font-bold text-emerald-800">تم الاعتماد البشري — التنفيذ الخارجي ما زال مقفلًا</span>}
+              {state === "approved" && <>
+                <span className="rounded-lg bg-emerald-50 px-4 py-2 text-sm font-bold text-emerald-800">تم الاعتماد البشري — التنفيذ الخارجي ما زال مقفلًا</span>
+                <button onClick={prepareApprovedBlueprint} disabled={preparing} className="rounded-lg bg-slate-800 px-4 py-2 text-sm font-bold text-white hover:bg-slate-900 disabled:opacity-50">{preparing ? "جارٍ تجهيز الملف..." : "تجهيز Export للمراجعة"}</button>
+              </>}
             </div>
             {error && <p className="mt-3 text-sm font-medium text-rose-700">{error}</p>}
           </div>
