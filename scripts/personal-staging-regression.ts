@@ -2,15 +2,30 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { NextRequest } from "next/server";
 
 async function main() {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "cdks-personal-staging-"));
   const databasePath = path.join(tempDir, "staging.sqlite");
   process.env.CDKS_STAGING_DB_PATH = databasePath;
+  process.env.CDKS_APP_DB_PATH = path.join(tempDir, "app.sqlite");
+  process.env.CDKS_LOCAL_AUTH_ACCESS_CODE = "personal-staging-regression-access-code";
+  process.env.CDKS_LOCAL_AUTH_SESSION_SECRET = "personal-staging-regression-session-secret-012345678901234567890";
+  process.env.CDKS_LOCAL_AUTH_USER_ID = "personal-staging-reviewer";
+  process.env.CDKS_LOCAL_AUTH_WORKSPACE_ID = "workspace-personal-staging";
 
   const staging = await import("../src/lib/staging");
   const { openDatabase } = await import("../src/lib/db");
   const { GET, POST } = await import("../src/app/api/staging/route");
+  const { POST: localLogin } = await import("../src/app/api/auth/local/login/route");
+  const loginResponse = await localLogin(new NextRequest("http://localhost/api/auth/local/login", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ access_code: "personal-staging-regression-access-code" }),
+  }));
+  assert.equal(loginResponse.status, 200);
+  const sessionCookie = loginResponse.headers.get("set-cookie")?.split(";", 1)[0];
+  assert.ok(sessionCookie);
 
   const overview = await staging.getPersonalStagingOverview();
 assert.equal(overview.workspace.mode, "personal_staging");
@@ -65,14 +80,14 @@ for (const scenario of overview.scenarios) {
   assert.ok((result.recommendation as { evidenceRefs: string[] }).evidenceRefs.length > 0);
 }
 
-const apiOverview = await GET();
+  const apiOverview = await GET(new Request("http://localhost/api/staging", { headers: { cookie: sessionCookie! } }));
 assert.equal(apiOverview.status, 200);
 const apiOverviewJson = await apiOverview.json() as typeof overview;
 assert.equal(apiOverviewJson.counts.recommendations, 3);
 
 const apiRun = await POST(new Request("http://localhost/api/staging", {
   method: "POST",
-  headers: { "content-type": "application/json" },
+  headers: { "content-type": "application/json", cookie: sessionCookie! },
   body: JSON.stringify({ scenarioId: "sa-ecommerce" }),
 }));
 assert.equal(apiRun.status, 200);
@@ -82,7 +97,7 @@ assert.equal(apiRunJson.governance.externalActionsAllowed, false);
 
 const suiteApiRun = await POST(new Request("http://localhost/api/staging", {
   method: "POST",
-  headers: { "content-type": "application/json" },
+  headers: { "content-type": "application/json", cookie: sessionCookie! },
   body: JSON.stringify({ action: "run-suite", seed: 20260824, variantsPerCase: 3 }),
 }));
 assert.equal(suiteApiRun.status, 200);
@@ -99,7 +114,7 @@ assert.equal(afterSuiteOverview.randomizedSuite?.status, "completed");
 
 const invalidApiRun = await POST(new Request("http://localhost/api/staging", {
   method: "POST",
-  headers: { "content-type": "application/json" },
+  headers: { "content-type": "application/json", cookie: sessionCookie! },
   body: JSON.stringify({ scenarioId: "unknown-scenario" }),
 }));
 assert.equal(invalidApiRun.status, 400);

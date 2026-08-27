@@ -154,6 +154,7 @@ export default function StagingPage() {
   const [suiteRunning, setSuiteRunning] = useState(false);
   const [suiteResult, setSuiteResult] = useState<SuiteResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [needsLogin, setNeedsLogin] = useState(false);
 
   async function loadOverview() {
     setLoading(true);
@@ -161,7 +162,15 @@ export default function StagingPage() {
     try {
       const response = await fetch("/api/staging", { cache: "no-store" });
       const data = await response.json();
-      if (!response.ok) throw new Error(data.message ?? "تعذر تحميل بيئة الاختبار.");
+      if (!response.ok) {
+        if (response.status === 401 || response.status === 503) {
+          setNeedsLogin(true);
+          setError("يجب تسجيل الدخول إلى Local Staging أولًا.");
+          return;
+        }
+        throw new Error(data.message ?? "تعذر تحميل بيئة الاختبار.");
+      }
+      setNeedsLogin(false);
       setOverview(data as Overview);
     } catch (loadError) {
       setError(loadError instanceof Error ? loadError.message : "تعذر تحميل بيئة الاختبار.");
@@ -180,7 +189,13 @@ export default function StagingPage() {
         body: JSON.stringify({ action: "run-suite", seed: 20260824, variantsPerCase: 3 }),
       });
       const data = await response.json();
-      if (!response.ok) throw new Error(data.message ?? "تعذر تشغيل الاختبار الجماعي.");
+      if (!response.ok) {
+        if (response.status === 401 || response.status === 503) {
+          setNeedsLogin(true);
+          throw new Error("يجب تسجيل الدخول إلى Local Staging أولًا.");
+        }
+        throw new Error(data.message ?? "تعذر تشغيل الاختبار الجماعي.");
+      }
       setSuiteResult(data as SuiteResult);
       await loadOverview();
     } catch (suiteError) {
@@ -200,7 +215,13 @@ export default function StagingPage() {
         body: JSON.stringify({ scenarioId: id }),
       });
       const data = await response.json();
-      if (!response.ok) throw new Error(data.message ?? "تعذر تشغيل السيناريو.");
+      if (!response.ok) {
+        if (response.status === 401 || response.status === 503) {
+          setNeedsLogin(true);
+          throw new Error("يجب تسجيل الدخول إلى Local Staging أولًا.");
+        }
+        throw new Error(data.message ?? "تعذر تشغيل السيناريو.");
+      }
       setSelected(data as ScenarioResult);
     } catch (runError) {
       setError(runError instanceof Error ? runError.message : "تعذر تشغيل السيناريو.");
@@ -239,7 +260,7 @@ export default function StagingPage() {
           </div>
         </header>
 
-        {error && <div role="alert" className="mb-6 rounded-2xl border border-rose-400/30 bg-rose-400/10 p-4 text-sm text-rose-200">{error}</div>}
+        {error && <div role="alert" className="mb-6 rounded-2xl border border-rose-400/30 bg-rose-400/10 p-4 text-sm text-rose-200">{error}{needsLogin && <Link href="/login" className="mr-3 inline-flex rounded-lg bg-violet-600 px-3 py-1.5 font-bold text-white hover:bg-violet-500">تسجيل الدخول</Link>}</div>}
         {loading && <div role="status" className="rounded-2xl border border-white/10 bg-slate-900/70 p-8 text-center text-slate-300">جارٍ تهيئة قاعدة Staging وتشغيل seed المنقح...</div>}
 
         {overview && (

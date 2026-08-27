@@ -7,6 +7,7 @@ import {
 } from "@/lib/campaign-lifecycle";
 import { getRuntimeDatabaseState } from "@/lib/db/runtime-database";
 import { readJsonBody, RequestSecurityError } from "@/lib/api/request-security";
+import { LocalAuthError, requireLocalSession } from "@/lib/auth/local-auth";
 
 function serializeLifecycle(row: Record<string, unknown> | undefined) {
   if (!row) return null;
@@ -66,6 +67,8 @@ export async function GET(request: NextRequest) {
   try {
     assertSafeLifecycleReference(workspaceId, "workspace_id");
     const { repositories } = getRuntimeDatabaseState();
+    const session = requireLocalSession(request);
+    if (session.workspaceId !== workspaceId) throw new LocalAuthError("FORBIDDEN", "Session is not authorized for this workspace.");
     const row = lifecycleId
       ? repositories.campaignLifecycle.get(workspaceId, assertSafeLifecycleReference(lifecycleId, "lifecycle_id"))
       : repositories.campaignLifecycle.getByBlueprint(workspaceId, assertSafeLifecycleReference(blueprintId as string, "blueprint_id"));
@@ -92,13 +95,17 @@ export async function POST(request: NextRequest) {
   try {
     const action = CampaignLifecycleActionSchema.parse(await readJsonBody(request, 32 * 1024));
     assertSafeLifecycleReference(action.workspace_id, "workspace_id");
+    const session = requireLocalSession(request);
+    if (session.workspaceId !== action.workspace_id) throw new LocalAuthError("FORBIDDEN", "Session is not authorized for this workspace.");
+    if (action.action === "transition" && action.actor_type !== "user") throw new LocalAuthError("FORBIDDEN", "System lifecycle transitions must be issued internally.");
+    if (action.action === "transition" && action.actor_user_id && action.actor_user_id !== session.userId) throw new LocalAuthError("FORBIDDEN", "actor_user_id must match the authenticated session.");
     assertSafeLifecycleReference(action.lifecycle_id, "lifecycle_id");
     if (action.action === "create") assertSafeLifecycleReference(action.blueprint_id, "blueprint_id");
     if (action.action === "transition") {
       assertSafeLifecycleReference(action.event_id, "event_id");
       if (action.actor_user_id) assertSafeLifecycleReference(action.actor_user_id, "actor_user_id");
       assertAllowedCampaignTransition(action.from_state, action.to_state);
-      if (action.actor_type === "user") assertProductionReviewerGate(action.actor_user_id);
+      if (action.actor_type === "user") assertProductionReviewerGate(session.userId);
       if (action.to_state === "approved" && action.actor_type !== "user") throw new Error("Only an identified human actor may approve a campaign lifecycle.");
     }
 
@@ -140,7 +147,7 @@ export async function POST(request: NextRequest) {
       fromState: action.from_state,
       toState: action.to_state,
       actorType: action.actor_type,
-      actorUserId: action.actor_user_id,
+      actorUserId: session.userId,
       note: action.note,
       canonicalSha256: action.canonical_sha256,
     });
@@ -156,6 +163,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ status: "success", lifecycle: serializeLifecycle(lifecycle as Record<string, unknown>), events: repositories.campaignLifecycle.listEvents(action.workspace_id, action.lifecycle_id) });
   } catch (error) {
     if (error instanceof RequestSecurityError) return errorResponse(error, error.code === "BODY_TOO_LARGE" ? 413 : 400);
+    if (error instanceof LocalAuthError) return errorResponse(error, error.code === "NOT_CONFIGURED" ? 503 : error.code === "FORBIDDEN" ? 403 : error.code === "INVALID_SESSION" ? 401 : 400);
     return errorResponse(error, 400);
   }
 }

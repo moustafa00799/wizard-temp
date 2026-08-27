@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { assertSafeLifecycleReference } from "@/lib/campaign-lifecycle";
 import { getRuntimeDatabaseState } from "@/lib/db/runtime-database";
+import { LocalAuthError, requireLocalSession } from "@/lib/auth/local-auth";
 
 function errorResponse(error: unknown, status = 400) {
   const message = error instanceof Error ? error.message : "Invalid audit request.";
@@ -26,14 +27,15 @@ function assertAuditReader(
 
 export async function GET(request: NextRequest) {
   const workspaceId = request.nextUrl.searchParams.get("workspace_id");
-  const actorUserId = request.nextUrl.searchParams.get("actor_user_id");
   if (!workspaceId) return errorResponse(new Error("workspace_id is required."));
 
   try {
     assertSafeLifecycleReference(workspaceId, "workspace_id");
     const { repositories } = getRuntimeDatabaseState();
     if (!repositories.workspaces.get(workspaceId)) return errorResponse(new Error("Workspace was not found."), 404);
-    assertAuditReader(repositories, workspaceId, actorUserId);
+    const session = requireLocalSession(request);
+    if (session.workspaceId !== workspaceId) throw new LocalAuthError("FORBIDDEN", "Session is not authorized for this workspace.");
+    assertAuditReader(repositories, workspaceId, session.userId);
     const events = repositories.governance.listEvents(workspaceId);
     return NextResponse.json({
       status: "success",
@@ -42,6 +44,7 @@ export async function GET(request: NextRequest) {
       policy: { workspaceScoped: true, secretsRedacted: true, blueprintOnly: true },
     });
   } catch (error) {
+    if (error instanceof LocalAuthError) return errorResponse(error, error.code === "NOT_CONFIGURED" ? 503 : error.code === "FORBIDDEN" ? 403 : 401);
     return errorResponse(error);
   }
 }

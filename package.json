@@ -67,6 +67,7 @@
     "test:measurement:contract": "tsx scripts/measurement-contract-regression.ts",
     "test:workspace:isolation": "tsx scripts/workspace-isolation-regression.ts",
     "test:security": "tsx scripts/security-regression.ts",
+    "test:auth:local": "tsx scripts/local-auth-regression.ts",
     "test:security:production": "NODE_ENV=production tsx scripts/security-regression.ts",
     "test:deployment:local": "node scripts/deployment-readiness-local-regression.cjs",
     "test:personal-staging": "tsx scripts/personal-staging-regression.ts",

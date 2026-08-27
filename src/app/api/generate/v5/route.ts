@@ -14,6 +14,7 @@ import { ZodError } from 'zod';
 import { getRuntimeDatabaseState } from '@/lib/db/runtime-database';
 import { sha256Json, type JsonRecord } from '@/lib/db';
 import { readJsonBody, RequestSecurityError } from '@/lib/api/request-security';
+import { LocalAuthError, requireLocalSession } from '@/lib/auth/local-auth';
 
 export async function POST(request: NextRequest) {
   const startTime = performance.now();
@@ -21,6 +22,7 @@ export async function POST(request: NextRequest) {
   try {
     const body = await readJsonBody(request, 256 * 1024);
     const bodyRecord = body && typeof body === 'object' && !Array.isArray(body) ? body as Record<string, unknown> : undefined;
+    const localSession = process.env.CDKS_LOCAL_AUTH_ENABLED === 'true' ? requireLocalSession(request) : null;
     const inputPayload = bodyRecord && 'input' in bodyRecord ? bodyRecord.input : body;
     const validatedInput = canonicalizeWizardInput(inputPayload);
     const engine = new CDKSEngine();
@@ -36,8 +38,8 @@ export async function POST(request: NextRequest) {
     const lifecycleEnabled = lifecycleRequest?.enabled !== false;
     let campaignLifecycle: Record<string, unknown> | null = null;
     if (lifecycleEnabled) {
-      const workspaceId = process.env.CDKS_DEFAULT_WORKSPACE_ID ?? 'workspace-local-cdks';
-      const userId = process.env.CDKS_DEFAULT_WORKSPACE_USER_ID ?? 'user-local-owner';
+      const workspaceId = localSession?.workspaceId ?? process.env.CDKS_DEFAULT_WORKSPACE_ID ?? 'workspace-local-cdks';
+      const userId = localSession?.userId ?? process.env.CDKS_DEFAULT_WORKSPACE_USER_ID ?? 'user-local-owner';
       const { repositories } = getRuntimeDatabaseState();
       if (!repositories.workspaces.get(workspaceId)) {
         repositories.workspaces.create({ workspaceId, name: 'CDKS Local Workspace' });
@@ -161,6 +163,12 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
+    if (error instanceof LocalAuthError) {
+      return NextResponse.json(
+        { status: 'error', error: error.code === 'NOT_CONFIGURED' ? 'Local Authentication is not configured' : 'Authentication required', timestamp: new Date().toISOString() },
+        { status: error.code === 'NOT_CONFIGURED' ? 503 : 401 },
+      );
+    }
     if (error instanceof RequestSecurityError) {
       return NextResponse.json(
         { status: 'error', error: error.code === 'BODY_TOO_LARGE' ? 'Request body too large' : 'Invalid JSON', message: error.message, timestamp: new Date().toISOString() },

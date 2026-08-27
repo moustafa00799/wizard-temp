@@ -9,10 +9,13 @@ async function main() {
   process.env.CDKS_APP_DB_PATH = path.join(tempDir, "app.sqlite");
   process.env.AI_LIVE_ENABLED = "false";
   process.env.CDKS_DEFAULT_WORKSPACE_USER_ID = "security-reviewer";
+  process.env.CDKS_LOCAL_AUTH_ACCESS_CODE = "security-local-test-access-code";
+  process.env.CDKS_LOCAL_AUTH_SESSION_SECRET = "security-local-session-secret-012345678901234567890";
   delete process.env.CDKS_AUTHORIZED_REVIEWER_IDS;
 
   const fixture = JSON.parse(fs.readFileSync(path.join(process.cwd(), "tests/fixtures/wizard-inputs-v1/EX-001_ecommerce-sales.json"), "utf8"));
   const { POST: generateV5 } = await import("../src/app/api/generate/v5/route");
+  const { POST: localLogin } = await import("../src/app/api/auth/local/login/route");
   const { POST: updateLifecycle } = await import("../src/app/api/campaign-lifecycle/route");
   const { POST: prepareBlueprint } = await import("../src/app/api/campaign-preparation/route");
   const { GET: health } = await import("../src/app/api/health/route");
@@ -43,11 +46,20 @@ async function main() {
   const generation = await generationResponse.json() as { campaign_lifecycle: { lifecycleId: string; workspaceId: string; canonicalSha256: string }; data: { blueprint: Record<string, unknown> } };
   assert.equal(generationResponse.status, 200);
 
+  const loginResponse = await localLogin(new NextRequest("http://localhost/api/auth/local/login", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ access_code: "security-local-test-access-code" }),
+  }));
+  assert.equal(loginResponse.status, 200);
+  const sessionCookie = loginResponse.headers.get("set-cookie")?.split(";", 1)[0];
+  assert.ok(sessionCookie);
+
   const lifecycle = generation.campaign_lifecycle;
   async function transition(body: Record<string, unknown>) {
     const response = await updateLifecycle(new NextRequest("http://localhost/api/campaign-lifecycle", {
       method: "POST",
-      headers: { "content-type": "application/json" },
+      headers: { "content-type": "application/json", cookie: sessionCookie! },
       body: JSON.stringify(body),
     }));
     return { response, payload: await response.json() as { error?: string; lifecycle?: { state: string } } };
@@ -68,7 +80,7 @@ async function main() {
 
   const preparationBeforeApproval = await prepareBlueprint(new NextRequest("http://localhost/api/campaign-preparation", {
     method: "POST",
-    headers: { "content-type": "application/json" },
+    headers: { "content-type": "application/json", cookie: sessionCookie! },
     body: JSON.stringify({ workspace_id: lifecycle.workspaceId, lifecycle_id: lifecycle.lifecycleId }),
   }));
   const preparationBeforeApprovalPayload = await preparationBeforeApproval.json() as { error?: string };
@@ -82,7 +94,8 @@ async function main() {
     event_id: "security:review",
     from_state: "draft",
     to_state: "review",
-    actor_type: "system",
+    actor_type: "user",
+    actor_user_id: "security-reviewer",
     canonical_sha256: lifecycle.canonicalSha256,
   });
   assert.equal(review.response.status, 200);

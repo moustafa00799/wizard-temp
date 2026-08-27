@@ -12,10 +12,16 @@ export default function Home() {
         </p>
         <div className="flex flex-col items-center gap-3">
           <Link
-            href="/wizard"
+            href="/login"
             className="inline-block px-8 py-4 bg-violet-600 hover:bg-violet-500 text-white rounded-xl font-bold text-lg transition-colors shadow-lg shadow-violet-900/30"
           >
-            ابدأ الآن →
+            دخول Local Staging →
+          </Link>
+          <Link
+            href="/wizard"
+            className="inline-block px-8 py-3 border border-slate-700 hover:border-violet-500 text-slate-200 hover:text-white rounded-xl font-bold text-base transition-colors"
+          >
+            فتح الـWizard مباشرة (اختبار محلي)
           </Link>
           <Link
             href="/staging"

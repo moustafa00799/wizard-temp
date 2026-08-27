@@ -10,8 +10,11 @@ const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "cdks-lifecycle-http-"));
 process.env.CDKS_APP_DB_PATH = path.join(tempDir, "app.sqlite");
 process.env.AI_LIVE_ENABLED = "false";
 process.env.CDKS_DEFAULT_WORKSPACE_USER_ID = "http-reviewer";
+process.env.CDKS_LOCAL_AUTH_ACCESS_CODE = "http-local-test-access-code";
+process.env.CDKS_LOCAL_AUTH_SESSION_SECRET = "local-test-session-secret-012345678901234567890";
 
 const { POST: generateV5 } = await import("../src/app/api/generate/v5/route");
+const { POST: localLogin } = await import("../src/app/api/auth/local/login/route");
 const { GET: getLifecycle, POST: updateLifecycle } = await import("../src/app/api/campaign-lifecycle/route");
 const { POST: prepareBlueprint } = await import("../src/app/api/campaign-preparation/route");
 
@@ -30,11 +33,20 @@ assert.equal(generation.campaign_lifecycle?.externalActionsAllowed, false);
 assert.equal(generation.campaign_lifecycle?.budgetSpendAllowed, false);
 assert.equal(generation.campaign_lifecycle?.canonicalSha256, sha256Json(generation.data?.blueprint));
 
+const loginResponse = await localLogin(new NextRequest("http://localhost/api/auth/local/login", {
+  method: "POST",
+  headers: { "content-type": "application/json" },
+  body: JSON.stringify({ access_code: "http-local-test-access-code" }),
+}));
+assert.equal(loginResponse.status, 200);
+const sessionCookie = loginResponse.headers.get("set-cookie")?.split(";", 1)[0];
+assert.ok(sessionCookie);
+
 const lifecycle = generation.campaign_lifecycle!;
 async function transition(body: Record<string, unknown>) {
   const response = await updateLifecycle(new NextRequest("http://localhost/api/campaign-lifecycle", {
     method: "POST",
-    headers: { "content-type": "application/json" },
+    headers: { "content-type": "application/json", cookie: sessionCookie! },
     body: JSON.stringify(body),
   }));
   return { response, payload: await response.json() as { status: string; lifecycle?: { state: string; externalActionsAllowed: boolean; budgetSpendAllowed: boolean }; error?: string } };
@@ -47,7 +59,8 @@ const review = await transition({
   event_id: `${lifecycle.lifecycleId}:http:review`,
   from_state: "draft",
   to_state: "review",
-  actor_type: "system",
+  actor_type: "user",
+  actor_user_id: "http-reviewer",
   canonical_sha256: lifecycle.canonicalSha256,
 });
 assert.equal(review.response.status, 200);
@@ -63,8 +76,8 @@ const systemApproval = await transition({
   actor_type: "system",
   canonical_sha256: lifecycle.canonicalSha256,
 });
-assert.equal(systemApproval.response.status, 400);
-assert.match(systemApproval.payload.error ?? "", /human actor/);
+assert.equal(systemApproval.response.status, 403);
+assert.match(systemApproval.payload.error ?? "", /System lifecycle transitions/);
 
 const approval = await transition({
   action: "transition",
@@ -85,7 +98,7 @@ assert.equal(approval.payload.lifecycle?.budgetSpendAllowed, false);
 
 const preparationResponse = await prepareBlueprint(new NextRequest("http://localhost/api/campaign-preparation", {
   method: "POST",
-  headers: { "content-type": "application/json" },
+  headers: { "content-type": "application/json", cookie: sessionCookie! },
   body: JSON.stringify({ workspace_id: lifecycle.workspaceId, lifecycle_id: lifecycle.lifecycleId }),
 }));
 const preparationPayload = await preparationResponse.json() as { status: string; preparation?: { formatVersion: string; preparationStatus: string; lifecycle: { state: string; canonicalSha256: string }; measurementPlan: { contractVersion: string; trackingReadiness: string; metrics: Array<{ metric: string; status: string; value?: number; unavailableReason?: string }>; attribution: { status: string; window: string }; governance: { performanceObserved: boolean; revenueObserved: boolean; externalActionsAllowed: boolean; budgetSpendAllowed: boolean; marketValidated: boolean } }; reviewChecklist: { humanApprovalRecorded: boolean; canonicalHashVerified: boolean; blueprintOnly: boolean; externalActionsAllowed: boolean; budgetSpendAllowed: boolean; providerWriteEnabled: boolean; marketValidationClaimed: boolean }; blockedActions: string[] } };
@@ -108,7 +121,7 @@ assert.ok(preparationPayload.preparation?.measurementPlan.metrics.every((metric)
 assert.deepEqual(preparationPayload.preparation?.reviewChecklist, { humanApprovalRecorded: true, canonicalHashVerified: true, blueprintOnly: true, externalActionsAllowed: false, budgetSpendAllowed: false, providerWriteEnabled: false, marketValidationClaimed: false });
 assert.equal(preparationPayload.preparation?.blockedActions.length, 5);
 
-const getResponse = await getLifecycle(new NextRequest(`http://localhost/api/campaign-lifecycle?workspace_id=${encodeURIComponent(lifecycle.workspaceId)}&lifecycle_id=${encodeURIComponent(lifecycle.lifecycleId)}`));
+const getResponse = await getLifecycle(new NextRequest(`http://localhost/api/campaign-lifecycle?workspace_id=${encodeURIComponent(lifecycle.workspaceId)}&lifecycle_id=${encodeURIComponent(lifecycle.lifecycleId)}`, { headers: { cookie: sessionCookie! } }));
 const getPayload = await getResponse.json() as { status: string; lifecycle?: { state: string }; events?: Array<{ toState: string }> };
 assert.equal(getResponse.status, 200);
 assert.equal(getPayload.status, "success");
@@ -118,7 +131,7 @@ assert.deepEqual(getPayload.events?.map((event) => event.toState), ["draft", "re
 fs.rmSync(tempDir, { recursive: true, force: true });
 console.log(JSON.stringify({
   status: "PASS",
-  assertions: 22,
+  assertions: 39,
   lifecycle: ["draft", "review", "approved"],
   systemApproval: "rejected",
   externalActionsAllowed: false,

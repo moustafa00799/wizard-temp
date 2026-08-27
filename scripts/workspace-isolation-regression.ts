@@ -8,7 +8,11 @@ import { sha256Json } from "../src/lib/db";
 async function main() {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "cdks-workspace-isolation-"));
   process.env.CDKS_APP_DB_PATH = path.join(tempDir, "app.sqlite");
+  process.env.CDKS_LOCAL_AUTH_ACCESS_CODE = "workspace-isolation-local-access-code";
+  process.env.CDKS_LOCAL_AUTH_SESSION_SECRET = "workspace-isolation-session-secret-012345678901234567890";
+
   const { getRuntimeDatabaseState } = await import("../src/lib/db/runtime-database");
+  const { POST: localLogin } = await import("../src/app/api/auth/local/login/route");
   const { GET: getLifecycle, POST: updateLifecycle } = await import("../src/app/api/campaign-lifecycle/route");
   const { GET: getAudit } = await import("../src/app/api/audit-events/route");
   const { repositories } = getRuntimeDatabaseState();
@@ -23,37 +27,54 @@ async function main() {
   repositories.blueprints.create({ blueprintId: "bp-a", workspaceId: "ws-a", version: 1, blueprint: blueprintA, canonicalSha256: sha256Json(blueprintA) });
   repositories.blueprints.create({ blueprintId: "bp-b", workspaceId: "ws-b", version: 1, blueprint: blueprintB, canonicalSha256: sha256Json(blueprintB) });
 
-  async function post(body: Record<string, unknown>) {
-    const response = await updateLifecycle(new NextRequest("http://localhost/api/campaign-lifecycle", {
+  async function login(userId: string, workspaceId: string) {
+    process.env.CDKS_LOCAL_AUTH_USER_ID = userId;
+    process.env.CDKS_LOCAL_AUTH_WORKSPACE_ID = workspaceId;
+    const response = await localLogin(new NextRequest("http://localhost/api/auth/local/login", {
       method: "POST",
       headers: { "content-type": "application/json" },
+      body: JSON.stringify({ access_code: "workspace-isolation-local-access-code" }),
+    }));
+    assert.equal(response.status, 200);
+    const cookie = response.headers.get("set-cookie")?.split(";", 1)[0];
+    assert.ok(cookie);
+    return cookie;
+  }
+
+  const cookieA = await login("reviewer-a", "ws-a");
+  const cookieB = await login("reviewer-b", "ws-b");
+
+  async function post(body: Record<string, unknown>, cookie: string) {
+    const response = await updateLifecycle(new NextRequest("http://localhost/api/campaign-lifecycle", {
+      method: "POST",
+      headers: { "content-type": "application/json", cookie },
       body: JSON.stringify(body),
     }));
     return { response, payload: await response.json() as Record<string, unknown> };
   }
 
-  const createA = await post({ action: "create", workspace_id: "ws-a", lifecycle_id: "lc-a", blueprint_id: "bp-a", canonical_sha256: sha256Json(blueprintA) });
+  const createA = await post({ action: "create", workspace_id: "ws-a", lifecycle_id: "lc-a", blueprint_id: "bp-a", canonical_sha256: sha256Json(blueprintA) }, cookieA);
   assert.equal(createA.response.status, 200);
-  const createB = await post({ action: "create", workspace_id: "ws-b", lifecycle_id: "lc-b", blueprint_id: "bp-b", canonical_sha256: sha256Json(blueprintB) });
+  const createB = await post({ action: "create", workspace_id: "ws-b", lifecycle_id: "lc-b", blueprint_id: "bp-b", canonical_sha256: sha256Json(blueprintB) }, cookieB);
   assert.equal(createB.response.status, 200);
 
-  const crossWorkspaceCreate = await post({ action: "create", workspace_id: "ws-b", lifecycle_id: "lc-cross", blueprint_id: "bp-a", canonical_sha256: sha256Json(blueprintA) });
+  const crossWorkspaceCreate = await post({ action: "create", workspace_id: "ws-b", lifecycle_id: "lc-cross", blueprint_id: "bp-a", canonical_sha256: sha256Json(blueprintA) }, cookieB);
   assert.equal(crossWorkspaceCreate.response.status, 404);
 
-  const crossWorkspaceRead = await getLifecycle(new NextRequest("http://localhost/api/campaign-lifecycle?workspace_id=ws-b&lifecycle_id=lc-a"));
+  const crossWorkspaceRead = await getLifecycle(new NextRequest("http://localhost/api/campaign-lifecycle?workspace_id=ws-b&lifecycle_id=lc-a", { headers: { cookie: cookieB } }));
   const crossWorkspaceReadPayload = await crossWorkspaceRead.json() as { lifecycle?: unknown; events?: unknown[] };
   assert.equal(crossWorkspaceRead.status, 200);
   assert.equal(crossWorkspaceReadPayload.lifecycle, null);
   assert.deepEqual(crossWorkspaceReadPayload.events, []);
 
-  const review = await post({ action: "transition", workspace_id: "ws-a", lifecycle_id: "lc-a", event_id: "lc-a:review", from_state: "draft", to_state: "review", actor_type: "system", canonical_sha256: sha256Json(blueprintA) });
+  const review = await post({ action: "transition", workspace_id: "ws-a", lifecycle_id: "lc-a", event_id: "lc-a:review", from_state: "draft", to_state: "review", actor_type: "user", actor_user_id: "reviewer-a", canonical_sha256: sha256Json(blueprintA) }, cookieA);
   assert.equal(review.response.status, 200);
 
-  const unauthorizedApproval = await post({ action: "transition", workspace_id: "ws-a", lifecycle_id: "lc-a", event_id: "lc-a:wrong-reviewer", from_state: "review", to_state: "approved", actor_type: "user", actor_user_id: "reviewer-b", canonical_sha256: sha256Json(blueprintA) });
-  assert.equal(unauthorizedApproval.response.status, 400);
-  assert.match(String(unauthorizedApproval.payload.error), /workspace/);
+  const unauthorizedApproval = await post({ action: "transition", workspace_id: "ws-a", lifecycle_id: "lc-a", event_id: "lc-a:wrong-reviewer", from_state: "review", to_state: "approved", actor_type: "user", actor_user_id: "reviewer-b", canonical_sha256: sha256Json(blueprintA) }, cookieA);
+  assert.equal(unauthorizedApproval.response.status, 403);
+  assert.match(String(unauthorizedApproval.payload.error), /authenticated session/);
 
-  const approval = await post({ action: "transition", workspace_id: "ws-a", lifecycle_id: "lc-a", event_id: "lc-a:approval", from_state: "review", to_state: "approved", actor_type: "user", actor_user_id: "reviewer-a", canonical_sha256: sha256Json(blueprintA) });
+  const approval = await post({ action: "transition", workspace_id: "ws-a", lifecycle_id: "lc-a", event_id: "lc-a:approval", from_state: "review", to_state: "approved", actor_type: "user", actor_user_id: "reviewer-a", canonical_sha256: sha256Json(blueprintA) }, cookieA);
   assert.equal(approval.response.status, 200);
 
   repositories.governance.createAuditEvent({
@@ -66,7 +87,7 @@ async function main() {
     payload: { safe: true, note: "workspace A only" },
   });
 
-  const auditA = await getAudit(new NextRequest("http://localhost/api/audit-events?workspace_id=ws-a&actor_user_id=reviewer-a"));
+  const auditA = await getAudit(new NextRequest("http://localhost/api/audit-events?workspace_id=ws-a", { headers: { cookie: cookieA } }));
   const auditAPayload = await auditA.json() as { status: string; events: Array<{ workspace_id: string; payload: Record<string, unknown> }> };
   assert.equal(auditA.status, 200);
   assert.equal(auditAPayload.status, "success");
@@ -74,10 +95,10 @@ async function main() {
   assert.ok(auditAPayload.events.every((event) => event.workspace_id === "ws-a"));
   assert.ok(auditAPayload.events.every((event) => !Object.keys(event.payload).some((key) => /secret|token|password|api_key/i.test(key))));
 
-  const auditCrossRead = await getAudit(new NextRequest("http://localhost/api/audit-events?workspace_id=ws-b&actor_user_id=reviewer-a"));
-  assert.equal(auditCrossRead.status, 400);
+  const auditCrossRead = await getAudit(new NextRequest("http://localhost/api/audit-events?workspace_id=ws-b", { headers: { cookie: cookieA } }));
+  assert.equal(auditCrossRead.status, 403);
 
-  console.log(JSON.stringify({ status: "PASS", assertions: 16, crossWorkspaceCreate: "blocked", crossWorkspaceRead: "empty", unauthorizedApproval: "blocked", auditWorkspaceScoped: true, secretsRedacted: true }));
+  console.log(JSON.stringify({ status: "PASS", assertions: 18, crossWorkspaceCreate: "blocked", crossWorkspaceRead: "empty", unauthorizedApproval: "blocked", auditWorkspaceScoped: true, secretsRedacted: true }));
 }
 
 main().catch((error) => {

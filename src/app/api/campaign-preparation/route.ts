@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { PreparationRequestSchema, buildCampaignPreparationEnvelope } from "@/lib/campaign-preparation";
 import { getRuntimeDatabaseState } from "@/lib/db/runtime-database";
 import { readJsonBody, RequestSecurityError } from "@/lib/api/request-security";
+import { LocalAuthError, requireLocalSession } from "@/lib/auth/local-auth";
 
 function errorResponse(error: unknown, status = 400) {
   const message = error instanceof Error ? error.message : "Invalid preparation request.";
@@ -11,6 +12,8 @@ function errorResponse(error: unknown, status = 400) {
 export async function POST(request: NextRequest) {
   try {
     const input = PreparationRequestSchema.parse(await readJsonBody(request, 32 * 1024));
+    const session = requireLocalSession(request);
+    if (session.workspaceId !== input.workspace_id) throw new LocalAuthError("FORBIDDEN", "Session is not authorized for this workspace.");
     const { repositories } = getRuntimeDatabaseState();
     const lifecycle = repositories.campaignLifecycle.get(input.workspace_id, input.lifecycle_id) as Record<string, unknown> | undefined;
     if (!lifecycle) return errorResponse(new Error("Campaign lifecycle was not found."), 404);
@@ -41,6 +44,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ status: "success", preparation: envelope });
   } catch (error) {
     if (error instanceof RequestSecurityError) return errorResponse(error, error.code === "BODY_TOO_LARGE" ? 413 : 400);
+    if (error instanceof LocalAuthError) return errorResponse(error, error.code === "NOT_CONFIGURED" ? 503 : error.code === "FORBIDDEN" || error.code === "INVALID_SESSION" ? 401 : 400);
     return errorResponse(error);
   }
 }

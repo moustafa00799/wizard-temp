@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 const fs = require('node:fs');
 const path = require('node:path');
 const { execFileSync } = require('node:child_process');
@@ -10,6 +11,11 @@ const requiredFiles = [
   'src/app/api/generate/v5/route.ts',
   'src/app/api/campaign-lifecycle/route.ts',
   'src/app/api/campaign-preparation/route.ts',
+  'src/app/api/auth/local/login/route.ts',
+  'src/app/api/auth/local/me/route.ts',
+  'src/app/api/auth/local/logout/route.ts',
+  'src/app/login/page.tsx',
+  'src/lib/auth/local-auth.ts',
   'src/lib/db/runtime-database.ts',
 ];
 for (const file of requiredFiles) {
@@ -17,7 +23,7 @@ for (const file of requiredFiles) {
 }
 
 const packageJson = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
-for (const script of ['build', 'start', 'test:security', 'test:workspace:isolation']) {
+for (const script of ['build', 'start', 'test:security', 'test:auth:local', 'test:workspace:isolation']) {
   if (typeof packageJson.scripts?.[script] !== 'string') throw new Error(`Missing package script: ${script}`);
 }
 
@@ -36,6 +42,7 @@ for (const marker of [
   'marketValidated: false',
   'productionReady: false',
   'CDKS_AUTHORIZED_REVIEWER_IDS',
+  'CDKS_LOCAL_AUTH_SESSION_SECRET',
 ]) {
   if (!source.includes(marker)) throw new Error(`Missing deployment governance marker: ${marker}`);
 }
