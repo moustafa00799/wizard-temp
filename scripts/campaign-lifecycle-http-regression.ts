@@ -9,6 +9,7 @@ async function main() {
 const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "cdks-lifecycle-http-"));
 process.env.CDKS_APP_DB_PATH = path.join(tempDir, "app.sqlite");
 process.env.AI_LIVE_ENABLED = "false";
+process.env.CDKS_DEFAULT_WORKSPACE_USER_ID = "http-reviewer";
 
 const { POST: generateV5 } = await import("../src/app/api/generate/v5/route");
 const { GET: getLifecycle, POST: updateLifecycle } = await import("../src/app/api/campaign-lifecycle/route");

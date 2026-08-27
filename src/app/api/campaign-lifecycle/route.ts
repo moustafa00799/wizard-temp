@@ -29,6 +29,33 @@ function errorResponse(error: unknown, status = 400) {
   return NextResponse.json({ status: "error", error: message }, { status });
 }
 
+function assertProductionReviewerGate(actorUserId: string | undefined): void {
+  if (process.env.NODE_ENV !== "production") return;
+  const configuredReviewers = (process.env.CDKS_AUTHORIZED_REVIEWER_IDS ?? "")
+    .split(",")
+    .map((value) => value.trim())
+    .filter(Boolean);
+  if (configuredReviewers.length === 0) throw new Error("Human approval authentication is not configured for production.");
+  if (!actorUserId || !configuredReviewers.includes(actorUserId)) throw new Error("Reviewer is not authorized for production approval.");
+}
+
+function assertWorkspaceExists(repositories: ReturnType<typeof getRuntimeDatabaseState>["repositories"], workspaceId: string): void {
+  if (!repositories.workspaces.get(workspaceId)) throw new Error("Workspace was not found.");
+}
+
+function assertHumanWorkspaceRole(
+  repositories: ReturnType<typeof getRuntimeDatabaseState>["repositories"],
+  workspaceId: string,
+  actorUserId: string | undefined,
+): void {
+  if (!actorUserId) throw new Error("Human lifecycle transitions require actor_user_id.");
+  const membership = repositories.memberships.get(workspaceId, actorUserId);
+  const role = membership ? String(membership.role) : "";
+  if (!membership || !["owner", "admin", "reviewer"].includes(role)) {
+    throw new Error("Reviewer is not authorized for this workspace.");
+  }
+}
+
 export async function GET(request: NextRequest) {
   const workspaceId = request.nextUrl.searchParams.get("workspace_id");
   const lifecycleId = request.nextUrl.searchParams.get("lifecycle_id");
@@ -70,10 +97,15 @@ export async function POST(request: NextRequest) {
       assertSafeLifecycleReference(action.event_id, "event_id");
       if (action.actor_user_id) assertSafeLifecycleReference(action.actor_user_id, "actor_user_id");
       assertAllowedCampaignTransition(action.from_state, action.to_state);
+      if (action.actor_type === "user") assertProductionReviewerGate(action.actor_user_id);
       if (action.to_state === "approved" && action.actor_type !== "user") throw new Error("Only an identified human actor may approve a campaign lifecycle.");
     }
 
     const { repositories } = getRuntimeDatabaseState();
+    assertWorkspaceExists(repositories, action.workspace_id);
+    if (action.action === "transition" && action.actor_type === "user") {
+      assertHumanWorkspaceRole(repositories, action.workspace_id, action.actor_user_id);
+    }
     if (action.action === "create") {
       const blueprint = repositories.blueprints.get(action.blueprint_id) as Record<string, unknown> | undefined;
       if (!blueprint || String(blueprint.workspace_id) !== action.workspace_id) return errorResponse(new Error("Canonical Blueprint was not found in the requested workspace."), 404);

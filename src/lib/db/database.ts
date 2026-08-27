@@ -238,6 +238,24 @@ function assertSafeReference(value: string | undefined): void {
   }
 }
 
+const SENSITIVE_AUDIT_KEY = /(?:password|access[_-]?token|refresh[_-]?token|api[_-]?key|secret|authorization|cookie)/i;
+
+function redactAuditValue(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(redactAuditValue);
+  if (!value || typeof value !== "object") return value;
+  return Object.fromEntries(Object.entries(value as Record<string, unknown>).map(([key, nested]) => [
+    key,
+    SENSITIVE_AUDIT_KEY.test(key) ? "[redacted]" : redactAuditValue(nested),
+  ]));
+}
+
+function assertAuditPayloadSafe(payload: JsonRecord): void {
+  const redacted = redactAuditValue(payload);
+  if (sha256Json(payload) !== sha256Json(redacted)) {
+    throw new Error("Audit payload cannot contain secret or credential fields.");
+  }
+}
+
 function assertSafeGovernance(value: JsonRecord): void {
   if (value.globalMarketValidated === true) {
     throw new Error("Persistence cannot store a globally market-validated context or recommendation.");
@@ -285,6 +303,7 @@ export function createRepositories(database: DatabaseSync) {
   const createWorkspace = database.prepare("INSERT INTO workspaces (workspace_id, name, status, created_at) VALUES (?, ?, ?, ?)");
   const getWorkspace = database.prepare("SELECT workspace_id, name, status, created_at FROM workspaces WHERE workspace_id = ?");
   const createMembership = database.prepare("INSERT INTO workspace_memberships (workspace_id, user_id, role, created_at) VALUES (?, ?, ?, ?)");
+  const getMembership = database.prepare("SELECT workspace_id, user_id, role, created_at FROM workspace_memberships WHERE workspace_id = ? AND user_id = ?");
   const createBrief = database.prepare("INSERT INTO client_briefs (brief_id, workspace_id, market, industry, locale, currency, version, status, brief_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
   const getBrief = database.prepare("SELECT * FROM client_briefs WHERE brief_id = ? AND version = ?");
   const createSubmission = database.prepare("INSERT INTO wizard_submissions (submission_id, brief_id, brief_version, workspace_id, input_json, source, user_confirmed, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
@@ -334,6 +353,7 @@ export function createRepositories(database: DatabaseSync) {
   const createApproval = database.prepare("INSERT INTO approval_events (approval_id, workspace_id, object_type, object_id, decision, actor_user_id, note, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
   const createAudit = database.prepare("INSERT OR IGNORE INTO audit_events (audit_event_id, workspace_id, event_type, object_type, object_id, actor_type, payload_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
   const getAudit = database.prepare("SELECT * FROM audit_events WHERE audit_event_id = ?");
+  const listAudit = database.prepare("SELECT * FROM audit_events WHERE workspace_id = ? ORDER BY created_at ASC, audit_event_id ASC");
   const createCampaignLifecycle = database.prepare("INSERT INTO campaign_lifecycles (lifecycle_id, workspace_id, blueprint_id, canonical_sha256, state, generation_mode, external_actions_allowed, budget_spend_allowed, created_at, updated_at) VALUES (?, ?, ?, ?, ?, 'blueprint_only', 0, 0, ?, ?)");
   const getCampaignLifecycle = database.prepare("SELECT * FROM campaign_lifecycles WHERE workspace_id = ? AND lifecycle_id = ?");
   const getCampaignLifecycleByBlueprint = database.prepare("SELECT * FROM campaign_lifecycles WHERE workspace_id = ? AND blueprint_id = ?");
@@ -363,6 +383,9 @@ export function createRepositories(database: DatabaseSync) {
     memberships: {
       create(workspaceId: string, userId: string, role: "owner" | "admin" | "analyst" | "reviewer" | "viewer") {
         createMembership.run(workspaceId, userId, role, now());
+      },
+      get(workspaceId: string, userId: string) {
+        return getMembership.get(workspaceId, userId) as Row | undefined;
       },
     },
     briefs: {
@@ -763,6 +786,7 @@ export function createRepositories(database: DatabaseSync) {
         createApproval.run(input.approvalId, input.workspaceId, input.objectType, input.objectId, input.decision, input.actorUserId ?? null, input.note ?? null, now());
       },
       createAuditEvent(input: AuditEventRecord) {
+        assertAuditPayloadSafe(input.payload);
         const existing = getAudit.get(input.auditEventId) as Row | undefined;
         if (existing) {
           const actual = {
@@ -785,6 +809,18 @@ export function createRepositories(database: DatabaseSync) {
           return;
         }
         createAudit.run(input.auditEventId, input.workspaceId, input.eventType, input.objectType, input.objectId, input.actorType, json(input.payload), now());
+      },
+      listEvents(workspaceId: string) {
+        return (listAudit.all(workspaceId) as Row[]).map((row) => ({
+          audit_event_id: String(row.audit_event_id),
+          workspace_id: String(row.workspace_id),
+          event_type: String(row.event_type),
+          object_type: String(row.object_type),
+          object_id: String(row.object_id),
+          actor_type: String(row.actor_type),
+          payload: redactAuditValue(parseJson<JsonRecord>(row.payload_json)) as JsonRecord,
+          created_at: String(row.created_at),
+        }));
       },
     },
     campaignLifecycle: {

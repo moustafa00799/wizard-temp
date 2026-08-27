@@ -65,6 +65,7 @@
     "test:campaign:lifecycle": "tsx scripts/campaign-lifecycle-regression.ts",
     "test:campaign:lifecycle:http": "tsx scripts/campaign-lifecycle-http-regression.ts",
     "test:measurement:contract": "tsx scripts/measurement-contract-regression.ts",
+    "test:workspace:isolation": "tsx scripts/workspace-isolation-regression.ts",
     "test:personal-staging": "tsx scripts/personal-staging-regression.ts",
     "test:randomized:wizard": "tsx scripts/randomized-wizard-fixture-regression.ts",
     "test:autofill:fixtures": "tsx scripts/autofill-fixture-regression.ts",
