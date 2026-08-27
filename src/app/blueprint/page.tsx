@@ -2536,7 +2536,7 @@ function ClientStatus({ status }: { status: string }) {
   return <span className={`inline-flex rounded-full border px-3 py-1 text-xs font-bold ${tone}`}>{status}</span>;
 }
 
-function ClientOutcomeSummary({ blueprint, wizardInput, reasoningActive, strategyTrace, reasoningStatus }: { blueprint: any; wizardInput: any; reasoningActive: boolean; strategyTrace: any; reasoningStatus: string }) {
+function ClientOutcomeSummary({ blueprint, wizardInput, reasoningActive, strategyTrace, reasoningStatus, knowledgeContext }: { blueprint: any; wizardInput: any; reasoningActive: boolean; strategyTrace: any; reasoningStatus: string; knowledgeContext?: any }) {
   const executive = getObject(blueprint?.executive_summary);
   const strategy = getObject(blueprint?.strategy_summary ?? blueprint?.strategy);
   const funnel = getObject(blueprint?.recommended_funnel);
@@ -2591,6 +2591,35 @@ function ClientOutcomeSummary({ blueprint, wizardInput, reasoningActive, strateg
           <div className="rounded-2xl border border-white bg-white/80 p-4"><p className="text-xs text-gray-500">الجاهزية / المخاطرة</p><p className="mt-2 font-bold text-gray-900">{readiness} / {riskScore}</p></div>
           <div className="rounded-2xl border border-white bg-white/80 p-4"><p className="text-xs text-gray-500">حالة AI الاستشاري</p><p className="mt-2 font-bold text-gray-900">{strategyStatus}</p><p className="mt-1 text-xs text-gray-500">{reasoningStatusLabel}</p></div>
         </div>
+      </div>
+
+      <div className="rounded-2xl border border-indigo-200 bg-indigo-50 p-5">
+        <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.14em] text-indigo-700">Knowledge Context</p>
+            <h3 className="mt-1 text-lg font-bold text-indigo-950">المعرفة المستخدمة في التفسير</h3>
+            <p className="mt-1 text-sm leading-6 text-indigo-800">هذه طبقة سياق مقيدة تساعد على تفسير التوصية، وليست بديلًا عن قرارات CDKS ولا إثباتًا عامًا لحجم السوق.</p>
+          </div>
+          <span className="rounded-full bg-white px-3 py-1 text-xs font-bold text-indigo-800">{knowledgeContext ? "مفعّل — محدود" : "غير مفعّل"}</span>
+        </div>
+        {knowledgeContext ? (
+          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4 text-sm">
+            <DataCard label="السوق" value={knowledgeContext.market} />
+            <DataCard label="الصناعة" value={knowledgeContext.industry} />
+            <DataCard label="العملة" value={knowledgeContext.currency} />
+            <DataCard label="حالة السياق" value={knowledgeContext.scopedValidationStatus} />
+            <DataCard label="Facts المسموحة" value={knowledgeContext.approvedFactCount} />
+            <DataCard label="حالة الحداثة" value={knowledgeContext.freshnessStatus} />
+            <DataCard label="Market Validated" value={knowledgeContext.scopedMarketValidated ? "نعم" : "لا"} />
+            <DataCard label="Global Validation" value={knowledgeContext.globalMarketValidated ? "نعم" : "لا"} />
+            <div className="rounded-lg border bg-white p-3 sm:col-span-2 lg:col-span-4">
+              <p className="text-xs text-gray-500 mb-1">مؤشرات غير متاحة حاليًا</p>
+              <p className="font-medium text-gray-900 break-words">{Array.isArray(knowledgeContext.unavailableBenchmarkCategories) && knowledgeContext.unavailableBenchmarkCategories.length > 0 ? knowledgeContext.unavailableBenchmarkCategories.join("، ") : "لا توجد فئات مسجلة"}</p>
+            </div>
+          </div>
+        ) : (
+          <p className="mt-4 rounded-xl bg-white/70 p-4 text-sm leading-6 text-indigo-900">لم يتم اختيار سياق Knowledge إضافي. ستظل النتيجة مبنية على Wizard وCDKS، ويمكن تشغيل سياق مسموح من شاشة المراجعة.</p>
+        )}
       </div>
 
       <div className="grid gap-4 lg:grid-cols-3">
@@ -2814,6 +2843,7 @@ export default function BlueprintPage() {
           reasoningActive={reasoningActive}
           strategyTrace={generationEnvelope?.data?.strategy}
           reasoningStatus={reasoningContract?.status ?? "not_requested"}
+          knowledgeContext={generationEnvelope?.knowledge_context ?? null}
         />
 
         <details className="mt-6 overflow-hidden rounded-2xl border border-indigo-100 bg-white shadow-sm">

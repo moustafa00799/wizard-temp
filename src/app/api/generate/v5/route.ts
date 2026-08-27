@@ -7,6 +7,7 @@ import { validateBlueprintContractV3 } from '@/lib/contracts/blueprint-contract-
 import { buildAIStrategyProposal } from '@/lib/ai-strategy-builder';
 import { buildAIReasoning, reasoningTraceFromContract } from '@/lib/ai-reasoning-builder';
 import { buildScopedStrategyContext } from '@/lib/knowledge/strategy-context';
+import { getStrategyContextSelection } from '@/lib/knowledge/available-strategy-contexts';
 import { sanitizeWizardInputForAI } from '@/lib/ai-sanitizer';
 import type { ScopedStrategyContext } from '@/lib/contracts/knowledge-strategy-context';
 import { ZodError } from 'zod';
@@ -25,9 +26,15 @@ export async function POST(request: NextRequest) {
     
     const validatedOutput = CanonicalBlueprintSchema.parse(blueprint);
     const baseContract = buildBlueprintContractV3(validatedInput, validatedOutput, body);
-    const knowledgeSelection = body && typeof body === 'object' && body.knowledge_strategy_selection && typeof body.knowledge_strategy_selection === 'object'
+    const requestedKnowledgeContextId = body && typeof body === 'object' && typeof body.knowledge_context_id === 'string'
+      ? body.knowledge_context_id.trim()
+      : '';
+    const rawKnowledgeSelection = body && typeof body === 'object' && body.knowledge_strategy_selection && typeof body.knowledge_strategy_selection === 'object'
       ? body.knowledge_strategy_selection
       : undefined;
+    const knowledgeSelection = requestedKnowledgeContextId
+      ? getStrategyContextSelection(requestedKnowledgeContextId)
+      : process.env.NODE_ENV === 'production' ? undefined : rawKnowledgeSelection;
     const knowledgeContext: ScopedStrategyContext | undefined = knowledgeSelection
       ? buildScopedStrategyContext(knowledgeSelection)
       : undefined;
@@ -72,6 +79,7 @@ export async function POST(request: NextRequest) {
       mockScenario: reasoningRequest.mockScenario === 'baseline' || reasoningRequest.mockScenario === 'unsupported_claim' || reasoningRequest.mockScenario === 'override_attempt' || reasoningRequest.mockScenario === 'malformed' || reasoningRequest.mockScenario === 'failure'
         ? reasoningRequest.mockScenario
         : undefined,
+      knowledgeContext,
     });
     const contract = validateBlueprintContractV3({
       ...baseContract,
@@ -88,6 +96,21 @@ export async function POST(request: NextRequest) {
         contract_version: contract.contract_version,
         processingTimeMs: processingTime,
         data: contract,
+        knowledge_context: knowledgeContext ? {
+          contextId: knowledgeContext.contextId,
+          packageId: knowledgeContext.packageId,
+          snapshotId: knowledgeContext.snapshotId,
+          market: knowledgeContext.market,
+          industry: knowledgeContext.industry,
+          evidenceLocale: knowledgeContext.evidenceLocale,
+          currency: knowledgeContext.currency,
+          freshnessStatus: knowledgeContext.freshnessStatus,
+          scopedValidationStatus: knowledgeContext.scopedValidationStatus,
+          scopedMarketValidated: knowledgeContext.scopedMarketValidated,
+          globalMarketValidated: knowledgeContext.globalMarketValidated,
+          approvedFactCount: knowledgeContext.approvedFacts.length,
+          unavailableBenchmarkCategories: knowledgeContext.unavailableBenchmarkCategories,
+        } : null,
       },
       { status: 200 }
     );

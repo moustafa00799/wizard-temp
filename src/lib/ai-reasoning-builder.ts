@@ -16,6 +16,7 @@ import {
 } from "./ai-reasoning-provider";
 import type { CanonicalBlueprint } from "./contracts/canonical-blueprint";
 import type { CanonicalWizardInput } from "./contracts/wizard-input";
+import type { ScopedStrategyContext } from "./contracts/knowledge-strategy-context";
 import { sanitizeUnknownForAI } from "./ai-sanitizer";
 import { buildAIKnowledgeGuardrails } from "./knowledge/knowledge-gap-closure";
 
@@ -32,6 +33,8 @@ export type ReasoningBuilderOptions = {
   mockScenario?: MockReasoningScenario;
   /** Test-only seam; live calls use the governed provider runner. */
   providerRunner?: ReasoningProviderRunner;
+  /** Optional, validated, market-and-industry scoped evidence context. */
+  knowledgeContext?: ScopedStrategyContext;
 };
 
 function safety(): AIReasoningContract["safety"] {
@@ -201,6 +204,7 @@ function reasoningPrompt(
   input: CanonicalWizardInput,
   blueprint: CanonicalBlueprint,
   contract: BlueprintContractV3,
+  knowledgeContext?: ScopedStrategyContext,
 ): { system: string; user: string } {
   return {
     system: `You are the governed AI Reasoning layer inside a campaign-planning system.
@@ -223,6 +227,7 @@ Use the requested locale and keep the output concise.`,
         blueprint_id: blueprint.blueprint_id,
         strategy: blueprint.strategy,
       },
+      knowledge_context: knowledgeContext ?? null,
       knowledge_gap_guardrails: buildAIKnowledgeGuardrails(),
       available_evidence: [
         {
@@ -342,7 +347,7 @@ export async function buildAIReasoning(
   }
 
   const model = getReasoningProviderModel(provider, options.model);
-  const prompts = reasoningPrompt(input, blueprint, contract);
+  const prompts = reasoningPrompt(input, blueprint, contract, options.knowledgeContext);
   const runner = options.providerRunner ?? runReasoningProvider;
   const primary = await runner(prompts.system, prompts.user, { provider, model });
   let result: ReasoningProviderResult = primary;
