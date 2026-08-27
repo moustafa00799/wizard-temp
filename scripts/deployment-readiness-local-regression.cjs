@@ -28,8 +28,9 @@ for (const script of ['build', 'start', 'test:security', 'test:auth:local', 'tes
 }
 
 const tracked = execFileSync('git', ['ls-files'], { cwd: root, encoding: 'utf8' });
+const trackedFiles = tracked.split('\n').filter((file) => file && file !== '.env.example');
 for (const forbidden of ['.env', '.env.local', '.local/', 'app.sqlite']) {
-  if (tracked.split('\n').some((file) => file === forbidden || file.includes(forbidden))) {
+  if (trackedFiles.some((file) => file === forbidden || file.includes(forbidden))) {
     throw new Error(`Secret or runtime state is tracked: ${forbidden}`);
   }
 }
