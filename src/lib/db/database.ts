@@ -4,6 +4,7 @@ import { DATABASE_FOUNDATION_MIGRATION_ID, DATABASE_FOUNDATION_MIGRATION_SQL } f
 import { PERSONAL_STAGING_MIGRATION_ID, PERSONAL_STAGING_MIGRATION_SQL } from "./migrations/0002_personal_staging";
 import { STAGING_TEST_RUNS_MIGRATION_ID, STAGING_TEST_RUNS_MIGRATION_SQL } from "./migrations/0003_staging_test_runs";
 import { KNOWLEDGE_SNAPSHOT_PERSISTENCE_MIGRATION_ID, KNOWLEDGE_SNAPSHOT_PERSISTENCE_MIGRATION_SQL } from "./migrations/0004_knowledge_snapshot_persistence";
+import { DRIVE_EVIDENCE_ARTIFACTS_MIGRATION_ID, DRIVE_EVIDENCE_ARTIFACTS_MIGRATION_SQL } from "./migrations/0005_drive_evidence_artifacts";
 
 export type DatabaseLocation = ":memory:" | string;
 export type JsonRecord = Record<string, unknown>;
@@ -103,6 +104,24 @@ type EvidencePackageRecord = {
   freshnessStatus: "fresh" | "stale" | "expired" | "missing";
   retrievalStrategy: "deterministic_fixture" | "registry_lookup" | "manual_review";
   evidencePackage: JsonRecord;
+  createdAt?: string;
+};
+
+type DriveEvidenceArtifactRecord = {
+  artifactId: string;
+  workspaceId: string;
+  sourceRef: string;
+  sourceSha256: string;
+  dataClass: "ga4" | "ga4_ads_linked" | "search_console" | "keyword_planner" | "campaign_report" | "catalog_feed" | "store_product" | "sales_report" | "seller_profile";
+  scopeStatus: "activity_and_market_user_confirmed_property_unverified" | "scope_unverified" | "catalog_identity_unverified" | "excluded_duplicate";
+  market?: string;
+  industry?: string;
+  locale?: string;
+  currency?: string;
+  periodStart?: string;
+  periodEnd?: string;
+  confidence: number;
+  artifact: JsonRecord;
   createdAt?: string;
 };
 
@@ -235,6 +254,7 @@ export function applyDatabaseMigrations(database: DatabaseSync): void {
   apply(PERSONAL_STAGING_MIGRATION_ID, PERSONAL_STAGING_MIGRATION_SQL);
       apply(STAGING_TEST_RUNS_MIGRATION_ID, STAGING_TEST_RUNS_MIGRATION_SQL);
     apply(KNOWLEDGE_SNAPSHOT_PERSISTENCE_MIGRATION_ID, KNOWLEDGE_SNAPSHOT_PERSISTENCE_MIGRATION_SQL);
+    apply(DRIVE_EVIDENCE_ARTIFACTS_MIGRATION_ID, DRIVE_EVIDENCE_ARTIFACTS_MIGRATION_SQL);
 
 }
 
@@ -295,6 +315,9 @@ export function createRepositories(database: DatabaseSync) {
   const getStagingRun = database.prepare("SELECT * FROM staging_runs WHERE workspace_id = ? AND scenario_id = ?");
   const createStagingTestRun = database.prepare("INSERT INTO staging_test_runs (test_run_id, workspace_id, suite, seed, variants_per_case, total_runs, status, report_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
   const getLatestStagingTestRun = database.prepare("SELECT * FROM staging_test_runs WHERE workspace_id = ? ORDER BY created_at DESC LIMIT 1");
+  const getDriveArtifact = database.prepare("SELECT * FROM drive_evidence_artifacts WHERE workspace_id = ? AND artifact_id = ?");
+  const getDriveArtifactByHash = database.prepare("SELECT * FROM drive_evidence_artifacts WHERE workspace_id = ? AND source_sha256 = ?");
+  const createDriveArtifact = database.prepare("INSERT INTO drive_evidence_artifacts (artifact_id, workspace_id, source_ref, source_sha256, data_class, scope_status, market, industry, locale, currency, period_start, period_end, confidence, raw_rows_omitted, raw_values_omitted, market_validated, artifact_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 1, 0, ?, ?)");
 
   return {
     workspaces: {
@@ -642,6 +665,59 @@ export function createRepositories(database: DatabaseSync) {
           createdAt: String(row.created_at),
           report: parseJson<JsonRecord>(row.report_json),
         };
+      },
+    },
+    driveEvidence: {
+      createArtifact(input: DriveEvidenceArtifactRecord) {
+        assertSafeGovernance(input.artifact);
+        if (input.artifact.rows !== undefined && Array.isArray(input.artifact.rows) && input.artifact.rows.length > 0) {
+          throw new Error("Drive evidence artifacts cannot persist raw rows.");
+        }
+        const existingById = getDriveArtifact.get(input.workspaceId, input.artifactId) as Row | undefined;
+        const existingByHash = getDriveArtifactByHash.get(input.workspaceId, input.sourceSha256) as Row | undefined;
+        const existing = existingById ?? existingByHash;
+        if (existing) {
+          const actual = {
+            artifactId: existing.artifact_id,
+            workspaceId: existing.workspace_id,
+            sourceRef: existing.source_ref,
+            sourceSha256: existing.source_sha256,
+            dataClass: existing.data_class,
+            scopeStatus: existing.scope_status,
+            market: existing.market,
+            industry: existing.industry,
+            locale: existing.locale,
+            currency: existing.currency,
+            periodStart: existing.period_start,
+            periodEnd: existing.period_end,
+            confidence: existing.confidence,
+            artifact: parseJson<JsonRecord>(existing.artifact_json),
+          };
+          const expected = {
+            artifactId: existingById ? input.artifactId : actual.artifactId,
+            workspaceId: input.workspaceId,
+            sourceRef: input.sourceRef,
+            sourceSha256: input.sourceSha256,
+            dataClass: input.dataClass,
+            scopeStatus: input.scopeStatus,
+            market: input.market ?? null,
+            industry: input.industry ?? null,
+            locale: input.locale ?? null,
+            currency: input.currency ?? null,
+            periodStart: input.periodStart ?? null,
+            periodEnd: input.periodEnd ?? null,
+            confidence: input.confidence,
+            artifact: input.artifact,
+          };
+          if (sha256Json(actual) !== sha256Json(expected)) throw new Error("Drive evidence artifact already exists with different content.");
+          return existing;
+        }
+        createDriveArtifact.run(input.artifactId, input.workspaceId, input.sourceRef, input.sourceSha256, input.dataClass, input.scopeStatus, input.market ?? null, input.industry ?? null, input.locale ?? null, input.currency ?? null, input.periodStart ?? null, input.periodEnd ?? null, input.confidence, json(input.artifact), input.createdAt ?? now());
+        return getDriveArtifact.get(input.workspaceId, input.artifactId) as Row;
+      },
+      getArtifact(workspaceId: string, artifactId: string) {
+        const row = getDriveArtifact.get(workspaceId, artifactId) as Row | undefined;
+        return row ? { ...row, artifact: parseJson<JsonRecord>(row.artifact_json) } : undefined;
       },
     },
     governance: {

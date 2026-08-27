@@ -35,6 +35,7 @@ jobs:
           npm run test:wizard:review:consent
           npm run test:ai:reasoning:live
           npm run test:ai:reasoning:contract
+          npm run test:knowledge:google-drive-private
 
       - name: Start production server
         run: PORT=3001 HOSTNAME=0.0.0.0 npm run start > /tmp/cdks-next.log 2>&1 &

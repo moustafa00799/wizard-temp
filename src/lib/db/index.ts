@@ -23,3 +23,7 @@ export {
   KNOWLEDGE_SNAPSHOT_PERSISTENCE_MIGRATION_ID,
   KNOWLEDGE_SNAPSHOT_PERSISTENCE_MIGRATION_SQL,
 } from "./migrations/0004_knowledge_snapshot_persistence";
+export {
+  DRIVE_EVIDENCE_ARTIFACTS_MIGRATION_ID,
+  DRIVE_EVIDENCE_ARTIFACTS_MIGRATION_SQL,
+} from "./migrations/0005_drive_evidence_artifacts";

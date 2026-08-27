@@ -13,3 +13,4 @@ export * from "./providers/provider-evidence-adapter";
 export * from "./providers/provider-content-classification";
 export * from "./providers/tiktok-readonly-normalizer";
 export * from "./strategy-context";
+export * from "./google-drive-readonly";
