@@ -217,13 +217,21 @@ function provenanceFor(options: ReasoningProviderOptions, model: string): AiProv
 
 function failureCategory(status: number | undefined, body: string): { category: AIProviderFailureCategory; retryable: boolean; message: string } {
   const lower = body.toLowerCase();
-  if (status === 401 || lower.includes("unauthorized") || lower.includes("invalid api key")) return { category: "auth", retryable: false, message: "AI Reasoning provider authentication failed." };
+  if (status === 401 || status === 403 || lower.includes("unauthorized") || lower.includes("forbidden") || lower.includes("invalid api key")) return { category: "auth", retryable: false, message: "AI Reasoning provider authentication or permission failed." };
   if (status === 404 || lower.includes("model not found") || lower.includes("not found")) return { category: "not_found", retryable: false, message: "AI Reasoning provider endpoint or model was not found." };
-  if (status === 429 || lower.includes("rate limit")) return { category: "rate_limited", retryable: true, message: "AI Reasoning provider rate limit was exceeded." };
+  if (status === 429 || lower.includes("rate limit") || lower.includes("too many requests")) return { category: "rate_limited", retryable: true, message: "AI Reasoning provider rate limit was exceeded." };
   if (status === 408 || status === 504) return { category: "timeout", retryable: true, message: "AI Reasoning provider request timed out." };
   if (status !== undefined && status >= 500) return { category: "server", retryable: true, message: `AI Reasoning provider server error (${status}).` };
-  if (status === 400 || status === 422 || lower.includes("schema") || lower.includes("response_format")) return { category: "schema_rejected", retryable: false, message: "AI Reasoning provider rejected the structured-output request." };
+  if (status === 400 || status === 413 || status === 415 || status === 422 || lower.includes("schema") || lower.includes("response_format") || lower.includes("payload too large")) return { category: "schema_rejected", retryable: false, message: "AI Reasoning provider rejected the structured-output request." };
   return { category: "unknown", retryable: false, message: "AI Reasoning provider returned an unexpected error." };
+}
+
+function safeErrorCode(payload: unknown): string | undefined {
+  const error = (payload as { error?: unknown } | null)?.error;
+  if (!error || typeof error !== "object") return undefined;
+  const candidate = (error as { code?: unknown; type?: unknown }).code ?? (error as { type?: unknown }).type;
+  if (typeof candidate !== "string" || candidate.length === 0) return undefined;
+  return candidate.slice(0, 100).replace(/[^a-zA-Z0-9_.:-]/g, "_");
 }
 
 function responseFormat(provider: ReasoningProviderName) {
@@ -302,7 +310,9 @@ export async function runReasoningProvider(
           { role: "user", content: userPrompt },
         ],
         temperature: 0.1,
-        max_tokens: 4096,
+        ...(options.provider === "groq"
+          ? { max_completion_tokens: 4096, reasoning_effort: "low" }
+          : { max_tokens: 4096 }),
         response_format: responseFormat(options.provider),
         stream: false,
       }),
@@ -313,6 +323,7 @@ export async function runReasoningProvider(
     const latencyMs = Date.now() - startedAt;
     const requestId = response.headers.get("x-request-id") ?? response.headers.get("request-id") ?? undefined;
     const body = JSON.stringify(payload ?? {});
+    const providerErrorCode = safeErrorCode(payload) ?? (response.status ? `http_${response.status}` : undefined);
 
     if (!response.ok) {
       const failure = failureCategory(response.status, body);
@@ -323,7 +334,7 @@ export async function runReasoningProvider(
         failureCategory: failure.category,
         retryable: failure.retryable,
         status: response.status,
-        provenance: { ...baseProvenance, requestId, latencyMs, failureCategory: failure.category, failureStatus: response.status, retryable: failure.retryable },
+        provenance: { ...baseProvenance, requestId, latencyMs, failureCategory: failure.category, failureStatus: response.status, failureCode: providerErrorCode, retryable: failure.retryable },
       };
     }
 
