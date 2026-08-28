@@ -107,3 +107,7 @@
 `npm run lint` الكامل ما زال يتأثر بدين قديم في صفحة Blueprint الكبيرة، خصوصًا استخدام `any` وبعض قاعدة React effect في مكونات legacy. لم تُستخدم هذه الملاحظة لتجاوز typecheck أو build أو regressions. الملفات الجديدة والعقود والاختبارات اجتازت typecheck، بينما يحتاج lint الشامل إلى refactor مستقل حتى لا يختلط مع تغيير السلوك.
 
 لا توجد في هذه الدفعة Market Validation عامة جديدة، ولا مصادر سوقية حية، ولا تكاملات provider write، ولا fine-tuning، ولا image/video generation. الوحدات الأربعة الاستشارية mocks وعقود offline فقط إلى أن تُعتمد سياسة تشغيل منفصلة.
+
+## 9. إصلاح لاحق لفشل التفسير الحي
+
+بعد تجربة Local Staging ظهر أن Blueprint يُنشأ بينما يظهر تفسير AI الاستشاري كـ`غير متاح حاليًا`. كان السبب في schema المرسل إلى Groq بوضع `strict_json_schema`: أضيفت خاصية `decision_explanations` دون إدراجها في قائمة الحقول المطلوبة، وهو ما يجعل مزود strict يرفض تعريف schema قبل معالجة الطلب. تم إدراج الخاصية في `required`، وإضافة assertion إلى `provider-schema-regression.ts`. يعيد النظام عند استمرار أي فشل التعامل الآمن: لا يتغير Blueprint ولا تُعرض قيم صفرية باعتبارها أداءً.

@@ -180,7 +180,7 @@ export const AI_REASONING_PROVIDER_JSON_SCHEMA = {
       required: ["evidence_coverage_percent", "supported_claim_count", "qualified_claim_count", "unsupported_claim_count", "evidence_only_mode"],
     },
   },
-    required: ["contract_version", "source_contract_version", "locale", "purpose", "status", "summary", "claims", "evidence", "uncertainties", "decision_impacts", "limitations", "grounding"],
+    required: ["contract_version", "source_contract_version", "locale", "purpose", "status", "summary", "claims", "evidence", "uncertainties", "decision_impacts", "decision_explanations", "limitations", "grounding"],
 } as const;
 
 const SCHEMA_HASH = createHash("sha256").update(JSON.stringify(AI_REASONING_PROVIDER_JSON_SCHEMA)).digest("hex");

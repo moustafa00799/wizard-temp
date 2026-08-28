@@ -53,9 +53,11 @@ assert.equal(reasoningGroq.type, "json_schema");
 assert.equal(reasoningGroq.json_schema?.strict, true);
 assert.equal(reasoningGroq.json_schema?.schema?.properties?.evidence?.items?.required?.includes("excerpt"), true);
 assert.equal(reasoningGroq.json_schema?.schema?.properties?.evidence?.items?.properties?.excerpt?.type, "string");
+assert.equal(reasoningGroq.json_schema?.schema?.required?.includes("decision_explanations"), true);
 assert.equal(reasoningMistral.type, "json_schema");
 assert.equal(reasoningMistral.json_schema?.strict, false);
 assert.equal(reasoningMistral.json_schema?.schema?.properties?.evidence?.items?.required?.includes("excerpt"), true);
+assert.equal(reasoningMistral.json_schema?.schema?.required?.includes("decision_explanations"), true);
 
 async function main() {
   const originalFetch = globalThis.fetch;
