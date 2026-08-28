@@ -135,6 +135,41 @@ async function main() {
   assert.equal(malformed.status, "failed");
   assert.equal(malformed.failure?.code, "REASONING_SCHEMA_INVALID");
 
+  const semanticInvalid = await buildAIReasoning(input, blueprint, contract, {
+    enabled: true,
+    provider: "groq",
+    liveAllowed: true,
+    providerRunner: async () => {
+      const result = success("mistral");
+      if (!result.success || !result.data || typeof result.data !== "object") return result;
+      const data = result.data as Record<string, unknown>;
+      const explanations = Array.isArray(data.decision_explanations) ? data.decision_explanations : [];
+      return {
+        ...result,
+        data: {
+          ...data,
+          decision_explanations: explanations.map((item, index) => index === 0 && item && typeof item === "object"
+            ? { ...(item as Record<string, unknown>), evidence_refs: [], uncertainty_refs: [] }
+            : item),
+        },
+        provenance: {
+          ...result.provenance,
+          latencyMs: 789,
+          retryable: false,
+          fallbackFrom: "groq",
+          fallbackReason: "429",
+        },
+      };
+    },
+  });
+  assert.equal(semanticInvalid.status, "failed");
+  assert.equal(semanticInvalid.failure?.code, "REASONING_SEMANTIC_INVALID");
+  assert.equal(semanticInvalid.provenance?.provider, "mistral");
+  assert.equal(semanticInvalid.provenance?.latencyMs, 789);
+  assert.equal(semanticInvalid.provenance?.fallbackFrom, "groq");
+  assert.equal(semanticInvalid.provenance?.fallbackReason, "429");
+  assert.equal(semanticInvalid.provenance?.retryable, false);
+
   let fallbackCalls = 0;
   const fallback = await buildAIReasoning(input, blueprint, contract, {
     enabled: true,
@@ -162,7 +197,7 @@ async function main() {
   assert.equal(fallback.provenance?.fallbackReason, "429");
   assert.equal(fallbackCalls, 2);
 
-  console.log(JSON.stringify({ status: "PASS", assertions: 16, scenarios: 5, externalRequests: 0 }, null, 2));
+  console.log(JSON.stringify({ status: "PASS", assertions: 23, scenarios: 6, externalRequests: 0 }, null, 2));
 }
 
 void main();

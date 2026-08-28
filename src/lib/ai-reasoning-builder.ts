@@ -135,10 +135,11 @@ function normalizeProviderOutput(
   output: unknown,
   contract: BlueprintContractV3,
   model: string,
+  provenance?: AIReasoningContract["provenance"],
 ): { contract?: ValidatedAIReasoningContract; failure?: ValidatedAIReasoningContract } {
   const parsed = AIReasoningProviderOutputSchema.safeParse(output);
   if (!parsed.success) {
-    return { failure: failureContract(contract, "REASONING_SCHEMA_INVALID", "AI Reasoning provider output failed the provider schema.", model) };
+    return { failure: failureContract(contract, "REASONING_SCHEMA_INVALID", "AI Reasoning provider output failed the provider schema.", model, provenance) };
   }
 
   const derivedCounts = parsed.data.claims.reduce((result, claim) => {
@@ -169,7 +170,7 @@ function normalizeProviderOutput(
   try {
     return { contract: validateAIReasoningContract(candidate) };
   } catch {
-    return { failure: failureContract(contract, "REASONING_SEMANTIC_INVALID", "AI Reasoning provider output failed semantic contract validation.", model) };
+    return { failure: failureContract(contract, "REASONING_SEMANTIC_INVALID", "AI Reasoning provider output failed semantic contract validation.", model, provenance) };
   }
 }
 
@@ -305,7 +306,7 @@ function normalizeLiveOutput(
   model: string,
   provenance: NonNullable<ValidatedAIReasoningContract["provenance"]>,
 ): { contract?: ValidatedAIReasoningContract; failure?: ValidatedAIReasoningContract } {
-  const normalized = normalizeProviderOutput(output, contract, model);
+  const normalized = normalizeProviderOutput(output, contract, model, provenance);
   if (!normalized.contract) return normalized;
 
   const unknownEvidence = normalized.contract.evidence.some((item) => !ALLOWED_REASONING_EVIDENCE_IDS.has(item.id));
