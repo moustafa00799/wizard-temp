@@ -24,17 +24,7 @@ interface Step12ReviewProps {
   onGoToStep?: (step: number) => void;
 }
 
-// ✅ تحديث نوع النتيجة ليتوافق مع استجابة v5
-interface KnowledgeContextOption {
-  id: string;
-  label: string;
-  description: string;
-  market: string;
-  industry: string;
-  currency: string;
-  status: string;
-}
-
+// ملخص السياق الذي يعيده الخادم للعرض read-only بعد المطابقة التلقائية
 interface KnowledgeContextSummary {
   contextId: string;
   packageId: string;
@@ -128,8 +118,6 @@ export default function Step12_Review({ wizardData: passedWizardData, onBack }: 
     totalLatencyMs: number;
     knowledgeContext: KnowledgeContextSummary | null;
   } | null>(null);
-  const [knowledgeContextOptions, setKnowledgeContextOptions] = useState<KnowledgeContextOption[]>([]);
-  const [selectedKnowledgeContextId, setSelectedKnowledgeContextId] = useState("");
 
   useEffect(() => {
     const direct = extractWizardData(passedWizardData);
@@ -156,22 +144,6 @@ export default function Step12_Review({ wizardData: passedWizardData, onBack }: 
     }
 
   }, [passedWizardData]);
-
-  useEffect(() => {
-    let cancelled = false;
-    fetch("/api/knowledge/contexts", { method: "GET" })
-      .then((response) => response.ok ? response.json() : null)
-      .then((payload) => {
-        if (cancelled || !payload || !Array.isArray(payload.contexts)) return;
-        setKnowledgeContextOptions(payload.contexts);
-      })
-      .catch(() => {
-        if (!cancelled) setKnowledgeContextOptions([]);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
 
   const progressSteps: { key: GenerationStatus; label: string; description: string }[] = [
     {
@@ -206,7 +178,6 @@ export default function Step12_Review({ wizardData: passedWizardData, onBack }: 
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...buildWizardGenerationPayload(wizardData),
-          ...(selectedKnowledgeContextId ? { knowledge_context_id: selectedKnowledgeContextId } : {}),
         }),
       });
 
@@ -262,7 +233,7 @@ export default function Step12_Review({ wizardData: passedWizardData, onBack }: 
       setErrorMessage(msg);
       setStatus("error");
     }
-  }, [knowledgeContextOptions.length, selectedKnowledgeContextId, wizardData, router]);
+  }, [wizardData, router]);
 
   // ... باقي الكود (العرض) يبقى كما هو دون تغيير
   // (من السطر 135 إلى نهاية الملف)
@@ -369,25 +340,10 @@ export default function Step12_Review({ wizardData: passedWizardData, onBack }: 
 
       <div className="rounded-xl border border-indigo-200 bg-indigo-50 p-5 space-y-3">
         <div>
-          <h3 className="font-semibold text-indigo-950">السياق المعرفي — اختياري</h3>
-          <p className="mt-1 text-sm leading-6 text-indigo-800">يمكنك تشغيل التوصية فوق سياق Knowledge محدد، أو المتابعة بدون سياق إضافي. هذا لا يغيّر قرارات CDKS ولا ينشئ صلاحية إطلاق.</p>
+          <h3 className="font-semibold text-indigo-950">السياق المعرفي — يحدده النظام تلقائيًا</h3>
+          <p className="mt-1 text-sm leading-6 text-indigo-800">لا يحتاج العميل إلى اختيار مصدر معرفي. يطابق الخادم تلقائيًا سياقًا مسموحًا فقط عندما يتطابق السوق والنشاط مع نطاق الأدلة المنقحة؛ وإلا تستمر النتيجة اعتمادًا على Wizard وCDKS فقط.</p>
         </div>
-        <label className="block text-sm font-medium text-indigo-950">
-          اختر سياقًا معرفيًا
-          <select
-            value={selectedKnowledgeContextId}
-            onChange={(event) => setSelectedKnowledgeContextId(event.target.value)}
-            className="mt-2 w-full rounded-lg border border-indigo-300 bg-white px-3 py-2.5 text-sm text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
-          >
-            <option value="">بدون سياق معرفي إضافي</option>
-            {knowledgeContextOptions.map((option) => (
-              <option key={option.id} value={option.id}>{option.label} — {option.status}</option>
-            ))}
-          </select>
-        </label>
-        {selectedKnowledgeContextId && (
-          <p className="text-xs leading-5 text-indigo-800">{knowledgeContextOptions.find((option) => option.id === selectedKnowledgeContextId)?.description ?? "سياق مقيد"} سيظل محدودًا واستشاريًا، مع إبقاء Market Validation غير مفعّل.</p>
-        )}
+        <p className="rounded-lg bg-white/70 p-3 text-xs leading-5 text-indigo-900">سيظهر السياق الذي استخدمه النظام، إن وُجد، في صفحة Blueprint كمرجع للقراءة فقط. لا يغيّر هذا السياق قرارات CDKS ولا يفعّل Market Validation ولا ينشئ صلاحية إطلاق.</p>
       </div>
 
       {status !== "idle" && status !== "error" && status !== "success" && (

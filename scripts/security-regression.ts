@@ -9,6 +9,8 @@ async function main() {
   process.env.CDKS_APP_DB_PATH = path.join(tempDir, "app.sqlite");
   process.env.AI_LIVE_ENABLED = "false";
   process.env.CDKS_DEFAULT_WORKSPACE_USER_ID = "security-reviewer";
+  process.env.CDKS_LOCAL_AUTH_USER_ID = "security-reviewer";
+  process.env.CDKS_LOCAL_AUTH_WORKSPACE_ID = "workspace-local-cdks";
   process.env.CDKS_LOCAL_AUTH_ACCESS_CODE = "security-local-test-access-code";
   process.env.CDKS_LOCAL_AUTH_SESSION_SECRET = "security-local-session-secret-012345678901234567890";
   delete process.env.CDKS_AUTHORIZED_REVIEWER_IDS;

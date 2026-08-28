@@ -2,6 +2,7 @@ import {
   ScopedStrategySelectionSchema,
   type ScopedStrategySelection,
 } from "../contracts/knowledge-strategy-context";
+import type { CanonicalWizardInput } from "../contracts/wizard-input";
 import { MarketEvidenceSnapshotSchema } from "../contracts/knowledge";
 
 export const AVAILABLE_STRATEGY_CONTEXT_IDS = ["shaaddesign-ga4-2023"] as const;
@@ -151,4 +152,32 @@ export function getStrategyContextSelection(id: string): ScopedStrategySelection
 
 export function getStrategyContextOption(id: string): AvailableStrategyContextOption | undefined {
   return OPTIONS.find((option) => option.id === id);
+}
+
+function normalizedSearchText(values: unknown[]): string {
+  return values
+    .filter((value): value is string => typeof value === "string")
+    .join(" ")
+    .trim()
+    .toLowerCase();
+}
+
+/**
+ * Selects a context only when the Wizard input proves the exact allowlisted scope.
+ * This is intentionally conservative: generic Saudi activity does not match the
+ * ShaadDesign context unless interior-design signals are present as well.
+ */
+export function getAutomaticallyMatchedStrategyContext(input: CanonicalWizardInput): ScopedStrategySelection | undefined {
+  const locationText = normalizedSearchText(input.target_locations);
+  const businessText = normalizedSearchText([
+    input.business_type,
+    input.offer_description,
+    input.customer_problem,
+    input.usp,
+    input.core_message,
+  ]);
+  const saudiMatch = /(saudi|السعودية|سعودية|الرياض|جدة|الدمام)/i.test(locationText);
+  const interiorDesignMatch = /(interior|decoration|decor|design|ديكور|تصميم داخلي|تصميم|أثاث|تشطيب)/i.test(businessText);
+
+  return saudiMatch && interiorDesignMatch ? SHAAD_DESIGN_SELECTION : undefined;
 }

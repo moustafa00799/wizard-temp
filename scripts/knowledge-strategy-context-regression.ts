@@ -13,6 +13,7 @@ import {
 import type { ScopedStrategySelection } from "../src/lib/contracts/knowledge-strategy-context";
 import { MarketEvidenceSnapshotSchema } from "../src/lib/contracts/knowledge";
 import { selectedMarketStrategySelections } from "../tests/fixtures/knowledge/selected-market-strategy-fixtures";
+import { getAutomaticallyMatchedStrategyContext } from "../src/lib/knowledge/available-strategy-contexts";
 import { POST as generateV5 } from "../src/app/api/generate/v5/route";
 import { GET as listKnowledgeContexts } from "../src/app/api/knowledge/contexts/route";
 
@@ -52,6 +53,19 @@ async function main() {
   const educationFixture = readFixture("EX-005_education-leads.json");
   const ecommerceInput = canonicalizeWizardInput((ecommerceFixture as { input: unknown }).input);
   const educationInput = canonicalizeWizardInput((educationFixture as { input: unknown }).input);
+  const shaadFixture = {
+    ...(ecommerceFixture as Record<string, unknown>),
+    input: {
+      ...((ecommerceFixture as { input: Record<string, unknown> }).input),
+      business_type: "interior_design_and_decoration",
+      target_locations: ["Saudi Arabia"],
+      offer_description: "تصميم داخلي وديكور للمنازل والمكاتب",
+      usp: "تصميم داخلي متكامل",
+    },
+  };
+  const shaadInput = canonicalizeWizardInput((shaadFixture as { input: unknown }).input);
+  assert.equal(getAutomaticallyMatchedStrategyContext(ecommerceInput), undefined);
+  assert.equal(getAutomaticallyMatchedStrategyContext(shaadInput)?.packageId, "shaaddesign-ga4-restricted-package-2023");
   const ecommerceBlueprint = await engine.generate(ecommerceInput);
   const educationBlueprint = await engine.generate(educationInput);
   const ecommerceBefore = JSON.stringify(ecommerceBlueprint);
@@ -109,12 +123,13 @@ async function main() {
       ai_strategy_builder: { enabled: false },
     }),
   }));
-  const routeBody = await routeResponse.json() as { status: string; data?: { strategy: { status: string; limitations: string[] }; decisions: { objective: { value: string } } } };
+  const routeBody = await routeResponse.json() as { status: string; data?: { strategy: { status: string; limitations: string[] }; decisions: { objective: { value: string } } }; knowledge_context?: unknown };
   assert.equal(routeResponse.status, 200);
   assert.equal(routeBody.status, "success");
   assert.equal(routeBody.data?.strategy.status, "not_requested");
   assert.equal(routeBody.data?.decisions.objective.value, "sales");
-  assert.ok(routeBody.data?.strategy.limitations.some((item) => item.includes(saEcommerce.contextId)));
+  assert.equal(routeBody.knowledge_context, null);
+  assert.equal(routeBody.data?.strategy.limitations.some((item) => item.includes(saEcommerce.contextId)), false);
 
   const allowlistedRouteResponse = await generateV5(new NextRequest("http://localhost/api/generate/v5", {
     method: "POST",
@@ -125,26 +140,37 @@ async function main() {
       ai_advisory: { enabled: false },
     }),
   }));
-  const allowlistedRouteBody = await allowlistedRouteResponse.json() as { status: string; knowledge_context?: { packageId: string; snapshotId: string; market: string; industry: string; currency: string; scopedMarketValidated: boolean; globalMarketValidated: boolean; approvedFactCount: number } };
+  const ignoredClientContextBody = await allowlistedRouteResponse.json() as { status: string; knowledge_context?: unknown };
   assert.equal(allowlistedRouteResponse.status, 200);
-  assert.equal(allowlistedRouteBody.status, "success");
-  assert.equal(allowlistedRouteBody.knowledge_context?.packageId, "shaaddesign-ga4-restricted-package-2023");
-  assert.equal(allowlistedRouteBody.knowledge_context?.snapshotId, "shaaddesign-ga4-restricted-snapshot-2023");
-  assert.equal(allowlistedRouteBody.knowledge_context?.market, "SA");
-  assert.equal(allowlistedRouteBody.knowledge_context?.industry, "interior_design_and_decoration");
-  assert.equal(allowlistedRouteBody.knowledge_context?.currency, "SAR");
-  assert.equal(allowlistedRouteBody.knowledge_context?.scopedMarketValidated, false);
-  assert.equal(allowlistedRouteBody.knowledge_context?.globalMarketValidated, false);
-  assert.equal(allowlistedRouteBody.knowledge_context?.approvedFactCount, 3);
+  assert.equal(ignoredClientContextBody.status, "success");
+  assert.equal(ignoredClientContextBody.knowledge_context, null);
+
+  const automaticallyMatchedRouteResponse = await generateV5(new NextRequest("http://localhost/api/generate/v5", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ ...(shaadFixture as object), ai_advisory: { enabled: false } }),
+  }));
+  const automaticallyMatchedBody = await automaticallyMatchedRouteResponse.json() as { status: string; knowledge_context?: { packageId: string; snapshotId: string; market: string; industry: string; currency: string; scopedMarketValidated: boolean; globalMarketValidated: boolean; approvedFactCount: number } | null };
+  assert.equal(automaticallyMatchedRouteResponse.status, 200);
+  assert.equal(automaticallyMatchedBody.status, "success");
+  assert.equal(automaticallyMatchedBody.knowledge_context?.packageId, "shaaddesign-ga4-restricted-package-2023");
+  assert.equal(automaticallyMatchedBody.knowledge_context?.snapshotId, "shaaddesign-ga4-restricted-snapshot-2023");
+  assert.equal(automaticallyMatchedBody.knowledge_context?.market, "SA");
+  assert.equal(automaticallyMatchedBody.knowledge_context?.industry, "interior_design_and_decoration");
+  assert.equal(automaticallyMatchedBody.knowledge_context?.currency, "SAR");
+  assert.equal(automaticallyMatchedBody.knowledge_context?.scopedMarketValidated, false);
+  assert.equal(automaticallyMatchedBody.knowledge_context?.globalMarketValidated, false);
+  assert.equal(automaticallyMatchedBody.knowledge_context?.approvedFactCount, 3);
 
   const unknownContextResponse = await generateV5(new NextRequest("http://localhost/api/generate/v5", {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify({ ...(ecommerceFixture as object), knowledge_context_id: "unknown-context" }),
   }));
-  assert.equal(unknownContextResponse.status, 500);
-  const unknownContextBody = await unknownContextResponse.json() as { status: string; error?: string };
-  assert.equal(unknownContextBody.status, "error");
+  assert.equal(unknownContextResponse.status, 200);
+  const unknownContextBody = await unknownContextResponse.json() as { status: string; knowledge_context?: unknown };
+  assert.equal(unknownContextBody.status, "success");
+  assert.equal(unknownContextBody.knowledge_context, null);
 
   const educationRecommendations = contexts.slice(1).map((context) => buildStrategyRecommendation(educationInput, educationBlueprint, context));
   for (const [index, recommendation] of educationRecommendations.entries()) {

@@ -43,6 +43,7 @@ jobs:
           npm run test:workspace:isolation
           npm run test:security
           npm run test:auth:local
+          npm run test:blueprint:display
           npm run test:deployment:local
           CDKS_GOOGLE_DRIVE_MERGE_DATABASE=/tmp/cdks-shaaddesign-snapshot.sqlite npm run knowledge:shaaddesign:snapshot
           CDKS_GOOGLE_DRIVE_MERGE_DATABASE=/tmp/cdks-shaaddesign-snapshot.sqlite npm run test:knowledge:shaaddesign-snapshot

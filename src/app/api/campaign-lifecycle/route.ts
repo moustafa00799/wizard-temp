@@ -105,8 +105,10 @@ export async function POST(request: NextRequest) {
       assertSafeLifecycleReference(action.event_id, "event_id");
       if (action.actor_user_id) assertSafeLifecycleReference(action.actor_user_id, "actor_user_id");
       assertAllowedCampaignTransition(action.from_state, action.to_state);
-      if (action.actor_type === "user") assertProductionReviewerGate(session.userId);
-      if (action.to_state === "approved" && action.actor_type !== "user") throw new Error("Only an identified human actor may approve a campaign lifecycle.");
+      if (action.to_state === "approved") {
+        if (action.actor_type !== "user") throw new Error("Only an identified human actor may approve a campaign lifecycle.");
+        assertProductionReviewerGate(session.userId);
+      }
     }
 
     const { repositories } = getRuntimeDatabaseState();

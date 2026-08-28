@@ -68,6 +68,7 @@
     "test:workspace:isolation": "tsx scripts/workspace-isolation-regression.ts",
     "test:security": "tsx scripts/security-regression.ts",
     "test:auth:local": "tsx scripts/local-auth-regression.ts",
+    "test:blueprint:display": "tsx scripts/blueprint-display-regression.ts",
     "test:security:production": "NODE_ENV=production tsx scripts/security-regression.ts",
     "test:deployment:local": "node scripts/deployment-readiness-local-regression.cjs",
     "test:personal-staging": "tsx scripts/personal-staging-regression.ts",

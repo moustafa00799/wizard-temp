@@ -7,7 +7,7 @@ import { validateBlueprintContractV3 } from '@/lib/contracts/blueprint-contract-
 import { buildAIStrategyProposal } from '@/lib/ai-strategy-builder';
 import { buildAIReasoning, reasoningTraceFromContract } from '@/lib/ai-reasoning-builder';
 import { buildScopedStrategyContext } from '@/lib/knowledge/strategy-context';
-import { getStrategyContextSelection } from '@/lib/knowledge/available-strategy-contexts';
+import { getAutomaticallyMatchedStrategyContext } from '@/lib/knowledge/available-strategy-contexts';
 import { sanitizeWizardInputForAI } from '@/lib/ai-sanitizer';
 import type { ScopedStrategyContext } from '@/lib/contracts/knowledge-strategy-context';
 import { ZodError } from 'zod';
@@ -73,15 +73,9 @@ export async function POST(request: NextRequest) {
         updatedAt: String(lifecycle.updated_at),
       };
     }
-    const requestedKnowledgeContextId = bodyRecord && typeof bodyRecord.knowledge_context_id === 'string'
-      ? bodyRecord.knowledge_context_id.trim()
-      : '';
-    const rawKnowledgeSelection = bodyRecord && bodyRecord.knowledge_strategy_selection && typeof bodyRecord.knowledge_strategy_selection === 'object'
-      ? bodyRecord.knowledge_strategy_selection
-      : undefined;
-    const knowledgeSelection = requestedKnowledgeContextId
-      ? getStrategyContextSelection(requestedKnowledgeContextId)
-      : process.env.NODE_ENV === 'production' ? undefined : rawKnowledgeSelection;
+    // Knowledge Context is derived server-side from the canonical Wizard input.
+    // Client-provided context IDs/selections are intentionally ignored.
+    const knowledgeSelection = getAutomaticallyMatchedStrategyContext(validatedInput);
     const knowledgeContext: ScopedStrategyContext | undefined = knowledgeSelection
       ? buildScopedStrategyContext(knowledgeSelection)
       : undefined;

@@ -7,6 +7,14 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import ReasoningDashboard from "../../components/ReasoningDashboard";
+import {
+  displayFieldLabel,
+  displaySource,
+  displayStatus,
+  displayUnavailableReason,
+  displayValue as safeDisplayValue,
+  isUnavailableValue,
+} from "../../lib/blueprint-display";
 
 type SectionKey =
   | "executive_summary"
@@ -39,20 +47,20 @@ type SectionKey =
 const sections: { key: SectionKey; title: string; icon: string }[] = [
   { key: "executive_summary", title: "الملخص التنفيذي", icon: "📊" },
   { key: "strategy_summary", title: "ملخص الاستراتيجية", icon: "🎯" },
-  { key: "recommended_funnel", title: "الـ Funnel المقترح", icon: "🔄" },
+  { key: "recommended_funnel", title: "المسار التسويقي المقترح", icon: "🔄" },
   { key: "campaign_structure", title: "هيكل الحملات", icon: "📢" },
   { key: "audience_structure", title: "هيكل الجمهور", icon: "👥" },
   { key: "audience_analysis", title: "تحليل الجمهور", icon: "🔍" },
   { key: "budget_split", title: "توزيع الميزانية", icon: "💰" },
   { key: "creative_strategy", title: "الاستراتيجية الإبداعية", icon: "🧠" },
   { key: "creative_angles", title: "الزوايا الإبداعية", icon: "🎨" },
-  { key: "tracking_assessment", title: "تقييم التتبع", icon: "📈" },
-  { key: "tracking_checklist", title: "قائمة التتبع", icon: "📡" },
+  { key: "tracking_assessment", title: "تقييم التتبع والقياس", icon: "📈" },
+  { key: "tracking_checklist", title: "قائمة تجهيز التتبع", icon: "📡" },
   { key: "launch_plan", title: "خطة الإطلاق", icon: "🚀" },
-  { key: "first_14_days_plan", title: "خطة أول 14 يوم", icon: "📅" },
+  { key: "first_14_days_plan", title: "خطة أول 14 يومًا", icon: "📅" },
   { key: "pre_launch_fixes", title: "إصلاحات ما قبل الإطلاق", icon: "🔧" },
   { key: "offer_strategy", title: "استراتيجية العرض", icon: "🏷️" },
-  { key: "monitoring", title: "المراقبة بعد الإطلاق", icon: "👁️" },
+  { key: "monitoring", title: "المراقبة والتحسين", icon: "👁️" },
   { key: "budget_management", title: "إدارة الميزانية", icon: "🧮" },
   { key: "testing", title: "خطة الاختبارات", icon: "🧪" },
   { key: "benchmarks", title: "المؤشرات المرجعية", icon: "📏" },
@@ -62,36 +70,59 @@ const sections: { key: SectionKey; title: string; icon: string }[] = [
   { key: "technical_audit", title: "التدقيق التقني", icon: "🛠️" },
   { key: "risk_flags", title: "تحذيرات المخاطر", icon: "⚠️" },
   { key: "flags", title: "حالة النظام", icon: "🚩" },
-  { key: "debug", title: "التشخيص والتتبع", icon: "🧾" },
+  { key: "debug", title: "التفاصيل التقنية", icon: "🧾" },
+];
+
+type SectionGroupKey = "decision" | "execution" | "measurement" | "market" | "readiness" | "technical";
+
+const sectionGroups: { key: SectionGroupKey; title: string; description: string; icon: string; sections: SectionKey[] }[] = [
+  {
+    key: "decision",
+    title: "ملخص القرار",
+    description: "ماذا فهم النظام؟ وما الاتجاه الاستراتيجي المقترح؟",
+    icon: "🎯",
+    sections: ["executive_summary", "strategy_summary", "recommended_funnel", "campaign_structure", "audience_structure"],
+  },
+  {
+    key: "execution",
+    title: "خطة التنفيذ",
+    description: "الجمهور، الرسائل، الإبداع، والعرض المقترح.",
+    icon: "📢",
+    sections: ["audience_analysis", "creative_strategy", "creative_angles", "offer_strategy"],
+  },
+  {
+    key: "measurement",
+    title: "الميزانية والقياس",
+    description: "التتبع، الاختبارات، المراقبة، وما يمكن قياسه بأمان.",
+    icon: "📊",
+    sections: ["budget_split", "tracking_assessment", "tracking_checklist", "monitoring", "budget_management", "testing", "benchmarks"],
+  },
+  {
+    key: "market",
+    title: "السوق والمنصات",
+    description: "السياق المتاح للقطاع وإرشادات القنوات وحدود الأدلة.",
+    icon: "🌍",
+    sections: ["market_context", "platform_guides"],
+  },
+  {
+    key: "readiness",
+    title: "الجاهزية والمخاطر",
+    description: "ما الذي يحتاج مراجعة قبل الاعتماد أو أي إطلاق مستقبلي؟",
+    icon: "🛡️",
+    sections: ["launch_plan", "first_14_days_plan", "pre_launch_fixes", "compliance", "risk_flags", "flags"],
+  },
+  {
+    key: "technical",
+    title: "التفاصيل التقنية",
+    description: "التدقيق والتتبع التشخيصي للمراجع أو المطور فقط.",
+    icon: "🛠️",
+    sections: ["technical_audit", "debug"],
+  },
 ];
 
 /* -------------------------------------------------------------------------- */
 /* Safe rendering helpers                                                     */
 /* -------------------------------------------------------------------------- */
-
-const DISPLAY_LABELS: Record<string, string> = {
-  ready_with_fixes: "جاهز مع إصلاحات",
-  ready: "جاهز",
-  review: "يحتاج مراجعة",
-  blocked: "متوقف مؤقتًا",
-  good: "جيدة",
-  medium: "متوسطة",
-  high: "مرتفعة",
-  low: "منخفضة",
-  ecommerce: "التجارة الإلكترونية",
-  sales: "المبيعات",
-  leads: "العملاء المحتملون",
-  website: "الموقع الإلكتروني",
-  store: "المتجر الإلكتروني",
-  website_purchase: "شراء من الموقع",
-  partial: "جزئي",
-  complete: "مكتمل",
-  meta: "Meta",
-  google_ads: "Google Ads",
-  tiktok_ads: "TikTok Ads",
-  linkedin: "LinkedIn",
-  blueprint_only: "Blueprint فقط",
-};
 
 function unwrap(value: any): any {
   if (
@@ -106,42 +137,7 @@ function unwrap(value: any): any {
   return value;
 }
 
-function displayValue(value: any, fallback = "غير محدد"): string {
-  const unwrapped = unwrap(value);
-
-  if (
-    unwrapped === null ||
-    unwrapped === undefined ||
-    unwrapped === ""
-  ) {
-    return fallback;
-  }
-
-  if (typeof unwrapped === "string" || typeof unwrapped === "number") {
-    return typeof unwrapped === "string" ? DISPLAY_LABELS[unwrapped] ?? unwrapped : String(unwrapped);
-  }
-
-  if (typeof unwrapped === "boolean") {
-    return unwrapped ? "نعم" : "لا";
-  }
-
-  if (Array.isArray(unwrapped)) {
-    return unwrapped
-      .map((item) => displayValue(item, ""))
-      .filter(Boolean)
-      .join("، ");
-  }
-
-  if (typeof unwrapped === "object") {
-    if (unwrapped.name) return String(unwrapped.name);
-    if (unwrapped.label) return String(unwrapped.label);
-    if (unwrapped.description) return String(unwrapped.description);
-    if (unwrapped.type) return String(unwrapped.type);
-    return fallback;
-  }
-
-  return fallback;
-}
+const displayValue = safeDisplayValue;
 
 function asArray(value: any): any[] {
   const unwrapped = unwrap(value);
@@ -267,7 +263,7 @@ function DataCard({
 }) {
   return (
     <div className="bg-gray-50 rounded-lg p-3 border">
-      <p className="text-xs text-gray-500 mb-1">{label}</p>
+      <p className="text-xs text-gray-500 mb-1">{displayFieldLabel(label)}</p>
       <p className="font-medium text-gray-900 break-words">
         {displayValue(value)}
       </p>
@@ -2231,12 +2227,14 @@ function ListBlock({ title, items, tone = "gray" }: { title: string; items: any;
 }
 
 function StatusPill({ status }: { status: any }) {
-  const value = String(displayValue(status, "unavailable"));
-  const style = value === "pass" || value === "ready" || value === "present" || value === "available"
+  const rawStatus = unwrap(status);
+  const statusKey = typeof rawStatus === "string" ? rawStatus : "unavailable";
+  const value = displayStatus(status);
+  const style = statusKey === "pass" || statusKey === "ready" || statusKey === "present" || statusKey === "available"
     ? "bg-green-100 text-green-800"
-    : value === "fail" || value === "missing"
+    : statusKey === "fail" || statusKey === "missing"
     ? "bg-red-100 text-red-800"
-    : value === "warning" || value === "partial" || value === "check_manually"
+    : statusKey === "warning" || statusKey === "partial" || statusKey === "check_manually"
     ? "bg-yellow-100 text-yellow-800"
     : "bg-gray-100 text-gray-700";
   return <span className={`inline-flex rounded-full px-2 py-1 text-xs font-bold ${style}`}>{value}</span>;
@@ -2252,14 +2250,14 @@ function EvidenceCard({ label, value }: { label: string; value: any }) {
         <p className="font-bold text-gray-900">{label}</p>
         {status !== undefined && <StatusPill status={status} />}
       </div>
-      {source !== undefined && <p className="text-xs text-gray-500 mb-2">المصدر: {displayValue(source)}</p>}
+      {source !== undefined && <p className="text-xs text-gray-500 mb-2">المصدر: {displaySource(source)}</p>}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
         {Object.entries(object)
           .filter(([key]) => !["source", "source_id", "rule_id", "status", "checklist_status", "reasoning", "value"].includes(key))
           .slice(0, 9)
           .map(([key, item]) => <DataCard key={key} label={key} value={item} />)}
       </div>
-      {object.reasoning && <p className="text-sm text-gray-600 mt-3 leading-relaxed">{displayValue(object.reasoning)}</p>}
+      {object.reasoning && <p className="text-sm text-gray-600 mt-3 leading-relaxed">{isUnavailableValue(object.reasoning) ? displayUnavailableReason(object.reasoning) : displayValue(object.reasoning)}</p>}
     </div>
   );
 }
@@ -2809,6 +2807,20 @@ export default function BlueprintPage() {
       "executive_summary"
     );
 
+  const [activeGroup, setActiveGroup] =
+    useState<SectionGroupKey>("decision");
+
+  const activeSectionGroup = sectionGroups.find((group) => group.key === activeGroup) ?? sectionGroups[0];
+  const visibleSections = activeSectionGroup.sections
+    .map((key) => sections.find((section) => section.key === key))
+    .filter((section): section is (typeof sections)[number] => Boolean(section));
+
+  useEffect(() => {
+    if (!visibleSections.some((section) => section.key === activeSection)) {
+      setActiveSection(visibleSections[0]?.key ?? "executive_summary");
+    }
+  }, [activeGroup]);
+
   useEffect(() => {
     const stored = sessionStorage.getItem("blueprint_data");
 
@@ -3009,10 +3021,25 @@ export default function BlueprintPage() {
 
         <details className="mt-4 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
           <summary className="cursor-pointer list-none px-5 py-4 text-sm font-bold text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
-            Blueprint التفصيلي — للمراجعة المتقدمة (26 قسمًا)
+            Blueprint التفصيلي — للمراجعة المتقدمة (6 محاور / 26 قسمًا)
           </summary>
           <div className="border-t border-gray-200 px-4 pb-4">
-            <div className="max-w-6xl mx-auto py-4 flex gap-6">
+            <div className="py-4">
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {sectionGroups.map((group) => (
+                  <button
+                    key={group.key}
+                    type="button"
+                    onClick={() => setActiveGroup(group.key)}
+                    className={`rounded-xl border p-4 text-right transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${activeGroup === group.key ? "border-blue-500 bg-blue-50 text-blue-900" : "border-gray-200 bg-white text-gray-700 hover:border-blue-200 hover:bg-blue-50/50"}`}
+                    aria-pressed={activeGroup === group.key}
+                  >
+                    <span className="flex items-center gap-2 text-sm font-bold"><span>{group.icon}</span>{group.title}</span>
+                    <span className="mt-2 block text-xs leading-5 text-gray-500">{group.description}</span>
+                  </button>
+                ))}
+              </div>
+              <div className="mt-5 flex gap-6">
         <aside className="w-64 shrink-0 hidden md:block">
           <div className="bg-white rounded-xl border overflow-hidden sticky top-24">
             <div className="p-4 border-b bg-gray-50">
@@ -3022,7 +3049,7 @@ export default function BlueprintPage() {
             </div>
 
             <nav className="divide-y">
-              {sections.map(
+              {visibleSections.map(
                 (section) => (
                   <button
                     key={section.key}
@@ -3061,7 +3088,7 @@ export default function BlueprintPage() {
             }
             className="w-full p-3 bg-white border rounded-xl text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
           >
-            {sections.map(
+            {visibleSections.map(
               (section) => (
                 <option
                   key={section.key}
@@ -3126,7 +3153,8 @@ export default function BlueprintPage() {
             )}
           </div>
         </main>
-            </div>
+              </div>
+          </div>
           </div>
         </details>
       </div>
