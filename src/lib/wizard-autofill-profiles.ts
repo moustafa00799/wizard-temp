@@ -1,6 +1,8 @@
 import type { DataModel } from "@/lib/store";
+import type { AppLocale } from "@/lib/i18n";
 
-export type WizardAutofillProfile = DataModel & {
+export type WizardAutofillProfile = Omit<DataModel, "locale"> & {
+  locale: AppLocale;
   scenario_id: string;
   title: string;
 };
@@ -10,6 +12,7 @@ export const WIZARD_AUTOFILL_PROFILES: WizardAutofillProfile[] = [
   {
     "scenario_id": "EX-001",
     "title": "E-commerce — Sales",
+    "locale": "ar",
     "business_type": "ecommerce",
     "primary_objective": "sales",
     "build_mode": "new_campaign",
@@ -90,6 +93,7 @@ export const WIZARD_AUTOFILL_PROFILES: WizardAutofillProfile[] = [
   {
     "scenario_id": "EX-002",
     "title": "B2B — Leads",
+    "locale": "ar",
     "business_type": "b2b",
     "primary_objective": "leads",
     "build_mode": "new_campaign",
@@ -176,6 +180,7 @@ export const WIZARD_AUTOFILL_PROFILES: WizardAutofillProfile[] = [
   {
     "scenario_id": "EX-003",
     "title": "Local Service — Calls",
+    "locale": "ar",
     "business_type": "local_service",
     "primary_objective": "messages",
     "build_mode": "new_campaign",
@@ -248,6 +253,7 @@ export const WIZARD_AUTOFILL_PROFILES: WizardAutofillProfile[] = [
   {
     "scenario_id": "EX-004",
     "title": "App — Installs",
+    "locale": "ar",
     "business_type": "app",
     "primary_objective": "app_installs",
     "build_mode": "new_campaign",
@@ -325,6 +331,7 @@ export const WIZARD_AUTOFILL_PROFILES: WizardAutofillProfile[] = [
   {
     "scenario_id": "EX-005",
     "title": "Education — Leads",
+    "locale": "ar",
     "business_type": "education",
     "primary_objective": "leads",
     "build_mode": "new_campaign",
@@ -406,6 +413,7 @@ export const WIZARD_AUTOFILL_PROFILES: WizardAutofillProfile[] = [
   {
     "scenario_id": "EX-006",
     "title": "Retargeting — E-commerce",
+    "locale": "ar",
     "business_type": "ecommerce",
     "primary_objective": "sales",
     "build_mode": "optimize_existing",
@@ -489,6 +497,7 @@ export const WIZARD_AUTOFILL_PROFILES: WizardAutofillProfile[] = [
   {
     "scenario_id": "EX-007",
     "title": "Testing Mode",
+    "locale": "ar",
     "business_type": "consumer_product",
     "primary_objective": "awareness",
     "build_mode": "new_campaign",
@@ -563,6 +572,7 @@ export const WIZARD_AUTOFILL_PROFILES: WizardAutofillProfile[] = [
   {
     "scenario_id": "EX-008",
     "title": "Multi-Channel Scale",
+    "locale": "ar",
     "business_type": "ecommerce",
     "primary_objective": "sales",
     "build_mode": "optimize_existing",
@@ -655,6 +665,7 @@ export const WIZARD_AUTOFILL_PROFILES: WizardAutofillProfile[] = [
   {
     "scenario_id": "EX-009",
     "title": "Awareness Campaign",
+    "locale": "ar",
     "business_type": "consumer_product",
     "primary_objective": "awareness",
     "build_mode": "new_campaign",
@@ -730,6 +741,7 @@ export const WIZARD_AUTOFILL_PROFILES: WizardAutofillProfile[] = [
   {
     "scenario_id": "EX-010",
     "title": "Lead Gen — High Risk Tolerance",
+    "locale": "ar",
     "business_type": "b2b",
     "primary_objective": "leads",
     "build_mode": "new_campaign",

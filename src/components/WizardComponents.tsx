@@ -1,6 +1,12 @@
 "use client";
 
 import React from "react";
+import { useWizardStore } from "@/lib/store";
+
+function useWizardLocale() {
+  const locale = useWizardStore((state) => state.data.locale === "en" ? "en" : "ar");
+  return { locale, direction: locale === "ar" ? "rtl" as const : "ltr" as const };
+}
 
 // ── QuestionCard ──────────────────────────────────────────────────────────────
 interface QuestionCardProps {
@@ -8,9 +14,10 @@ interface QuestionCardProps {
   children: React.ReactNode;
 }
 export function QuestionCard({ label, children }: QuestionCardProps) {
+  const { direction } = useWizardLocale();
   return (
     <div className="mb-8">
-      <p className="text-white text-lg font-semibold mb-4 text-right leading-relaxed">
+      <p className={`text-white text-lg font-semibold mb-4 leading-relaxed ${direction === "rtl" ? "text-right" : "text-left"}`}>
         {label}
       </p>
       {children}
@@ -60,6 +67,7 @@ export function MultiSelectChips({
   value,
   onChange,
 }: MultiSelectChipsProps) {
+  const { direction } = useWizardLocale();
   const toggle = (v: string) => {
     if (value.includes(v)) {
       onChange(value.filter((x) => x !== v));
@@ -68,7 +76,7 @@ export function MultiSelectChips({
     }
   };
   return (
-    <div className="flex flex-wrap gap-2 justify-end">
+    <div className={`flex flex-wrap gap-2 ${direction === "rtl" ? "justify-end" : "justify-start"}`}>
       {options.map((opt) => (
         <button
           key={opt.value}
@@ -100,9 +108,10 @@ export function TextArea({
   onChange,
   rows = 4,
 }: TextAreaProps) {
+  const { direction } = useWizardLocale();
   return (
     <textarea
-      dir="rtl"
+      dir={direction}
       rows={rows}
       placeholder={placeholder}
       value={value}
@@ -119,10 +128,11 @@ interface NumberInputProps {
   onChange: (value: number | null) => void;
 }
 export function NumberInput({ placeholder, value, onChange }: NumberInputProps) {
+  const { direction } = useWizardLocale();
   return (
     <input
       type="number"
-      dir="rtl"
+      dir={direction}
       placeholder={placeholder}
       value={value ?? ""}
       onChange={(e) => {
@@ -145,11 +155,12 @@ export function TextListInput({
   value,
   onChange,
 }: TextListInputProps) {
-  const raw = value.join("، ");
+  const { direction } = useWizardLocale();
+  const raw = value.join(direction === "rtl" ? "، " : ", ");
   return (
     <input
       type="text"
-      dir="rtl"
+      dir={direction}
       placeholder={placeholder}
       value={raw}
       onChange={(e) => {
@@ -175,10 +186,13 @@ interface StepNavProps {
 export function StepNav({
   onBack,
   onNext,
-  nextLabel = "التالي",
+  nextLabel,
   canGoBack = true,
   isLast = false,
 }: StepNavProps) {
+  const { locale, direction } = useWizardLocale();
+  const resolvedNextLabel = nextLabel ?? (locale === "ar" ? "التالي" : "Next");
+  const backLabel = locale === "ar" ? "السابق" : "Back";
   return (
     <div className="flex justify-between items-center mt-8 gap-4">
       {canGoBack && onBack ? (
@@ -186,7 +200,7 @@ export function StepNav({
           onClick={onBack}
           className="px-5 py-2.5 rounded-xl border border-gray-700 text-gray-400 text-sm hover:bg-gray-800 hover:text-gray-200 transition-colors"
         >
-          ← السابق
+          {direction === "rtl" ? "←" : "→"} {backLabel}
         </button>
       ) : (
         <div />
@@ -200,7 +214,7 @@ export function StepNav({
               : "bg-violet-600 hover:bg-violet-500 text-white shadow-violet-900/30"
           }`}
       >
-        {nextLabel} →
+        {resolvedNextLabel} {direction === "rtl" ? "→" : "←"}
       </button>
     </div>
   );

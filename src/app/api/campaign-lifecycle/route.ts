@@ -114,7 +114,7 @@ export async function POST(request: NextRequest) {
     const { repositories } = getRuntimeDatabaseState();
     assertWorkspaceExists(repositories, action.workspace_id);
     if (action.action === "transition" && action.actor_type === "user") {
-      assertHumanWorkspaceRole(repositories, action.workspace_id, action.actor_user_id);
+      assertHumanWorkspaceRole(repositories, action.workspace_id, session.userId);
     }
     if (action.action === "create") {
       const blueprint = repositories.blueprints.get(action.blueprint_id) as Record<string, unknown> | undefined;

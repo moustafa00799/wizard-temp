@@ -60,7 +60,6 @@ const review = await transition({
   from_state: "draft",
   to_state: "review",
   actor_type: "user",
-  actor_user_id: "http-reviewer",
   canonical_sha256: lifecycle.canonicalSha256,
 });
 assert.equal(review.response.status, 200);
@@ -79,6 +78,20 @@ const systemApproval = await transition({
 assert.equal(systemApproval.response.status, 403);
 assert.match(systemApproval.payload.error ?? "", /System lifecycle transitions/);
 
+const mismatchedActor = await transition({
+  action: "transition",
+  workspace_id: lifecycle.workspaceId,
+  lifecycle_id: lifecycle.lifecycleId,
+  event_id: `${lifecycle.lifecycleId}:http:mismatched-actor`,
+  from_state: "review",
+  to_state: "approved",
+  actor_type: "user",
+  actor_user_id: "some-other-user",
+  canonical_sha256: lifecycle.canonicalSha256,
+});
+assert.equal(mismatchedActor.response.status, 403);
+assert.match(mismatchedActor.payload.error ?? "", /actor_user_id must match/);
+
 const approval = await transition({
   action: "transition",
   workspace_id: lifecycle.workspaceId,
@@ -87,7 +100,6 @@ const approval = await transition({
   from_state: "review",
   to_state: "approved",
   actor_type: "user",
-  actor_user_id: "http-reviewer",
   note: "Approved for review/export preparation only; no external publishing.",
   canonical_sha256: lifecycle.canonicalSha256,
 });
@@ -131,7 +143,7 @@ assert.deepEqual(getPayload.events?.map((event) => event.toState), ["draft", "re
 fs.rmSync(tempDir, { recursive: true, force: true });
 console.log(JSON.stringify({
   status: "PASS",
-  assertions: 39,
+  assertions: 42,
   lifecycle: ["draft", "review", "approved"],
   systemApproval: "rejected",
   externalActionsAllowed: false,

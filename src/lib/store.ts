@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
+import type { AppLocale } from "./i18n";
 
 export interface DataModel {
   build_mode: string | null;
@@ -43,6 +44,8 @@ export interface DataModel {
   top_priority: string | null;
   risk_tolerance: string | null;
   final_confirmed_inputs: boolean | null;
+  /** Selected interface and output locale; canonical decisions remain language-neutral. */
+  locale: AppLocale;
   /** Client consent for optional sanitized AI advisory processing. */
   ai_advisory_enabled: boolean;
 }
@@ -89,6 +92,7 @@ const EMPTY_DATA: DataModel = {
   top_priority: null,
   risk_tolerance: null,
   final_confirmed_inputs: null,
+  locale: "ar",
   ai_advisory_enabled: false,
 };
 

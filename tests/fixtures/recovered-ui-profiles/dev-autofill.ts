@@ -83,6 +83,7 @@ const PROFILES: DataModel[] = [
     risk_tolerance: "high_if_return",
     final_confirmed_inputs: true,
     ai_advisory_enabled: false,
+    locale: "ar",
   },
 
   // ── Profile 2: Local service (plumbing/home services) ─────────────────────
@@ -132,6 +133,7 @@ const PROFILES: DataModel[] = [
     risk_tolerance: "medium",
     final_confirmed_inputs: true,
     ai_advisory_enabled: false,
+    locale: "ar",
   },
 
   // ── Profile 3: B2B SaaS ───────────────────────────────────────────────────
@@ -193,6 +195,7 @@ const PROFILES: DataModel[] = [
     risk_tolerance: "result_first",
     final_confirmed_inputs: true,
     ai_advisory_enabled: false,
+    locale: "ar",
   },
 ];
 

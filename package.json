@@ -75,6 +75,7 @@
     "test:randomized:wizard": "tsx scripts/randomized-wizard-fixture-regression.ts",
     "test:autofill:fixtures": "tsx scripts/autofill-fixture-regression.ts",
     "test:wizard:review:consent": "tsx scripts/wizard-review-consent-regression.ts",
+    "test:i18n": "tsx scripts/i18n-regression.ts",
     "generate:knowledge:strategy-recommendations": "tsx scripts/generate-selected-market-strategy-recommendations.ts",
     "semantic-eval": "tsx scripts/semantic-runner.ts"
   },

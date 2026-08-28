@@ -1,23 +1,48 @@
 "use client";
 import { useWizardStore } from "@/lib/store";
 import { QuestionCard, SingleSelect, StepNav } from "@/components/WizardComponents";
+import { LOCALE_OPTIONS } from "@/lib/i18n";
 
 const options = [
-  { label: "حملة جديدة من الصفر", value: "new_campaign" },
-  { label: "تحسين حملة موجودة", value: "optimize_existing" },
-  { label: "تشخيص نشاط قبل الإطلاق", value: "diagnose_business" },
-  { label: "إعادة هيكلة الحساب الإعلاني", value: "restructure_account" },
-  { label: "بناء خطة اختبار أولية", value: "test_plan" },
+  { ar: "حملة جديدة من الصفر", en: "A new campaign from scratch", value: "new_campaign" },
+  { ar: "تحسين حملة موجودة", en: "Optimize an existing campaign", value: "optimize_existing" },
+  { ar: "تشخيص نشاط قبل الإطلاق", en: "Diagnose the business before launch", value: "diagnose_business" },
+  { ar: "إعادة هيكلة الحساب الإعلاني", en: "Restructure the ad account", value: "restructure_account" },
+  { ar: "بناء خطة اختبار أولية", en: "Build an initial testing plan", value: "test_plan" },
 ];
 
 export default function Step0_Start({ onNext }: { onNext: () => void }) {
   const { data, setField } = useWizardStore();
+  const localizedOptions = options.map((option) => ({ label: data.locale === "en" ? option.en : option.ar, value: option.value }));
 
   return (
     <div>
-      <QuestionCard label="ما الذي تريد أن يبنيه النظام لك؟">
+      <section className="mb-8 rounded-2xl border border-violet-500/30 bg-gray-900/50 p-5" aria-label="اختيار لغة الواجهة والنتائج">
+        <div className="flex items-start justify-between gap-4">
+          <div className="text-right">
+            <p className="text-white text-base font-semibold">لغة الواجهة والنتائج / Interface and output language</p>
+            <p className="mt-2 text-sm leading-6 text-gray-400">اختر اللغة التي سيستخدمها النظام لعرض الـWizard والـBlueprint والتفسير الاستشاري. لا تتغير القرارات أو البيانات الحاكمة بتغيير اللغة.</p>
+          </div>
+          <span className="text-xl" aria-hidden="true">文</span>
+        </div>
+        <div className="mt-4 grid grid-cols-2 gap-2" role="group" aria-label="Language selection">
+          {LOCALE_OPTIONS.map((option) => (
+            <button
+              key={option.value}
+              type="button"
+              aria-pressed={data.locale === option.value}
+              onClick={() => setField("locale", option.value)}
+              className={`rounded-xl border px-4 py-3 text-sm font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-violet-400 ${data.locale === option.value ? "border-violet-400 bg-violet-600 text-white" : "border-gray-700 bg-gray-800/60 text-gray-300 hover:border-gray-500"}`}
+            >
+              {option.nativeLabel}
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <QuestionCard label={data.locale === "ar" ? "ما الذي تريد أن يبنيه النظام لك؟" : "What would you like the system to build for you?"}>
         <SingleSelect
-          options={options}
+          options={localizedOptions}
           value={data.build_mode}
           onChange={(value) => setField("build_mode", value)}
         />
@@ -26,10 +51,9 @@ export default function Step0_Start({ onNext }: { onNext: () => void }) {
       <section className="rounded-2xl border border-violet-500/30 bg-gray-900/50 p-5" aria-label="اختيار AI الاستشاري">
         <div className="flex items-start justify-between gap-4">
           <div className="text-right">
-            <p className="text-white text-base font-semibold">هل تريد استخدام AI الاستشاري؟</p>
+            <p className="text-white text-base font-semibold">{data.locale === "ar" ? "هل تريد استخدام AI الاستشاري؟" : "Would you like to use advisory AI?"}</p>
             <p className="mt-2 text-sm leading-6 text-gray-400">
-              اختياري تمامًا. عند تشغيله، سيحلل نسخة منقحة من إجاباتك ليقترح زوايا ورسائل ويفسر بعض قرارات Blueprint.
-              قرارات CDKS تظل هي الأساس، ولا يستطيع AI نشر حملة أو إنفاق ميزانية.
+              {data.locale === "ar" ? "اختياري تمامًا. عند تشغيله، سيحلل نسخة منقحة من إجاباتك ليقترح زوايا ورسائل ويفسر بعض قرارات Blueprint. قرارات CDKS تظل هي الأساس، ولا يستطيع AI نشر حملة أو إنفاق ميزانية." : "Completely optional. When enabled, it analyzes a sanitized copy of your answers to suggest angles and messages and explain selected Blueprint decisions. CDKS remains authoritative, and AI cannot publish a campaign or spend budget."}
             </p>
           </div>
           <button
@@ -57,8 +81,8 @@ export default function Step0_Start({ onNext }: { onNext: () => void }) {
             : "border-gray-700 bg-gray-800/40 text-gray-400"
         }`}>
           {data.ai_advisory_enabled
-            ? "تم اختيار AI الاستشاري. سيتم إرسال البيانات المنقحة فقط، ويتحقق الخادم من جاهزية المزود قبل تنفيذ أي طلب."
-            : "AI الاستشاري متوقف. سيُنشئ النظام Blueprint باستخدام Wizard وCDKS وRules Engine فقط."}
+            ? (data.locale === "ar" ? "تم اختيار AI الاستشاري. سيتم إرسال البيانات المنقحة فقط، ويتحقق الخادم من جاهزية المزود قبل تنفيذ أي طلب." : "Advisory AI is enabled. Only sanitized data is sent, and the server verifies provider readiness before making a request.")
+            : (data.locale === "ar" ? "AI الاستشاري متوقف. سيُنشئ النظام Blueprint باستخدام Wizard وCDKS وRules Engine فقط." : "Advisory AI is off. The system will create the Blueprint using Wizard, CDKS, and the Rules Engine only.")}
         </div>
       </section>
 

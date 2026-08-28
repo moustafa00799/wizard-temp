@@ -46,6 +46,7 @@ const emptyData: DataModel = {
   risk_tolerance: null,
   final_confirmed_inputs: null,
   ai_advisory_enabled: false,
+  locale: "ar",
 };
 
 function main() {
@@ -57,15 +58,17 @@ function main() {
     assert.equal(off.business_type, profile.business_type);
     assert.equal(off.primary_objective, profile.primary_objective);
     assert.equal(offPayload.ai_advisory.enabled, false);
+    assert.equal(off.locale, "ar");
     assert.deepEqual(offPayload.ad_channels, profile.ad_channels);
 
-    const currentOn = { ...emptyData, ai_advisory_enabled: true };
+    const currentOn = { ...emptyData, locale: "en" as const, ai_advisory_enabled: true };
     const on = preserveWizardConsent(currentOn, profile);
     const onPayload = buildWizardGenerationPayload(on);
     assert.equal(on.business_type, profile.business_type);
     assert.equal(on.target_locations[0], profile.target_locations[0]);
     assert.equal(on.ai_advisory_enabled, true);
     assert.equal(onPayload.ai_advisory.enabled, true);
+    assert.equal(on.locale, "en");
   }
 
   console.log(JSON.stringify({

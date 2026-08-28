@@ -33,6 +33,7 @@ jobs:
           npm run test:provider:schema
           npm run test:cdks:debug
           npm run test:wizard:review:consent
+          npm run test:i18n
           npm run test:ai:reasoning:live
           npm run test:ai:reasoning:contract
           npm run test:knowledge:google-drive-private

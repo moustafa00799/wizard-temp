@@ -15,6 +15,7 @@ export function preserveWizardConsent(
 ): DataModel {
   return {
     ...incoming,
+    locale: current.locale,
     ai_advisory_enabled:
       current.ai_advisory_enabled || incoming.ai_advisory_enabled,
   };

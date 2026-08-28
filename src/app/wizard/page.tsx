@@ -2,11 +2,13 @@
 
 import { useEffect, useCallback, useState } from "react";
 import { useWizardStore } from "@/lib/store";
+import type { DataModel } from "@/lib/store";
 import {
   getDummyData,
   getCurrentProfileName,
 } from "@/lib/dev-autofill";
 import { preserveWizardConsent } from "@/lib/wizard-generation";
+import { getDictionary, localeDirection } from "@/lib/i18n";
 import Step0_Start from "./steps/Step0_Start";
 import Step1_Business from "./steps/Step1_Business";
 import Step2_Value from "./steps/Step2_Value";
@@ -23,21 +25,21 @@ import Step12_Review from "./steps/Step12_Review";
 
 const TOTAL_STEPS = 13;
 
-const STEP_TITLES = [
-  "بداية سريعة",
-  "تعريف النشاط",
-  "المشكلة والقيمة",
-  "الهدف التجاري",
-  "جاهزية المشروع",
-  "الجمهور",
-  "العرض والرسائل",
-  "القناة والتحويل",
-  "الميزانية والاقتصاد",
-  "التتبع والقياس",
-  "الموارد والقيود",
-  "الأولوية والمخاطرة",
-  "المراجعة النهائية",
-];
+const STEP_TITLE_KEYS = [
+  "start",
+  "business",
+  "value",
+  "objective",
+  "readiness",
+  "audience",
+  "offer",
+  "channels",
+  "budget",
+  "tracking",
+  "resources",
+  "priority",
+  "review",
+] as const;
 
 interface ToastProps {
   message: string;
@@ -62,6 +64,9 @@ function DevToast({ message, visible }: ToastProps) {
 export default function WizardPage() {
   const { currentStep, setStep, setField, data } = useWizardStore();
   const [toast, setToast] = useState<string | null>(null);
+  const locale = data.locale === "en" ? "en" : "ar";
+  const dictionary = getDictionary(locale);
+  const stepTitles = STEP_TITLE_KEYS.map((key) => dictionary.wizard[key]);
 
   // FIX E: Always start at step 0
   useEffect(() => {
@@ -93,12 +98,12 @@ export default function WizardPage() {
 
   const applyDummyData = useCallback(() => {
     const filled = preserveWizardConsent(data, getDummyData());
-    (Object.keys(filled) as (keyof typeof filled)[]).forEach((key) => {
-      setField(key, filled[key] as any);
+    (Object.keys(filled) as (keyof DataModel)[]).forEach((key) => {
+      setField(key, filled[key] as never);
     });
     setStep(12);
-    showToast(`تم ملء البيانات — ${getCurrentProfileName()}`);
-  }, [data.ai_advisory_enabled, setField, setStep, showToast]);
+    showToast(locale === "ar" ? `تم ملء البيانات — ${getCurrentProfileName()}` : `Data filled — ${getCurrentProfileName()}`);
+  }, [data, locale, setField, setStep, showToast]);
 
   // Ctrl+Shift+D → auto-fill
   useEffect(() => {
@@ -115,12 +120,12 @@ export default function WizardPage() {
   const progress = Math.round(((currentStep + 1) / TOTAL_STEPS) * 100);
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white" dir="rtl">
+    <div className="min-h-screen bg-gray-950 text-white" dir={localeDirection(locale)} lang={locale}>
       <header className="sticky top-0 z-10 bg-gray-950/90 backdrop-blur border-b border-gray-800">
         <div className="max-w-2xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between mb-3">
             <span className="text-violet-400 text-sm font-semibold">
-              Campaign Diagnosis Wizard
+              {dictionary.app.name}
             </span>
             <span className="text-gray-500 text-xs">
               {currentStep + 1} / {TOTAL_STEPS}
@@ -133,11 +138,11 @@ export default function WizardPage() {
             />
           </div>
           <p className="text-gray-400 text-sm mt-2">
-            {STEP_TITLES[currentStep]}
+            {stepTitles[currentStep]}
           </p>
           {process.env.NODE_ENV === "development" && (
             <p className="text-gray-600 text-xs mt-1 font-mono">
-              [DEV] Ctrl+Shift+D → ملء تلقائي للحقول الـ 37 (3 سيناريوهات تدور)
+              [DEV] Ctrl+Shift+D → {locale === "ar" ? "ملء تلقائي للحقول (10 سيناريوهات)" : "Autofill fields (10 scenarios)"}
             </p>
           )}
         </div>
@@ -147,7 +152,7 @@ export default function WizardPage() {
     onClick={applyDummyData}
     className="text-xs bg-violet-900/50 border border-violet-700 text-violet-300 px-3 py-1 rounded-lg hover:bg-violet-800/50 transition-colors"
   >
-    🧪 ملء تلقائي
+    🧪 {dictionary.wizard.autoFill}
   </button>
 )}
       <main className="max-w-2xl mx-auto px-4 py-8">
@@ -163,7 +168,7 @@ export default function WizardPage() {
                   ? "bg-violet-800"
                   : "bg-gray-700"
               }`}
-              aria-label={`الخطوة ${i + 1}: ${STEP_TITLES[i]}`}
+              aria-label={`${dictionary.wizard.step} ${i + 1}: ${stepTitles[i]}`}
             />
           ))}
         </div>
