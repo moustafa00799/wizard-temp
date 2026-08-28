@@ -54,6 +54,12 @@ const DISPLAY_LABELS: Record<string, string> = {
   result: "النتائج",
   trust: "الثقة",
   urgency: "الإلحاح",
+  draft: "مسودة",
+  approved: "معتمد بشريًا",
+  rejected: "مرفوض ويحتاج مراجعة",
+  pending: "قيد المراجعة",
+  locked: "مقفل",
+  not_requested: "غير مشغّل",
 };
 
 const DISPLAY_LABELS_EN: Record<string, string> = {
@@ -62,7 +68,7 @@ const DISPLAY_LABELS_EN: Record<string, string> = {
   pass: "Passed", fail: "Not passed", warning: "Warning", missing: "Missing", available: "Available", unavailable: "Currently unavailable", present: "Present", check_manually: "Needs manual review",
   testing: "Testing", optimization: "Optimization", scaling: "Scaling", maintenance: "Maintenance", ecommerce: "E-commerce", education: "Education", local_service: "Local services",
   sales: "Sales", leads: "Leads", awareness: "Brand awareness", website: "Website", store: "Online store", website_purchase: "Website purchase", form: "Contact form", online: "Online", meta: "Meta", google_ads: "Google Ads", tiktok_ads: "TikTok Ads", linkedin: "LinkedIn", blueprint_only: "Blueprint only",
-  education_funnel: "Education funnel", solution_funnel: "Solution funnel", consumer_product_meta: "Consumer product — Meta", consumer_product_tiktok_ads: "Consumer product — TikTok", problem_aware: "Problem-aware", social_proof: "Social proof", image: "Image", video: "Video", carousel: "Carousel", short_video: "Short video", qualified_lead_rate: "Qualified lead rate", result: "Outcome", trust: "Trust", urgency: "Urgency",
+  education_funnel: "Education funnel", solution_funnel: "Solution funnel", consumer_product_meta: "Consumer product — Meta", consumer_product_tiktok_ads: "Consumer product — TikTok", problem_aware: "Problem-aware", social_proof: "Social proof", image: "Image", video: "Video", carousel: "Carousel", short_video: "Short video",   qualified_lead_rate: "Qualified lead rate", result: "Outcome", trust: "Trust", urgency: "Urgency", draft: "Draft", approved: "Human-approved", rejected: "Rejected — needs review", pending: "Under review", locked: "Locked", not_requested: "Not enabled",
 };
 
 const FIELD_LABELS: Record<string, string> = {

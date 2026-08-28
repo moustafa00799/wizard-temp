@@ -120,6 +120,10 @@ async function main() {
   assert.deepEqual(calls.map((call) => call.provider), ["groq", "mistral"]);
   assert.equal(trace.status, "completed");
   assert.equal(trace.model, "mistral-small-latest");
+  assert.equal(trace.strategic_summary, proposal.strategic_summary);
+  assert.deepEqual(trace.message_angles, proposal.message_angles);
+  assert.deepEqual(trace.audience_hypotheses, proposal.audience_hypotheses);
+  assert.deepEqual(trace.experiment_ideas, proposal.experiment_ideas);
   assert.equal(trace.provenance?.provider, "mistral");
   assert.equal(trace.provenance?.fallbackFrom, "groq");
   assert.equal(trace.provenance?.fallbackReason, "429");

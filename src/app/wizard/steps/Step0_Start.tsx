@@ -1,7 +1,7 @@
 "use client";
 import { useWizardStore } from "@/lib/store";
 import { QuestionCard, SingleSelect, StepNav } from "@/components/WizardComponents";
-import { LOCALE_OPTIONS } from "@/lib/i18n";
+import { LOCALE_OPTIONS, localizeText } from "@/lib/i18n";
 
 const options = [
   { ar: "حملة جديدة من الصفر", en: "A new campaign from scratch", value: "new_campaign" },
@@ -17,15 +17,15 @@ export default function Step0_Start({ onNext }: { onNext: () => void }) {
 
   return (
     <div>
-      <section className="mb-8 rounded-2xl border border-violet-500/30 bg-gray-900/50 p-5" aria-label="اختيار لغة الواجهة والنتائج">
+      <section className="mb-8 rounded-2xl border border-violet-500/30 bg-gray-900/50 p-5" aria-label={localizeText(data.locale, "اختيار لغة الواجهة والنتائج", "Interface and output language")}>
         <div className="flex items-start justify-between gap-4">
-          <div className="text-right">
-            <p className="text-white text-base font-semibold">لغة الواجهة والنتائج / Interface and output language</p>
-            <p className="mt-2 text-sm leading-6 text-gray-400">اختر اللغة التي سيستخدمها النظام لعرض الـWizard والـBlueprint والتفسير الاستشاري. لا تتغير القرارات أو البيانات الحاكمة بتغيير اللغة.</p>
+          <div className={data.locale === "ar" ? "text-right" : "text-left"}>
+            <p className="text-white text-base font-semibold">{localizeText(data.locale, "لغة الواجهة والنتائج", "Interface and output language")}</p>
+            <p className="mt-2 text-sm leading-6 text-gray-400">{localizeText(data.locale, "اختر اللغة التي سيستخدمها النظام لعرض الـWizard والـBlueprint والتفسير الاستشاري. لا تتغير القرارات أو البيانات الحاكمة بتغيير اللغة.", "Choose the language used to display the Wizard, Blueprint, and advisory explanation. Changing language does not change governed decisions or data.")}</p>
           </div>
           <span className="text-xl" aria-hidden="true">文</span>
         </div>
-        <div className="mt-4 grid grid-cols-2 gap-2" role="group" aria-label="Language selection">
+        <div className="mt-4 grid grid-cols-2 gap-2" role="group" aria-label={localizeText(data.locale, "اختيار اللغة", "Language selection")}>
           {LOCALE_OPTIONS.map((option) => (
             <button
               key={option.value}
@@ -48,9 +48,9 @@ export default function Step0_Start({ onNext }: { onNext: () => void }) {
         />
       </QuestionCard>
 
-      <section className="rounded-2xl border border-violet-500/30 bg-gray-900/50 p-5" aria-label="اختيار AI الاستشاري">
+      <section className="rounded-2xl border border-violet-500/30 bg-gray-900/50 p-5" aria-label={localizeText(data.locale, "اختيار AI الاستشاري", "Advisory AI selection")}>
         <div className="flex items-start justify-between gap-4">
-          <div className="text-right">
+          <div className={data.locale === "ar" ? "text-right" : "text-left"}>
             <p className="text-white text-base font-semibold">{data.locale === "ar" ? "هل تريد استخدام AI الاستشاري؟" : "Would you like to use advisory AI?"}</p>
             <p className="mt-2 text-sm leading-6 text-gray-400">
               {data.locale === "ar" ? "اختياري تمامًا. عند تشغيله، سيحلل نسخة منقحة من إجاباتك ليقترح زوايا ورسائل ويفسر بعض قرارات Blueprint. قرارات CDKS تظل هي الأساس، ولا يستطيع AI نشر حملة أو إنفاق ميزانية." : "Completely optional. When enabled, it analyzes a sanitized copy of your answers to suggest angles and messages and explain selected Blueprint decisions. CDKS remains authoritative, and AI cannot publish a campaign or spend budget."}

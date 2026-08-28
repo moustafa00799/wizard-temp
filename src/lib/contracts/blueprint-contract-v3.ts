@@ -65,6 +65,10 @@ export interface BlueprintStrategyTrace {
   status: "not_requested" | "pending" | "completed" | "failed";
   authority: "AI_STRATEGY_BUILDER";
   model?: string;
+  strategic_summary?: string;
+  message_angles?: string[];
+  audience_hypotheses?: string[];
+  experiment_ideas?: string[];
   proposed_changes: string[];
   accepted_changes: string[];
   rejected_changes: string[];
@@ -169,6 +173,10 @@ const StrategyTraceSchema = z.object({
   status: z.enum(["not_requested", "pending", "completed", "failed"]),
   authority: z.literal("AI_STRATEGY_BUILDER"),
   model: z.string().optional(),
+  strategic_summary: z.string().optional(),
+  message_angles: z.array(z.string()).optional(),
+  audience_hypotheses: z.array(z.string()).optional(),
+  experiment_ideas: z.array(z.string()).optional(),
   proposed_changes: z.array(z.string()),
   accepted_changes: z.array(z.string()),
   rejected_changes: z.array(z.string()),

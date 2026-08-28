@@ -2557,6 +2557,39 @@ function ClientStatus({ status }: { status: string }) {
   return <span className={`inline-flex rounded-full border px-3 py-1 text-xs font-bold ${tone}`}>{status}</span>;
 }
 
+function AdvisoryStrategyPanel({ strategyTrace }: { strategyTrace: any }) {
+  const locale = useBlueprintLocale();
+  if (!strategyTrace || strategyTrace.status !== "completed") return null;
+
+  const safeItems = (value: unknown): string[] => Array.isArray(value)
+    ? value.map((item) => safeDisplayValue(item, "", locale)).filter(Boolean)
+    : [];
+  const sections = [
+    { title: localizeText(locale, "زوايا الرسائل", "Message angles"), items: safeItems(strategyTrace.message_angles) },
+    { title: localizeText(locale, "فرضيات الجمهور", "Audience hypotheses"), items: safeItems(strategyTrace.audience_hypotheses) },
+    { title: localizeText(locale, "أفكار الاختبار", "Experiment ideas"), items: safeItems(strategyTrace.experiment_ideas) },
+    { title: localizeText(locale, "اقتراحات غير ملزمة", "Non-binding suggestions"), items: safeItems(strategyTrace.proposed_changes) },
+  ].filter((section) => section.items.length > 0);
+  const summary = safeDisplayValue(strategyTrace.strategic_summary, "", locale);
+  const limitations = safeItems(strategyTrace.limitations);
+
+  return (
+    <section className="rounded-2xl border border-violet-200 bg-violet-50 p-5" aria-label={localizeText(locale, "مخرجات Strategy Builder الاستشارية", "Advisory Strategy Builder output")}>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-violet-700">Strategy Builder</p>
+          <h3 className="mt-1 text-lg font-bold text-violet-950">{localizeText(locale, "اقتراحات استراتيجية قابلة للمراجعة", "Reviewable strategy suggestions")}</h3>
+          <p className="mt-1 text-sm leading-6 text-violet-800">{localizeText(locale, "هذه مسودة استشارية لا تعدل قرارات CDKS ولا تمنح صلاحية الإطلاق.", "This is an advisory draft. It does not change CDKS decisions or authorize launch.")}</p>
+        </div>
+        <span className="rounded-full bg-white px-3 py-1 text-xs font-bold text-violet-800">{localizeText(locale, "مسودة AI", "AI draft")}</span>
+      </div>
+      {summary && <div className="mt-4 rounded-xl bg-white/80 p-4"><p className="text-xs font-bold text-violet-700">{localizeText(locale, "الملخص الاستراتيجي", "Strategic summary")}</p><p className="mt-2 text-sm leading-7 text-gray-800">{summary}</p></div>}
+      {sections.length > 0 && <div className="mt-4 grid gap-3 md:grid-cols-2">{sections.map((section) => <div key={section.title} className="rounded-xl bg-white/80 p-4"><p className="text-sm font-bold text-gray-900">{section.title}</p><div className="mt-2 space-y-2 text-sm leading-6 text-gray-700">{section.items.slice(0, 8).map((item, index) => <p key={`${section.title}-${index}`} className="border-b border-gray-100 pb-2 last:border-0 last:pb-0">{item}</p>)}</div></div>)}</div>}
+      {limitations.length > 0 && <details className="mt-4 rounded-xl bg-white/70 p-3"><summary className="cursor-pointer text-xs font-bold text-gray-700">{localizeText(locale, "حدود الاقتراح", "Suggestion limits")}</summary><div className="mt-2 space-y-1 text-xs leading-5 text-gray-600">{limitations.slice(0, 8).map((item, index) => <p key={`strategy-limit-${index}`}>{item}</p>)}</div></details>}
+    </section>
+  );
+}
+
 function ClientOutcomeSummary({ blueprint, wizardInput, reasoningActive, strategyTrace, reasoningStatus, knowledgeContext }: { blueprint: any; wizardInput: any; reasoningActive: boolean; strategyTrace: any; reasoningStatus: string; knowledgeContext?: any }) {
   const locale = useBlueprintLocale();
   const executive = getObject(blueprint?.executive_summary);
@@ -2650,6 +2683,8 @@ function ClientOutcomeSummary({ blueprint, wizardInput, reasoningActive, strateg
         <div className="rounded-2xl border border-gray-200 bg-white p-5"><p className="text-xs font-bold text-gray-500">{localizeText(locale, "المسار المقترح", "Recommended funnel")}</p><p className="mt-3 text-lg font-bold text-gray-900">{funnelName}</p><p className="mt-2 text-sm leading-6 text-gray-600">{localizeText(locale, "سيُستخدم هذا المسار لتنظيم انتقال العميل من الرسالة إلى التحويل.", "This funnel organizes the customer journey from message to conversion.")}</p></div>
         <div className="rounded-2xl border border-gray-200 bg-white p-5"><p className="text-xs font-bold text-gray-500">{localizeText(locale, "شكل الخطة", "Plan shape")}</p><p className="mt-3 text-lg font-bold text-gray-900">{campaigns.length || safeDisplayValue(campaignStructure?.campaign_count, localizeText(locale, "عدة مراحل", "Multiple stages"), locale)} {localizeText(locale, "حملات / مراحل", "campaigns / stages")}</p><p className="mt-2 text-sm leading-6 text-gray-600">{localizeText(locale, "التفاصيل الكاملة متاحة في قسم Blueprint المتقدم أدناه.", "Full details are available in the advanced Blueprint section below.")}</p></div>
       </div>
+
+      {strategyTrace?.status === "completed" && <div className="mt-4"><AdvisoryStrategyPanel strategyTrace={strategyTrace} /></div>}
 
       <div className="grid gap-4 lg:grid-cols-2">
         <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5">
@@ -2756,7 +2791,7 @@ function CampaignLifecyclePanel({ initialLifecycle }: { initialLifecycle?: any }
   };
 
   const state = lifecycle?.state ?? "draft";
-  const stateLabel = lifecycle?.stateLabel ?? localizeText(locale, "لا توجد دورة حياة محفوظة", "No saved lifecycle");
+  const stateLabel = lifecycle ? displayStatus(state, locale) : localizeText(locale, "لا توجد دورة حياة محفوظة", "No saved lifecycle");
   return (
     <section className="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" aria-label={localizeText(locale, "دورة حياة الحملة", "Campaign lifecycle")}>
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
@@ -2804,7 +2839,7 @@ function CampaignLifecyclePanel({ initialLifecycle }: { initialLifecycle?: any }
           </div>
           {events.length > 0 && <details className="mt-4 rounded-xl border border-slate-200 bg-white">
             <summary className="cursor-pointer px-4 py-3 text-sm font-bold text-slate-800">{localizeText(locale, `سجل انتقالات الحالة (${events.length})`, `State transition log (${events.length})`)}</summary>
-            <div className="border-t border-slate-200 px-4 py-3 space-y-2">{events.map((event) => <div key={event.eventId} className="flex flex-wrap items-center gap-2 text-xs text-slate-600"><span className="font-bold text-slate-900">{event.fromState ?? "بداية"} → {event.toState}</span><span>{event.actorType === "user" ? `مراجع: ${event.actorUserId ?? "غير محدد"}` : "CDKS"}</span><span>{event.createdAt}</span></div>)}</div>
+            <div className="border-t border-slate-200 px-4 py-3 space-y-2">{events.map((event) => <div key={event.eventId} className="flex flex-wrap items-center gap-2 text-xs text-slate-600"><span className="font-bold text-slate-900">{displayStatus(event.fromState ?? "draft", locale)} → {displayStatus(event.toState, locale)}</span><span>{event.actorType === "user" ? localizeText(locale, "مراجع الجلسة", "Session reviewer") : "CDKS"}</span><span>{event.createdAt}</span></div>)}</div>
           </details>}
         </>
       )}

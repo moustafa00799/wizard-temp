@@ -146,6 +146,10 @@ function traceFromProposal(
     status: "completed",
     authority: "AI_STRATEGY_BUILDER",
     model,
+    strategic_summary: safe.strategic_summary,
+    message_angles: safe.message_angles,
+    audience_hypotheses: safe.audience_hypotheses,
+    experiment_ideas: safe.experiment_ideas,
     proposed_changes: [
       safe.strategic_summary,
       ...safe.message_angles.map((value) => `Message angle: ${value}`),
