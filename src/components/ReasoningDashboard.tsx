@@ -88,7 +88,10 @@ type ReasoningContract = {
     mode?: string;
     fallback_used?: boolean;
     failureCategory?: string;
-    failureStatus?: string;
+    failureStatus?: number;
+    failureCode?: string;
+    retryable?: boolean;
+    latencyMs?: number;
   };
   failure?: { code: string; message: string; retryable: boolean };
 };
@@ -210,7 +213,11 @@ function TechnicalDetails({ reasoning, locale }: { reasoning: ReasoningContract;
       <p>contract: {reasoning.contract_version ?? "1.0"}</p>
       <p>provider: {reasoning.provenance?.provider ?? "controlled"}</p>
       <p>model: {reasoning.model ?? reasoning.provenance?.model ?? "controlled"}</p>
-      <p>failure_code: {reasoning.failure?.code ?? "—"}</p>
+      <p>failure_category: {reasoning.provenance?.failureCategory ?? "—"}</p>
+      <p>failure_status: {reasoning.provenance?.failureStatus ?? "—"}</p>
+      <p>failure_code: {reasoning.provenance?.failureCode ?? reasoning.failure?.code ?? "—"}</p>
+      <p>retryable: {reasoning.provenance?.retryable === undefined ? "—" : String(reasoning.provenance.retryable)}</p>
+      <p>latency_ms: {reasoning.provenance?.latencyMs === undefined ? "—" : formatLocaleNumber(reasoning.provenance.latencyMs, locale)}</p>
     </div>
   </details>;
 }

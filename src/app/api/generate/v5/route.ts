@@ -88,6 +88,7 @@ export async function POST(request: NextRequest) {
     const strategyRequest = bodyRecord && bodyRecord.ai_strategy_builder && typeof bodyRecord.ai_strategy_builder === 'object'
       ? bodyRecord.ai_strategy_builder as { enabled?: unknown; model?: unknown; provider?: unknown; fallbackProvider?: unknown; benchmark?: unknown; mockScenario?: unknown }
       : {};
+    const strategyStartedAt = performance.now();
     const strategy = await buildAIStrategyProposal(aiInput, validatedOutput, baseContract, {
       enabled: aiAdvisoryRequest ? clientAiEnabled : strategyRequest.enabled === true,
       model: typeof strategyRequest.model === 'string' ? strategyRequest.model : undefined,
@@ -100,6 +101,7 @@ export async function POST(request: NextRequest) {
         : undefined,
       knowledgeContext,
     });
+    const strategyLatencyMs = Math.round(performance.now() - strategyStartedAt);
     const reasoningRequest = bodyRecord && bodyRecord.ai_reasoning && typeof bodyRecord.ai_reasoning === 'object'
       ? bodyRecord.ai_reasoning as { enabled?: unknown; provider?: unknown; model?: unknown; fallbackProvider?: unknown; mockScenario?: unknown }
       : {};
@@ -110,6 +112,7 @@ export async function POST(request: NextRequest) {
       : strategyProvider === 'mistral' || strategyProvider === 'groq'
         ? strategyProvider
         : 'groq';
+    const reasoningStartedAt = performance.now();
     const reasoning = await buildAIReasoning(aiInput, validatedOutput, baseContract, {
       enabled: aiAdvisoryRequest ? clientAiEnabled : reasoningRequest.enabled === true,
       provider: aiAdvisoryRequest ? (clientAiEnabled ? reasoningProvider : 'mock') : reasoningRequest.provider === 'mock' ? 'mock' : undefined,
@@ -122,6 +125,7 @@ export async function POST(request: NextRequest) {
         : undefined,
       knowledgeContext,
     });
+    const reasoningLatencyMs = Math.round(performance.now() - reasoningStartedAt);
     const contract = validateBlueprintContractV3({
       ...baseContract,
       strategy,
@@ -138,6 +142,13 @@ export async function POST(request: NextRequest) {
         processingTimeMs: processingTime,
         data: contract,
         campaign_lifecycle: campaignLifecycle,
+        ai_timing: {
+          strategyMs: strategyLatencyMs,
+          reasoningMs: reasoningLatencyMs,
+          totalMs: strategyLatencyMs + reasoningLatencyMs,
+          strategyStatus: strategy.status,
+          reasoningStatus: reasoning.status,
+        },
         knowledge_context: knowledgeContext ? {
           contextId: knowledgeContext.contextId,
           packageId: knowledgeContext.packageId,

@@ -19,3 +19,11 @@
 ## Verification
 
 نجح typecheck، وprovider fallback regression، وBlueprint display regression بعد رفع الاختبارات إلى 31 assertion، وlint موجّه للملفات المعدلة. يجب إعادة اختبار التوليد الحي على جهاز المستخدم بعد سحب commit، لأن خادم Local Staging وحده لا يثبت نجاح مزود AI الخارجي.
+
+## AI timing and failure visibility
+
+The v5 response now carries a non-authoritative `ai_timing` diagnostic object with separate Strategy Builder and Reasoning durations, total advisory duration, and statuses. It is intentionally outside the validated Canonical Blueprint contract. The Technical view displays these timings only for technical review and explicitly states that they are not advertising performance metrics.
+
+Reasoning technical details now show the sanitized failure category, HTTP status, provider error code, retryability, and latency when available. Raw provider responses, credentials, and personal data remain excluded.
+
+CI now runs the client AI opt-in route regression and the provider fallback regression in addition to the existing advisory and governance tests.

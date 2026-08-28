@@ -15,7 +15,7 @@ import {
   displayValue as safeDisplayValue,
   isUnavailableValue,
 } from "../../lib/blueprint-display";
-import { getDictionary, localizeText, localeDirection, type AppLocale } from "../../lib/i18n";
+import { formatLocaleNumber, getDictionary, localizeText, localeDirection, type AppLocale } from "../../lib/i18n";
 
 type SectionKey =
   | "executive_summary"
@@ -2847,6 +2847,33 @@ function CampaignLifecyclePanel({ initialLifecycle }: { initialLifecycle?: any }
   );
 }
 
+function AIPerformancePanel({ timing }: { timing?: { strategyMs?: number; reasoningMs?: number; totalMs?: number; strategyStatus?: string; reasoningStatus?: string } }) {
+  const locale = useBlueprintLocale();
+  if (!timing) return null;
+  const value = (candidate: unknown) => typeof candidate === "number" && Number.isFinite(candidate) ? formatLocaleNumber(candidate, locale) : localizeText(locale, "غير متاح", "Unavailable");
+  return (
+    <section className="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" aria-label={localizeText(locale, "أداء AI الاستشاري", "Advisory AI performance")}>
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">AI Performance</p>
+          <h2 className="mt-1 text-xl font-bold text-slate-950">{localizeText(locale, "زمن وكفاءة الطبقة الاستشارية", "Advisory layer timing and status")}</h2>
+          <p className="mt-1 text-sm leading-6 text-slate-600">{localizeText(locale, "هذه أزمنة تشخيصية لا تغير قرارات CDKS ولا تعني نجاحًا أو فشلًا في الأداء الإعلاني.", "These are diagnostic timings. They do not change CDKS decisions or represent advertising performance.")}</p>
+        </div>
+        <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700">{localizeText(locale, "للمراجعة التقنية", "Technical review")}</span>
+      </div>
+      <div className="mt-4 grid gap-3 sm:grid-cols-3">
+        <DataCard label={localizeText(locale, "زمن Strategy Builder (مللي ثانية)", "Strategy Builder time (ms)")} value={value(timing.strategyMs)} />
+        <DataCard label={localizeText(locale, "زمن Reasoning (مللي ثانية)", "Reasoning time (ms)")} value={value(timing.reasoningMs)} />
+        <DataCard label={localizeText(locale, "إجمالي زمن AI (مللي ثانية)", "Total AI time (ms)")} value={value(timing.totalMs)} />
+      </div>
+      <div className="mt-3 grid gap-3 sm:grid-cols-2 text-sm">
+        <DataCard label={localizeText(locale, "حالة Strategy Builder", "Strategy Builder status")} value={displayStatus(timing.strategyStatus, locale)} />
+        <DataCard label={localizeText(locale, "حالة Reasoning", "Reasoning status")} value={displayStatus(timing.reasoningStatus, locale)} />
+      </div>
+    </section>
+  );
+}
+
 /* -------------------------------------------------------------------------- */
 /* Main Page                                                                  */
 /* -------------------------------------------------------------------------- */
@@ -3083,6 +3110,7 @@ export default function BlueprintPage() {
           knowledgeContext={generationEnvelope?.knowledge_context ?? null}
         />}
         {viewMode !== "client" && <CampaignLifecyclePanel initialLifecycle={generationEnvelope?.campaign_lifecycle ?? null} />}
+        {viewMode === "technical" && <AIPerformancePanel timing={generationEnvelope?.ai_timing} />}
 
         {viewMode !== "client" && <details className="mt-6 overflow-hidden rounded-2xl border border-indigo-100 bg-white shadow-sm">
           <summary className="cursor-pointer list-none px-5 py-4 text-sm font-bold text-indigo-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">

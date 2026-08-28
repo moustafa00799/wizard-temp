@@ -31,6 +31,8 @@ jobs:
       - name: Advisory and privacy regressions
         run: |
           npm run test:provider:schema
+          npm run test:provider:fallback
+          npm run test:ai:client-optin
           npm run test:cdks:debug
           npm run test:wizard:review:consent
           npm run test:i18n

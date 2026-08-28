@@ -27,6 +27,11 @@ async function main() {
   assert.equal(disabled.body.data.reasoning.status, "not_requested");
   assert.equal(disabled.body.data.validation.external_actions_allowed, false);
   assert.equal(disabled.body.data.validation.budget_spend_allowed, false);
+  assert.ok(disabled.body.ai_timing);
+  assert.ok(disabled.body.ai_timing.strategyMs >= 0);
+  assert.ok(disabled.body.ai_timing.reasoningMs >= 0);
+  assert.equal(disabled.body.ai_timing.strategyStatus, "not_requested");
+  assert.equal(disabled.body.ai_timing.reasoningStatus, "not_requested");
 
   const optedInButServerOff = await call({ ...fixture, ai_advisory: { enabled: true } });
   assert.equal(optedInButServerOff.status, 200);
@@ -36,8 +41,11 @@ async function main() {
   assert.ok(optedInButServerOff.body.data.blueprint);
   assert.equal(optedInButServerOff.body.data.validation.external_actions_allowed, false);
   assert.equal(optedInButServerOff.body.data.validation.budget_spend_allowed, false);
+  assert.ok(optedInButServerOff.body.ai_timing);
+  assert.ok(optedInButServerOff.body.ai_timing.totalMs >= optedInButServerOff.body.ai_timing.strategyMs);
+  assert.equal(optedInButServerOff.body.ai_timing.reasoningStatus, "failed");
 
-  console.log(JSON.stringify({ status: "PASS", assertions: 10, defaultOff: true, optInWithoutServerMode: "failed_closed", externalRequests: 0 }, null, 2));
+  console.log(JSON.stringify({ status: "PASS", assertions: 17, defaultOff: true, optInWithoutServerMode: "failed_closed", externalRequests: 0 }, null, 2));
 }
 
 void main();
