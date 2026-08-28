@@ -21,6 +21,7 @@
     "test:ai:reasoning:contract": "tsx scripts/ai-reasoning-contract-regression.ts",
     "test:ai:reasoning:builder": "tsx scripts/ai-reasoning-builder-regression.ts",
     "test:ai:reasoning:live": "tsx scripts/ai-reasoning-live-regression.ts",
+    "test:ai:advisory:capabilities": "tsx scripts/advisory-capabilities-regression.ts",
     "test:api:reasoning:v5": "tsx scripts/api-reasoning-builder-v5.cjs",
     "test:ai:client-optin": "tsx scripts/api-client-ai-optin-regression.ts",
     "test:wizard:v5:real-flow": "node scripts/wizard-v5-real-flow.cjs",

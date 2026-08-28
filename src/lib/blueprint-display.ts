@@ -1,4 +1,7 @@
-export const DISPLAY_LABELS: Record<string, string> = {
+import type { AppLocale } from "./i18n";
+import { getOptionLabel } from "./i18n";
+
+const DISPLAY_LABELS: Record<string, string> = {
   ready_with_fixes: "جاهز مع إصلاحات",
   ready: "جاهز",
   review: "يحتاج مراجعة",
@@ -51,6 +54,15 @@ export const DISPLAY_LABELS: Record<string, string> = {
   result: "النتائج",
   trust: "الثقة",
   urgency: "الإلحاح",
+};
+
+const DISPLAY_LABELS_EN: Record<string, string> = {
+  ready_with_fixes: "Ready with fixes", ready: "Ready", review: "Needs review", blocked: "Temporarily blocked",
+  good: "Good", medium: "Medium", high: "High", low: "Low", partial: "Partial", complete: "Complete",
+  pass: "Passed", fail: "Not passed", warning: "Warning", missing: "Missing", available: "Available", unavailable: "Currently unavailable", present: "Present", check_manually: "Needs manual review",
+  testing: "Testing", optimization: "Optimization", scaling: "Scaling", maintenance: "Maintenance", ecommerce: "E-commerce", education: "Education", local_service: "Local services",
+  sales: "Sales", leads: "Leads", awareness: "Brand awareness", website: "Website", store: "Online store", website_purchase: "Website purchase", form: "Contact form", online: "Online", meta: "Meta", google_ads: "Google Ads", tiktok_ads: "TikTok Ads", linkedin: "LinkedIn", blueprint_only: "Blueprint only",
+  education_funnel: "Education funnel", solution_funnel: "Solution funnel", consumer_product_meta: "Consumer product — Meta", consumer_product_tiktok_ads: "Consumer product — TikTok", problem_aware: "Problem-aware", social_proof: "Social proof", image: "Image", video: "Video", carousel: "Carousel", short_video: "Short video", qualified_lead_rate: "Qualified lead rate", result: "Outcome", trust: "Trust", urgency: "Urgency",
 };
 
 const FIELD_LABELS: Record<string, string> = {
@@ -106,6 +118,10 @@ const FIELD_LABELS: Record<string, string> = {
   alert_thresholds: "حدود التنبيه",
 };
 
+const FIELD_LABELS_EN: Record<string, string> = {
+  ad_impact: "Potential ad impact", benchmarks: "Reference metrics", message: "Message", check_items: "Review items", reason: "Reason", required: "Required", recommendations: "Recommendations", get_metrics: "Required metrics", speed_score: "Speed score", tools: "Tools", impact_on_ads: "Impact on ads", monthly_pacing: "Monthly spend pacing", daily_targets: "Daily targets", weekly_projection: "Weekly spend projection", reallocation_trigger: "Reallocation trigger", emergency_pause: "Emergency pause", projected_spend: "Projected spend", cumulative: "Cumulative total", cpc_expectation: "CPC expectation", competition_level: "Competition level", estimated_cpc_range: "Estimated CPC range", market_saturation: "Market saturation", ad_spend_recommendation: "Ad spend recommendation", content_differentiation: "Content differentiation", industry_average_cvr: "Industry average CVR", industry_average_ctr: "Industry average CTR", target_cpa: "Target CPA", performance_targets: "Performance targets", current_month: "Current month", budget_adjustment: "Budget adjustment", creative_direction: "Creative direction", primary_kpi: "Primary KPI", success_metric: "Success metric", asset_ready: "Creative asset readiness", social_proof_score: "Social proof score", refresh_interval_days: "Full refresh interval", test_new_creative_every: "Test a new creative every", gaps: "Gaps", present_tools: "Available tools", missing_tools: "Missing tools", required_events: "Required events", setup_steps: "Setup steps", monthly_budget: "Monthly budget", daily_target: "Daily target", burn_rate_alerts: "Spend-rate alerts", pacing_recommendation: "Pacing recommendation", check_frequency: "Check frequency", primary_kpis: "Primary KPIs", reporting_dashboard: "Reporting dashboard", alert_thresholds: "Alert thresholds",
+};
+
 export function unwrap(value: unknown): unknown {
   if (value && typeof value === "object" && !Array.isArray(value) && Object.prototype.hasOwnProperty.call(value, "value")) {
     return (value as { value: unknown }).value;
@@ -122,57 +138,61 @@ export function isUnavailableValue(value: unknown): boolean {
   return typeof unwrapped === "string" && (unwrapped === "unavailable" || unwrapped.trim().toLowerCase().startsWith("unavailable:"));
 }
 
-export function displayUnavailableReason(value: unknown, fallback = "لا توجد بيانات موثوقة كافية حاليًا."): string {
+export function displayUnavailableReason(value: unknown, fallback = "لا توجد بيانات موثوقة كافية حاليًا.", locale: AppLocale = "ar"): string {
   const unwrapped = unwrap(value);
-  if (typeof unwrapped !== "string" || !unwrapped.trim()) return fallback;
+  const safeFallback = locale === "en" && fallback === "لا توجد بيانات موثوقة كافية حاليًا." ? "There is not enough reliable data at this time." : fallback;
+  if (typeof unwrapped !== "string" || !unwrapped.trim()) return safeFallback;
   const normalized = unwrapped.trim().toLowerCase();
-  if (normalized.includes("no verified market benchmark source")) return "لا يوجد مصدر سوقي موثوق يطابق السوق والصناعة والعملة والهدف.";
-  if (normalized.includes("cpc expectation requires a verified market source")) return "تقدير CPC يتطلب مصدرًا سوقيًا موثوقًا ومطابقًا للنطاق.";
-  if (normalized.includes("no verified competitor or market-saturation source")) return "لا يوجد مصدر موثوق كافٍ لتقدير المنافسة أو تشبع السوق.";
-  if (normalized.includes("do not infer competitive spend or cpc")) return "لا يتم تخمين الإنفاق التنافسي أو CPC دون مصدر موثوق.";
-  if (normalized.includes("requires a verified market source")) return "هذه القيمة تتطلب مصدرًا سوقيًا موثوقًا قبل استخدامها.";
-  return unwrapped.replace(/^unavailable:\s*/i, "").trim() || fallback;
+  if (normalized.includes("no verified market benchmark source")) return locale === "en" ? "No verified market source matches the market, industry, currency, and objective." : "لا يوجد مصدر سوقي موثوق يطابق السوق والصناعة والعملة والهدف.";
+  if (normalized.includes("cpc expectation requires a verified market source")) return locale === "en" ? "A CPC estimate requires a verified source that matches this scope." : "تقدير CPC يتطلب مصدرًا سوقيًا موثوقًا ومطابقًا للنطاق.";
+  if (normalized.includes("no verified competitor or market-saturation source")) return locale === "en" ? "There is not enough verified evidence to estimate competition or saturation." : "لا يوجد مصدر موثوق كافٍ لتقدير المنافسة أو تشبع السوق.";
+  if (normalized.includes("do not infer competitive spend or cpc")) return locale === "en" ? "Competitive spend or CPC is not inferred without reliable evidence." : "لا يتم تخمين الإنفاق التنافسي أو CPC دون مصدر موثوق.";
+  if (normalized.includes("requires a verified market source")) return locale === "en" ? "This value requires a verified market source before use." : "هذه القيمة تتطلب مصدرًا سوقيًا موثوقًا قبل استخدامها.";
+  return unwrapped.replace(/^unavailable:\s*/i, "").trim() || safeFallback;
 }
 
-export function displayValue(value: unknown, fallback = "غير محدد"): string {
+export function displayValue(value: unknown, fallback = "غير محدد", locale: AppLocale = "ar"): string {
   const unwrapped = unwrap(value);
-  if (unwrapped === null || unwrapped === undefined || unwrapped === "") return fallback;
-  if (typeof unwrapped === "function") return fallback;
+  const safeFallback = locale === "en" && fallback === "غير محدد" ? "Not specified" : fallback;
+  if (unwrapped === null || unwrapped === undefined || unwrapped === "") return safeFallback;
+  if (typeof unwrapped === "function") return safeFallback;
   if (typeof unwrapped === "string") {
     const normalized = unwrapped.trim();
-    if (!normalized || isUnsafeDisplayText(normalized)) return fallback;
-    if (normalized === "unavailable" || normalized.toLowerCase().startsWith("unavailable:")) return "غير متاح حاليًا";
-    return DISPLAY_LABELS[normalized] ?? normalized;
+    if (!normalized || isUnsafeDisplayText(normalized)) return safeFallback;
+    if (normalized === "unavailable" || normalized.toLowerCase().startsWith("unavailable:")) return locale === "en" ? "Currently unavailable" : "غير متاح حاليًا";
+    return (locale === "en" ? DISPLAY_LABELS_EN[normalized] : DISPLAY_LABELS[normalized]) ?? getOptionLabel(locale, normalized, normalized);
   }
   if (typeof unwrapped === "number") return String(unwrapped);
-  if (typeof unwrapped === "boolean") return unwrapped ? "نعم" : "لا";
-  if (Array.isArray(unwrapped)) return unwrapped.map((item) => displayValue(item, "")).filter(Boolean).join("، ") || fallback;
+  if (typeof unwrapped === "boolean") return unwrapped ? (locale === "ar" ? "نعم" : "Yes") : (locale === "ar" ? "لا" : "No");
+  if (Array.isArray(unwrapped)) return unwrapped.map((item) => displayValue(item, "", locale)).filter(Boolean).join(locale === "ar" ? "، " : ", ") || safeFallback;
   if (typeof unwrapped === "object") {
     const record = unwrapped as Record<string, unknown>;
-    if (typeof record.name === "string" && !isUnsafeDisplayText(record.name)) return DISPLAY_LABELS[record.name] ?? record.name;
-    if (typeof record.label === "string" && !isUnsafeDisplayText(record.label)) return DISPLAY_LABELS[record.label] ?? record.label;
+    if (typeof record.name === "string" && !isUnsafeDisplayText(record.name)) return (locale === "en" ? DISPLAY_LABELS_EN[record.name] : DISPLAY_LABELS[record.name]) ?? getOptionLabel(locale, record.name, record.name);
+    if (typeof record.label === "string" && !isUnsafeDisplayText(record.label)) return (locale === "en" ? DISPLAY_LABELS_EN[record.label] : DISPLAY_LABELS[record.label]) ?? getOptionLabel(locale, record.label, record.label);
     if (typeof record.description === "string" && !isUnsafeDisplayText(record.description)) return record.description;
-    if (typeof record.type === "string" && !isUnsafeDisplayText(record.type)) return DISPLAY_LABELS[record.type] ?? record.type;
+    if (typeof record.type === "string" && !isUnsafeDisplayText(record.type)) return (locale === "en" ? DISPLAY_LABELS_EN[record.type] : DISPLAY_LABELS[record.type]) ?? getOptionLabel(locale, record.type, record.type);
   }
-  return fallback;
+  return safeFallback;
 }
 
-export function displayStatus(value: unknown): string {
+export function displayStatus(value: unknown, locale: AppLocale = "ar"): string {
   const unwrapped = unwrap(value);
-  if (typeof unwrapped === "string" && DISPLAY_LABELS[unwrapped]) return DISPLAY_LABELS[unwrapped];
-  return displayValue(unwrapped, "غير متاح حاليًا");
+  if (typeof unwrapped === "string") return (locale === "en" ? DISPLAY_LABELS_EN[unwrapped] : DISPLAY_LABELS[unwrapped]) ?? displayValue(unwrapped, locale === "en" ? "Currently unavailable" : "غير متاح حاليًا", locale);
+  return displayValue(unwrapped, locale === "en" ? "Currently unavailable" : "غير متاح حاليًا", locale);
 }
 
-export function displayFieldLabel(label: string): string {
+export function displayFieldLabel(label: string, locale: AppLocale = "ar"): string {
+  if (locale === "en" && FIELD_LABELS_EN[label]) return FIELD_LABELS_EN[label];
   if (FIELD_LABELS[label]) return FIELD_LABELS[label];
+  if (locale === "en" && DISPLAY_LABELS_EN[label]) return DISPLAY_LABELS_EN[label];
   if (DISPLAY_LABELS[label]) return DISPLAY_LABELS[label];
   return label.replace(/_/g, " ");
 }
 
-export function displaySource(value: unknown): string {
+export function displaySource(value: unknown, locale: AppLocale = "ar"): string {
   const unwrapped = unwrap(value);
-  if (typeof unwrapped === "string" && /^RF-\d+$/i.test(unwrapped)) return "قواعد CDKS";
-  if (typeof unwrapped === "string" && /^(CDKS|FUN|CH|BS|LR)-/i.test(unwrapped)) return "قواعد CDKS";
-  if (isUnavailableValue(unwrapped)) return displayUnavailableReason(unwrapped);
-  return displayValue(unwrapped, "غير معروف");
+  if (typeof unwrapped === "string" && /^RF-\d+$/i.test(unwrapped)) return locale === "en" ? "CDKS rules" : "قواعد CDKS";
+  if (typeof unwrapped === "string" && /^(CDKS|FUN|CH|BS|LR)-/i.test(unwrapped)) return locale === "en" ? "CDKS rules" : "قواعد CDKS";
+  if (isUnavailableValue(unwrapped)) return displayUnavailableReason(unwrapped, locale === "en" ? "No reliable evidence." : "لا توجد بيانات موثوقة كافية حاليًا.", locale);
+  return displayValue(unwrapped, locale === "en" ? "Unknown" : "غير معروف", locale);
 }

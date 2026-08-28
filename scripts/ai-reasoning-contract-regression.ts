@@ -108,6 +108,20 @@ const baseline: AIReasoningContract = {
       changed: false,
     },
   ],
+  decision_explanations: [
+    {
+      decision_ref: "decisions.objective",
+      what_decided: "الإبقاء على الهدف المختار.",
+      why_this_fits: "لأنه مستند إلى مدخلات العميل وقرار السياسة.",
+      expected_effect: "قد يحافظ على اتساق الخطة مع الهدف، وليس وعدًا بالأداء.",
+      tradeoffs: ["قد يقلل المرونة تجاه أهداف ثانوية."],
+      risks: ["تغير الأولوية التجارية قد يغير الملاءمة."],
+      what_would_change_it: ["تأكيد هدف تجاري أساسي مختلف."],
+      next_validation_step: "راجع أول حدث قياس قبل الاعتماد.",
+      evidence_refs: ["evidence-objective"],
+      uncertainty_refs: [],
+    },
+  ],
   limitations: [
     "الاستدلال لا يستخدم بيانات حقيقية أو مصادر خارجية في هذه المرحلة.",
     "AI Reasoning لا يمنح إذن نشر أو إنفاق.",
@@ -147,6 +161,20 @@ assert.throws(
   (error: unknown) => error instanceof AIReasoningContractValidationError && error.message.includes("unknown evidence refs"),
 );
 
+const unknownExplanationEvidence = structuredClone(baseline);
+unknownExplanationEvidence.decision_explanations![0].evidence_refs = ["evidence-does-not-exist"];
+assert.throws(
+  () => validateAIReasoningContract(unknownExplanationEvidence),
+  (error: unknown) => error instanceof AIReasoningContractValidationError && error.message.includes("explanation has unknown evidence refs"),
+);
+
+const explanationWithoutRefs = structuredClone(baseline);
+explanationWithoutRefs.decision_explanations![0].evidence_refs = [];
+assert.throws(
+  () => validateAIReasoningContract(explanationWithoutRefs),
+  (error: unknown) => error instanceof AIReasoningContractValidationError && error.message.includes("explanation requires evidence_refs"),
+);
+
 const mismatchedGrounding = structuredClone(baseline);
 mismatchedGrounding.grounding.supported_claim_count = 0;
 assert.throws(
@@ -175,4 +203,4 @@ assert.throws(
   (error: unknown) => error instanceof AIReasoningContractValidationError && error.message.includes("cannot challenge human approval"),
 );
 
-console.log(JSON.stringify({ status: "PASS", assertions: 10, contractVersion: baseline.contract_version }, null, 2));
+console.log(JSON.stringify({ status: "PASS", assertions: 12, contractVersion: baseline.contract_version, deepReasoning: "decision_explanations" }, null, 2));

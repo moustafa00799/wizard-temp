@@ -146,6 +146,26 @@ export const AI_REASONING_PROVIDER_JSON_SCHEMA = {
         required: ["decision_ref", "impact", "rationale", "preserved_authority", "changed"],
       },
     },
+    decision_explanations: {
+      type: "array",
+      items: {
+        type: "object",
+        additionalProperties: false,
+        properties: {
+          decision_ref: { type: "string" },
+          what_decided: { type: "string" },
+          why_this_fits: { type: "string" },
+          expected_effect: { type: "string" },
+          tradeoffs: { type: "array", items: { type: "string" } },
+          risks: { type: "array", items: { type: "string" } },
+          what_would_change_it: { type: "array", items: { type: "string" } },
+          next_validation_step: { type: "string" },
+          evidence_refs: { type: "array", items: { type: "string" } },
+          uncertainty_refs: { type: "array", items: { type: "string" } },
+        },
+        required: ["decision_ref", "what_decided", "why_this_fits", "expected_effect", "tradeoffs", "risks", "what_would_change_it", "next_validation_step", "evidence_refs", "uncertainty_refs"],
+      },
+    },
     limitations: { type: "array", items: { type: "string" } },
     grounding: {
       type: "object",
@@ -160,7 +180,7 @@ export const AI_REASONING_PROVIDER_JSON_SCHEMA = {
       required: ["evidence_coverage_percent", "supported_claim_count", "qualified_claim_count", "unsupported_claim_count", "evidence_only_mode"],
     },
   },
-  required: ["contract_version", "source_contract_version", "locale", "purpose", "status", "summary", "claims", "evidence", "uncertainties", "decision_impacts", "limitations", "grounding"],
+    required: ["contract_version", "source_contract_version", "locale", "purpose", "status", "summary", "claims", "evidence", "uncertainties", "decision_impacts", "limitations", "grounding"],
 } as const;
 
 const SCHEMA_HASH = createHash("sha256").update(JSON.stringify(AI_REASONING_PROVIDER_JSON_SCHEMA)).digest("hex");

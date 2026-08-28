@@ -7,6 +7,7 @@ import {
   TextArea,
   StepNav,
 } from "@/components/WizardComponents";
+import { localizeText } from "@/lib/i18n";
 
 const offerTypes = [
   { label: "خصم", value: "discount" },
@@ -52,10 +53,11 @@ export default function Step6_Offer({
   onBack: () => void;
 }) {
   const { data, setField } = useWizardStore();
+  const locale = data.locale === "en" ? "en" : "ar";
 
   return (
     <div>
-      <QuestionCard label="ما نوع العرض الذي تقدمه؟">
+      <QuestionCard label={localizeText(locale, "ما نوع العرض الذي تقدمه؟", "What type of offer do you provide?")}>
         <SingleSelect
           options={offerTypes}
           value={data.offer_type}
@@ -63,15 +65,15 @@ export default function Step6_Offer({
         />
       </QuestionCard>
 
-      <QuestionCard label="ما الجملة الأساسية التي تريد أن يفهمها العميل فورًا؟">
+      <QuestionCard label={localizeText(locale, "ما الجملة الأساسية التي تريد أن يفهمها العميل فورًا؟", "What is the core message the customer should understand immediately?")}>
         <TextArea
-          placeholder="اكتب الرسالة كما ستظهر في الإعلان أو الهيدر"
+          placeholder={localizeText(locale, "اكتب الرسالة كما ستظهر في الإعلان أو الهيدر", "Write the message as it should appear in the ad or header")}
           value={data.core_message ?? ""}
           onChange={(v) => setField("core_message", v)}
         />
       </QuestionCard>
 
-      <QuestionCard label="ما أكثر الاعتراضات التي تمنع العميل من الشراء؟">
+      <QuestionCard label={localizeText(locale, "ما أكثر الاعتراضات التي تمنع العميل من الشراء؟", "Which objections most prevent the customer from buying?")}>
         <MultiSelectChips
           options={objectionOptions}
           value={data.objections}
@@ -79,7 +81,7 @@ export default function Step6_Offer({
         />
       </QuestionCard>
 
-      <QuestionCard label="ما الزاوية الإقناعية الأقوى؟">
+      <QuestionCard label={localizeText(locale, "ما الزاوية الإقناعية الأقوى؟", "What is the strongest persuasion angle?")}>
         <SingleSelect
           options={persuasionAngles}
           value={data.persuasion_angle}

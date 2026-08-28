@@ -36,6 +36,7 @@ jobs:
           npm run test:i18n
           npm run test:ai:reasoning:live
           npm run test:ai:reasoning:contract
+          npm run test:ai:advisory:capabilities
           npm run test:knowledge:google-drive-private
           npm run test:knowledge:gap-closure
           npm run test:campaign:lifecycle

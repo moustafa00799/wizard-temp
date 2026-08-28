@@ -1,6 +1,7 @@
 "use client";
 import { useWizardStore } from "@/lib/store";
 import { QuestionCard, SingleSelect, MultiSelectChips, TextArea, StepNav } from "@/components/WizardComponents";
+import { localizeText } from "@/lib/i18n";
 
 const assetOptions = [
   { label: "موقع", value: "website" },
@@ -35,13 +36,14 @@ export default function Step4_Readiness({
   onBack: () => void;
 }) {
   const { data, setField } = useWizardStore();
+  const locale = data.locale === "en" ? "en" : "ar";
   const showPastNotes = data.previous_campaigns_status
     ? HAS_HISTORY.includes(data.previous_campaigns_status)
     : false;
 
   return (
     <div>
-      <QuestionCard label="ما الأصول أو القنوات الموجودة الآن؟">
+      <QuestionCard label={localizeText(locale, "ما الأصول أو القنوات الموجودة الآن؟", "Which assets or channels are currently available?")}>
         <MultiSelectChips
           options={assetOptions}
           value={data.existing_assets}
@@ -49,7 +51,7 @@ export default function Step4_Readiness({
         />
       </QuestionCard>
 
-      <QuestionCard label="هل سبق تشغيل حملات من قبل؟">
+      <QuestionCard label={localizeText(locale, "هل سبق تشغيل حملات من قبل؟", "Have you run campaigns before?")}>
         <SingleSelect
           options={campaignStatusOptions}
           value={data.previous_campaigns_status}
@@ -62,9 +64,9 @@ export default function Step4_Readiness({
       </QuestionCard>
 
       {showPastNotes && (
-        <QuestionCard label="اذكر أي أرقام أو ملاحظات من الحملات السابقة.">
+        <QuestionCard label={localizeText(locale, "اذكر أي أرقام أو ملاحظات من الحملات السابقة.", "Add any numbers or notes from previous campaigns.")}>
           <TextArea
-            placeholder="ميزانية، CPL، CPA، ROAS، CTR، أو أي ملاحظات مهمة"
+            placeholder={localizeText(locale, "ميزانية، CPL، CPA، ROAS، CTR، أو أي ملاحظات مهمة", "Budget, CPL, CPA, ROAS, CTR, or any important notes")}
             value={data.past_performance_notes ?? ""}
             onChange={(v) => setField("past_performance_notes", v || null)}
             rows={3}

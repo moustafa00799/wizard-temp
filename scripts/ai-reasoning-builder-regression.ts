@@ -21,6 +21,9 @@ async function main() {
   assert.equal(baseline.claims.length, 2);
   assert.equal(baseline.safety.can_change_blueprint, false);
   assert.equal(baseline.blueprint_id, contract.blueprint_id);
+  assert.equal(baseline.decision_explanations?.length, 2);
+  assert.equal(baseline.decision_explanations?.[0]?.evidence_refs.includes("evidence-objective"), true);
+  assert.equal(baseline.decision_impacts.every((impact) => impact.changed === false), true);
 
   const unsupported = await buildAIReasoning(input, blueprint, contract, { enabled: true, provider: "mock", mockScenario: "unsupported_claim" });
   assert.equal(unsupported.status, "completed");
@@ -49,7 +52,7 @@ async function main() {
   assert.equal(trace.contract?.contract_version, "1.0");
   assert.equal(trace.supported_claims.length, 2);
 
-  console.log(JSON.stringify({ status: "PASS", assertions: 24, scenarios: 7 }, null, 2));
+  console.log(JSON.stringify({ status: "PASS", assertions: 27, scenarios: 7, deepReasoning: "decision_explanations" }, null, 2));
 }
 
 void main();

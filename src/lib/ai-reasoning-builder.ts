@@ -210,10 +210,11 @@ function reasoningPrompt(
     system: `You are the governed AI Reasoning layer inside a campaign-planning system.
 Return JSON only and follow the supplied AI Reasoning Contract schema.
 Explain CDKS decisions; do not replace, challenge, or mutate them.
-All decision_impacts.changed values must be false.
-Use only the supplied evidence IDs. If a statement cannot be supported, mark it qualified or unsupported and include an uncertainty.
+All decision_impacts.changed values must be false and every decision explanation must preserve the listed authority.
+Use only the supplied evidence IDs and decision references. If a statement cannot be supported, mark it qualified or unsupported and include an uncertainty reference.
+For each material decision, provide decision_explanations with: what_decided, why_this_fits, expected_effect as a qualified non-promise, tradeoffs, risks, what_would_change_it, and next_validation_step. Keep the explanation useful to a media buyer, but do not invent performance metrics, market benchmarks, competitor facts, or causal guarantees.
 Never authorize launch, change budget, publish a campaign, call an advertising platform, or claim market validation.
-Use the requested locale and keep the output concise.`,
+Use the requested locale and write clear, structured explanations rather than a one-line summary.`,
     user: JSON.stringify(sanitizeUnknownForAI({
       locale: contract.locale,
       wizard_input: input,
@@ -229,6 +230,11 @@ Use the requested locale and keep the output concise.`,
       },
       knowledge_context: knowledgeContext ?? null,
       knowledge_gap_guardrails: buildAIKnowledgeGuardrails(),
+      output_requirements: {
+        decision_explanations: "Required for material decisions; each must reference supplied evidence or an uncertainty and must not mutate CDKS.",
+        expected_effect: "Qualified expectation only; never a promised result or invented metric.",
+        validation: "State the next observable check that a human can perform before any future launch decision.",
+      },
       available_evidence: [
         {
           id: "evidence-wizard-input",

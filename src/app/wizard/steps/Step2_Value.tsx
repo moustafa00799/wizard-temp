@@ -1,6 +1,7 @@
 "use client";
 import { useWizardStore } from "@/lib/store";
 import { QuestionCard, TextArea, MultiSelectChips, StepNav } from "@/components/WizardComponents";
+import { localizeText } from "@/lib/i18n";
 
 const valueDrivers = [
   { label: "السعر", value: "price" },
@@ -23,17 +24,18 @@ export default function Step2_Value({
   onBack: () => void;
 }) {
   const { data, setField } = useWizardStore();
+  const locale = data.locale === "en" ? "en" : "ar";
   return (
     <div>
-      <QuestionCard label="ما المشكلة التي يحلها هذا النشاط؟">
+      <QuestionCard label={localizeText(locale, "ما المشكلة التي يحلها هذا النشاط؟", "What problem does this business solve?")}>
         <TextArea
-          placeholder="صف الألم الحقيقي الذي يشعر به العميل"
+          placeholder={localizeText(locale, "صف الألم الحقيقي الذي يشعر به العميل", "Describe the real pain the customer feels")}
           value={data.customer_problem ?? ""}
           onChange={(v) => setField("customer_problem", v)}
         />
       </QuestionCard>
 
-      <QuestionCard label="ما الأسباب الأقوى التي تجعل العميل يختارك؟">
+      <QuestionCard label={localizeText(locale, "ما الأسباب الأقوى التي تجعل العميل يختارك؟", "What are the strongest reasons a customer should choose you?")}>
         <MultiSelectChips
           options={valueDrivers}
           value={data.key_value_drivers}
@@ -41,9 +43,9 @@ export default function Step2_Value({
         />
       </QuestionCard>
 
-      <QuestionCard label="اذكر الفرق الحقيقي بينك وبين المنافسين.">
+      <QuestionCard label={localizeText(locale, "اذكر الفرق الحقيقي بينك وبين المنافسين.", "What is the real difference between you and competitors?")}>
         <TextArea
-          placeholder="ميزة، دليل، تجربة، عرض، أو سرعة تنفيذ"
+          placeholder={localizeText(locale, "ميزة، دليل، تجربة، عرض، أو سرعة تنفيذ", "A feature, proof point, experience, offer, or delivery advantage")}
           value={data.usp ?? ""}
           onChange={(v) => setField("usp", v)}
         />

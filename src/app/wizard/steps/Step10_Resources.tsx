@@ -6,6 +6,7 @@ import {
   MultiSelectChips,
   StepNav,
 } from "@/components/WizardComponents";
+import { localizeText } from "@/lib/i18n";
 
 const creativeAssets = [
   { label: "صور", value: "images" },
@@ -54,10 +55,11 @@ export default function Step10_Resources({
   onBack: () => void;
 }) {
   const { data, setField } = useWizardStore();
+  const locale = data.locale === "en" ? "en" : "ar";
 
   return (
     <div>
-      <QuestionCard label="ما الأصول المتاحة للإعلانات؟">
+      <QuestionCard label={localizeText(locale, "ما الأصول المتاحة للإعلانات؟", "Which creative assets are available for the ads?")}>
         <MultiSelectChips
           options={creativeAssets}
           value={data.creative_assets}
@@ -65,7 +67,7 @@ export default function Step10_Resources({
         />
       </QuestionCard>
 
-      <QuestionCard label="هل يمكن إنتاج محتوى جديد للحملة؟">
+      <QuestionCard label={localizeText(locale, "هل يمكن إنتاج محتوى جديد للحملة؟", "Can new content be produced for the campaign?")}>
         <SingleSelect
           options={contentCapacity}
           value={data.content_capacity}
@@ -73,7 +75,7 @@ export default function Step10_Resources({
         />
       </QuestionCard>
 
-      <QuestionCard label="ما القيود الموجودة؟">
+      <QuestionCard label={localizeText(locale, "ما القيود الموجودة؟", "What constraints are present?")}>
         <MultiSelectChips
           options={constraintOptions}
           value={data.constraints}
@@ -81,7 +83,7 @@ export default function Step10_Resources({
         />
       </QuestionCard>
 
-      <QuestionCard label="كم سرعة الرد المتاحة على الاستفسارات؟">
+      <QuestionCard label={localizeText(locale, "كم سرعة الرد المتاحة على الاستفسارات؟", "How quickly can inquiries be answered?")}>
         <SingleSelect
           options={responseSpeeds}
           value={data.response_speed}

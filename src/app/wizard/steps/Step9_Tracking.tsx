@@ -6,6 +6,7 @@ import {
   MultiSelectChips,
   StepNav,
 } from "@/components/WizardComponents";
+import { localizeText } from "@/lib/i18n";
 
 const trackingStatuses = [
   { label: "جاهز بالكامل", value: "ready" },
@@ -58,10 +59,11 @@ export default function Step9_Tracking({
   onBack: () => void;
 }) {
   const { data, setField } = useWizardStore();
+  const locale = data.locale === "en" ? "en" : "ar";
 
   return (
     <div>
-      <QuestionCard label="ما حالة التتبع الآن؟">
+      <QuestionCard label={localizeText(locale, "ما حالة التتبع الآن؟", "What is the current tracking status?")}>
         <SingleSelect
           options={trackingStatuses}
           value={data.tracking_status}
@@ -69,7 +71,7 @@ export default function Step9_Tracking({
         />
       </QuestionCard>
 
-      <QuestionCard label="ما الأدوات الموجودة؟">
+      <QuestionCard label={localizeText(locale, "ما الأدوات الموجودة؟", "Which tracking tools are available?")}>
         <MultiSelectChips
           options={trackingTools}
           value={data.tracking_tools}
@@ -77,7 +79,7 @@ export default function Step9_Tracking({
         />
       </QuestionCard>
 
-      <QuestionCard label="ما الأحداث التي تريد تتبعها؟">
+      <QuestionCard label={localizeText(locale, "ما الأحداث التي تريد تتبعها؟", "Which events do you want to track?")}>
         <MultiSelectChips
           options={keyEvents}
           value={data.key_events}
@@ -85,7 +87,7 @@ export default function Step9_Tracking({
         />
       </QuestionCard>
 
-      <QuestionCard label="هل التحويل يحدث أونلاين أم أوفلاين؟">
+      <QuestionCard label={localizeText(locale, "هل التحويل يحدث أونلاين أم أوفلاين؟", "Does the conversion happen online or offline?")}>
         <SingleSelect
           options={conversionModels}
           value={data.conversion_model}

@@ -339,3 +339,9 @@ export function formatLocaleNumber(value: number, locale: AppLocale, options?: I
 export function formatLocaleDate(value: string | number | Date, locale: AppLocale): string {
   return new Intl.DateTimeFormat(localeTag(locale), { dateStyle: "medium", timeStyle: "short" }).format(new Date(value));
 }
+
+export { getOptionLabel } from "./i18n-options";
+
+export function localizeText(locale: AppLocale, arabic: string, english: string): string {
+  return locale === "en" ? english : arabic;
+}

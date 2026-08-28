@@ -24,6 +24,19 @@ export type AIReasoningEvidenceKind =
 export type AIReasoningImpact = "supports" | "clarifies" | "challenges" | "no_change";
 export type AIReasoningSafetyStatus = "safe" | "rejected";
 
+export interface AIReasoningDecisionExplanation {
+  decision_ref: string;
+  what_decided: string;
+  why_this_fits: string;
+  expected_effect: string;
+  tradeoffs: string[];
+  risks: string[];
+  what_would_change_it: string[];
+  next_validation_step: string;
+  evidence_refs: string[];
+  uncertainty_refs: string[];
+}
+
 export interface AIReasoningEvidence {
   id: string;
   kind: AIReasoningEvidenceKind;
@@ -93,6 +106,7 @@ export interface AIReasoningContract {
   evidence: AIReasoningEvidence[];
   uncertainties: AIReasoningUncertainty[];
   decision_impacts: AIReasoningDecisionImpact[];
+  decision_explanations?: AIReasoningDecisionExplanation[];
   limitations: string[];
   grounding: {
     evidence_coverage_percent: number;
@@ -170,6 +184,19 @@ const DecisionImpactSchema = z.object({
   changed: z.literal(false),
 });
 
+const DecisionExplanationSchema = z.object({
+  decision_ref: z.string().min(1).max(200),
+  what_decided: z.string().min(1).max(1200),
+  why_this_fits: z.string().min(1).max(2000),
+  expected_effect: z.string().min(1).max(1500),
+  tradeoffs: z.array(z.string().min(1).max(500)).max(8),
+  risks: z.array(z.string().min(1).max(500)).max(8),
+  what_would_change_it: z.array(z.string().min(1).max(500)).max(8),
+  next_validation_step: z.string().min(1).max(1500),
+  evidence_refs: z.array(z.string().min(1)).max(16),
+  uncertainty_refs: z.array(z.string().min(1)).max(16),
+});
+
 const SafetySchema = z.object({
   status: z.enum(["safe", "rejected"]),
   can_mutate_cdks: z.literal(false),
@@ -198,6 +225,7 @@ export const AIReasoningContractSchema = z.object({
   evidence: z.array(EvidenceSchema).max(64),
   uncertainties: z.array(UncertaintySchema).max(32),
   decision_impacts: z.array(DecisionImpactSchema).max(32),
+  decision_explanations: z.array(DecisionExplanationSchema).max(32).optional(),
   limitations: z.array(z.string().max(500)).max(24),
   grounding: z.object({
     evidence_coverage_percent: z.number().min(0).max(100),
@@ -246,6 +274,16 @@ export function validateAIReasoningContract(data: unknown): ValidatedAIReasoning
   for (const impact of parsed.decision_impacts) {
     if (impact.preserved_authority === "HUMAN_APPROVAL" && impact.impact === "challenges") {
       issues.push(`${impact.decision_ref}: reasoning cannot challenge human approval authority`);
+    }
+  }
+
+  for (const explanation of parsed.decision_explanations ?? []) {
+    const missingEvidence = explanation.evidence_refs.filter((ref) => !evidenceIds.has(ref));
+    const missingUncertainty = explanation.uncertainty_refs.filter((ref) => !uncertaintyIds.has(ref));
+    if (missingEvidence.length) issues.push(`${explanation.decision_ref}: explanation has unknown evidence refs ${missingEvidence.join(", ")}`);
+    if (missingUncertainty.length) issues.push(`${explanation.decision_ref}: explanation has unknown uncertainty refs ${missingUncertainty.join(", ")}`);
+    if (explanation.evidence_refs.length === 0 && explanation.uncertainty_refs.length === 0) {
+      issues.push(`${explanation.decision_ref}: explanation requires evidence_refs or uncertainty_refs`);
     }
   }
 

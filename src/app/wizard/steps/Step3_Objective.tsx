@@ -1,6 +1,7 @@
 "use client";
 import { useWizardStore } from "@/lib/store";
 import { QuestionCard, SingleSelect, MultiSelectChips, StepNav } from "@/components/WizardComponents";
+import { localizeText } from "@/lib/i18n";
 
 const primaryObjectives = [
   { label: "مبيعات", value: "sales" },
@@ -43,9 +44,10 @@ export default function Step3_Objective({
   onBack: () => void;
 }) {
   const { data, setField } = useWizardStore();
+  const locale = data.locale === "en" ? "en" : "ar";
   return (
     <div>
-      <QuestionCard label="ما الهدف الأساسي للحملة؟">
+      <QuestionCard label={localizeText(locale, "ما الهدف الأساسي للحملة؟", "What is the primary campaign objective?")}>
         <SingleSelect
           options={primaryObjectives}
           value={data.primary_objective}
@@ -53,7 +55,7 @@ export default function Step3_Objective({
         />
       </QuestionCard>
 
-      <QuestionCard label="ما الأهداف الثانوية المهمة أيضًا؟">
+      <QuestionCard label={localizeText(locale, "ما الأهداف الثانوية المهمة أيضًا؟", "Which secondary objectives also matter?")}>
         <MultiSelectChips
           options={secondaryObjectives}
           value={data.secondary_objectives}
@@ -61,7 +63,7 @@ export default function Step3_Objective({
         />
       </QuestionCard>
 
-      <QuestionCard label="ما أهم مؤشر نجاح بالنسبة لك؟">
+      <QuestionCard label={localizeText(locale, "ما أهم مؤشر نجاح بالنسبة لك؟", "What is the most important success metric for you?")}>
         <SingleSelect
           options={kpiOptions}
           value={data.north_star_kpi}

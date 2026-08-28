@@ -15,6 +15,7 @@ import {
   displayValue as safeDisplayValue,
   isUnavailableValue,
 } from "../../lib/blueprint-display";
+import { getDictionary, localizeText, localeDirection, type AppLocale } from "../../lib/i18n";
 
 type SectionKey =
   | "executive_summary"
@@ -120,6 +121,24 @@ const sectionGroups: { key: SectionGroupKey; title: string; description: string;
   },
 ];
 
+const BlueprintLocaleContext = React.createContext<AppLocale>("ar");
+
+function useBlueprintLocale(): AppLocale {
+  return React.useContext(BlueprintLocaleContext);
+}
+
+function localizedSectionTitle(locale: AppLocale, section: { key: SectionKey; title: string }): string {
+  return getDictionary(locale).blueprint.sections[section.key] ?? section.title;
+}
+
+function localizedGroupTitle(locale: AppLocale, group: { key: SectionGroupKey; title: string }): string {
+  return getDictionary(locale).blueprint.groups[group.key].title ?? group.title;
+}
+
+function localizedGroupDescription(locale: AppLocale, group: { key: SectionGroupKey; description: string }): string {
+  return getDictionary(locale).blueprint.groups[group.key].description ?? group.description;
+}
+
 /* -------------------------------------------------------------------------- */
 /* Safe rendering helpers                                                     */
 /* -------------------------------------------------------------------------- */
@@ -186,7 +205,8 @@ function getObject(value: any): Record<string, any> {
 /* -------------------------------------------------------------------------- */
 
 function ReasoningBadge({ reasoning }: { reasoning?: any }) {
-  const text = displayValue(reasoning, "");
+  const locale = useBlueprintLocale();
+  const text = safeDisplayValue(reasoning, "", locale);
 
   if (!text || text.length < 5) return null;
 
@@ -197,7 +217,7 @@ function ReasoningBadge({ reasoning }: { reasoning?: any }) {
 
         <div>
           <p className="text-xs font-bold text-indigo-700 mb-1">
-            منطق القرار
+            {localizeText(locale, "منطق القرار", "Decision logic")}
           </p>
 
           <p className="text-sm text-indigo-800 leading-relaxed">
@@ -218,16 +238,17 @@ function SourceBadge({
   backfilled?: boolean;
   reasoningActive?: boolean;
 }) {
+  const locale = useBlueprintLocale();
   if (aiGenerated) {
     return (
       <div className="flex items-center gap-2">
         <span className="bg-indigo-100 text-indigo-800 px-2 py-1 rounded-full text-xs">
-          🤖 مُولد بالـ AI
+          {localizeText(locale, "🤖 مُولد بالـ AI", "🤖 AI-assisted")}
         </span>
 
         {backfilled && (
           <span className="bg-purple-200 text-purple-900 px-2 py-0.5 rounded-full text-xs">
-            + Rules Backfill
+            + Rules backfill
           </span>
         )}
       </div>
@@ -238,10 +259,10 @@ function SourceBadge({
     return (
       <div className="flex items-center gap-2">
         <span className="bg-indigo-100 text-indigo-800 px-2 py-1 rounded-full text-xs">
-          🧠 AI Reasoning — استشاري
+          {localizeText(locale, "🧠 AI Reasoning — استشاري", "🧠 Advisory AI reasoning")}
         </span>
         <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs">
-          ⚙️ قرارات CDKS / Rules Engine
+          ⚙️ {localizeText(locale, "قرارات CDKS / Rules Engine", "CDKS / Rules Engine decisions")}
         </span>
       </div>
     );
@@ -249,7 +270,7 @@ function SourceBadge({
 
   return (
     <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs">
-      ⚙️ قرارات CDKS / Rules Engine
+      ⚙️ {localizeText(locale, "قرارات CDKS / Rules Engine", "CDKS / Rules Engine decisions")}
     </span>
   );
 }
@@ -261,11 +282,13 @@ function DataCard({
   label: string;
   value: any;
 }) {
+  const locale = useBlueprintLocale();
+  const renderedValue = React.isValidElement(value) ? value : safeDisplayValue(value, "غير محدد", locale);
   return (
     <div className="bg-gray-50 rounded-lg p-3 border">
-      <p className="text-xs text-gray-500 mb-1">{displayFieldLabel(label)}</p>
+      <p className="text-xs text-gray-500 mb-1">{displayFieldLabel(label, locale)}</p>
       <p className="font-medium text-gray-900 break-words">
-        {displayValue(value)}
+        {renderedValue}
       </p>
     </div>
   );
@@ -2535,6 +2558,7 @@ function ClientStatus({ status }: { status: string }) {
 }
 
 function ClientOutcomeSummary({ blueprint, wizardInput, reasoningActive, strategyTrace, reasoningStatus, knowledgeContext }: { blueprint: any; wizardInput: any; reasoningActive: boolean; strategyTrace: any; reasoningStatus: string; knowledgeContext?: any }) {
+  const locale = useBlueprintLocale();
   const executive = getObject(blueprint?.executive_summary);
   const strategy = getObject(blueprint?.strategy_summary ?? blueprint?.strategy);
   const funnel = getObject(blueprint?.recommended_funnel);
@@ -2544,50 +2568,51 @@ function ClientOutcomeSummary({ blueprint, wizardInput, reasoningActive, strateg
   const campaigns = asArray(campaignStructure?.campaigns);
   const fixes = asArray(preLaunch?.items ?? preLaunch?.fixes ?? preLaunch?.actions);
   const riskItems = asArray(risks?.items ?? risks?.flags ?? risks?.warnings);
-  const recommendation = displayValue(executive?.recommendation ?? blueprint?.recommendation, "يحتاج مراجعة");
-  const readiness = displayValue(executive?.readiness_score ?? blueprint?.readiness_score, "غير محددة");
-  const riskScore = displayValue(executive?.risk_score ?? blueprint?.risk_score, "غير محددة");
-  const strategyText = displayValue(
+  const recommendation = safeDisplayValue(executive?.recommendation ?? blueprint?.recommendation, "يحتاج مراجعة", locale);
+  const readiness = safeDisplayValue(executive?.readiness_score ?? blueprint?.readiness_score, "غير محددة", locale);
+  const riskScore = safeDisplayValue(executive?.risk_score ?? blueprint?.risk_score, "غير محددة", locale);
+  const strategyText = safeDisplayValue(
     strategy?.strategic_summary ?? strategy?.summary ?? strategy?.positioning ?? strategy?.core_strategy,
-    "سيتم بناء التوصية من مدخلاتك وقواعد CDKS والسياق المتاح."
+    localizeText(locale, "سيتم بناء التوصية من مدخلاتك وقواعد CDKS والسياق المتاح.", "The recommendation is based on your input, CDKS rules, and available context."),
+    locale
   );
-  const funnelName = displayValue(funnel?.funnel_type ?? strategy?.funnel_type, "سيتم تحديده بعد المراجعة");
+  const funnelName = safeDisplayValue(funnel?.funnel_type ?? strategy?.funnel_type, localizeText(locale, "سيتم تحديده بعد المراجعة", "To be determined after review"), locale);
   const channelValue = wizardInput?.ad_channels ?? strategy?.recommended_channels ?? strategy?.channels;
   const locationValue = wizardInput?.target_locations ?? wizardInput?.geo_scope;
   const objectiveValue = wizardInput?.primary_objective ?? strategy?.recommended_objective;
-  const nextStep = fixes[0] ? displayValue(fixes[0]) : "مراجعة التوصية واعتمادها بشريًا قبل أي إطلاق.";
+  const nextStep = fixes[0] ? safeDisplayValue(fixes[0], "", locale) : localizeText(locale, "مراجعة التوصية واعتمادها بشريًا قبل أي إطلاق.", "Review the recommendation and obtain human approval before any launch.");
   const strategyStatus = strategyTrace?.status === "completed"
-    ? "Strategy Builder مكتمل"
+    ? localizeText(locale, "Strategy Builder مكتمل", "Strategy Builder completed")
     : strategyTrace?.status === "failed"
-      ? "Strategy Builder فشل مغلقًا"
-      : "Strategy Builder غير مشغّل";
+      ? localizeText(locale, "Strategy Builder فشل مغلقًا", "Strategy Builder failed closed")
+      : localizeText(locale, "Strategy Builder غير مشغّل", "Strategy Builder not enabled");
   const reasoningStatusLabel = reasoningStatus === "completed"
-    ? "Reasoning مكتمل"
+    ? localizeText(locale, "Reasoning مكتمل", "Reasoning completed")
     : reasoningStatus === "failed"
-      ? "Reasoning فشل مغلقًا"
-      : "Reasoning غير مشغّل";
+      ? localizeText(locale, "Reasoning فشل مغلقًا", "Reasoning failed closed")
+      : localizeText(locale, "Reasoning غير مشغّل", "Reasoning not enabled");
 
   return (
-    <section className="mt-6 space-y-5" aria-label="ملخص العميل النهائي">
+    <section className="mt-6 space-y-5" aria-label={localizeText(locale, "ملخص العميل النهائي", "Client outcome summary")}>
       <div className="rounded-3xl border border-blue-100 bg-gradient-to-l from-blue-50 via-white to-indigo-50 p-6 shadow-sm">
         <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.16em] text-blue-700">ملخص العميل</p>
-            <h2 className="mt-2 text-2xl font-bold text-gray-900">ماذا خرجنا به من إجاباتك؟</h2>
-            <p className="mt-2 max-w-3xl text-sm leading-7 text-gray-600">هذه الصفحة تلخص ما فهمه النظام عن نشاطك، وما يقترحه كخطة أولية. القرارات قابلة للمراجعة، ولا يوجد إطلاق أو إنفاق تلقائي.</p>
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-blue-700">{localizeText(locale, "ملخص العميل", "Client summary")}</p>
+            <h2 className="mt-2 text-2xl font-bold text-gray-900">{localizeText(locale, "ماذا خرجنا به من إجاباتك؟", "What did we learn from your answers?")}</h2>
+            <p className="mt-2 max-w-3xl text-sm leading-7 text-gray-600">{localizeText(locale, "هذه الصفحة تلخص ما فهمه النظام عن نشاطك، وما يقترحه كخطة أولية. القرارات قابلة للمراجعة، ولا يوجد إطلاق أو إنفاق تلقائي.", "This page summarizes what the system understood about your business and the initial plan it suggests. Decisions remain reviewable; there is no automatic launch or spend.")}</p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <ClientStatus status={recommendation} />
-            {reasoningActive && <span className="rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1 text-xs font-bold text-indigo-800">AI يفسر ويقترح فقط</span>}
+            {reasoningActive && <span className="rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1 text-xs font-bold text-indigo-800">{localizeText(locale, "AI يفسر ويقترح فقط", "AI explains and suggests only")}</span>}
           </div>
         </div>
 
         <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-          <div className="rounded-2xl border border-white bg-white/80 p-4"><p className="text-xs text-gray-500">الهدف</p><p className="mt-2 font-bold text-gray-900">{displayValue(objectiveValue)}</p></div>
-          <div className="rounded-2xl border border-white bg-white/80 p-4"><p className="text-xs text-gray-500">السوق / المواقع</p><p className="mt-2 font-bold text-gray-900">{displayValue(locationValue)}</p></div>
-          <div className="rounded-2xl border border-white bg-white/80 p-4"><p className="text-xs text-gray-500">القنوات في مدخلاتك</p><p className="mt-2 font-bold text-gray-900">{displayValue(channelValue)}</p></div>
-          <div className="rounded-2xl border border-white bg-white/80 p-4"><p className="text-xs text-gray-500">الجاهزية / المخاطرة</p><p className="mt-2 font-bold text-gray-900">{readiness} / {riskScore}</p></div>
-          <div className="rounded-2xl border border-white bg-white/80 p-4"><p className="text-xs text-gray-500">حالة AI الاستشاري</p><p className="mt-2 font-bold text-gray-900">{strategyStatus}</p><p className="mt-1 text-xs text-gray-500">{reasoningStatusLabel}</p></div>
+          <div className="rounded-2xl border border-white bg-white/80 p-4"><p className="text-xs text-gray-500">{localizeText(locale, "الهدف", "Objective")}</p><p className="mt-2 font-bold text-gray-900">{safeDisplayValue(objectiveValue, "غير محدد", locale)}</p></div>
+          <div className="rounded-2xl border border-white bg-white/80 p-4"><p className="text-xs text-gray-500">{localizeText(locale, "السوق / المواقع", "Market / locations")}</p><p className="mt-2 font-bold text-gray-900">{safeDisplayValue(locationValue, "غير محدد", locale)}</p></div>
+          <div className="rounded-2xl border border-white bg-white/80 p-4"><p className="text-xs text-gray-500">{localizeText(locale, "القنوات في مدخلاتك", "Channels in your input")}</p><p className="mt-2 font-bold text-gray-900">{safeDisplayValue(channelValue, "غير محدد", locale)}</p></div>
+          <div className="rounded-2xl border border-white bg-white/80 p-4"><p className="text-xs text-gray-500">{localizeText(locale, "الجاهزية / المخاطرة", "Readiness / risk")}</p><p className="mt-2 font-bold text-gray-900">{readiness} / {riskScore}</p></div>
+          <div className="rounded-2xl border border-white bg-white/80 p-4"><p className="text-xs text-gray-500">{localizeText(locale, "حالة AI الاستشاري", "Advisory AI status")}</p><p className="mt-2 font-bold text-gray-900">{strategyStatus}</p><p className="mt-1 text-xs text-gray-500">{reasoningStatusLabel}</p></div>
         </div>
       </div>
 
@@ -2595,48 +2620,48 @@ function ClientOutcomeSummary({ blueprint, wizardInput, reasoningActive, strateg
         <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.14em] text-indigo-700">Knowledge Context</p>
-            <h3 className="mt-1 text-lg font-bold text-indigo-950">المعرفة المستخدمة في التفسير</h3>
-            <p className="mt-1 text-sm leading-6 text-indigo-800">هذه طبقة سياق مقيدة تساعد على تفسير التوصية، وليست بديلًا عن قرارات CDKS ولا إثباتًا عامًا لحجم السوق.</p>
+            <h3 className="mt-1 text-lg font-bold text-indigo-950">{localizeText(locale, "المعرفة المستخدمة في التفسير", "Knowledge used for explanation")}</h3>
+            <p className="mt-1 text-sm leading-6 text-indigo-800">{localizeText(locale, "هذه طبقة سياق مقيدة تساعد على تفسير التوصية، وليست بديلًا عن قرارات CDKS ولا إثباتًا عامًا لحجم السوق.", "This is a restricted context layer for explaining the recommendation. It is not a substitute for CDKS decisions or proof of total market size.")}</p>
           </div>
-          <span className="rounded-full bg-white px-3 py-1 text-xs font-bold text-indigo-800">{knowledgeContext ? "مفعّل — محدود" : "غير مفعّل"}</span>
+          <span className="rounded-full bg-white px-3 py-1 text-xs font-bold text-indigo-800">{knowledgeContext ? localizeText(locale, "مفعّل — محدود", "Enabled — restricted") : localizeText(locale, "غير مفعّل", "Not enabled")}</span>
         </div>
         {knowledgeContext ? (
           <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4 text-sm">
-            <DataCard label="السوق" value={knowledgeContext.market} />
-            <DataCard label="الصناعة" value={knowledgeContext.industry} />
-            <DataCard label="العملة" value={knowledgeContext.currency} />
-            <DataCard label="حالة السياق" value={knowledgeContext.scopedValidationStatus} />
-            <DataCard label="Facts المسموحة" value={knowledgeContext.approvedFactCount} />
-            <DataCard label="حالة الحداثة" value={knowledgeContext.freshnessStatus} />
-            <DataCard label="Market Validated" value={knowledgeContext.scopedMarketValidated ? "نعم" : "لا"} />
-            <DataCard label="Global Validation" value={knowledgeContext.globalMarketValidated ? "نعم" : "لا"} />
+            <DataCard label={localizeText(locale, "السوق", "Market")} value={knowledgeContext.market} />
+            <DataCard label={localizeText(locale, "الصناعة", "Industry")} value={knowledgeContext.industry} />
+            <DataCard label={localizeText(locale, "العملة", "Currency")} value={knowledgeContext.currency} />
+            <DataCard label={localizeText(locale, "حالة السياق", "Context status")} value={knowledgeContext.scopedValidationStatus} />
+            <DataCard label={localizeText(locale, "Facts المسموحة", "Approved facts")} value={knowledgeContext.approvedFactCount} />
+            <DataCard label={localizeText(locale, "حالة الحداثة", "Freshness status")} value={knowledgeContext.freshnessStatus} />
+            <DataCard label="Market Validated" value={knowledgeContext.scopedMarketValidated ? (locale === "ar" ? "نعم" : "Yes") : (locale === "ar" ? "لا" : "No")} />
+            <DataCard label="Global Validation" value={knowledgeContext.globalMarketValidated ? (locale === "ar" ? "نعم" : "Yes") : (locale === "ar" ? "لا" : "No")} />
             <div className="rounded-lg border bg-white p-3 sm:col-span-2 lg:col-span-4">
-              <p className="text-xs text-gray-500 mb-1">مؤشرات غير متاحة حاليًا</p>
-              <p className="font-medium text-gray-900 break-words">{Array.isArray(knowledgeContext.unavailableBenchmarkCategories) && knowledgeContext.unavailableBenchmarkCategories.length > 0 ? knowledgeContext.unavailableBenchmarkCategories.join("، ") : "لا توجد فئات مسجلة"}</p>
+              <p className="text-xs text-gray-500 mb-1">{localizeText(locale, "مؤشرات غير متاحة حاليًا", "Unavailable benchmark categories")}</p>
+              <p className="font-medium text-gray-900 break-words">{Array.isArray(knowledgeContext.unavailableBenchmarkCategories) && knowledgeContext.unavailableBenchmarkCategories.length > 0 ? knowledgeContext.unavailableBenchmarkCategories.join(locale === "ar" ? "، " : ", ") : localizeText(locale, "لا توجد فئات مسجلة", "No categories recorded")}</p>
             </div>
           </div>
         ) : (
-          <p className="mt-4 rounded-xl bg-white/70 p-4 text-sm leading-6 text-indigo-900">لم يتم اختيار سياق Knowledge إضافي. ستظل النتيجة مبنية على Wizard وCDKS، ويمكن تشغيل سياق مسموح من شاشة المراجعة.</p>
+          <p className="mt-4 rounded-xl bg-white/70 p-4 text-sm leading-6 text-indigo-900">{localizeText(locale, "لم يتم اختيار سياق Knowledge إضافي. ستظل النتيجة مبنية على Wizard وCDKS، ويحدد الخادم أي سياق مسموح تلقائيًا.", "No additional Knowledge Context was used. The result remains based on Wizard and CDKS; the server automatically determines any allowlisted context.")}</p>
         )}
       </div>
 
       <div className="grid gap-4 lg:grid-cols-3">
-        <div className="rounded-2xl border border-gray-200 bg-white p-5"><p className="text-xs font-bold text-gray-500">الاستراتيجية باختصار</p><p className="mt-3 text-sm leading-7 text-gray-800">{strategyText}</p></div>
-        <div className="rounded-2xl border border-gray-200 bg-white p-5"><p className="text-xs font-bold text-gray-500">المسار المقترح</p><p className="mt-3 text-lg font-bold text-gray-900">{funnelName}</p><p className="mt-2 text-sm leading-6 text-gray-600">سيُستخدم هذا المسار لتنظيم انتقال العميل من الرسالة إلى التحويل.</p></div>
-        <div className="rounded-2xl border border-gray-200 bg-white p-5"><p className="text-xs font-bold text-gray-500">شكل الخطة</p><p className="mt-3 text-lg font-bold text-gray-900">{campaigns.length || displayValue(campaignStructure?.campaign_count, "عدة مراحل")} حملات / مراحل</p><p className="mt-2 text-sm leading-6 text-gray-600">التفاصيل الكاملة متاحة في قسم Blueprint المتقدم أدناه.</p></div>
+        <div className="rounded-2xl border border-gray-200 bg-white p-5"><p className="text-xs font-bold text-gray-500">{localizeText(locale, "الاستراتيجية باختصار", "Strategy at a glance")}</p><p className="mt-3 text-sm leading-7 text-gray-800">{strategyText}</p></div>
+        <div className="rounded-2xl border border-gray-200 bg-white p-5"><p className="text-xs font-bold text-gray-500">{localizeText(locale, "المسار المقترح", "Recommended funnel")}</p><p className="mt-3 text-lg font-bold text-gray-900">{funnelName}</p><p className="mt-2 text-sm leading-6 text-gray-600">{localizeText(locale, "سيُستخدم هذا المسار لتنظيم انتقال العميل من الرسالة إلى التحويل.", "This funnel organizes the customer journey from message to conversion.")}</p></div>
+        <div className="rounded-2xl border border-gray-200 bg-white p-5"><p className="text-xs font-bold text-gray-500">{localizeText(locale, "شكل الخطة", "Plan shape")}</p><p className="mt-3 text-lg font-bold text-gray-900">{campaigns.length || safeDisplayValue(campaignStructure?.campaign_count, localizeText(locale, "عدة مراحل", "Multiple stages"), locale)} {localizeText(locale, "حملات / مراحل", "campaigns / stages")}</p><p className="mt-2 text-sm leading-6 text-gray-600">{localizeText(locale, "التفاصيل الكاملة متاحة في قسم Blueprint المتقدم أدناه.", "Full details are available in the advanced Blueprint section below.")}</p></div>
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
         <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5">
-          <div className="flex items-center justify-between gap-3"><h3 className="font-bold text-amber-950">قبل أي إطلاق</h3><span className="rounded-full bg-white/70 px-2.5 py-1 text-xs font-bold text-amber-800">مراجعة مطلوبة</span></div>
+          <div className="flex items-center justify-between gap-3"><h3 className="font-bold text-amber-950">{localizeText(locale, "قبل أي إطلاق", "Before any launch")}</h3><span className="rounded-full bg-white/70 px-2.5 py-1 text-xs font-bold text-amber-800">{localizeText(locale, "مراجعة مطلوبة", "Review required")}</span></div>
           <p className="mt-3 text-sm leading-7 text-amber-900">{nextStep}</p>
-          {fixes.length > 1 && <p className="mt-2 text-xs text-amber-800">هناك {fixes.length - 1} نقاط أخرى في قائمة الإصلاحات المتقدمة.</p>}
-          {riskItems.length > 0 && <p className="mt-2 text-xs text-amber-800">يوجد أيضًا {riskItems.length} تحذير/تحذيرات تحتاج مراجعة.</p>}
+          {fixes.length > 1 && <p className="mt-2 text-xs text-amber-800">{localizeText(locale, `هناك ${fixes.length - 1} نقاط أخرى في قائمة الإصلاحات المتقدمة.`, `${fixes.length - 1} more item(s) are in the advanced fixes list.`)}</p>}
+          {riskItems.length > 0 && <p className="mt-2 text-xs text-amber-800">{localizeText(locale, `يوجد أيضًا ${riskItems.length} تحذير/تحذيرات تحتاج مراجعة.`, `${riskItems.length} warning(s) also need review.`)}</p>}
         </div>
         <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5">
-          <h3 className="font-bold text-emerald-950">الخطوة التالية لك</h3>
-          <p className="mt-3 text-sm leading-7 text-emerald-900">راجع التوصية، صحح البيانات أو التتبع عند الحاجة، ثم اعتمد النتيجة يدويًا. النظام لا ينشئ حملة ولا ينشرها من هذه الصفحة.</p>
-          <div className="mt-3 flex flex-wrap gap-2 text-xs font-bold text-emerald-800"><span className="rounded-full bg-white/70 px-2.5 py-1">CDKS يقرر</span><span className="rounded-full bg-white/70 px-2.5 py-1">AI يشرح</span><span className="rounded-full bg-white/70 px-2.5 py-1">الإنسان يعتمد</span></div>
+          <h3 className="font-bold text-emerald-950">{localizeText(locale, "الخطوة التالية لك", "Your next step")}</h3>
+          <p className="mt-3 text-sm leading-7 text-emerald-900">{localizeText(locale, "راجع التوصية، صحح البيانات أو التتبع عند الحاجة، ثم اعتمد النتيجة يدويًا. النظام لا ينشئ حملة ولا ينشرها من هذه الصفحة.", "Review the recommendation, correct data or tracking as needed, then approve it manually. This page does not create or publish a campaign.")}</p>
+          <div className="mt-3 flex flex-wrap gap-2 text-xs font-bold text-emerald-800"><span className="rounded-full bg-white/70 px-2.5 py-1">{localizeText(locale, "CDKS يقرر", "CDKS decides")}</span><span className="rounded-full bg-white/70 px-2.5 py-1">{localizeText(locale, "AI يشرح", "AI explains")}</span><span className="rounded-full bg-white/70 px-2.5 py-1">{localizeText(locale, "الإنسان يعتمد", "Human approves")}</span></div>
         </div>
       </div>
     </section>
@@ -2644,6 +2669,7 @@ function ClientOutcomeSummary({ blueprint, wizardInput, reasoningActive, strateg
 }
 
 function CampaignLifecyclePanel({ initialLifecycle }: { initialLifecycle?: any }) {
+  const locale = useBlueprintLocale();
   const [lifecycle, setLifecycle] = useState<any>(initialLifecycle ?? null);
   const [events, setEvents] = useState<any[]>([]);
   const [note, setNote] = useState("");
@@ -2730,54 +2756,54 @@ function CampaignLifecyclePanel({ initialLifecycle }: { initialLifecycle?: any }
   };
 
   const state = lifecycle?.state ?? "draft";
-  const stateLabel = lifecycle?.stateLabel ?? "لا توجد دورة حياة محفوظة";
+  const stateLabel = lifecycle?.stateLabel ?? localizeText(locale, "لا توجد دورة حياة محفوظة", "No saved lifecycle");
   return (
-    <section className="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" aria-label="دورة حياة الحملة">
+    <section className="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" aria-label={localizeText(locale, "دورة حياة الحملة", "Campaign lifecycle")}>
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Campaign Lifecycle</p>
-          <h2 className="mt-1 text-xl font-bold text-slate-950">حالة الحملة والمراجعة البشرية</h2>
-          <p className="mt-1 max-w-3xl text-sm leading-6 text-slate-600">الاعتماد هنا يعني اعتماد Blueprint للمراجعة أو التحضير فقط. لا ينشئ حملة على منصة خارجية ولا يسمح بالإنفاق.</p>
+          <h2 className="mt-1 text-xl font-bold text-slate-950">{localizeText(locale, "حالة الحملة والمراجعة البشرية", "Campaign status and human review")}</h2>
+          <p className="mt-1 max-w-3xl text-sm leading-6 text-slate-600">{localizeText(locale, "الاعتماد هنا يعني اعتماد Blueprint للمراجعة أو التحضير فقط. لا ينشئ حملة على منصة خارجية ولا يسمح بالإنفاق.", "Approval here means approval for review or preparation only. It does not create an external campaign or allow spend.")}</p>
         </div>
         <span className={`rounded-full border px-3 py-1 text-xs font-bold ${state === "approved" ? "border-emerald-200 bg-emerald-50 text-emerald-800" : state === "rejected" ? "border-rose-200 bg-rose-50 text-rose-800" : "border-amber-200 bg-amber-50 text-amber-800"}`}>{stateLabel}</span>
       </div>
 
       {!lifecycle ? (
-        <p className="mt-4 rounded-xl bg-slate-50 p-4 text-sm leading-6 text-slate-700">لا توجد دورة حياة محفوظة لهذا Blueprint القديم. أعد التوليد من Wizard لإنشاء Draft قابل للمراجعة.</p>
+        <p className="mt-4 rounded-xl bg-slate-50 p-4 text-sm leading-6 text-slate-700">{localizeText(locale, "لا توجد دورة حياة محفوظة لهذا Blueprint القديم. أعد التوليد من Wizard لإنشاء Draft قابل للمراجعة.", "No lifecycle is saved for this legacy Blueprint. Generate again from the Wizard to create a reviewable draft.")}</p>
       ) : (
         <>
           <div className="mt-4 grid gap-3 sm:grid-cols-3">
             <DataCard label="Blueprint" value={lifecycle.blueprintId} />
-            <DataCard label="الحالة" value={stateLabel} />
-            <DataCard label="التنفيذ الخارجي" value={lifecycle.externalActionsAllowed ? "مسموح" : "مقفل"} />
+            <DataCard label={localizeText(locale, "الحالة", "Status")} value={stateLabel} />
+            <DataCard label={localizeText(locale, "التنفيذ الخارجي", "External execution")} value={lifecycle.externalActionsAllowed ? localizeText(locale, "مسموح", "Allowed") : localizeText(locale, "مقفل", "Locked")} />
           </div>
           <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
             <div className="flex flex-col gap-3 md:flex-row md:items-end">
               <div className="flex-1 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700">
-                <p className="font-bold text-slate-900">هوية المراجع</p>
-                <p className="mt-1 text-xs leading-5">تُستخرج من جلسة Local Staging الموثقة، ولا يمكن تعديلها من هذه الصفحة.</p>
+                <p className="font-bold text-slate-900">{localizeText(locale, "هوية المراجع", "Reviewer identity")}</p>
+                <p className="mt-1 text-xs leading-5">{localizeText(locale, "تُستخرج من جلسة Local Staging الموثقة، ولا يمكن تعديلها من هذه الصفحة.", "It is derived from the signed Local Staging session and cannot be edited here.")}</p>
               </div>
               <label className="flex-[2] text-sm font-medium text-slate-800">
-                ملاحظة المراجعة
-                <input value={note} onChange={(event) => setNote(event.target.value)} disabled={state === "approved"} className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 disabled:bg-slate-100" placeholder="سبب القرار أو نطاق الاعتماد" />
+                {localizeText(locale, "ملاحظة المراجعة", "Review note")}
+                <input value={note} onChange={(event) => setNote(event.target.value)} disabled={state === "approved"} className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 disabled:bg-slate-100" placeholder={localizeText(locale, "سبب القرار أو نطاق الاعتماد", "Decision rationale or approval scope")} />
               </label>
             </div>
             <div className="mt-4 flex flex-wrap gap-2">
-              {state === "draft" && <button onClick={() => transition("review")} disabled={submitting} className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-bold text-white hover:bg-blue-700 disabled:opacity-50">{submitting ? "جارٍ الحفظ..." : "إرسال إلى Review"}</button>}
+              {state === "draft" && <button onClick={() => transition("review")} disabled={submitting} className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-bold text-white hover:bg-blue-700 disabled:opacity-50">{submitting ? localizeText(locale, "جارٍ الحفظ...", "Saving...") : localizeText(locale, "إرسال إلى Review", "Send to review")}</button>}
               {state === "review" && <>
-                <button onClick={() => transition("approved")} disabled={submitting} className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-bold text-white hover:bg-emerald-700 disabled:opacity-50">اعتماد بشري</button>
-                <button onClick={() => transition("rejected")} disabled={submitting} className="rounded-lg bg-rose-100 px-4 py-2 text-sm font-bold text-rose-800 hover:bg-rose-200 disabled:opacity-50">رفض وإرجاع للمراجعة</button>
+                <button onClick={() => transition("approved")} disabled={submitting} className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-bold text-white hover:bg-emerald-700 disabled:opacity-50">{localizeText(locale, "اعتماد بشري", "Human approval")}</button>
+                <button onClick={() => transition("rejected")} disabled={submitting} className="rounded-lg bg-rose-100 px-4 py-2 text-sm font-bold text-rose-800 hover:bg-rose-200 disabled:opacity-50">{localizeText(locale, "رفض وإرجاع للمراجعة", "Reject and return for review")}</button>
               </>}
-              {state === "rejected" && <button onClick={() => transition("draft")} disabled={submitting} className="rounded-lg bg-amber-600 px-4 py-2 text-sm font-bold text-white hover:bg-amber-700 disabled:opacity-50">إعادة إلى Draft</button>}
+              {state === "rejected" && <button onClick={() => transition("draft")} disabled={submitting} className="rounded-lg bg-amber-600 px-4 py-2 text-sm font-bold text-white hover:bg-amber-700 disabled:opacity-50">{localizeText(locale, "إعادة إلى Draft", "Return to draft")}</button>}
               {state === "approved" && <>
-                <span className="rounded-lg bg-emerald-50 px-4 py-2 text-sm font-bold text-emerald-800">تم الاعتماد البشري — التنفيذ الخارجي ما زال مقفلًا</span>
-                <button onClick={prepareApprovedBlueprint} disabled={preparing} className="rounded-lg bg-slate-800 px-4 py-2 text-sm font-bold text-white hover:bg-slate-900 disabled:opacity-50">{preparing ? "جارٍ تجهيز الملف..." : "تجهيز Export للمراجعة"}</button>
+                <span className="rounded-lg bg-emerald-50 px-4 py-2 text-sm font-bold text-emerald-800">{localizeText(locale, "تم الاعتماد البشري — التنفيذ الخارجي ما زال مقفلًا", "Human approval recorded — external execution remains locked")}</span>
+                <button onClick={prepareApprovedBlueprint} disabled={preparing} className="rounded-lg bg-slate-800 px-4 py-2 text-sm font-bold text-white hover:bg-slate-900 disabled:opacity-50">{preparing ? localizeText(locale, "جارٍ تجهيز الملف...", "Preparing file...") : localizeText(locale, "تجهيز Export للمراجعة", "Prepare review export")}</button>
               </>}
             </div>
             {error && <p className="mt-3 text-sm font-medium text-rose-700">{error}</p>}
           </div>
           {events.length > 0 && <details className="mt-4 rounded-xl border border-slate-200 bg-white">
-            <summary className="cursor-pointer px-4 py-3 text-sm font-bold text-slate-800">سجل انتقالات الحالة ({events.length})</summary>
+            <summary className="cursor-pointer px-4 py-3 text-sm font-bold text-slate-800">{localizeText(locale, `سجل انتقالات الحالة (${events.length})`, `State transition log (${events.length})`)}</summary>
             <div className="border-t border-slate-200 px-4 py-3 space-y-2">{events.map((event) => <div key={event.eventId} className="flex flex-wrap items-center gap-2 text-xs text-slate-600"><span className="font-bold text-slate-900">{event.fromState ?? "بداية"} → {event.toState}</span><span>{event.actorType === "user" ? `مراجع: ${event.actorUserId ?? "غير محدد"}` : "CDKS"}</span><span>{event.createdAt}</span></div>)}</div>
           </details>}
         </>
@@ -2799,6 +2825,8 @@ export default function BlueprintPage() {
   const [generationEnvelope, setGenerationEnvelope] =
     useState<any>(null);
 
+  const [locale, setLocale] = useState<AppLocale>("ar");
+
   const [loading, setLoading] =
     useState(true);
 
@@ -2810,16 +2838,23 @@ export default function BlueprintPage() {
   const [activeGroup, setActiveGroup] =
     useState<SectionGroupKey>("decision");
 
+  const [viewMode, setViewMode] = useState<"client" | "review" | "technical">("client");
+  const [searchQuery, setSearchQuery] = useState("");
+
   const activeSectionGroup = sectionGroups.find((group) => group.key === activeGroup) ?? sectionGroups[0];
-  const visibleSections = activeSectionGroup.sections
+  const normalizedSearch = searchQuery.trim().toLocaleLowerCase(locale === "ar" ? "ar-SA" : "en-US");
+  const visibleSections = (normalizedSearch ? sections : activeSectionGroup.sections
     .map((key) => sections.find((section) => section.key === key))
-    .filter((section): section is (typeof sections)[number] => Boolean(section));
+    .filter((section): section is (typeof sections)[number] => Boolean(section)))
+    .filter((section) => !normalizedSearch || `${localizedSectionTitle(locale, section)} ${section.key}`.toLocaleLowerCase(locale === "ar" ? "ar-SA" : "en-US").includes(normalizedSearch));
+
+  const visibleSectionKeys = visibleSections.map((section) => section.key).join(",");
 
   useEffect(() => {
     if (!visibleSections.some((section) => section.key === activeSection)) {
       setActiveSection(visibleSections[0]?.key ?? "executive_summary");
     }
-  }, [activeGroup]);
+  }, [activeGroup, activeSection, visibleSectionKeys]);
 
   useEffect(() => {
     const stored = sessionStorage.getItem("blueprint_data");
@@ -2834,6 +2869,9 @@ export default function BlueprintPage() {
           parsed.version === "v5" &&
           parsed.data &&
           typeof parsed.data === "object";
+
+        const envelopeLocale = parsed?.data?.locale ?? parsed?.locale ?? parsed?.data?.wizard_input?.locale ?? parsed?.wizard_input?.locale;
+        setLocale(envelopeLocale === "en" ? "en" : "ar");
 
         if (isV5Envelope) {
           setGenerationEnvelope(parsed);
@@ -2867,10 +2905,10 @@ export default function BlueprintPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center" dir={localeDirection(locale)} lang={locale}>
         <div className="bg-white rounded-xl border p-8">
           <p className="text-gray-600">
-            جاري التحميل...
+            {localizeText(locale, "جاري التحميل...", "Loading...")}
           </p>
         </div>
       </div>
@@ -2879,17 +2917,16 @@ export default function BlueprintPage() {
 
   if (!blueprint) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center" dir={localeDirection(locale)} lang={locale}>
         <div className="bg-white rounded-xl border p-8 text-center max-w-md">
           <div className="text-4xl mb-4">📭</div>
 
           <h2 className="text-xl font-bold text-gray-900">
-            لا يوجد Blueprint
+            {localizeText(locale, "لا يوجد Blueprint", "No Blueprint found")}
           </h2>
 
           <p className="text-gray-600 mt-2">
-            لم يتم العثور على بيانات Blueprint.
-            يرجى إكمال الـ Wizard أولاً.
+            {localizeText(locale, "لم يتم العثور على بيانات Blueprint. يرجى إكمال الـ Wizard أولاً.", "No Blueprint data was found. Complete the Wizard first.")}
           </p>
 
           <button
@@ -2898,7 +2935,7 @@ export default function BlueprintPage() {
             }
             className="mt-5 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
           >
-            بدء الـ Wizard
+            {localizeText(locale, "بدء الـ Wizard", "Start the Wizard")}
           </button>
         </div>
       </div>
@@ -2925,15 +2962,17 @@ export default function BlueprintPage() {
   );
 
   return (
+    <BlueprintLocaleContext.Provider value={locale}>
     <div
       className="min-h-screen bg-gray-50"
-      dir="rtl"
+      dir={localeDirection(locale)}
+      lang={locale}
     >
       <header className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-5 flex items-center justify-between gap-4">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">
-              Campaign Blueprint
+              {localizeText(locale, "Campaign Blueprint", "Campaign Blueprint")}
             </h1>
 
             <p className="text-sm text-gray-500">
@@ -2944,20 +2983,16 @@ export default function BlueprintPage() {
             </p>
             <p className="text-xs text-gray-400 mt-1">
               {generationEnvelope?.version === "v5"
-                ? `مصدر البيانات: دورة Wizard كاملة عبر /api/generate/v5${
-                    generationEnvelope.processingTimeMs
-                      ? ` · ${generationEnvelope.processingTimeMs}ms`
-                      : ""
-                  }${reasoningActive ? " · AI Reasoning استشاري" : ""}`
-                : "مصدر البيانات: سجل محلي قديم"}
+                ? localizeText(locale, `مصدر البيانات: دورة Wizard كاملة عبر /api/generate/v5${generationEnvelope.processingTimeMs ? ` · ${generationEnvelope.processingTimeMs}ms` : ""}${reasoningActive ? " · AI Reasoning استشاري" : ""}`, `Source: complete Wizard run via /api/generate/v5${generationEnvelope.processingTimeMs ? ` · ${generationEnvelope.processingTimeMs}ms` : ""}${reasoningActive ? " · advisory AI reasoning" : ""}`)
+                : localizeText(locale, "مصدر البيانات: سجل محلي قديم", "Source: legacy local record")}
             </p>
             <div className="mt-4 rounded-xl border border-indigo-100 bg-indigo-50 px-4 py-3 text-sm leading-6 text-indigo-900">
-              <p><strong>ما الذي تراه هنا؟</strong> هذه نتيجة مدخلات Wizard بعد تحويلها إلى قرارات CDKS وBlueprint، مع طبقة AI تشرح وتقترح فقط.</p>
+              <p><strong>{localizeText(locale, "ما الذي تراه هنا؟", "What are you seeing here?")}</strong> {localizeText(locale, "هذه نتيجة مدخلات Wizard بعد تحويلها إلى قرارات CDKS وBlueprint، مع طبقة AI تشرح وتقترح فقط.", "This is the result of your Wizard inputs after CDKS converts them into Blueprint decisions, with an AI layer that only explains and suggests.")}</p>
               <div className="mt-2 flex flex-wrap gap-2 text-xs font-semibold">
-                <span className="rounded-full bg-white px-2.5 py-1">Wizard محفوظ</span>
-                <span className="rounded-full bg-white px-2.5 py-1">CDKS يقرر</span>
-                <span className="rounded-full bg-white px-2.5 py-1">AI يفسر ويقترح</span>
-                <span className="rounded-full bg-white px-2.5 py-1">الإنسان يعتمد</span>
+                <span className="rounded-full bg-white px-2.5 py-1">{localizeText(locale, "Wizard محفوظ", "Wizard saved")}</span>
+                <span className="rounded-full bg-white px-2.5 py-1">{localizeText(locale, "CDKS يقرر", "CDKS decides")}</span>
+                <span className="rounded-full bg-white px-2.5 py-1">{localizeText(locale, "AI يفسر ويقترح", "AI explains and suggests")}</span>
+                <span className="rounded-full bg-white px-2.5 py-1">{localizeText(locale, "الإنسان يعتمد", "Human approves")}</span>
               </div>
             </div>
           </div>
@@ -2985,26 +3020,38 @@ export default function BlueprintPage() {
               }
               className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm font-medium transition-colors"
             >
-              Wizard جديد
+              {localizeText(locale, "Wizard جديد", "New Wizard")}
             </button>
           </div>
         </div>
       </header>
 
       <div className="max-w-6xl mx-auto px-4 py-6">
-        <ClientOutcomeSummary
+        <div className="mb-5 flex flex-wrap items-center gap-2 rounded-2xl border border-gray-200 bg-white p-2 shadow-sm" role="tablist" aria-label={localizeText(locale, "أوضاع عرض Blueprint", "Blueprint views")}>
+          {([
+            ["client", localizeText(locale, "Executive — ملخص العميل", "Executive — client summary")],
+            ["review", localizeText(locale, "Review — المراجعة والاعتماد", "Review — approval workflow")],
+            ["technical", localizeText(locale, "Technical — التفاصيل", "Technical — details")],
+          ] as const).map(([mode, label]) => (
+            <button key={mode} type="button" role="tab" aria-selected={viewMode === mode} onClick={() => setViewMode(mode)} className={`rounded-xl px-4 py-2 text-sm font-bold transition-colors ${viewMode === mode ? "bg-blue-600 text-white" : "text-gray-600 hover:bg-gray-100"}`}>
+              {label}
+            </button>
+          ))}
+        </div>
+
+        {viewMode !== "technical" && <ClientOutcomeSummary
           blueprint={blueprint}
           wizardInput={wizardInput}
           reasoningActive={reasoningActive}
           strategyTrace={generationEnvelope?.data?.strategy}
           reasoningStatus={reasoningContract?.status ?? "not_requested"}
           knowledgeContext={generationEnvelope?.knowledge_context ?? null}
-        />
-        <CampaignLifecyclePanel initialLifecycle={generationEnvelope?.campaign_lifecycle ?? null} />
+        />}
+        {viewMode !== "client" && <CampaignLifecyclePanel initialLifecycle={generationEnvelope?.campaign_lifecycle ?? null} />}
 
-        <details className="mt-6 overflow-hidden rounded-2xl border border-indigo-100 bg-white shadow-sm">
+        {viewMode !== "client" && <details className="mt-6 overflow-hidden rounded-2xl border border-indigo-100 bg-white shadow-sm">
           <summary className="cursor-pointer list-none px-5 py-4 text-sm font-bold text-indigo-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">
-            تفسير AI والحوكمة — عرض اختياري
+            {localizeText(locale, "تفسير AI والحوكمة — عرض اختياري", "AI reasoning and governance — optional") }
           </summary>
           <div className="border-t border-indigo-100 px-4 pb-4">
             <ReasoningDashboard
@@ -3017,14 +3064,19 @@ export default function BlueprintPage() {
               }
             />
           </div>
-        </details>
+        </details>}
 
-        <details className="mt-4 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+        {viewMode !== "client" && <details className="mt-4 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
           <summary className="cursor-pointer list-none px-5 py-4 text-sm font-bold text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
-            Blueprint التفصيلي — للمراجعة المتقدمة (6 محاور / 26 قسمًا)
+            {localizeText(locale, "Blueprint التفصيلي — للمراجعة المتقدمة (6 محاور / 26 قسمًا)", "Detailed Blueprint — advanced review (6 groups / 26 sections)")}
           </summary>
           <div className="border-t border-gray-200 px-4 pb-4">
-            <div className="py-4">
+              <div className="py-4">
+              <div className="mb-5 rounded-xl border border-blue-100 bg-blue-50/50 p-4">
+                <label htmlFor="blueprint-section-search" className="block text-sm font-bold text-blue-950">{localizeText(locale, "ابحث داخل Blueprint", "Search the Blueprint")}</label>
+                <input id="blueprint-section-search" value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} placeholder={localizeText(locale, "ابحث باسم القسم أو نوع المخرج", "Search by section or output type")} className="mt-2 w-full rounded-lg border border-blue-200 bg-white px-3 py-2 text-sm text-gray-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200" />
+                <p className="mt-2 text-xs text-blue-800">{localizeText(locale, "يبحث هذا الحقل في عناوين الأقسام ومفاتيح العرض فقط، ولا يبحث في بيانات العميل الخام أو التفاصيل التشخيصية.", "This searches section titles and display keys only, not raw client data or diagnostics.")}</p>
+              </div>
               <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {sectionGroups.map((group) => (
                   <button
@@ -3034,17 +3086,18 @@ export default function BlueprintPage() {
                     className={`rounded-xl border p-4 text-right transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${activeGroup === group.key ? "border-blue-500 bg-blue-50 text-blue-900" : "border-gray-200 bg-white text-gray-700 hover:border-blue-200 hover:bg-blue-50/50"}`}
                     aria-pressed={activeGroup === group.key}
                   >
-                    <span className="flex items-center gap-2 text-sm font-bold"><span>{group.icon}</span>{group.title}</span>
-                    <span className="mt-2 block text-xs leading-5 text-gray-500">{group.description}</span>
+                    <span className="flex items-center gap-2 text-sm font-bold"><span>{group.icon}</span>{localizedGroupTitle(locale, group)}</span>
+                    <span className="mt-2 block text-xs leading-5 text-gray-500">{localizedGroupDescription(locale, group)}</span>
                   </button>
                 ))}
               </div>
+              {visibleSections.length === 0 && <div className="mb-5 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">{localizeText(locale, "لا توجد أقسام تطابق البحث الحالي.", "No sections match the current search.")}</div>}
               <div className="mt-5 flex gap-6">
         <aside className="w-64 shrink-0 hidden md:block">
           <div className="bg-white rounded-xl border overflow-hidden sticky top-24">
             <div className="p-4 border-b bg-gray-50">
               <p className="text-xs font-bold text-gray-500 uppercase">
-                الأقسام
+                {localizeText(locale, "الأقسام", "Sections")}
               </p>
             </div>
 
@@ -3058,7 +3111,7 @@ export default function BlueprintPage() {
                         section.key
                       )
                     }
-                    className={`w-full text-right px-4 py-3 text-sm font-medium transition-colors flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-inset ${
+                    className={`w-full ${locale === "ar" ? "text-right" : "text-left"} px-4 py-3 text-sm font-medium transition-colors flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-inset ${
                       activeSection ===
                       section.key
                         ? "bg-blue-50 text-blue-700 border-r-4 border-blue-600"
@@ -3069,7 +3122,7 @@ export default function BlueprintPage() {
                       {section.icon}
                     </span>
 
-                    {section.title}
+                    {localizedSectionTitle(locale, section)}
                   </button>
                 )
               )}
@@ -3095,7 +3148,7 @@ export default function BlueprintPage() {
                   value={section.key}
                 >
                   {section.icon}{" "}
-                  {section.title}
+                  {localizedSectionTitle(locale, section)}
                 </option>
               )
             )}
@@ -3103,7 +3156,7 @@ export default function BlueprintPage() {
         </div>
 
         <main className="flex-1 min-w-0">
-          <div className="bg-white rounded-xl border p-6">
+              <div className="bg-white rounded-xl border p-6">
             <div className="flex items-center gap-3 mb-6 pb-4 border-b">
               <span className="text-2xl">
                 {
@@ -3116,13 +3169,10 @@ export default function BlueprintPage() {
               </span>
 
               <h2 className="text-xl font-bold text-gray-900">
-                {
-                  sections.find(
-                    (section) =>
-                      section.key ===
-                      activeSection
-                  )?.title
-                }
+                {(() => {
+                  const currentSection = sections.find((section) => section.key === activeSection);
+                  return currentSection ? localizedSectionTitle(locale, currentSection) : "";
+                })()}
               </h2>
             </div>
 
@@ -3133,31 +3183,23 @@ export default function BlueprintPage() {
 
           <div className="mt-4 flex items-center justify-between text-xs text-gray-500 px-2">
             <p>
-              تم الإنشاء:{" "}
+              {localizeText(locale, "تم الإنشاء: ", "Created: ")}
               {blueprint?.generated_at
-                ? new Date(
-                    blueprint.generated_at
-                  ).toLocaleString(
-                    "ar-SA"
-                  )
-                : "غير معروف"}
+                ? new Date(blueprint.generated_at).toLocaleString(locale === "ar" ? "ar-SA" : "en-US")
+                : localizeText(locale, "غير معروف", "Unknown")}
             </p>
 
             {blueprint?.rule_engine_version && (
-              <p>
-                Rule Engine: v
-                {
-                  blueprint.rule_engine_version
-                }
-              </p>
+              <p>Rule Engine: v{blueprint.rule_engine_version}</p>
             )}
           </div>
         </main>
               </div>
           </div>
           </div>
-        </details>
+        </details>}
       </div>
     </div>
+    </BlueprintLocaleContext.Provider>
   );
 }

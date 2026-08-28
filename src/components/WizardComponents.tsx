@@ -2,9 +2,10 @@
 
 import React from "react";
 import { useWizardStore } from "@/lib/store";
+import { getOptionLabel, type AppLocale } from "@/lib/i18n";
 
 function useWizardLocale() {
-  const locale = useWizardStore((state) => state.data.locale === "en" ? "en" : "ar");
+  const locale: AppLocale = useWizardStore((state) => state.data.locale === "en" ? "en" : "ar");
   return { locale, direction: locale === "ar" ? "rtl" as const : "ltr" as const };
 }
 
@@ -36,20 +37,21 @@ interface SingleSelectProps {
   onChange: (value: string) => void;
 }
 export function SingleSelect({ options, value, onChange }: SingleSelectProps) {
+  const { locale, direction } = useWizardLocale();
   return (
     <div className="grid gap-2">
       {options.map((opt) => (
         <button
           key={opt.value}
           onClick={() => onChange(opt.value)}
-          className={`w-full text-right px-4 py-3 rounded-xl border transition-all duration-200 text-sm font-medium
+          className={`w-full ${direction === "rtl" ? "text-right" : "text-left"} px-4 py-3 rounded-xl border transition-all duration-200 text-sm font-medium
             ${
               value === opt.value
                 ? "bg-violet-600 border-violet-500 text-white shadow-lg shadow-violet-900/30"
                 : "bg-gray-800/60 border-gray-700 text-gray-300 hover:bg-gray-700/60 hover:border-gray-600"
             }`}
         >
-          {opt.label}
+          {getOptionLabel(locale, opt.value, opt.label)}
         </button>
       ))}
     </div>
@@ -67,7 +69,7 @@ export function MultiSelectChips({
   value,
   onChange,
 }: MultiSelectChipsProps) {
-  const { direction } = useWizardLocale();
+  const { locale, direction } = useWizardLocale();
   const toggle = (v: string) => {
     if (value.includes(v)) {
       onChange(value.filter((x) => x !== v));
@@ -88,7 +90,7 @@ export function MultiSelectChips({
                 : "bg-gray-800/60 border-gray-700 text-gray-400 hover:bg-gray-700/60 hover:border-gray-600 hover:text-gray-200"
             }`}
         >
-          {opt.label}
+          {getOptionLabel(locale, opt.value, opt.label)}
         </button>
       ))}
     </div>

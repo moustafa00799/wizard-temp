@@ -8,6 +8,7 @@ import {
   TextListInput,
   StepNav,
 } from "@/components/WizardComponents";
+import { localizeText } from "@/lib/i18n";
 
 const awarenessOptions = [
   { label: "لا يعرف المشكلة أصلًا", value: "unaware" },
@@ -46,18 +47,19 @@ export default function Step5_Audience({
   onBack: () => void;
 }) {
   const { data, setField } = useWizardStore();
+  const locale = data.locale === "en" ? "en" : "ar";
 
   return (
     <div>
-      <QuestionCard label="من هو العميل المثالي الذي تريد استهدافه؟">
+      <QuestionCard label={localizeText(locale, "من هو العميل المثالي الذي تريد استهدافه؟", "Who is the ideal customer you want to target?")}>
         <TextArea
-          placeholder="العمر، النوع، الاهتمامات، الوظيفة، الموقع، السلوك"
+          placeholder={localizeText(locale, "العمر، النوع، الاهتمامات، الوظيفة، الموقع، السلوك", "Age, gender, interests, role, location, and behavior")}
           value={data.ideal_customer ?? ""}
           onChange={(v) => setField("ideal_customer", v)}
         />
       </QuestionCard>
 
-      <QuestionCard label="هذا الجمهور يعرف الحل بالفعل؟">
+      <QuestionCard label={localizeText(locale, "هل يعرف هذا الجمهور الحل بالفعل؟", "Does this audience already know the solution?")}>
         <SingleSelect
           options={awarenessOptions}
           value={data.awareness_level}
@@ -65,7 +67,7 @@ export default function Step5_Audience({
         />
       </QuestionCard>
 
-      <QuestionCard label="هل توجد شرائح مختلفة داخل الجمهور؟">
+      <QuestionCard label={localizeText(locale, "هل توجد شرائح مختلفة داخل الجمهور؟", "Are there different segments within the audience?")}>
         <MultiSelectChips
           options={segmentOptions}
           value={data.audience_segments}
@@ -73,7 +75,7 @@ export default function Step5_Audience({
         />
       </QuestionCard>
 
-      <QuestionCard label="أين تريد الاستهداف؟">
+      <QuestionCard label={localizeText(locale, "أين تريد الاستهداف؟", "Where do you want to target?")}>
         <SingleSelect
           options={geoScopes}
           value={data.geo_scope}
@@ -82,9 +84,9 @@ export default function Step5_Audience({
       </QuestionCard>
 
       {data.geo_scope && (
-        <QuestionCard label="اكتب المواقع المستهدفة">
+        <QuestionCard label={localizeText(locale, "اكتب المواقع المستهدفة", "List the target locations")}>
           <TextListInput
-            placeholder="مثال: القاهرة، الجيزة، الرياض"
+            placeholder={localizeText(locale, "مثال: القاهرة، الجيزة، الرياض", "Example: Cairo, Giza, Riyadh")}
             value={data.target_locations}
             onChange={(v) => setField("target_locations", v)}
           />

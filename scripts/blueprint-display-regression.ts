@@ -22,10 +22,19 @@ assert.equal(displaySource("RF-019"), "قواعد CDKS");
 assert.equal(displayUnavailableReason("unavailable: no verified competitor or market-saturation source was supplied"), "لا يوجد مصدر موثوق كافٍ لتقدير المنافسة أو تشبع السوق.");
 assert.equal(isUnavailableValue("unavailable: reason"), true);
 assert.equal(isUnavailableValue("available"), false);
+assert.equal(displayValue("education_funnel", "Not specified", "en"), "Education funnel");
+assert.equal(displayValue("qualified_lead_rate", "Not specified", "en"), "Qualified lead rate");
+assert.equal(displayValue("unavailable: no verified market benchmark source was supplied", "Not specified", "en"), "Currently unavailable");
+assert.equal(displayValue("function StatusPill({ status }) { return status; }", "Not specified", "en"), "Not specified");
+assert.equal(displayStatus("check_manually", "en"), "Needs manual review");
+assert.equal(displayStatus("unavailable", "en"), "Currently unavailable");
+assert.equal(displayFieldLabel("weekly_projection", "en"), "Weekly spend projection");
+assert.equal(displaySource("RF-019", "en"), "CDKS rules");
+assert.equal(displayUnavailableReason("unavailable: no verified competitor or market-saturation source was supplied", "Not specified", "en"), "There is not enough verified evidence to estimate competition or saturation.");
 
 console.log(JSON.stringify({
   status: "PASS",
-  assertions: 14,
+  assertions: 23,
   unsafeRendererSource: "blocked",
   unavailableValues: "simplified",
   internalRuleIds: "redacted_for_client_view",

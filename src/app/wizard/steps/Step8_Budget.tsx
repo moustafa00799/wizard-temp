@@ -6,6 +6,7 @@ import {
   NumberInput,
   StepNav,
 } from "@/components/WizardComponents";
+import { localizeText } from "@/lib/i18n";
 
 const budgetBands = [
   { label: "أقل من 100 يوميًا", value: "under_100" },
@@ -19,7 +20,6 @@ const budgetBands = [
 const flexibilityOptions = [
   { label: "ثابتة جدًا", value: "fixed" },
   { label: "مرنة", value: "flexible" },
-  { label: "مرنة", value: "flexible" },
   { label: "أستطيع التوسع إذا ظهرت نتائج", value: "scale_if_positive" },
 ];
 
@@ -31,10 +31,11 @@ export default function Step8_Budget({
   onBack: () => void;
 }) {
   const { data, setField } = useWizardStore();
+  const locale = data.locale === "en" ? "en" : "ar";
 
   return (
     <div>
-      <QuestionCard label="ما نطاق الميزانية المتاح؟">
+      <QuestionCard label={localizeText(locale, "ما نطاق الميزانية المتاح؟", "What budget range is available?")}>
         <SingleSelect
           options={budgetBands}
           value={data.budget_band}
@@ -42,7 +43,7 @@ export default function Step8_Budget({
         />
       </QuestionCard>
 
-      <QuestionCard label="هل الميزانية ثابتة أم مرنة؟">
+      <QuestionCard label={localizeText(locale, "هل الميزانية ثابتة أم مرنة؟", "Is the budget fixed or flexible?")}>
         <SingleSelect
           options={flexibilityOptions}
           value={data.budget_flexibility}
@@ -50,25 +51,25 @@ export default function Step8_Budget({
         />
       </QuestionCard>
 
-      <QuestionCard label="ما متوسط قيمة الصفقة أو الطلب؟">
+      <QuestionCard label={localizeText(locale, "ما متوسط قيمة الصفقة أو الطلب؟", "What is the average order or deal value?")}>
         <NumberInput
-          placeholder="اكتب الرقم أو النطاق التقريبي"
+          placeholder={localizeText(locale, "اكتب الرقم أو النطاق التقريبي", "Enter an approximate number or range")}
           value={data.average_order_value}
           onChange={(v) => setField("average_order_value", v)}
         />
       </QuestionCard>
 
-      <QuestionCard label="ما هامش الربح التقريبي؟">
+      <QuestionCard label={localizeText(locale, "ما هامش الربح التقريبي؟", "What is the approximate profit margin?")}>
         <NumberInput
-          placeholder="نسبة أو رقم تقريبي"
+          placeholder={localizeText(locale, "نسبة أو رقم تقريبي", "Enter an approximate percentage or amount")}
           value={data.profit_margin}
           onChange={(v) => setField("profit_margin", v)}
         />
       </QuestionCard>
 
-      <QuestionCard label="ما أقصى تكلفة اكتساب تقبلها؟">
+      <QuestionCard label={localizeText(locale, "ما أقصى تكلفة اكتساب تقبلها؟", "What is the maximum acquisition cost you accept?")}>
         <NumberInput
-          placeholder="CPA / CPL / Cost per purchase"
+          placeholder={localizeText(locale, "CPA / CPL / Cost per purchase", "CPA / CPL / cost per purchase")}
           value={data.max_cac}
           onChange={(v) => setField("max_cac", v)}
         />

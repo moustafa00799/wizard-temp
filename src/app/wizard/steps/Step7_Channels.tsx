@@ -6,6 +6,7 @@ import {
   MultiSelectChips,
   StepNav,
 } from "@/components/WizardComponents";
+import { localizeText } from "@/lib/i18n";
 
 const conversionDests = [
   { label: "موقع", value: "website" },
@@ -47,10 +48,11 @@ export default function Step7_Channels({
   onBack: () => void;
 }) {
   const { data, setField } = useWizardStore();
+  const locale = data.locale === "en" ? "en" : "ar";
 
   return (
     <div>
-      <QuestionCard label="أين تريد أن تتم النتيجة النهائية؟">
+      <QuestionCard label={localizeText(locale, "أين تريد أن تتم النتيجة النهائية؟", "Where should the final conversion happen?")}>
         <SingleSelect
           options={conversionDests}
           value={data.conversion_destination}
@@ -58,7 +60,7 @@ export default function Step7_Channels({
         />
       </QuestionCard>
 
-      <QuestionCard label="ما القنوات التي تريد استخدامها؟">
+      <QuestionCard label={localizeText(locale, "ما القنوات التي تريد استخدامها؟", "Which channels do you want to use?")}>
         <MultiSelectChips
           options={channelOptions}
           value={data.ad_channels}
@@ -66,7 +68,7 @@ export default function Step7_Channels({
         />
       </QuestionCard>
 
-      <QuestionCard label="ما الأقرب لهدفك؟">
+      <QuestionCard label={localizeText(locale, "ما الأقرب لهدفك؟", "Which campaign direction is closest to your objective?")}>
         <SingleSelect
           options={campaignDirections}
           value={data.campaign_direction}
